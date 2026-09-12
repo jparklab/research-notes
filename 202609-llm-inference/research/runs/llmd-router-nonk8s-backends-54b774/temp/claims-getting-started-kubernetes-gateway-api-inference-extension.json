@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "The GIE implementer's guide officially sanctions building a fully custom EPP as one of two first-class integration options, rather than treating it as an unsupported workaround.",
+    "stance": "supports",
+    "stance_target": "implementing a custom EPP/router for non-k8s backends is a legitimate, project-sanctioned strategy",
+    "evidence_type": "theoretical",
+    "scope_conditions": "GIE Implementer's Guide, guides/implementers/",
+    "quoted_support": "Implement your own EPP: Create a custom external processing service that implements the Endpoint Picker Protocol specification.",
+    "numbers": [],
+    "entities": ["EPP", "Endpoint Picker Protocol"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "getting-started-kubernetes-gateway-api-inference-extension"
+  },
+  {
+    "claim": "The repository's own reference EPP implementation (lwepp) is explicitly marked not recommended for production use requiring high performance or advanced scheduling, implying custom/third-party EPPs are expected for real deployments.",
+    "stance": "supports",
+    "stance_target": "building a custom EPP is expected practice, not an edge case",
+    "evidence_type": "theoretical",
+    "scope_conditions": "GIE Implementer's Guide",
+    "quoted_support": "This repository provides a Lightweight Endpoint Picker (lwepp) under pkg/lwepp. However, it is intended only as a reference for testing and conformance, and is not recommended for production environments where high performance and advanced scheduling are required.",
+    "numbers": [],
+    "entities": ["lwepp", "Lightweight Endpoint Picker"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "getting-started-kubernetes-gateway-api-inference-extension"
+  },
+  {
+    "claim": "Both documented options for a Gateway controller to track InferencePool endpoints (shadow Service creation, or direct endpoint tracking) are described in terms of discovering Kubernetes pods via label selectors, indicating the endpoint-tracking side of the architecture assumes a pod backend even though the wire protocol does not.",
+    "stance": "supports",
+    "stance_target": "the surrounding InferencePool/data-plane architecture assumes k8s pods even where the ext-proc wire protocol itself does not",
+    "evidence_type": "theoretical",
+    "scope_conditions": "GIE Implementer's Guide, Endpoint Tracking section",
+    "quoted_support": "the controller would use the label app: vllm-qwen3-32b to discover the pods matching the criteria, and get their endpoints (i.e. IP and port number). It would then need to monitor these pods for health and availability.",
+    "numbers": [],
+    "entities": ["InferencePool", "Shadow Service"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "getting-started-kubernetes-gateway-api-inference-extension"
+  },
+  {
+    "claim": "A single fallback endpoint can additionally be set via the x-gateway-destination-endpoint-fallback metadata key in the same envoy.lb namespace, beyond the ordered list covered by proposal 004 as fetched.",
+    "stance": "neutral",
+    "stance_target": "EPP response protocol details",
+    "evidence_type": "theoretical",
+    "scope_conditions": "GIE Implementer's Guide",
+    "quoted_support": "In addition to the chosen endpoint, a single fallback endpoint CAN be set using the key x-gateway-destination-endpoint-fallback in the same metadata namespace as one used for x-gateway-destination-endpoint.",
+    "numbers": [],
+    "entities": ["x-gateway-destination-endpoint-fallback"],
+    "time_period": null,
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "getting-started-kubernetes-gateway-api-inference-extension"
+  }
+]

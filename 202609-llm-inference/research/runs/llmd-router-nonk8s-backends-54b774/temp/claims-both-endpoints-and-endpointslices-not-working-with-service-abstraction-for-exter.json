@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "A selectorless Service plus a manually-created EndpointSlice can silently fail to route any traffic if the Service's port is unnamed while the EndpointSlice's port of the same number is named (or vice versa); kube-proxy's internal Service-to-endpoint mapping requires port-name consistency and otherwise installs a REJECT rule.",
+    "stance": "refutes",
+    "stance_target": "selectorless Service + manual EndpointSlice is a drop-in, low-risk way to expose non-pod backends",
+    "evidence_type": "empirical",
+    "scope_conditions": "kube-proxy iptables mode, reproduced on K3s v1.28.7+k3s1 (Kubernetes core bug, not K3s-specific per maintainer)",
+    "quoted_support": "I see you are defining ports with a name in the endpointslice but without a name in the service which is breaking our internal mapping of service to endpoints. Making both the ports either named or un-named should solve the issue.",
+    "numbers": [],
+    "entities": ["kube-proxy", "EndpointSlice", "Service", "K3s"],
+    "time_period": "March-April 2024",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "both-endpoints-and-endpointslices-not-working-with-service-abstraction-for-exter"
+  },
+  {
+    "claim": "When the port-name mismatch occurs, kube-proxy installs an iptables REJECT rule with the comment 'has no endpoints' and returns icmp-port-unreachable, even though kubectl get endpointslice shows the correct backend IP present and healthy.",
+    "stance": "refutes",
+    "stance_target": "manual EndpointSlice misconfiguration is easy to detect from standard tooling",
+    "evidence_type": "empirical",
+    "scope_conditions": "kube-proxy iptables mode",
+    "quoted_support": "-A KUBE-SERVICES -d 10.43.202.125/32 -p tcp -m comment --comment \"debug-endpoints/mariadb has no endpoints\" -m tcp --dport 3306 -j REJECT --reject-with icmp-port-unreachable",
+    "numbers": [],
+    "entities": ["kube-proxy", "iptables"],
+    "time_period": "March 2024",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "both-endpoints-and-endpointslices-not-working-with-service-abstraction-for-exter"
+  },
+  {
+    "claim": "kubectl describe service continues to display 'Endpoints: <none>' even after a manual EndpointSlice backend is correctly routing traffic, because kubectl reads the legacy Endpoints object, which is never auto-populated from manually-created EndpointSlices (mirroring only runs Endpoints-to-EndpointSlice, not the reverse).",
+    "stance": "refutes",
+    "stance_target": "standard kubectl output reliably reflects the health of a manual-EndpointSlice backend",
+    "evidence_type": "empirical",
+    "scope_conditions": "kubectl as of 2024, confirmed unresolved as of issue closure (only a doc/UX gap, not a routing bug)",
+    "quoted_support": "If you manually create EndpointSlices, the associated Endpoints for the same Service doesn't get autopopulated (and that's where kubectl is looking).",
+    "numbers": [],
+    "entities": ["kubectl", "Endpoints", "EndpointSlice"],
+    "time_period": "March-April 2024",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "both-endpoints-and-endpointslices-not-working-with-service-abstraction-for-exter"
+  }
+]

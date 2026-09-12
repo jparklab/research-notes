@@ -1,0 +1,64 @@
+{
+  "gaps": [
+    {
+      "type": "overturning",
+      "target_position": "Recommendation 4 / source-tension 'Kubernetes-Lease HA vs Active-Active EPP off-cluster': off-Kubernetes multi-replica EPP HA is achievable as Active-Active behind a plain L4 load balancer PROVIDED precise (not approximate) prefix routing is used, because each replica independently subscribes to every endpoint's KV-event stream and therefore holds an identical index without needing cross-replica coordination.",
+      "search_queries": [
+        "https://github.com/llm-d/llm-d-router/issues/1290",
+        "llm-d-router issue 1290 EPP replica state sync scaling limitations",
+        "llm-d-router \"replica state sync\" prefix cache active-active"
+      ],
+      "source_type": "industry",
+      "priority": "critical",
+      "rationale": "docs/operations.md (the router's own primary source, read in full by the availability-and-lifecycle investigator) explicitly says: 'For more technical details and context on EPP replica state sync and scaling limitations, see Issue #1290' -- directly at the spot where it warns Active-Active degrades approximate prefix routing. That issue was never fetched into the corpus. The committed inference that precise prefix routing is the one path that makes Active-Active coordination-free is built from two OTHER documents (operations.md's Active-Active warning + the precise-prefix guide's per-replica ZMQ subscription) rather than from this issue, which is the one place upstream itself discusses replica state sync limitations in scope and detail. It could either (a) confirm the inference by showing the limitation is scoped to approximate/local request-history state only, (b) reveal that precise routing's KV-block index or RankIndex/DP handling also has a documented per-replica divergence, which would break recommendation 4 outright, or (c) show scaling caps (throughput ceiling, replica count limits) that change the operational picture even if the routing-correctness claim survives. This is the single most direct, cheapest-to-fetch overturning candidate in the whole corpus -- it is linked by URL from a source already in hand."
+    },
+    {
+      "type": "overturning",
+      "target_position": "Recommendation 2 / Tension 1 ('thin downstream main() is really a small plugin bundle'): an out-of-tree EndpointDiscovery plugin registered via a downstream main() importing cmd/epp/runner is the recommended default over an in-tree fork, treated as 'unsupported-but-tolerated' rather than disqualified.",
+      "search_queries": [
+        "github.com/search?type=code&q=%22llm-d-router%2Fcmd%2Fepp%2Frunner%22",
+        "pkg.go.dev/github.com/llm-d/llm-d-router?tab=importedby",
+        "llm-d-router issue 2105 panic isolation out-of-tree plugin maintainer decision"
+      ],
+      "source_type": "industry",
+      "priority": "high",
+      "rationale": "The extension-mechanism investigator ran two general web searches and confirmed an audited absence (no downstream repo found importing llm-d-router as a library to register plugins; no CONTRIBUTING guidance; no ratified maintainer statement in issue #2105). General web search is the wrong tool for this specific question -- it will not surface a Go module that imports cmd/epp/runner. GitHub's own code-search index and pkg.go.dev's 'Imported By' reverse-dependency list are purpose-built for exactly this and were not tried. Given this is THE load-bearing mechanism choice in the draft's staged strategy (Phase 2), one more targeted, different-tool attempt is worth the cost before the draft commits to calling this 'low-risk' at bundle scale. A hit would either validate the recommendation with a real precedent or surface a forbidding maintainer statement that should flip the recommendation toward forking."
+    },
+    {
+      "type": "overturning",
+      "target_position": "Recommendation 1 ('reuse the whole scheduling stack ... and the P/D sidecar and the proxy unchanged'): the P/D disaggregation sidecar is treated as fully reusable off-Kubernetes alongside the discovery-seam customization.",
+      "search_queries": [
+        "llm-d-router cmd/pd_sidecar SSRF protection InferencePool allowlist site:github.com",
+        "llm-d-inference-scheduler pd_sidecar enable-ssrf-protection non-kubernetes",
+        "llm-d router disaggregation sidecar x-prefiller-host-port allowlist current implementation"
+      ],
+      "source_type": "industry",
+      "priority": "high",
+      "rationale": "The corpus already contains a directly relevant finding that never made it into comparisons.md or any interim note's committed position: the (now-archived) llm-d-routing-sidecar repo's SSRF protection for the P/D disaggregation reverse-proxy is opt-in and, when enabled, computes its host/IP allowlist by watching a specific InferencePool CRD and the pods matching its selector -- i.e. the ONE security control on the P/D data path is intrinsically Kubernetes-coupled; without it, the sidecar accepts any host:port in the client-controlled x-prefiller-host-port header (open redirect / SSRF risk). The code has since moved (per the repo's own deprecation banner) to llm-d-inference-scheduler and, per this corpus's own consensus finding that EPP code consolidated into llm-d-router in 2026, likely now lives under cmd/pd_sidecar in llm-d-router itself -- a location no investigator fetched at HEAD. This is decision-relevant to the user's literal question (customizing for non-pod backends) and was found by the width sweep but dropped before synthesis; the fetch wave should confirm whether the SSRF allowlist mechanism at current HEAD still requires InferencePool, and if so the draft needs an explicit risk note (build a non-k8s allowlist equivalent, or disable and accept the exposure) rather than silently inheriting 'the sidecar is reused unchanged.'"
+    },
+    {
+      "type": "overturning",
+      "target_position": "Recommendation 7 (version floor: llm-d-router >= v0.9.0, discovery config key dataLayer.discovery.endpoints.pluginRef per PR #2434, 2026-08-25) and the extension-mechanism investigator's own flagged open question about a fourth reshaping of the discovery config surface.",
+      "search_queries": [
+        "llm-d-router releases github.com/llm-d/llm-d-router/releases v0.10 v0.11 changelog",
+        "llm-d-router milestone v0.10 dataLayer discovery",
+        "llm-d v0.10 release blog llm-d.ai"
+      ],
+      "source_type": "industry",
+      "priority": "high",
+      "rationale": "The extension-mechanism investigator explicitly flagged as unresolved: 'Whether a fourth reshaping of the dataLayer.discovery.* config surface is already proposed/planned for v0.10 (targeted September 2026...) -- worth checking the v0.10 milestone/issue tracker directly,' and never followed up. Today's date (2026-09-11) is inside that targeted window. Separately, a fetched pkg.go.dev snapshot already shows the llm-d-router module tagged v0.10.0 (with an internal date inconsistency in the note -- flagged 'Aug 17 2026' but that date is actually the llm-d/llm-d umbrella v0.9.0 release, whose component table lists llm-d-router-endpoint-picker at v0.10.0 -- the router repo's own actual v0.10.0 tag date was never independently confirmed). The draft states a hard version floor and a specific config key as load-bearing facts; given this exact subsystem reshaped three times in four months, the fetch wave should pin the router's own (not the umbrella's) current release/tag and confirm the config key and the version-floor rationale (#1403/#1404) still hold at whatever is actually current, not at the Aug 25 PR snapshot."
+    },
+    {
+      "type": "independent-verification",
+      "target_position": "Interim finding (kv-event-path-off-k8s): 'RankIndex-based port offsetting has no confirmed carrier in FileDiscovery's YAML schema, so a custom or extended discovery plugin needs to either keep every backend at rank 0 or add a rankIndex-bearing field/label convention before file-discovery can address data-parallel multi-rank engines correctly' -- flagged by the investigator as the sharpest remaining gap in an otherwise high-confidence position.",
+      "search_queries": [
+        "llm-d-router EndpointMetadata RankIndex GetRankIndex labels file discovery",
+        "llm-d-router issue OR pull request \"rank index\" data parallel file discovery",
+        "llm-d data-parallel vLLM DP rank Kubernetes label EndpointMetadata"
+      ],
+      "source_type": "industry",
+      "priority": "medium",
+      "rationale": "This is the one confirmed, scoped exception to the corpus's strongest affirmative finding (precise prefix-cache routing survives off-Kubernetes unmodified). It is narrow and well-bounded already, so it does not rise to critical, but a merged PR or label convention populating RankIndex from file/custom discovery would let the draft state the reuse claim without even this exception, while a maintainer statement that DP backends are out of scope for non-Kubernetes deployment would let the draft state the boundary condition with a citation instead of an inferred gap."
+    }
+  ]
+}

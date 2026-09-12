@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "Envoy's ext_proc filter exposes a failure_mode_allowed counter that tracks the number of times an ext_proc gRPC error was ignored due to configuration, making fail-open behavior observable at the Envoy telemetry layer.",
+    "stance": "supports",
+    "stance_target": "mechanisms for detecting/configuring fail-open behavior when an EPP is unreachable",
+    "evidence_type": "empirical",
+    "scope_conditions": "Envoy ext_proc HTTP filter, current docs",
+    "quoted_support": "failure_mode_allowed | Counter | The number of times an error was ignored due to configuration",
+    "numbers": [],
+    "entities": ["Envoy", "ext_proc filter", "failure_mode_allowed"],
+    "time_period": "current (Envoy 1.40.0-dev)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "external-processing-envoy-1400-dev-13b0a8-documentation"
+  },
+  {
+    "claim": "The ext_proc filter protocol is a bidirectional gRPC stream in which the external processor (e.g., EPP) can mutate headers, body, and trailers, or return an entirely new response, on a message-by-message basis.",
+    "stance": "neutral",
+    "stance_target": "mechanism by which EPP communicates routing decisions to the gateway",
+    "evidence_type": "empirical",
+    "scope_conditions": "Envoy ext_proc filter",
+    "quoted_support": "The processing service itself implements a gRPC interface that allows it to respond to events in the lifecycle of an HTTP request / response by examining and modifying the headers, body, and trailers of each message, or by returning a brand-new response.",
+    "numbers": [],
+    "entities": ["Envoy", "ext_proc filter", "ProcessingRequest", "ProcessingResponse"],
+    "time_period": "current",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "external-processing-envoy-1400-dev-13b0a8-documentation"
+  }
+]

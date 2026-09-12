@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "All data-producer plugins (including precise-prefix-cache-producer) implement the common requestcontrol.DataProducer interface and run in a PrepareRequestData phase before scorers/filters/admission controllers, which read the typed attributes they write.",
+    "stance": "neutral",
+    "stance_target": "Architecture of llm-d-router's request-control pipeline",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router main branch, dataproducer package README",
+    "quoted_support": "Data producer plugins run in the PrepareRequestData phase of the request-control pipeline, before filters and scorers execute. Each plugin implements requestcontrol.DataProducer and writes typed attributes onto endpoints or the InferenceRequest itself.",
+    "numbers": [],
+    "entities": ["requestcontrol.DataProducer", "PrepareRequestData", "dataproducer"],
+    "time_period": "as of Sep 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerpkgeppframeworkpluginsrequestcontroldataproducer-at-main-llm-dllm-d"
+  },
+  {
+    "claim": "precise-prefix-cache-producer requires token-producer upstream (consumes TokenizedPrompt), and the framework resolves execution order via a DAG over each plugin's declared Produces/Consumes dependencies rather than fixed config ordering.",
+    "stance": "neutral",
+    "stance_target": "Dependency wiring among data-producer plugins",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router main branch, dataproducer package README",
+    "quoted_support": "precise-prefix-cache-producer requires token-producer upstream (it consumes TokenizedPrompt). The framework resolves a DAG from each plugin's Produces and Consumes declarations and runs producers in dependency order.",
+    "numbers": [],
+    "entities": ["token-producer", "precise-prefix-cache-producer", "DAG"],
+    "time_period": "as of Sep 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerpkgeppframeworkpluginsrequestcontroldataproducer-at-main-llm-dllm-d"
+  },
+  {
+    "claim": "precise-prefix-cache-producer and burst-prefix-cache-producer are listed as distinct producers that both output PrefixCacheMatchInfo, alongside approx-prefix-cache-producer, indicating precise routing is one of at least three interchangeable prefix-cache strategies pluggable by name into the same generic prefix-cache-scorer.",
+    "stance": "neutral",
+    "stance_target": "Range of prefix-cache producer strategies available in llm-d-router",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router main branch, dataproducer package README table",
+    "quoted_support": "approx-prefix-cache-producer | PrefixCacheMatchInfo | Hashes the prompt into blocks and matches against a per-pod LRU index for approximate prefix-cache affinity. | precise-prefix-cache-producer | PrefixCacheMatchInfo | Maintains a precise KV-block index by subscribing to vLLM KV-events; requires token-producer upstream.",
+    "numbers": [],
+    "entities": ["approx-prefix-cache-producer", "precise-prefix-cache-producer", "burst-prefix-cache-producer", "PrefixCacheMatchInfo"],
+    "time_period": "as of Sep 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerpkgeppframeworkpluginsrequestcontroldataproducer-at-main-llm-dllm-d"
+  }
+]

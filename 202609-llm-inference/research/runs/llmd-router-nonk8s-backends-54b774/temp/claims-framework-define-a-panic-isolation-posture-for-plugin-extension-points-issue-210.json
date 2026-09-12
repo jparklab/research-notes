@@ -1,0 +1,68 @@
+[
+ {
+  "claim": "A router contributor's July 2026 framework-design issue proposes explicitly naming 'in-tree plugins' as llm-d-router's 'supported surface' while treating 'out-of-tree plugins' as a real but only at-your-own-risk category, though this proposal remains unratified.",
+  "stance": "supports",
+  "stance_target": "maintainer/contributor position that out-of-tree plugin registration is not the officially supported pattern",
+  "evidence_type": "expert-opinion",
+  "scope_conditions": "llm-d-router GitHub issue #2105, opened Jul 21 2026, status needs-triage/open/unresolved as of fetch (Sep 11 2026)",
+  "quoted_support": "Documented at-your-own-risk: in-tree plugins are the supported surface; out-of-tree plugins that panic take the process down, stated loudly in the plugin developer docs.",
+  "numbers": [
+   "3 options proposed"
+  ],
+  "entities": [
+   "LukeAVanDrie",
+   "llm-d-router",
+   "issue #2105",
+   "issue #1187"
+  ],
+  "time_period": "Jul 21 2026 (open/unresolved as of Sep 11 2026)",
+  "region": null,
+  "confidence": "medium",
+  "source_note_id": "framework-define-a-panic-isolation-posture-for-plugin-extension-points-issue-210"
+ },
+ {
+  "claim": "As of the issue's filing, llm-d-router's plugin framework has no panic recovery at any plugin invocation point, so a panicking plugin (in-tree or out-of-tree) kills the entire EPP process.",
+  "stance": "supports",
+  "stance_target": "risk profile of loading any external/out-of-tree plugin code into the EPP process",
+  "evidence_type": "expert-opinion",
+  "scope_conditions": "llm-d-router EPP plugin framework as of Jul 2026",
+  "quoted_support": "A panicking plugin kills the EPP process from any extension point; nothing recovers plugin invocations anywhere in the framework.",
+  "numbers": [
+   "priorityqueue.go:76-78",
+   "eviction/queue.go:147",
+   "processor.go:371-383"
+  ],
+  "entities": [
+   "EPP",
+   "flow control",
+   "priorityqueue.go",
+   "eviction/queue.go",
+   "processor.go"
+  ],
+  "time_period": "Jul 2026",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "framework-define-a-panic-isolation-posture-for-plugin-extension-points-issue-210"
+ },
+ {
+  "claim": "llm-d-router issue #2105, opened Jul 21 2026 and still labeled needs-triage with zero comments as of fetch, proposes but has NOT ratified an 'unsupported-but-tolerated' out-of-tree plugin policy -- it is one of three competing options under open discussion, not a decided project stance.",
+  "stance": "refutes",
+  "stance_target": "the framing that 'unsupported-but-tolerated' is the settled/recommended maintainer position on out-of-tree plugins",
+  "evidence_type": "empirical",
+  "scope_conditions": "GitHub issue tracker, llm-d/llm-d-router, as of fetch Sep 2026",
+  "quoted_support": "Documented at-your-own-risk: in-tree plugins are the supported surface; out-of-tree plugins that panic take the process down, stated loudly in the plugin developer docs.",
+  "numbers": [
+   "issue #2105",
+   "opened Jul 21, 2026"
+  ],
+  "entities": [
+   "LukeAVanDrie",
+   "issue #2105",
+   "panic isolation"
+  ],
+  "time_period": "Jul-Sep 2026",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "framework-define-a-panic-isolation-posture-for-plugin-extension-points-issue-210"
+ }
+]

@@ -1,0 +1,190 @@
+{
+ "tensions": [
+  {
+   "name": "Exported registry vs the only documented path: in-tree edits",
+   "side_a": {
+    "position": "A custom discovery plugin can be added out-of-tree: a downstream main() blank-imports a plugin package that init()-registers into llm-d-router's exported Registry, then calls runner.NewRunner().Run(ctx).",
+    "evidence": "registry.go exports Registry (map[string]FactoryFunc) and Register(); main.go is only runner.NewRunner().Run(ctx); docs/discovery.md says to register the factory before Run(); PR #908 frames discovery backends as configuration-selected plugins.",
+    "proponents": [
+     "registrygo",
+     "maingo",
+     "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github",
+     "feat-add-pluggable-discoveryplugin-interface-by-ezrasilvera-pull-request-908-llm",
+     "interim-report-extension-mechanism"
+    ]
+   },
+   "side_b": {
+    "position": "In-tree extension is the documented path for SCHEDULING plugins and out-of-tree support is unratified: the filter tutorial edits runner.go's unexported registerInTreePlugins(); the Runner exposes no WithPlugins hook; Register() has no duplicate-type guard; no plugin call has panic recovery; and no downstream importer exists.",
+    "evidence": "create_new_filter.md instructs in-tree registration; runner.go keeps registration unexported; issue #2105 (open, untriaged) lists 'in-tree plugins are the supported surface; out-of-tree plugins that panic take the process down' as an option; CONTRIBUTING.md is silent. Step-8 verification: pkg.go.dev reports 'No known importers' for cmd/epp/runner, pkg/epp/framework/interface/plugin and .../datalayer as of 2026-09-11 (verified with a second fetch provider and a raw request; GitHub code search hit a sign-in wall, so that avenue is a tool limitation, not evidence). Issue #2105 remains needs-triage with zero comments \u2014 'at-your-own-risk' is one of three competing proposals, not ratified policy.",
+    "proponents": [
+     "llm-d-routerdocscreate_new_filtermd-at-main-llm-dllm-d-router-github",
+     "runnergo",
+     "framework-define-a-panic-isolation-posture-for-plugin-extension-points-issue-210",
+     "llm-d-routercontributingmd-at-main-llm-dllm-d-router-github"
+    ]
+   },
+   "resolution": "Side A wins, and more cleanly than the first reading suggested. Two separate documents were being conflated: create_new_filter.md's in-tree instruction is the tutorial for SCHEDULING filters, whereas the merged docs/discovery.md has an official 'Writing a custom discovery plugin' section that teaches exactly this mechanism \u2014 implement fwkdl.EndpointDiscovery, then fwkplugin.Register(PluginType, Factory) before Run(). So registering a custom DISCOVERY plugin is documented upstream, not merely tolerated; only the packaging detail (doing it from your own downstream main() rather than editing the repo) is an inference from cmd/epp/main.go's structure, and nothing blocks it: step-8 checks confirmed no internal/ path and no replace directives, at the cost of a go 1.26.6 floor and the controller-runtime dependency tree. The residual risks are real but bounded and identical for a fork: no duplicate-type guard (namespace your PluginType), no panic recovery anywhere in the framework (wrap Start() in your own recover(); issue #2105 is unresolved), and zero downstream precedent (pkg.go.dev shows no importers), which means you will be the first \u2014 pin a release, and run CI against upstream main. A fork adds rebase cost against a config surface that moved three times in four months and buys nothing in return.",
+   "origin": "comparisons",
+   "decision_relevance": "high"
+  },
+  {
+   "name": "Non-Kubernetes as first-class target vs on-ramp to Kubernetes",
+   "side_a": {
+    "position": "Upstream is committed to orchestrator-agnostic operation: GIE #1838 proposed a zero-Kubernetes mode because batch/RL customers (Mistral) asked for it; llm-d shipped EndpointDiscovery + FileDiscovery; PR #908 maintainers want K8s, file, Slurm and Ray discovery all as plugins.",
+    "evidence": "GIE #1838 mode (1) 'static configuration of endpoints with zero dependency on k8s'; llm-d no-k8s blog: one routing stack, every platform; PR #908 maintainer quote; v0.8 'Beyond Kubernetes' release.",
+    "proponents": [
+     "standalone-epp-issue-1838-kubernetes-sigsgateway-api-inference-extension",
+     "no-kubernetes-no-problem-llm-d-now-runs-anywhere-llm-d",
+     "feat-add-pluggable-discoveryplugin-interface-by-ezrasilvera-pull-request-908-llm",
+     "llm-d-v08-from-platform-to-control-plane-llm-d"
+    ]
+   },
+   "side_b": {
+    "position": "Non-Kubernetes mode is an adoption on-ramp and remains second-class: #1838's stated end goal is 'to land users on k8s'; a GIE maintainer called zero-k8s users out of scope for a kubernetes-sigs project; an agentgateway maintainer argued 'All Kubernetes or No Kubernetes \u2014 a hybrid is very odd'; every documented EPP HA mechanism is Kubernetes-coupled; Helm charts expose no discovery knobs; the no-k8s blog still calls Kubernetes 'the recommended choice' for production.",
+    "evidence": "#1838: 'The end goal is to land users on k8s and the gateway api'; nirrozenbaum on mode (1); howardjohn on #620; docs/operations.md HA modes; charts README audited absence; no-k8s blog 'not a case against Kubernetes'.",
+    "proponents": [
+     "standalone-epp-issue-1838-kubernetes-sigsgateway-api-inference-extension",
+     "inference-support-agentgateway-as-a-standalone-provider-issue-620-agentgatewayag",
+     "llm-d-routerdocsoperationsmd-at-main-llm-dllm-d-router-github",
+     "llm-d-routerconfigchartsreadmemd-at-main-llm-dllm-d-router-github",
+     "standalone-epp-endpoint-discovery-using-pod-selector-investigation-issue-1779-ku"
+    ]
+   },
+   "resolution": "Both are true at different layers, and the strategy should be built on that split: the ROUTING layer is genuinely platform-neutral and upstream-endorsed (the discovery abstraction won the #1838 debate \u2014 nirrozenbaum's 'add a discovery layer... similar to scheduler pluggability' is literally what shipped), but the OPERATIONS layer (HA, charts, CRD-driven policy, observability CRDs) is still Kubernetes-first. So bet on the discovery seam, and do not bet on upstream soon supplying non-k8s HA or packaging. Howardjohn's 'hybrid is odd' objection targeted EPP-in-k8s-without-Gateway-API for batch jobs; it does not bear on EPP-in-k8s-for-HA with non-pod backends, which is the hybrid this report recommends \u2014 flag it as an unconventional but mechanically supported shape.",
+   "origin": "orphan-scan",
+   "decision_relevance": "high"
+  },
+  {
+   "name": "Kubernetes-Lease HA vs Active-Active EPP off-cluster",
+   "side_a": {
+    "position": "Multi-replica EPP HA requires Kubernetes: the default Active-Passive mode uses coordination.k8s.io/Lease and all documented HA mechanisms are Kubernetes-coupled, so off-cluster you run one EPP or build coordination yourself.",
+    "evidence": "docs/operations.md and the availability investigation (Lease leader election, StatefulSet priority routing, active-active deployment wiring); standby replicas answer NOT_SERVING during lease transitions.",
+    "proponents": [
+     "llm-d-routerdocsoperationsmd-at-main-llm-dllm-d-router-github",
+     "interim-report-availability-and-lifecycle-off-k8s",
+     "llm-d-routerconfigchartsreadmemd-at-main-llm-dllm-d-router-github"
+    ]
+   },
+   "side_b": {
+    "position": "Active-Active needs no leader election \u2014 a plain load balancer across N EPPs gives resilience 'without additional coordination' (v0.9), with near-linear scaling (1/2/3/4 replicas \u2192 1.0/2.0/2.7/3.5x).",
+    "evidence": "v0.9 blog on router HA; docs/operations.md Active-Active scaling table \u2014 but with warnings: flow-control state is per replica, and 'Active-Active mode should be avoided when using approximate prefix routing' because replicas do not share prefix state. Step-8 verification of the issue operations.md cites (#1290): it is a QPS/latency benchmarking issue, not a state-sync design doc \u2014 it never claims the precise-prefix index is partitioned and never names peer coordination as an Active-Active requirement. Its measurements point the other way: with precise prefix-cache routing at 500 QPS on real vLLM (Qwen2.5-7B), failures fall as replicas rise (1 replica: broken, 3,148 failures; 2: 57; 3: 31; 4: 18) and TTFT P50 drops from 165 ms to 30 ms. operations.md's Active-Active warning is scoped explicitly to APPROXIMATE prefix routing. Source reads add mechanism: cross_replica_syncer.go defines a separate opt-in CrossReplicaSyncer/CrossReplicaContributor surface, and the precise-prefix extractor implements only EndpointExtractor \u2014 so its cross-replica consistency comes from independent KV-event subscription, by design, not from a sync path.",
+    "proponents": [
+     "llm-d-v09-hardened-for-scale-llm-d",
+     "llm-d-routerdocsoperationsmd-at-main-llm-dllm-d-router-github",
+     "llm-dguidesprecise-prefix-cache-routingreadmemd-at-main-llm-dllm-d-github",
+     "evaluate-llm-d-router-both-epp-and-the-standalone-proxy-scale-limits-issue-1290",
+     "cross_replica_syncergo",
+     "peergo"
+    ]
+   },
+   "resolution": "Upgraded from inference to evidence-backed by the step-8 gap fetch. Off-cluster multi-replica HA is achievable as Active-Active behind a plain L4 load balancer, and precise (not approximate) prefix routing is what makes it safe: each replica independently subscribes to every endpoint's KV-event stream, so every replica converges on the same index without coordination \u2014 confirmed by code (the precise-prefix extractor pointedly does not implement CrossReplicaContributor) and by #1290's benchmark, where adding Active-Active replicas improved precise-prefix behaviour rather than degrading it. The Kubernetes coupling is real but narrower than first stated: it binds Active-PASSIVE leader election (coordination.k8s.io/Lease) and the only shipped peer-discovery plugin (PR #2501, k8s Pod-watch, still open) \u2014 though peer.go's own doc comment names file-based peer discovery as a first-class concept feeding the same sink, so a custom peer-discovery plugin is a sanctioned shape if cross-replica state is ever needed. Two operational cautions the draft must carry: the standalone Helm chart auto-injects --ha-enable-leader-election whenever replicas > 1, silently forcing Active-Passive unless disabled; and flow control stays per replica, so priority and fairness are enforced only within each replica's share of traffic. Remaining open gap: cross-replica session affinity was never evaluated (#1290 tested only independent synthetic requests), so session-pinned workloads should not assume Active-Active correctness.",
+   "origin": "comparisons+orphan-scan",
+   "decision_relevance": "high"
+  },
+  {
+   "name": "'Platform-invariant router' vs lost inputs and lifecycle off Kubernetes",
+   "side_a": {
+    "position": "The router behaves identically off Kubernetes: scoring, filtering, picking, saturation admission, FlowControl, P/D and metrics are unchanged, and precise prefix routing works with file discovery because it keys on Address:Port.",
+    "evidence": "no-k8s blog and guide; docs/discovery.md ('All scheduling, request control, and metrics collection behaviour is unchanged'); precise-prefix extractor.go reading; FlowControl bands are static YAML.",
+    "proponents": [
+     "no-kubernetes-no-problem-llm-d-now-runs-anywhere-llm-d",
+     "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github",
+     "interim-report-kv-event-path-off-k8s",
+     "interim-report-lost-k8s-policy-inputs"
+    ]
+   },
+   "side_b": {
+    "position": "Important inputs and all lifecycle guarantees are lost: InferenceObjective per-request priority, InferenceModelRewrite, k8s-notification-source and PodMonitor are inactive; readiness gating and dead-endpoint eviction become the caller's job; a dead backend keeps its datastore entry, ZMQ subscriber and KV-index entries until discovery deletes it; metadata updates only propagate on \u2265 v0.9.0.",
+    "evidence": "file-discovery README and discovery.md inactive-feature lists; llm-d no-k8s doc; issue #1403 (fixed PR #1404, v0.9.0); pod readiness semantics in discovery.md.",
+    "proponents": [
+     "llm-d-routerpkgeppframeworkpluginsdatalayerdiscoveryfile-at-main-llm-dllm-d-rout",
+     "llm-ddocsinfrastructureno-kubernetes-deploymentmd-at-main-llm-dllm-d-github",
+     "endpoint-metadata-updates-do-not-trigger-endpoint-notification-events-issue-1403",
+     "interim-report-availability-and-lifecycle-off-k8s"
+    ]
+   },
+   "resolution": "The invariance claim is true of routing LOGIC and false of routing INPUTS and LIFECYCLE; the report should say both without hedging. What the user must build is small and specific: a health-gated discovery source (only Upsert healthy endpoints, Delete promptly \u2014 this matters more than poll-vs-watch), a static priority plugin if priority tiers are needed, gateway-tier weighted canary, and Prometheus static/file SD. Pin llm-d-router \u2265 v0.9.0. The load-bearing reason is that every 'lost' item traces to a controller-runtime reconciler or kubelet readiness, none to the scheduling code.",
+   "origin": "comparisons",
+   "decision_relevance": "high"
+  },
+  {
+   "name": "Fail-closed passthrough vs fail-open with fallback endpoints",
+   "side_a": {
+    "position": "Fail-open is standard: InferencePool failureMode FailOpen, Envoy ext_proc failure_mode_allow, llm-d's standalone Envoy preset ships router.proxy.failOpen for the lease-transition window, and the Endpoint Picker Protocol supports ordered fallback endpoints for retries.",
+    "evidence": "InferencePool v1 spec; Envoy ext_proc docs; docs/operations.md standalone proxy; GIE PR #761 and protocol amendment PR #3003 (ordered endpoint lists); Envoy PR #38757 (dynamic_forwarding with fallback endpoints and a fallback LB policy).",
+    "proponents": [
+     "inferencepool-kubernetes-gateway-api-inference-extension",
+     "external-processing-envoy-1400-dev-13b0a8-documentation",
+     "amend-the-endpoint-picker-protocol-to-support-multiple-fallback-endpoints-by-wbp",
+     "dynamic-forwarding-load-balancing-policy-by-yanavlasov-pull-request-38757-envoyp"
+    ]
+   },
+   "side_b": {
+    "position": "Non-pod data paths are fail-closed by construction: the proxy has no endpoint list of its own to fall back to; agentgateway's standalone passthrough is deliberately fail-closed and fail-open remains an open issue; Envoy reviewers argued setUpstreamOverrideHost suffices and the multi-host retry design is still evolving.",
+    "evidence": "agentgateway PRs #1429/#1658 and issue #1661; howardjohn: arbitrary passthrough 'breaks failOpen mode'; PR #38757 review thread.",
+    "proponents": [
+     "support-fail-open-fallback-for-standalone-epp-inference-routing-issue-1661-agent",
+     "add-standalone-inference-routing-local-config-by-danehans-pull-request-1429-agen",
+     "trust-standalone-epp-selected-destinations-by-danehans-pull-request-1658-agentga",
+     "inference-support-agentgateway-as-a-standalone-provider-issue-620-agentgatewayag"
+    ]
+   },
+   "resolution": "For non-pod backends, fail-open is only meaningful if you configure an explicit fallback cluster; otherwise the honest default is fail-closed plus EPP HA (see the HA tension). Choose the proxy with this in mind: plain Envoy (llm-d's no-k8s reference config) lets you add a static fallback cluster and ext_proc failure_mode_allow deliberately; agentgateway passthrough is fail-closed until #1661 lands. Use the protocol's fallback-endpoint list for per-request retry resilience, which does not depend on EPP availability. Do not claim fail-open off-cluster by default \u2014 the no-k8s envoy.yaml's failure_mode_allow setting is unverified.",
+   "origin": "comparisons+contradiction-graph",
+   "decision_relevance": "medium"
+  },
+  {
+   "name": "llm-d EPP vs alternative routers \u2014 and the protocol as the portable seam",
+   "side_a": {
+    "position": "Simpler routers are competitive or better off Kubernetes: vLLM Router reports 25% higher throughput and 1.2-2 s faster TTFT than llm-d, ships static worker URLs by default, and Dynamo/production-stack ship file or static discovery natively.",
+    "evidence": "vLLM Router release blog (Llama 3.1 8B 8P/8D; DeepSeek V3 1P/1D); vLLM Router repo; Dynamo discovery backends; production-stack StaticServiceDiscovery.",
+    "proponents": [
+     "vllm-router-a-high-performance-and-prefilldecode-aware-load-balancer-for-large-s",
+     "github-vllm-projectrouter-a-high-performance-and-light-weight-router-for-vllm-la",
+     "github-ai-dynamodynamo-a-datacenter-scale-distributed-inference-serving-framewor",
+     "router-configuration-vllm-projectproduction-stack-deepwiki"
+    ]
+   },
+   "side_b": {
+    "position": "llm-d's plugin depth (precise prefix, predicted latency, flow control, P/D profiles) is the asset, validated by large gains over round-robin; NVIDIA Dynamo ships its own EPP behind the same GIE Endpoint Picker Protocol, showing the protocol \u2014 not any one router binary \u2014 is the industry seam.",
+    "evidence": "llm-d-reported 57x TTFT / 2x throughput vs round-robin; kv-cache-wins blog; Dynamo 'GAIE with vanilla vLLM' topology using a Dynamo EPP; GIE proposal 004.",
+    "proponents": [
+     "llm-d-intelligent-inference-at-scale-beyond-what-more-gpus-can-deliver-by-yakov",
+     "kv-cache-wins-you-can-see-from-prefix-caching-in-vllm-to-distributed-scheduling",
+     "kv-aware-routing-on-kubernetes-nvidia-dynamo-documentation",
+     "gateway-api-inference-extensiondocsproposals004-endpoint-picker-protocol-at-main"
+    ]
+   },
+   "resolution": "Neither benchmark settles it: both are vendor-reported without published harnesses, and the vLLM Router comparison excluded vLLM's own DP coordinator and was produced with llm-d engineers' help. The decisive point for this user is different: because the proxy talks to any EPP through the same ext_proc protocol, the llm-d choice is reversible \u2014 the discovery customization is the only EPP-specific investment. Stay on llm-d for its scheduling depth, keep the proxy protocol-generic, and keep the discovery logic in a small, isolated plugin so switching EPP implementations later costs one plugin, not the architecture.",
+   "origin": "contradiction-graph+orphan-scan",
+   "decision_relevance": "medium"
+  },
+  {
+   "name": "Official docs vs code at HEAD",
+   "side_a": {
+    "position": "Follow the published guidance: the no-k8s blog and guide, docs/discovery.md's custom-plugin skeleton, the plugin tutorial, and the v0.9 release blog describe how to run and extend the router off Kubernetes.",
+    "evidence": "no-k8s blog/guide configs use dataLayer.discovery.pluginRef; discovery.md skeleton; create_new_filter.md; v0.9 blog: HA works 'without additional coordination'.",
+    "proponents": [
+     "no-kubernetes-no-problem-llm-d-now-runs-anywhere-llm-d",
+     "configyaml",
+     "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github",
+     "llm-d-v09-hardened-for-scale-llm-d"
+    ]
+   },
+   "side_b": {
+    "position": "Trust the code: the discovery config key moved to dataLayer.discovery.endpoints.pluginRef (PR #2434, 2026-08-25) with a legacy shim; the discovery.md skeleton does not compile against HEAD (value vs pointer receiver, missing Ready()); the router README never mentions discovery; llm-d.ai data-layer docs lag the repo; the v0.9 'no additional coordination' framing is inaccurate for the Lease-based default; a vault summary even misreported PR #1007 as merged.",
+    "evidence": "PR #2434; runner.go resolveDiscovery; discovery.go (Ready()); source-analysis of the router README; docs/operations.md; custom-discovery investigator's GitHub API check of PR #1007. Step-8 verification: PR #2434 merged 2026-08-25, eight days AFTER the v0.10.0 tag (2026-08-17); no later release exists as of 2026-09-11, so the documented nested key ships in no release.",
+    "proponents": [
+     "config-consolidate-discovery-plugins-under-a-single-discovery-sectio-llm-dllm-d",
+     "runnergo",
+     "llm-d-routerpkgeppframeworkinterfacedatalayerdiscoverygo-at-main-llm-dllm-d-rout",
+     "source-analysis-llm-d-router-github-repo-readme-commit-history",
+     "interim-report-custom-discovery-plugin-design"
+    ]
+   },
+   "resolution": "Code wins, with a process consequence for the strategy: this is a fast-moving, three-month-old interface whose docs trail its code by weeks. Use the shipped file plugin's plugin.go as the real template, pin a tagged llm-d-router release \u2014 and note that the nested `dataLayer.discovery.endpoints.pluginRef` key (PR #2434, merged 2026-08-25) is NOT in any release yet: v0.10.0 was tagged 2026-08-17 and is still the newest as of 2026-09-11, so a pinned v0.10.0 build uses the legacy `dataLayer.discovery.pluginRef`, run a scheduled CI job that compiles the plugin against upstream main, and read release notes for datalayer/discovery changes each cycle. The load-bearing reason is that three independent doc artifacts are already wrong about the exact seam this strategy depends on.",
+   "origin": "orphan-scan",
+   "decision_relevance": "medium"
+  }
+ ]
+}

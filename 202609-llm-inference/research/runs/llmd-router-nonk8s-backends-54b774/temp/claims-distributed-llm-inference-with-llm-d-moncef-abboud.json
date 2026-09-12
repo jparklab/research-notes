@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "llm-d has a mode that runs outside Kubernetes via a file-discovery plugin, where vLLM endpoints are listed/hardcoded rather than discovered via the Kubernetes API.",
+    "stance": "supports",
+    "stance_target": "non-Kubernetes backends are already a supported first-class deployment mode for llm-d's router",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "practitioner walkthrough, references llm-d-router commit f7e8852479d6b2902d3bd89d8d252187211ff801",
+    "quoted_support": "It's also worth mentioning that llm-d has a mode where it runs outside of k8s via a file discovery plugin, where the vLLM endpoints are hardcoded instead of discovered via the k8s API.",
+    "numbers": [],
+    "entities": ["llm-d", "file discovery plugin", "vLLM"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "distributed-llm-inference-with-llm-d-moncef-abboud"
+  },
+  {
+    "claim": "The EPP gathers per-instance load signals by scraping each backend's Prometheus /metrics endpoint using engine-specific metric names, with a defaultEngineConfigs table mapping vllm:* and sglang:* metric names to canonical queued/running/KV-usage/LoRA/cache-info fields.",
+    "stance": "supports",
+    "stance_target": "supporting a new (non-vLLM/SGLang) backend requires only adding an engineConfigParams entry, not changing endpoint discovery",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router pkg/epp/framework/plugins/datalayer/extractor/metrics/factories.go",
+    "quoted_support": "Name: \"vllm\", QueuedRequestsSpec: \"vllm:num_requests_waiting\", RunningRequestsSpec: \"vllm:num_requests_running\", KVUsageSpec: \"vllm:kv_cache_usage_perc\" ... Name: \"sglang\", QueuedRequestsSpec: \"sglang:num_queue_reqs\"",
+    "numbers": [],
+    "entities": ["vllm", "sglang", "engineConfigParams", "Prometheus /metrics"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "distributed-llm-inference-with-llm-d-moncef-abboud"
+  },
+  {
+    "claim": "The EPP's picker can sample endpoints according to weighted score rather than always selecting the single top-scored pod, to avoid a thundering-herd effect where traffic piles onto one 'best' replica.",
+    "stance": "neutral",
+    "stance_target": "scheduler/picker design considerations relevant to any backend type",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "llm-d-router scheduling profile: filters, scorers, picker",
+    "quoted_support": "always routing to the single best pod can create a thundering herd, where everyone piles onto the same \"good\" replica until it stops being good. Spreading the load based on score avoids that while still favoring the better candidates",
+    "numbers": ["Pod 1: (0.75 x 3) + (0.6 x 1) + (0.7 x 1) = 3.55", "Pod 2: (0.4 x 3) + (0.8 x 1) + (0.5 x 1) = 2.5"],
+    "entities": ["prefix-cache-scorer", "kv-cache-utilization-scorer", "queue-scorer", "picker"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "distributed-llm-inference-with-llm-d-moncef-abboud"
+  },
+  {
+    "claim": "For precise KV-cache tracking, the llm-d router subscribes directly to each vLLM instance's ZMQ KV-cache allocation/eviction event stream via the llm-d-kv-cache library, giving a real-time exact view of each server's KV cache at the cost of additional overhead.",
+    "stance": "supports",
+    "stance_target": "gap (c): security of EPP-to-model-server traffic outside Kubernetes includes a per-instance ZMQ event channel that a non-k8s backend must also expose",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "precise prefix-cache producer, llm-d-kv-cache repo",
+    "quoted_support": "vLLM exposes KV-cache allocation and eviction events over ZMQ (a brokerless high-performance messaging library), and the llm-d router subscribes to these streams from every vLLM instance. This gives the router a real-time, exact view of each server's KV cache, allowing it to make precise routing decisions at the cost of a bit of additional overhead.",
+    "numbers": [],
+    "entities": ["ZMQ", "llm-d-kv-cache", "vLLM"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "distributed-llm-inference-with-llm-d-moncef-abboud"
+  },
+  {
+    "claim": "Disaggregated prefill/decode serving transfers KV cache between nodes via RDMA (InfiniBand or RoCE), using NVIDIA's NIXL (Inference Transfer Library), bypassing the CPU.",
+    "stance": "neutral",
+    "stance_target": "networking/infrastructure requirements for disaggregated serving apply regardless of orchestrator (k8s or non-k8s)",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "P/D disaggregated serving architecture",
+    "quoted_support": "RDMA (remote direct memory access) moves that KV cache from prefill to decode nodes very fast, bypassing the CPU entirely. The underlying networking is InfiniBand or RoCE. llm-d uses NVIDIA's Inference Transfer Library (NIXL) for this transfer.",
+    "numbers": [],
+    "entities": ["NIXL", "RDMA", "InfiniBand", "RoCE"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "distributed-llm-inference-with-llm-d-moncef-abboud"
+  }
+]

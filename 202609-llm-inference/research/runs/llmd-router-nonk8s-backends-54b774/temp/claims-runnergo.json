@@ -1,0 +1,88 @@
+[
+ {
+  "claim": "cmd/epp/runner/runner.go exports a builder-pattern Runner (NewRunner(), WithExecutableName, WithRequestControlConfig, WithSchedulerConfig, WithCustomCollectors, Run(ctx)) that a third-party Go program can import and drive from its own main() without forking the repo.",
+  "stance": "supports",
+  "stance_target": "a custom discovery plugin can be added without forking llm-d-router",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d-router main branch, HEAD as of Sep 2026",
+  "quoted_support": "// NewRunner initializes a new EPP Runner and returns its pointer.\nfunc NewRunner() *Runner { ... }",
+  "numbers": [],
+  "entities": [
+   "llm-d-router",
+   "Runner",
+   "cmd/epp/runner"
+  ],
+  "time_period": "2026 (HEAD)",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "runnergo"
+ },
+ {
+  "claim": "Plugin registration in llm-d-router is performed by an unexported method, func (r *Runner) registerInTreePlugins(), which is called automatically inside Run() and only registers the router's own hardcoded in-tree plugins.",
+  "stance": "refutes",
+  "stance_target": "the Runner exposes an official exported hook (e.g. WithPlugins) for injecting extra plugins from outside",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d-router main branch, HEAD as of Sep 2026",
+  "quoted_support": "// registerInTreePlugins registers the factory functions of all known plugins\nfunc (r *Runner) registerInTreePlugins() { ... }",
+  "numbers": [],
+  "entities": [
+   "registerInTreePlugins",
+   "Runner"
+  ],
+  "time_period": "2026 (HEAD)",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "runnergo"
+ },
+ {
+  "claim": "The consolidated EndpointPickerConfig discovery reference is read as rawConfig.DataLayer.Discovery.Endpoints.PluginRef, i.e. the YAML key path dataLayer.discovery.endpoints.pluginRef, not a top-level discovery.pluginRef nor a bare dataLayer.discovery.pluginRef.",
+  "stance": "neutral",
+  "stance_target": "exact EndpointPickerConfig discovery key shape after the Aug 25 2026 consolidation",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d-router main branch, HEAD as of Sep 2026, post-PR #2434",
+  "quoted_support": "ref := rawConfig.DataLayer.Discovery.Endpoints.PluginRef",
+  "numbers": [],
+  "entities": [
+   "EndpointPickerConfig",
+   "DataLayer.Discovery.Endpoints.PluginRef"
+  ],
+  "time_period": "2026 (HEAD)",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "runnergo"
+ },
+ {
+  "claim": "The Runner exposes a public PluginHandle field (fwkplugin.Handle) populated by parseConfigurationPhaseTwo, used to look up instantiated plugins (including the discovery plugin) by name.",
+  "stance": "neutral",
+  "stance_target": "internal plugin-handle wiring mechanism",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d-router main branch, HEAD as of Sep 2026",
+  "quoted_support": "handle := fwkplugin.NewEppHandle(ctx, makePodListFunc(ds), fwkplugin.WithMetricsRecorder(ctrlmetrics.Registry))\nr.PluginHandle = handle",
+  "numbers": [],
+  "entities": [
+   "PluginHandle",
+   "fwkplugin.NewEppHandle"
+  ],
+  "time_period": "2026 (HEAD)",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "runnergo"
+ },
+ {
+  "claim": "The only internal/ paths near the relevant code are github.com/llm-d/llm-d-router/internal/runnable (imported by runner.go for its own use) and pkg/epp/flowcontrol/controller/internal -- neither gates the plugin registry or the EndpointDiscovery interface themselves.",
+  "stance": "neutral",
+  "stance_target": "scope of internal/ restrictions in llm-d-router",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d/llm-d-router repository at main branch HEAD",
+  "quoted_support": "github.com/llm-d/llm-d-router/internal/runnable",
+  "numbers": [],
+  "entities": [
+   "internal/runnable",
+   "flowcontrol/controller/internal"
+  ],
+  "time_period": "Sep 2026",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "runnergo"
+ }
+]

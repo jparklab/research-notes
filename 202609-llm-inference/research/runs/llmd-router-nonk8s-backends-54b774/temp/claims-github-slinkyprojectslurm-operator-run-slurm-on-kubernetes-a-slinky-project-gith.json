@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "SlinkyProject/slurm-operator's NodeSet CRD exposes a scalingMode field with two behaviors: StatefulSet-style replica-based scaling with ordinal pod identity, or DaemonSet-style one-pod-per-node scaling tied to K8s node membership, and both support scale-to-zero paired with an HPA.",
+    "stance": "neutral",
+    "stance_target": "how the inverse strategy (Slurm-as-K8s-pods) is implemented",
+    "evidence_type": "empirical",
+    "scope_conditions": "SlinkyProject/slurm-operator, README as of Sep 11 2026",
+    "quoted_support": "The NodeSet CRD supports a `scalingMode` field that controls how many pods are created and how they are scaled. This allows you to choose between replica-based scaling (like a StatefulSet) or one-pod-per-node scaling (like a DaemonSet).",
+    "numbers": [],
+    "entities": ["NodeSet", "scalingMode", "StatefulSet", "DaemonSet"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-slinkyprojectslurm-operator-run-slurm-on-kubernetes-a-slinky-project-gith"
+  },
+  {
+    "claim": "Slurm node states (Idle, Allocated, Mixed, Down, Drain, Not Responding) are surfaced as native Kubernetes pod conditions/status on each NodeSet pod, meaning a stock Kubernetes-based EndpointDiscovery/InferencePool could in principle read Slurm worker health directly from pod status without any custom discovery code.",
+    "stance": "supports",
+    "stance_target": "the inverse strategy avoids needing a custom EndpointDiscovery plugin at all, at the cost of running Slurm workers inside the K8s cluster",
+    "evidence_type": "empirical",
+    "scope_conditions": "SlinkyProject/slurm-operator, README as of Sep 11 2026",
+    "quoted_support": "Slurm node states (e.g. Idle, Allocated, Mixed, Down, Drain, Not Responding, etc...) are applied to each NodeSet pod via their pod conditions; each NodeSet pod contains a pod status that reflects their own Slurm node state.",
+    "numbers": [],
+    "entities": ["NodeSet", "pod conditions"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-slinkyprojectslurm-operator-run-slurm-on-kubernetes-a-slinky-project-gith"
+  },
+  {
+    "claim": "slurm-operator explicitly supports 'Hybrid' deployments where only some Slurm components run in Kubernetes, meaning the inverse (pods-for-Slurm) and forward (custom discovery plugin) strategies are not mutually exclusive and could be combined.",
+    "stance": "neutral",
+    "stance_target": "flexibility of the hybrid deployment model relative to a pure custom-discovery-plugin approach",
+    "evidence_type": "empirical",
+    "scope_conditions": "SlinkyProject/slurm-operator, README as of Sep 11 2026",
+    "quoted_support": "Sometimes a Slurm cluster has some, but not all, of its components in Kubernetes. The operator and its CRDs are designed support these use cases.",
+    "numbers": [],
+    "entities": ["Hybrid Support"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "github-slinkyprojectslurm-operator-run-slurm-on-kubernetes-a-slinky-project-gith"
+  }
+]

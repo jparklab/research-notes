@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "NGINX Gateway Fabric's GIE integration is InferencePool/pod-label-selector based with no standalone or non-k8s-backend mode documented.",
+    "stance": "supports",
+    "stance_target": "which gateways only work with Kubernetes InferencePool",
+    "evidence_type": "empirical",
+    "scope_conditions": "NGINX Gateway Fabric v2.7.0 how-to docs",
+    "quoted_support": "These pods are selected from a pool of ready pods designated by the assigned InferencePool's Selector field.",
+    "numbers": ["v2.7.0", "v1.5.0"],
+    "entities": ["NGINX Gateway Fabric", "InferencePool"],
+    "time_period": "current (2026)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "gateway-api-inference-extension-nginx-documentation"
+  },
+  {
+    "claim": "NGINX Gateway Fabric explicitly disclaims responsibility for security risks from the third-party Endpoint Picker Extension and disables TLS certificate verification by default when communicating with it.",
+    "stance": "supports",
+    "stance_target": "security implications of trusting an EPP-returned destination",
+    "evidence_type": "empirical",
+    "scope_conditions": "NGINX Gateway Fabric GIE how-to, default configuration",
+    "quoted_support": "Communication between NGINX and the Endpoint Picker uses TLS with certificate verification disabled by default. NGINX Gateway Fabric is not responsible for any threats or risks associated with using this third-party Endpoint Picker Extension application.",
+    "numbers": [],
+    "entities": ["NGINX Gateway Fabric", "Endpoint Picker Extension", "TLS"],
+    "time_period": "current (2026)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "gateway-api-inference-extension-nginx-documentation"
+  }
+]

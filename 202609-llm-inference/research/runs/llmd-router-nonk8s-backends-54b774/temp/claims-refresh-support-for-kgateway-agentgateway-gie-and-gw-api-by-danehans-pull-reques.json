@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "llm-d is deprecating its legacy kgateway gateway-provider integration in favor of first-class agentgateway v1.0.0 support, while bumping the gateway-api-inference-extension dependency to v1.4.0 and Gateway API to v1.5.1.",
+    "stance": "supports",
+    "stance_target": "agentgateway is llm-d's strategic reference proxy going forward, making its standalone-EPP passthrough features the relevant customization surface",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d/llm-d repository, gateway-provider assets, targeted for v0.4/v0.5 release",
+    "quoted_support": "update gateway-provider assets for the deprecated `kgateway` path to use the `kgateway-dev` `agentgateway` charts at `v2.2.1`; add first-class agentgateway v1.0.0 support across provider assets, guides, recipes, and CI inputs; mark `kgateway` paths deprecated for future removal; bump GAIE to v1.4.0 and GW API to v1.5.1.",
+    "numbers": ["v2.2.1", "v1.0.0", "v1.4.0", "v1.5.1", "issue #399"],
+    "entities": ["llm-d", "agentgateway", "kgateway", "GAIE", "danehans"],
+    "time_period": "October 2025 - early 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "refresh-support-for-kgateway-agentgateway-gie-and-gw-api-by-danehans-pull-reques"
+  },
+  {
+    "claim": "The kgateway-to-agentgateway migration in llm-d was tracked in parallel across three separate repositories (llm-d, llm-d-infra, kgateway), indicating a coordinated, multi-repo strategic shift rather than an isolated PR.",
+    "stance": "neutral",
+    "stance_target": "scope and coordination of llm-d's gateway-provider migration",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d ecosystem, late 2025 - early 2026",
+    "quoted_support": "Migrate kgateway Support to agentgateway llm-d-incubation/llm-d-infra#269 ... agentgateway: test llm-d support kgateway-dev/kgateway#12451",
+    "numbers": ["llm-d-infra#269", "kgateway#12451"],
+    "entities": ["llm-d-infra", "kgateway", "agentgateway"],
+    "time_period": "November 2025 - March 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "refresh-support-for-kgateway-agentgateway-gie-and-gw-api-by-danehans-pull-reques"
+  }
+]

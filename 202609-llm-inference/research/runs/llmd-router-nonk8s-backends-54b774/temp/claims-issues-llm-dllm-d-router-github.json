@@ -1,0 +1,16 @@
+[
+  {
+    "claim": "A full-text search of llm-d/llm-d-router's GitHub issue tracker for \"out-of-tree\" OR \"out of tree\" returns exactly 2 issues total (1 open, 1 closed) in the repository's entire history.",
+    "stance": "neutral",
+    "stance_target": "audited absence of extensive maintainer/community discussion of out-of-tree plugins",
+    "evidence_type": "empirical",
+    "scope_conditions": "GitHub issue search, llm-d/llm-d-router, query q=is:issue \"out-of-tree\" OR \"out of tree\", fetched Sep 11 2026",
+    "quoted_support": "Open 1 (1) ... Closed 1 (1)",
+    "numbers": ["2 total hits", "1 open", "1 closed"],
+    "entities": ["llm-d-router", "issue #2258", "issue #2105", "yuefanxiao", "LukeAVanDrie"],
+    "time_period": "as of Sep 11 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "issues-llm-dllm-d-router-github"
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "The official README for precise-prefix-cache-producer explicitly labels the plugin's lifecycle hooks, distinguishing '(EndpointExtractor) Per-pod ZMQ subscriber lifecycle on add/delete' from '(PreRequest) Speculative-index the selected endpoint(s) with TTL eviction' — confirming the maintainers document this plugin as implementing the EndpointExtractor interface.",
+    "stance": "supports",
+    "stance_target": "The precise-prefix-cache-producer implements the router's EndpointExtractor interface rather than the kv-cache library's own Kubernetes pod discovery",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router preciseprefixcache README.md, main branch as of commit bffcfb7 (Sep 5, 2026)",
+    "quoted_support": "(EndpointExtractor) Per-pod ZMQ subscriber lifecycle on add/delete.",
+    "numbers": [],
+    "entities": ["precise-prefix-cache-producer", "EndpointExtractor", "README"],
+    "time_period": "as of Sep 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerpkgeppframeworkpluginsrequestcontroldataproducerpreciseprefixcachere"
+  },
+  {
+    "claim": "Without setting prefixMatchInfoProducerName on the paired prefix-cache-scorer, the scorer silently falls back to the auto-spawned approximate producer rather than using precise-prefix-cache-producer.",
+    "stance": "neutral",
+    "stance_target": "Operational pitfalls in configuring precise routing",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router preciseprefixcache README.md",
+    "quoted_support": "Without the prefixMatchInfoProducerName field, the scorer falls back to the auto-spawned approx producer.",
+    "numbers": [],
+    "entities": ["prefix-cache-scorer", "prefixMatchInfoProducerName", "approx producer"],
+    "time_period": "as of Sep 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerpkgeppframeworkpluginsrequestcontroldataproducerpreciseprefixcachere"
+  },
+  {
+    "claim": "SGLang's KV-events currently omit extra_keys (multimodal identifiers, cache_salt), so salted requests against SGLang backends are precise-cache misses until SGLang emits extra_keys, whereas vLLM emits extra_keys with cache_salt in block-0.",
+    "stance": "neutral",
+    "stance_target": "Engine compatibility limits of precise prefix-cache routing",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router preciseprefixcache README.md, engine compatibility table",
+    "quoted_support": "SGLang | not emitted | baked into engine block hashes but not surfaced; salted requests are precise-cache misses until SGLang emits extra_keys",
+    "numbers": [],
+    "entities": ["SGLang", "vLLM", "extra_keys", "cache_salt"],
+    "time_period": "as of Sep 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerpkgeppframeworkpluginsrequestcontroldataproducerpreciseprefixcachere"
+  },
+  {
+    "claim": "Block keys used for precise routing are recomputed by the EPP itself from TokenizedPrompt on both the lookup path and the KV-event ingestion path, so blockSizeTokens/hashSeed need not match the inference engine's own internal block hashing.",
+    "stance": "neutral",
+    "stance_target": "Mechanics of cross-engine block-key correlation in precise routing",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router preciseprefixcache README.md, Engine compatibility section",
+    "quoted_support": "Block keys are recomputed by the EPP from TokenizedPrompt (tokens, model, multimodal features, cache salt) on both the lookup path and the KV-event ingestion path, using this plugin's tokenProcessorConfig. The engine's own block hashes serve only as opaque keys for the engine-to-request mapping, so blockSizeTokens/hashSeed need not match the engine.",
+    "numbers": [],
+    "entities": ["TokenizedPrompt", "tokenProcessorConfig", "kvblock"],
+    "time_period": "as of Sep 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerpkgeppframeworkpluginsrequestcontroldataproducerpreciseprefixcachere"
+  }
+]

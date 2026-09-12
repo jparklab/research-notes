@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "kgateway's GIE support is fully Kubernetes-CRD-driven (controllers reconcile InferencePool, auto-enabled only when the CRDs exist in-cluster) with no standalone or non-k8s mode scoped.",
+    "stance": "supports",
+    "stance_target": "which gateways only work with Kubernetes InferencePool",
+    "evidence_type": "empirical",
+    "scope_conditions": "kgateway (formerly k8sgateway/Gloo Edge) GIE meta-issue, Dec 2024 - Sep 2025",
+    "quoted_support": "Add controllers that reconcile gateway-api-inference-extension custom resources, e.g. InferencePool. The controller should be optional, i.e. only run if the configuration option is enabled and the gateway-api-inference-extension CRDs exist.",
+    "numbers": ["#10411"],
+    "entities": ["kgateway", "InferencePool", "Gateway API Inference Extension"],
+    "time_period": "Dec 2024 - Sep 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "add-initial-gateway-api-inference-extension-support-issue-10411-kgateway-devkgat"
+  },
+  {
+    "claim": "kgateway abandoned a plan to implement an Envoy 'Override Host' load-balancer policy (referencing Envoy PR #38757 and GIE PR #761) for honoring EPP-selected destinations, because kgateway's Envoy-based data plane is being deprecated in v2.1.",
+    "stance": "refutes",
+    "stance_target": "using kgateway's Envoy override-host approach as a template for honoring EPP destinations",
+    "evidence_type": "empirical",
+    "scope_conditions": "kgateway roadmap as of issue closure, Sep 2025",
+    "quoted_support": "Implement Override Host LB policy (Envoy PR and Infer Ext PR). No longer being pursued since the Envoy-based data plane is being deprecated in v2.1.",
+    "numbers": ["#38757", "#761", "v2.1"],
+    "entities": ["kgateway", "Envoy", "Override Host LB policy"],
+    "time_period": "2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "add-initial-gateway-api-inference-extension-support-issue-10411-kgateway-devkgat"
+  },
+  {
+    "claim": "kgateway treated failureMode (fail-open/fail-closed) support as a distinct follow-up feature rather than baseline functionality of its initial GIE integration.",
+    "stance": "supports",
+    "stance_target": "fail-open behavior is not a settled default across GIE gateway implementations",
+    "evidence_type": "empirical",
+    "scope_conditions": "kgateway GIE feature scoping",
+    "quoted_support": "Add failureMode support as a follow-up to Add Initial Gateway API Inference Extension Support #10411.",
+    "numbers": ["#10411"],
+    "entities": ["kgateway", "failureMode"],
+    "time_period": "2025",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "add-initial-gateway-api-inference-extension-support-issue-10411-kgateway-devkgat"
+  }
+]

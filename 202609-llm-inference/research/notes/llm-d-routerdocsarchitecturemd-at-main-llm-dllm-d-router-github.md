@@ -1,0 +1,337 @@
+---
+title: llm-d-router/docs/architecture.md at main · llm-d/llm-d-router · GitHub
+id: llm-d-routerdocsarchitecturemd-at-main-llm-dllm-d-router-github
+tags:
+- llmd-router
+- epp-architecture
+- data-layer
+- endpointpickerconfig
+- llmd-router-nonk8s-backends-54b774
+created: '2026-09-11T19:42:49.019666Z'
+updated: '2026-09-12T03:37:37.510565Z'
+source: https://github.com/llm-d/llm-d-inference-scheduler/blob/main/docs/architecture.md
+source_domain: github.com
+fetched_at: '2026-09-11T19:42:48.999612Z'
+fetch_provider: crawl4ai
+status: review
+type: note
+tier: ground_truth
+content_type: code
+deprecated: false
+summary: 'Canonical llm-d-router (formerly llm-d-inference-scheduler) architecture.md,
+  fetched Sep 2026. Details the request-control/scheduling pipeline: per-request Screener
+  plugins (mandatory global filters intersected across profiles) run before per-profile
+  Filter->Score->Pick stages; scorers read a ''shared datastore populated by the data
+  layer.'' Gives the EndpointPickerConfig schema (apiVersion: llm-d.ai/v1alpha1, kind:
+  EndpointPickerConfig, plugins[] with name/type/parameters, schedulingProfiles[]
+  with pluginRef/weight) and an exhaustive list of auto-injected defaults (single-profile-handler,
+  max-score-picker, openai/anthropic/vllmhttp parsers, fcfs-ordering-policy, global-strict-fairness-policy,
+  static-usage-limit-policy, utilization-detector, metrics-data-source+core-metrics-extractor
+  for DataLayer, and per-signal DataProducers like token-producer/approx-prefix-cache-producer/inflight-load-producer/predicted-latency-producer/session-id-producer).
+  Explicitly documents the Data Layer as Source->Extract->Attribute: ''Data sources
+  collect per-endpoint data. Some poll pods periodically... others react to endpoint
+  or Kubernetes object change notifications.'' Polling sources share one Collector
+  goroutine per endpoint on a base tick set by --refresh-metrics-interval (default
+  50ms). States ''Current Assumptions'': single InferencePool and single EPP due to
+  Envoy limitations, one base model per InferencePool. Feature gates settable via
+  --feature-gates CLI flag (kubelet-style name=bool), applied after and overriding
+  the YAML featureGates list.'
+utility_score: 14.0
+---
+
+[Skip to content](https://github.com/llm-d/llm-d-router/blob/main/docs/architecture.md#start-of-content)
+You signed in with another tab or window. [Reload](https://github.com/llm-d/llm-d-router/blob/main/docs/architecture.md) to refresh your session. You signed out in another tab or window. [Reload](https://github.com/llm-d/llm-d-router/blob/main/docs/architecture.md) to refresh your session. You switched accounts on another tab or window. [Reload](https://github.com/llm-d/llm-d-router/blob/main/docs/architecture.md) to refresh your session. Dismiss alert
+###  Uh oh! 
+There was an error while loading. [Please reload this page](https://github.com/llm-d/llm-d-router/blob/main/docs/architecture.md).
+/ Public
+  * [ Notifications ](https://github.com/login?return_to=%2Fllm-d%2Fllm-d-router) You must be signed in to change notification settings
+  * [ Fork 366 ](https://github.com/login?return_to=%2Fllm-d%2Fllm-d-router)
+  * [ Star  333 ](https://github.com/login?return_to=%2Fllm-d%2Fllm-d-router)
+
+
+## Collapse file tree
+## Files
+Search this repository(forward slash)` forward slash/`
+/
+# architecture.md
+Copy path
+More file actions
+More file actions
+## Latest commit
+[feat(epp): add --feature-gates flag (](https://github.com/llm-d/llm-d-router/commit/1711860cdcc02fb41a4cd2c9ac4641a8087f6715)[#2388](https://github.com/llm-d/llm-d-router/pull/2388)[)](https://github.com/llm-d/llm-d-router/commit/1711860cdcc02fb41a4cd2c9ac4641a8087f6715)
+Open commit detailsfailure
+Aug 25, 2026
+[1711860](https://github.com/llm-d/llm-d-router/commit/1711860cdcc02fb41a4cd2c9ac4641a8087f6715) · Aug 25, 2026
+## History
+[History](https://github.com/llm-d/llm-d-router/commits/main/docs/architecture.md)
+Open commit details
+History
+358 lines (264 loc) · 15.1 KB
+Code owner: @llm-d/router-maintainers
+/
+# architecture.md
+Copy path
+## File metadata and controls
+  * Preview
+  * 
+
+358 lines (264 loc) · 15.1 KB
+Code owner: @llm-d/router-maintainers
+Copy raw file
+Download raw file
+You must be signed in to make or propose changes
+More edit options
+Outline
+Edit and raw actions
+# llm-d Router Architecture
+## Table of Contents
+  * [Filters, Scorers, and the Data Layer](https://github.com/llm-d/llm-d-router/blob/main/docs/architecture.md#filters-scorers-and-the-data-layer)
+    * [Core Design Principles](https://github.com/llm-d/llm-d-router/blob/main/docs/architecture.md#core-design-principles)
+  * [Configuration](https://github.com/llm-d/llm-d-router/blob/main/docs/architecture.md#configuration)
+    * [`Plugins` Configuration](https://github.com/llm-d/llm-d-router/blob/main/docs/architecture.md#plugins-configuration)
+    * [`SchedulingProfiles` Configuration](https://github.com/llm-d/llm-d-router/blob/main/docs/architecture.md#schedulingprofiles-configuration)
+    * [Available plugins](https://github.com/llm-d/llm-d-router/blob/main/docs/architecture.md#available-plugins)
+  * [Metric Scraping and the Data Layer](https://github.com/llm-d/llm-d-router/blob/main/docs/architecture.md#metric-scraping-and-the-data-layer)
+  * [Disaggregated Encode/Prefill/Decode (E/P/D)](https://github.com/llm-d/llm-d-router/blob/main/docs/architecture.md#disaggregated-encodeprefilldecode-epd)
+  * [InferencePool & InferenceModel Design](https://github.com/llm-d/llm-d-router/blob/main/docs/architecture.md#inferencepool--inferencemodel-design)
+    * [Current Assumptions](https://github.com/llm-d/llm-d-router/blob/main/docs/architecture.md#current-assumptions)
+
+
+## Overview
+**llm-d** is an extensible architecture designed to schedule inference requests efficiently across model-serving pods. A central component of this architecture is the **Inference Gateway** , which builds on the Kubernetes-native **Gateway API Inference Extension** (GIE) to enable scalable, flexible, and pluggable request scheduling.
+The design enables:
+  * Support for **multiple base models** within a shared cluster (see [InferencePool & InferenceModel Design](https://github.com/llm-d/llm-d-router/blob/main/docs/architecture.md#inferencepool--inferencemodel-design))
+  * Efficient routing based on **KV cache locality** , **session affinity** , **load** , and **model metadata**
+  * Disaggregated **Prefill/Decode (P/D)** execution 
+    * We have introduced experimental **Encode/Prefill/Decode (E/P/D and all its permutations)** execution. For a detailed explanation, see [Disaggregated Inference Serving](https://github.com/llm-d/llm-d-router/blob/main/docs/disaggregation.md)
+  * Pluggable **filters** and **scorers** , backed by a pluggable **data layer** , for extensible scheduling
+
+
+## Core Goals
+  * Schedule inference requests to optimal pods based on: 
+    * Base model compatibility
+    * KV cache reuse
+    * Load balancing
+  * Support multi-model deployments on heterogeneous hardware
+  * Enable runtime extensibility with pluggable logic (filters, scorers, data layer)
+  * Community-aligned implementation using GIE and Envoy + External Processing (EPP)
+
+
+## Filters, Scorers, and the Data Layer
+### Core Design Principles
+  * **Pluggability** : No core changes are needed to add new scorers or filters
+  * **Isolation** : Each component operates independently
+
+
+### Routing Flow
+See the upstream [Request Scheduler](https://github.com/llm-d/llm-d/blob/main/docs/architecture/core/router/epp/scheduling.md) doc for the canonical scheduling model.
+#### Request Control
+Request control runs once per request before any scheduling profiles:
+  1. Request headers are processed and flow-control admission completes
+  2. Endpoint candidates are located
+  3. Global `Screener` plugins perform preliminary filtering of located endpoints 
+     * Each screener receives an independent copy of the same endpoint set, and their returned subsets are intersected
+     * Most endpoint-selection plugins should implement a scheduling `Filter`, not a `Screener`
+     * Use a `Screener` only for mandatory constraints that must apply to every scheduling profile
+  4. Data producers prepare per-request data using the filtered candidate set
+  5. Admission plugins may reject the request
+  6. The scheduler runs the configured scheduling profiles using the filtered candidate set
+
+
+#### Scheduling
+Each scheduling profile runs the following stages. Multiple profiles may run for one request, such as separate prefill and decode profiles.
+  1. **Filtering**
+     * Pods in an `InferencePool` go through a sequential chain of filters
+     * Pods may be excluded based on criteria like model compatibility, resource usage, or custom logic
+  2. **Scoring**
+     * Filtered pods are scored using a weighted set of scorers
+     * Scorers currently run sequentially (future: parallel execution)
+     * Scorers access a shared datastore populated by the data layer
+  3. **Pod Selection**
+     * The highest-scored pod is selected
+     * If multiple pods share the same score, one is selected at random
+
+
+## Configuration
+The llm-d Endpoint Picker relies on a YAML-based configuration—provided either as a file or an in-line parameter—to determine which lifecycle hooks (plugins) are active.
+See the upstream [Configuration](https://github.com/llm-d/llm-d/blob/main/docs/architecture/core/router/epp/configuration.md) doc for the canonical schema.
+Specifically, this configuration establishes the following components:
+  * `Plugins`: The specific plugins to instantiate, along with their parameters. Because each instantiated plugin is assigned a unique name, you can configure the same plugin type multiple times if necessary.
+  * `SchedulingProfiles`: A collection of profiles that dictate the exact set of plugins invoked when scheduling a given request.
+
+
+The configuration text has the following form:
+
+```
+apiVersion: llm-d.ai/v1alpha1
+kind: EndpointPickerConfig
+plugins:
+- ....
+- ....
+schedulingProfiles:
+- ....
+- ....
+```
+
+The first two lines of the configuration are constant and must appear as is.
+###  `Plugins` Configuration
+The `plugins` section in the configuration defines the set of plugins that will be instantiated and their parameters. Each entry in this section has the following form:
+
+```
+- name: aName
+  type: a-type
+  parameters:
+    param1: val1
+    param2: val2
+```
+
+####  `Plugin` Fields:
+The fields in a plugin entry are:
+  * **name** (optional): provides a name by which the plugin instance can be referenced. If this field is omitted, the plugin's type will be used as its name.
+  * **type** : specifies the type of the plugin to be instantiated.
+  * **parameters** (optional): defines the set of parameters used to configure the plugin in question. The actual set of parameters varies from plugin to plugin.
+
+
+###  `SchedulingProfiles` Configuration
+The `schedulingProfiles` section defines the set of scheduling profiles that can be used in scheduling requests to pods. The number of scheduling profiles one defines, depends on the use case. For simple serving of requests, one is enough. For disaggregated prefill, two profiles are required. Each entry in this section has the following form:
+
+```
+- name: aName
+  plugins:
+  - pluginRef: plugin1
+  - pluginRef: plugin2
+    weight: 50
+```
+
+####  `SchedulingProfile` Fields
+The fields in a schedulingProfile entry are:
+  * **name** : specifies the scheduling profile's name.
+  * **plugins** : specifies the set of plugins to be used when this scheduling profile is chosen for a request.
+  * **pluginRef** : reference to the name of the plugin instance to be used
+  * **weight** : weight to be used if the referenced plugin is a scorer.
+
+
+A complete configuration might look like this:
+
+```
+apiVersion: llm-d.ai/v1alpha1
+kind: EndpointPickerConfig
+plugins:
+- type: precise-prefix-cache-producer
+  parameters:
+    tokenProcessorConfig:
+      blockSizeTokens: 5
+- type: prefix-cache-scorer
+  parameters:
+    prefixMatchInfoProducerName: precise-prefix-cache-producer
+- type: decode-filter
+- type: max-score-picker
+- type: single-profile-handler
+schedulingProfiles:
+- name: default
+  plugins:
+  - pluginRef: decode-filter
+  - pluginRef: max-score-picker
+  - pluginRef: prefix-cache-scorer
+    weight: 50
+```
+
+If the configuration is in a file, the EPP command line argument `--config-file` should be used to specify the full path of the file in question. If the configuration is passed as in-line text the EPP command line argument `--config-text` should be used.
+Feature gates can also be set with the `--feature-gates` command line argument, which takes a comma-separated list of kubelet-style `name=bool` entries; a bare name enables the gate. These entries are applied after the configuration's own `featureGates` list, so they override it.
+### Default plugins
+The EPP injects these plugins when they are absent, so a configuration does not need to list them. Some example configs list them anyway for clarity; that has the same effect as omitting them. To override a default, configure it explicitly.
+Scheduling:
+  * When `schedulingProfiles` is omitted, a single `default` profile is created and populated with the listed plugins that are filters, scorers, or pickers.
+  * When there is exactly one profile (including the auto-created `default`) and no handler is configured, `single-profile-handler` is added.
+  * `max-score-picker` is added when no picker is configured, and appended to any profile that lacks one.
+  * A scorer's `weight` defaults to `1.0` when omitted.
+
+
+RequestHandler:
+  * When no parsers are configured, `openai-parser`, `anthropic-parser`, and `vllmhttp-parser` are used.
+
+
+FlowControl:
+  * The flow control admission layer itself is off by default; enable it with `featureGates: ["flowControl"]` in the configuration, or with `--feature-gates=flowControl=true` on the command line.
+  * `fcfs-ordering-policy`, `global-strict-fairness-policy`, and `static-usage-limit-policy` are configured when absent.
+  * `utilization-detector` is configured as the saturation detector when none is set.
+
+
+DataLayer:
+  * `metrics-data-source` and `core-metrics-extractor` are injected and wired together. Skipped when `dataLayer.injectDefaults` is `false`, or when the config's own `dataLayer.sources` already lists a `metrics-data-source` entry.
+
+
+DataProducer:
+  * When a plugin needs data from a producer but none is configured, the default producer for that data is created automatically. Defaults: `token-producer`, `approx-prefix-cache-producer`, `mm-embeddings-cache-producer`, `inflight-load-producer`, `predicted-latency-producer`, `session-id-producer`.
+
+
+### Available plugins
+To learn more about the available plugins, check the plugins [README.md](https://github.com/llm-d/llm-d-router/blob/main/pkg/epp/framework/plugins/README.md) file.
+## Metric Scraping and the Data Layer
+The data layer follows a Source -> Extract -> Attribute lifecycle:
+  * Data sources collect per-endpoint data. Some poll pods periodically, for metrics (e.g., memory usage, active adapters) or served models and LoRA adapters (via `/v1/models`); others react to endpoint or Kubernetes object change notifications
+  * Extractors populate per-endpoint attributes in the shared datastore for scorers
+  * Scoring can rely on numerical metrics or metadata (model ID, adapter tags)
+
+
+Polling sources share one Collector goroutine per endpoint. The base tick is `--refresh-metrics-interval` (default 50ms). Each polling source plugin accepts an `interval` parameter (e.g. `"1s"`) that is rounded to the nearest multiple of the base tick; when omitted, the source runs on every base tick. The runtime converts each source's interval to base-tick multiples and schedules dispatches accordingly.
+See the upstream [Data Layer](https://github.com/llm-d/llm-d/blob/main/docs/architecture/core/router/epp/datalayer.md) doc for the canonical model.
+## Disaggregated Encode/Prefill/Decode (E/P/D)
+When enabled, the router:
+  * Selects one pod for **Prefill** (prompt processing)
+  * Selects another pod for **Decode** (token generation)
+
+
+Note
+Encode disaggregation is an experimental feature. When enabled, the router identifies all pods capable of encoding, and the vLLM sidecar distributes multimedia requests to randomly selected pods from that subset. More sophisticated selection strategies are planned for future versions.
+The **vLLM sidecar** handles orchestration between Encode, Prefill and Decode stages. It allows:
+  * Queuing
+  * Local memory management
+  * Experimental protocol compatibility
+
+
+Note
+The detailed E/P/D design is available in this document: [Disaggregated Inference Serving in llm-d](https://github.com/llm-d/llm-d-router/blob/main/docs/disaggregation.md)
+## Chunked Decode (Experimental)
+Chunked decode is an experimental feature of the pd-sidecar that splits the decode stage into a sequence of shorter decode calls, each capped at a configurable token budget. It applies at the decode stage regardless of whether P/D disaggregation is in use. After each chunk the generated text is appended to the conversation context so the next chunk continues seamlessly from where the previous one left off.
+### Why to use it
+  * Improve average Time-To-First-Token among all requests
+  * Prevent head-of-line blocking by long requests in run-to-completion
+  * Get more predictable execution time
+
+
+### How it works
+  1. The sidecar receives a `/v1/chat/completions` request at the decode stage.
+  2. Each chunk is dispatched as a separate request to the local decoder with `max_tokens` capped at `decode-chunk-size`.
+  3. From the second chunk onward, `continue_final_message=true` and `add_generation_prompt=false` are set so the model continues the existing assistant turn rather than starting a new one. The generated text from the previous chunk is also appended to the request context.
+  4. Generation stops when the model returns a terminal `finish_reason` (anything other than `length`), or when the original token budget is exhausted.
+  5. For **non-streaming** requests, all chunk outputs are concatenated and returned as a single response. The `usage` field reports the original `prompt_tokens` (from the first chunk) and the total `completion_tokens` across all chunks.
+  6. For **streaming** requests, each chunk's tokens are re-emitted as SSE delta events in real time, and a `[DONE]` sentinel closes the stream once all chunks are complete.
+
+
+### Configuration
+Enable chunked decode via the pd-sidecar flag:  
+| Flag  | Default  | Description  |  
+| --- | --- | --- |  
+| `--decode-chunk-size`  |  `0` (disabled)  | Token budget per chunk. Set to a positive integer to enable chunked decode. For best performance use a multiple of the KV cache block size.  |  
+Note
+If the request's `max_tokens` / `max_completion_tokens` is less than or equal to `--decode-chunk-size`, the sidecar falls back to a single regular decode call without chunking.
+## InferencePool & InferenceModel Design
+### Current Assumptions
+  * Single `InferencePool` and single `EPP` due to Envoy limitations
+  * Model-based filtering can be handled within EPP
+  * Currently only one base model **per`InferencePool`** is supported. Multiple models are supported via multiple `InferencePools`.
+
+
+Note
+The `InferenceModel` CRD is in the process of being significantly changed in IGW. Once finalized, these changes would be reflected in llm-d as well.
+## References
+  * [Gateway API Inference Extension](https://github.com/kubernetes-sigs/gateway-api-inference-extension)
+  * [Envoy External Processing](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/ext_proc_filter)
+  * [EPP Container Sizing Guide](https://github.com/llm-d/llm-d-router/blob/main/docs/operations.md)
+
+
+### Canonical llm-d architecture (upstream)
+
+
+You can’t perform that action at this time. 

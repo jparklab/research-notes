@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "GitHub issue #1290, which docs/operations.md cites as the technical detail behind its Active-Active approximate-prefix-routing warning, is a QPS/scale benchmarking issue and contains no statement that the precise prefix-cache index is partitioned across replicas or that Active-Active requires peer coordination/peer discovery.",
+    "stance": "refutes",
+    "stance_target": "the idea that issue #1290 provides evidence that precise (not just approximate) prefix routing degrades in Active-Active EPP",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router EPP, issue lifecycle May 24 2026 - Jul 21 2026",
+    "quoted_support": "Understanding QPS and concurrency limits for EPP in active-active mode for: Various configurations: with/without precise prefix cache aware routing; Replication level, 2 vs 3 vs 4 on medium and large CPU machine types on cloud",
+    "numbers": [],
+    "entities": ["llm-d-router", "EPP", "issue #1290"],
+    "time_period": "May-Jul 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "evaluate-llm-d-router-both-epp-and-the-standalone-proxy-scale-limits-issue-1290"
+  },
+  {
+    "claim": "Empirical GPU benchmark data in issue #1290 shows precise-prefix-cache Active-Active EPP failure counts at 500 QPS DECREASE monotonically as replica count increases (1r broken/3,148 failures to 4r 18 failures), with TTFT P50 dropping from 165ms to 30ms.",
+    "stance": "supports",
+    "stance_target": "the draft's claim that precise prefix routing is safe/effective under Active-Active EPP",
+    "evidence_type": "empirical",
+    "scope_conditions": "real vLLM v0.19.1 serving Qwen/Qwen2.5-7B-Instruct on 3x1 GPU pods, standalone EPP mode",
+    "quoted_support": "Precise prefix cache active-active scaling: 1 | 165ms | broken | 3,148; 2 | 59ms | 295ms | 57; 3 | 41ms | 139ms | 31; 4 | 30ms | 96ms | 18",
+    "numbers": ["3148 failures at 1 replica", "57 failures at 2 replicas", "31 failures at 3 replicas", "18 failures at 4 replicas", "165ms to 30ms TTFT P50"],
+    "entities": ["vLLM v0.19.1", "Qwen2.5-7B-Instruct", "EPP", "precise prefix cache"],
+    "time_period": "Jun 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "evaluate-llm-d-router-both-epp-and-the-standalone-proxy-scale-limits-issue-1290"
+  },
+  {
+    "claim": "The llm-d-router standalone Helm chart auto-injects --ha-enable-leader-election whenever router.epp.replicas > 1, silently forcing active-passive behavior (1-replica throughput) unless operators explicitly set it to false.",
+    "stance": "neutral",
+    "stance_target": "operational gotchas of deploying multi-replica EPP",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router standalone Helm chart v1.5.0",
+    "quoted_support": "Leader election trap. The standalone chart auto-enables --ha-enable-leader-election when replicas > 1. This makes it active-passive (only leader processes traffic). Deploying 4 replicas without disabling it gives 1-replica throughput.",
+    "numbers": [],
+    "entities": ["llm-d-router", "Helm chart", "--ha-enable-leader-election"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "evaluate-llm-d-router-both-epp-and-the-standalone-proxy-scale-limits-issue-1290"
+  },
+  {
+    "claim": "Session-affinity-filter correctness under Active-Active EPP replicas was never validated in issue #1290 -- testing used synthetic independent requests with no session-token echoing, and the issue explicitly defers cross-replica session-pinning validation to a separate, undone evaluation.",
+    "stance": "neutral",
+    "stance_target": "whether session affinity state is safely handled across Active-Active EPP replicas",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router session-affinity-filter plugin (#815), tested June 2026",
+    "quoted_support": "Session pinning latency benefit (KV cache reuse on repeat requests) requires trace replay with session header echoing, which is a separate evaluation.",
+    "numbers": [],
+    "entities": ["session-affinity-filter", "EPP", "issue #815"],
+    "time_period": "Jun 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "evaluate-llm-d-router-both-epp-and-the-standalone-proxy-scale-limits-issue-1290"
+  },
+  {
+    "claim": "Audited absence: issue #1290 (and its linked commits/PRs) contains no mention of LRU/no-hit-lru scorer state or predicted-latency-scorer training state differing per replica in Active-Active mode; the only per-replica-divergent state documented anywhere in the vault's llm-d-router sources is flow-control/saturation-view state (from docs/operations.md, not from #1290).",
+    "stance": "neutral",
+    "stance_target": "completeness of known per-replica state divergence risks in Active-Active EPP",
+    "evidence_type": "empirical",
+    "scope_conditions": "searched issue #1290 full text and linked commit/PR titles",
+    "quoted_support": "Findings: 1. Leader election trap... 2. Cold-start penalty... 3. Scale replicas, not CPU.",
+    "numbers": [],
+    "entities": ["EPP", "LRU scorer", "predicted-latency-scorer"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "evaluate-llm-d-router-both-epp-and-the-standalone-proxy-scale-limits-issue-1290"
+  }
+]

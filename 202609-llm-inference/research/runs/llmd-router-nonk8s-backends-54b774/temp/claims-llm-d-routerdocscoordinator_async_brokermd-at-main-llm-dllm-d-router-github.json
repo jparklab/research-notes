@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "The coordinator's async-broker step coordinates cross-replica/cross-request state entirely through external Redis primitives (sorted-set queues, per-tenant result mailboxes, in-flight markers with compare-and-delete), not through any Kubernetes API.",
+    "stance": "supports",
+    "stance_target": "existence of Kubernetes-independent coordination mechanisms in llm-d-router",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d-router coordinator async-broker step, backed by llm-d-async and Redis",
+    "quoted_support": "The in-flight marker holds a random per-request token, and cleanup is a compare-and-delete on that token, so a stale replica finishing an old request cannot clobber newer state.",
+    "numbers": [],
+    "entities": ["async-broker", "Redis", "llm-d-async"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerdocscoordinator_async_brokermd-at-main-llm-dllm-d-router-github"
+  },
+  {
+    "claim": "The async-broker step provides at-most-once delivery regardless of replica count, relying on client-side retry-by-id rather than a distributed lock or leader election for correctness.",
+    "stance": "neutral",
+    "stance_target": "consistency guarantees for coordinator replicas",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d-router coordinator async-broker step",
+    "quoted_support": "Delivery is at most once at any replica count. A message popped by an AP that then crashes is lost, and the client holds a pending id until its deadline expires. Delivery guarantees beyond this belong to client retries by id.",
+    "numbers": [],
+    "entities": ["async-broker", "AP"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerdocscoordinator_async_brokermd-at-main-llm-dllm-d-router-github"
+  },
+  {
+    "claim": "This document is unrelated to EPP replica leader election/peer discovery; it documents a request-queueing bridge to an OpenAI-compatible broker.",
+    "stance": "refutes",
+    "stance_target": "the premise that coordinator_async_broker.md documents EPP HA leader election",
+    "evidence_type": "theoretical",
+    "scope_conditions": "docs/coordinator_async_broker.md as fetched",
+    "quoted_support": "The async-broker step bridges the coordinator to the llm-d-async broker, giving standard OpenAI clients access to request-level queueing through the gateway they already use.",
+    "numbers": [],
+    "entities": ["async-broker", "llm-d-async"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerdocscoordinator_async_brokermd-at-main-llm-dllm-d-router-github"
+  }
+]

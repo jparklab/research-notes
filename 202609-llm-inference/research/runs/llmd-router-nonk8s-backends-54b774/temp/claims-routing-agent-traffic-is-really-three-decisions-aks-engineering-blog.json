@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "agentgateway can front both an external managed 'strong' provider (Azure OpenAI, declared as an ai:{provider:{azure:{...}}} backend) and a self-hosted 'weak' pool (a service backend carrying a backend-level inferenceRouting policy that calls the Gateway API Inference Extension's Endpoint Picker over ext-proc), letting it act as the single gateway that decides which backend class serves a request while delegating intra-pool picking to the EPP.",
+    "stance": "supports",
+    "stance_target": "the layered pattern: gateway chooses between external and self-hosted backend classes, EPP chooses within the self-hosted pool",
+    "evidence_type": "empirical",
+    "scope_conditions": "agentgateway v1.3.1, Gateway API Inference Extension v1.0.0, AKS, validated mid-2026",
+    "quoted_support": "backends:\n-service:\nname: llm/workspace-phi-4-mini.llm.svc.cluster.local\nport:5000\npolicies:\ninferenceRouting:\nendpointPicker:{host: phi-epp-epp.llm.svc.cluster.local:9002}\ndestinationMode: passthrough",
+    "numbers": ["port 9002", "port 5000"],
+    "entities": ["agentgateway", "Azure OpenAI", "KAITO", "Endpoint Picker", "InferencePool"],
+    "time_period": "mid-2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "routing-agent-traffic-is-really-three-decisions-aks-engineering-blog"
+  },
+  {
+    "claim": "Because agentgateway speaks ext-proc natively and can call the Endpoint Picker directly, a deployment can drop the Gateway API Gateway object entirely and run a single data-plane (agentgateway) instead of two proxies.",
+    "stance": "supports",
+    "stance_target": "a non-Gateway-API-native AI gateway can still integrate with the EPP contract directly, without a k8s Gateway resource in front of it",
+    "evidence_type": "empirical",
+    "scope_conditions": "agentgateway v1.3.1 on AKS, mid-2026",
+    "quoted_support": "because it speaks ext-proc itself -- call the Endpoint Picker directly so the weak path gets GPU-state placement. That third job is what lets us drop the Gateway API gateway entirely: one data plane instead of two",
+    "numbers": [],
+    "entities": ["agentgateway", "Gateway API", "Endpoint Picker"],
+    "time_period": "mid-2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "routing-agent-traffic-is-really-three-decisions-aks-engineering-blog"
+  },
+  {
+    "claim": "There is no managed-cloud equivalent for the ext-proc call to the Endpoint Picker; whichever gateway fronts a self-hosted GPU pool, the operator must still run and wire that piece themselves.",
+    "stance": "supports",
+    "stance_target": "the EPP/ext-proc integration is an irreducible self-operated component even when other gateway functions are outsourced to a managed service",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "AKS ecosystem, mid-2026",
+    "quoted_support": "The ext-proc call to the Endpoint Picker, which places each weak-path request on the right GPU pod, has no managed equivalent today, so that piece stays yours to run whichever gateway fronts it.",
+    "numbers": [],
+    "entities": ["Endpoint Picker", "ext-proc"],
+    "time_period": "mid-2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "routing-agent-traffic-is-really-three-decisions-aks-engineering-blog"
+  },
+  {
+    "claim": "RouteLLM's matrix-factorization (mf) router reaches approximately 95% of GPT-4's quality on MT-Bench while making only about 26% of the GPT-4 calls, cutting cost by up to approximately 85% versus routing everything to GPT-4.",
+    "stance": "supports",
+    "stance_target": "quantitative case for a semantic-routing layer above the gateway/EPP layers",
+    "evidence_type": "statistical",
+    "scope_conditions": "RouteLLM paper's original strong/weak model pair, not validated against arbitrary pairs",
+    "quoted_support": "the featured mf (matrix-factorization) router reaches ~95% of GPT-4's quality on MT-Bench while making just ~26% of the GPT-4 calls -- cutting cost by up to ~85% versus sending everything to GPT-4",
+    "numbers": ["95%", "26%", "85%"],
+    "entities": ["RouteLLM", "GPT-4", "MT-Bench"],
+    "time_period": null,
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "routing-agent-traffic-is-really-three-decisions-aks-engineering-blog"
+  },
+  {
+    "claim": "InferencePool and InferenceObjective are governed by different Kubernetes API groups (inference.networking.k8s.io vs inference.networking.x-k8s.io) and InferenceObjective replaces the older InferenceModel object, dropping its criticality enum in favor of a plain integer priority while taking the served-model name from the request itself.",
+    "stance": "neutral",
+    "stance_target": "API evolution of the Gateway API Inference Extension CRDs, relevant to dating any API-shape claim",
+    "evidence_type": "empirical",
+    "scope_conditions": "Gateway API Inference Extension v1.0.0, mid-2026",
+    "quoted_support": "It replaces the older InferenceModel object: where InferenceModel carried a modelName and a criticality enum, InferenceObjective keeps only an integer priority and takes the served-model name from the request instead.",
+    "numbers": ["v1.0.0"],
+    "entities": ["InferenceObjective", "InferenceModel", "InferencePool"],
+    "time_period": "mid-2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "routing-agent-traffic-is-really-three-decisions-aks-engineering-blog"
+  }
+]

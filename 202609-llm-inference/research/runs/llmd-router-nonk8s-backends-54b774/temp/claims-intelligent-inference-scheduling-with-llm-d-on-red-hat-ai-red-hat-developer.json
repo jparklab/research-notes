@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "Red Hat OpenShift AI exposes llm-d's router as a single 'router' field on the LLMInferenceService CRD with route, gateway, and scheduler sub-fields, which can be left empty to use operator-managed defaults.",
+    "stance": "supports",
+    "stance_target": "downstream products embed llm-d's router by wrapping it in a higher-level CRD rather than reimplementing scheduling logic",
+    "evidence_type": "empirical",
+    "scope_conditions": "Red Hat OpenShift AI 3.4, LLMInferenceService serving.kserve.io/v1alpha1",
+    "quoted_support": "router:\n    route: {}\n    gateway: {}\n    scheduler: {}\n... Leaving route, gateway, and scheduler empty tells Red Hat OpenShift AI to use the operator-managed defaults.",
+    "numbers": [],
+    "entities": ["LLMInferenceService", "OpenShift AI", "EPP"],
+    "time_period": "OpenShift AI 3.4, mid-2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "intelligent-inference-scheduling-with-llm-d-on-red-hat-ai-red-hat-developer"
+  },
+  {
+    "claim": "The EPP is built on the Kubernetes SIG Gateway API Inference Extension and integrates with standard gateways (Istio, Envoy Gateway) via the ext-proc protocol, making it portable across gateway implementations.",
+    "stance": "neutral",
+    "stance_target": "EPP's integration boundary with the data plane is the ext-proc gRPC protocol, not a k8s-specific API",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d EPP as of mid-2026",
+    "quoted_support": "The EPP is built on Gateway API Inference Extension, a Kubernetes SIG project. It works with standard gateways like Istio or Envoy Gateway through the ext-proc protocol, so it plugs into infrastructure you may already have.",
+    "numbers": [],
+    "entities": ["EPP", "Gateway API Inference Extension", "Istio", "Envoy Gateway", "ext-proc"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "intelligent-inference-scheduling-with-llm-d-on-red-hat-ai-red-hat-developer"
+  },
+  {
+    "claim": "Upstream llm-d benchmarks on shared-prefix workloads show TTFT dropping from 35 seconds to 120 milliseconds (>99% reduction) and throughput increasing 151% on 8 vLLM replicas across 16 H100 GPUs (Qwen3-32B, 60 RPS).",
+    "stance": "supports",
+    "stance_target": "KV-cache-aware EPP routing delivers large, reproducible gains over standard Kubernetes Service routing",
+    "evidence_type": "empirical",
+    "scope_conditions": "8 vLLM replicas, 16 H100 GPUs (TP=2), Qwen3-32B, shared-prefix synthetic workload, 60 RPS",
+    "quoted_support": "Time-to-first-token: 35 seconds to 120 milliseconds. Prefix cache hits skip the expensive prefill entirely (more than 99% reduction). Throughput: More than doubled (+151%).",
+    "numbers": ["35s", "120ms", ">99%", "+151%", "8 replicas", "16 H100 GPUs", "60 RPS"],
+    "entities": ["llm-d", "Qwen3-32B", "H100"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "intelligent-inference-scheduling-with-llm-d-on-red-hat-ai-red-hat-developer"
+  },
+  {
+    "claim": "The EPP's default prefix-cache tracking is self-referential (it hashes and remembers its own past routing decisions) rather than introspecting vLLM engines directly; a 'precise prefix cache mode' that reads actual KV cache entries is optional today but expected to become default in a future release.",
+    "stance": "neutral",
+    "stance_target": "distinction between approximate and precise prefix-cache tracking modes in the EPP",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d EPP default profile as of mid-2026",
+    "quoted_support": "By default, the EPP tracks its own routing decisions: it hashes incoming prompts into blocks and compares them against what it has previously routed to each pod... For workloads with high cache churn, llm-d also offers a precise prefix cache mode that introspects each vLLM instance for actual KV cache entries. Precise mode is expected to become the default in a future release.",
+    "numbers": [],
+    "entities": ["EPP", "precise-prefix-cache-scorer"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "intelligent-inference-scheduling-with-llm-d-on-red-hat-ai-red-hat-developer"
+  },
+  {
+    "claim": "llm-d's predicted-latency scheduling uses an XGBoost model trained on live traffic with roughly 5% mean absolute percentage error (MAPE), allowing requests to carry SLO headers like x-slo-ttft-ms.",
+    "stance": "neutral",
+    "stance_target": "llm-d supports SLO-driven predictive scheduling beyond simple cache/queue scoring",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d predicted-latency scheduling feature, 2026",
+    "quoted_support": "An XGBoost model trained on live traffic predicts per-pod time-to-first-token (TTFT) and time-per-output-token (about 5% mean absolute percentage error (MAPE)). Requests can include service level objective (SLO) headers like x-slo-ttft-ms to route against latency targets.",
+    "numbers": ["5% MAPE"],
+    "entities": ["XGBoost", "x-slo-ttft-ms"],
+    "time_period": null,
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "intelligent-inference-scheduling-with-llm-d-on-red-hat-ai-red-hat-developer"
+  }
+]

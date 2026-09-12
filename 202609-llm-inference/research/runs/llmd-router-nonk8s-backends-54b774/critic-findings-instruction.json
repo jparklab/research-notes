@@ -1,0 +1,87 @@
+{
+  "critic_type": "instruction",
+  "structural_mirror_check": {
+    "required_section_headings_count": 8,
+    "draft_h2_headings": [
+      "## 1. llm-d Component Inventory and Kubernetes Coupling",
+      "## 2. How the llm-d Router Discovers and Tracks Backends Today",
+      "## 3. Extension Seams in the Router for Non-Pod Backends",
+      "## 4. Upstream State: Proposals and Work on Non-Pod and External Endpoints",
+      "## 5. Non-Pod Backend Types and What Each Requires from the Router",
+      "## 6. Candidate Strategies Compared",
+      "## 7. Recommended Strategy and Implementation Roadmap",
+      "## 8. Risks, Trade-offs, and Open Questions"
+    ],
+    "result": "PASS - exact element-wise match, correct order, no extra or missing H2s",
+    "required_formats_check": {
+      "component inventory mapping llm-d components to k8s coupling and reusability": "PASS (Section 1B, 18-row table with coupling + reusable-off-pod columns)",
+      "comparison table of candidate strategies across reuse / maintenance / feature-parity / ops-complexity": "PASS on the four named columns (Section 6A, strategies A-I); see finding 1 for the two SQ7 dimensions not worked",
+      "implementation roadmap (phased steps)": "PASS (Section 7B, Phases 0-4 with effort estimates and exit criteria)",
+      "strategy recommendation (committed, actionable)": "PASS (Section 7 opener is an unhedged imperative; Section 6E closes with an explicit ranking)"
+    },
+    "readability_structural_checks": {
+      "R1_definitions": "PASS - ext_proc, ORIGINAL_DST, controller-runtime reconcilers, SSRF, P/D, plugin seam, discovery all defined inline on first use",
+      "R2_citation_density": "PASS - 198 body citations over 73,027 chars = 2.71 per 1000 (threshold 1.5); lowest section is 6 at 1.79",
+      "R3_forward_analysis": "PASS - Section 8 'Forward look, six to eighteen months' plus 'Falsification conditions'",
+      "R4_comparison_tables": "PASS - three tables (component inventory, version facts, per-estate requirements, strategy comparison)",
+      "R5_section_primers": "PASS - Sections 1A, 2A, 3A, 5A, 6A open with plain-language orientation before judgment",
+      "R6_comparison_axes": "FAIL - see finding 1"
+    }
+  },
+  "findings": [
+    {
+      "severity": "major",
+      "atomic_item": "How do these strategies compare on reuse of llm-d components, fork/maintenance burden and upstream divergence, feature parity (prefix-aware routing, KV-cache-aware routing, load-aware scoring, P/D disaggregation, flow control/fairness), operational complexity, latency, and failure handling?",
+      "failure_mode": "missing-comparison-dimensions",
+      "location": "Section 6. Candidate Strategies Compared - '### A. The field', the nine-row strategy table with columns 'llm-d reuse | Maintenance burden | Feature parity | Ops complexity | Verdict'",
+      "issue": "The sub-question names seven comparison dimensions; the table works four. 'Latency' appears nowhere as a comparison axis (the word occurs only as 'latency predictor' / 'predicted-latency scoring'), and 'failure handling' is treated once globally in Rule 4 rather than per strategy, so the reader cannot see that the choice of rung changes the failure mode.",
+      "requires_orchestrator_restructure": false,
+      "recommendation": "Add two short columns or, more surgically, a two-sentence paragraph immediately after the table making both axes explicit and committed: (a) latency is identical across A-D because discovery sits off the request path entirely - the datastore erases provenance at admission (Section 2A) - and differs only for E (hand-built router) and H (different picker); (b) failure handling degrades by rung using evidence already in the draft - a file whose reload fails leaves stale-but-present endpoints with live KV subscribers (Section 2D), whereas a custom plugin can delete on first failed health signal (Rule 3), and G inherits real kubelet readiness. State this as a ranking consequence, not a caveat."
+    },
+    {
+      "severity": "major",
+      "atomic_item": "What kinds of 'backends other than k8s pods' are realistic targets ... and what does each require from the router (metrics endpoint, KV-cache events, health, auth, network reachability)?",
+      "failure_mode": "under-covered",
+      "location": "Section 5. Non-Pod Backend Types - '### A. The universal contract' ('it must satisfy four things...') and the per-estate table in '### B. Per-estate requirements'",
+      "issue": "The sub-question names five per-backend requirements; the universal contract enumerates four and silently drops auth, which is the one requirement that changes most between estates (a pod-network backend inherits cluster identity; a VM rack, a Slurm allocation across a shared network, or a remote cluster does not). The only auth mentions in the whole report are 'Enable metrics-endpoint authentication' in Phase 4 and prefill TLS.",
+      "requires_orchestrator_restructure": false,
+      "recommendation": "Promote auth to the fifth item in the universal contract in Section 5A with specifics rather than a gesture: what credential the router presents when scraping each worker's /metrics, whether the ZMQ KV-event subscription is authenticated at all (state it as an audited absence if the vault does not show one), and TLS for the inference hop. Then add one 'Auth obligation' note to the estates where it differs - remote Kubernetes clusters and service-registry estates - and keep the managed-API row's answer as-is (excluded from the pool, so provider API keys stay at the gateway tier)."
+    },
+    {
+      "severity": "major",
+      "atomic_item": "What extension seams exist in the router for customization (scheduling framework plugins: filters, scorers, pickers, profile handlers, pre-request/post-response hooks; pluggable data layer / data sources / endpoint discovery; configuration via EndpointPickerConfig), and do any of them already allow non-pod endpoints?",
+      "failure_mode": "under-covered",
+      "location": "Section 3. Extension Seams in the Router for Non-Pod Backends - '### D. The seams you should not need' ('Metric scraping is a data-source and extractor pair...')",
+      "issue": "The prompt asked for the seam inventory; the section delivers a deep treatment of one seam (EndpointDiscovery) plus a short paragraph on three adjacent ones. The scheduling-framework plugin types the sub-question names - filters, scorers, pickers, profile handlers, pre-request/post-response hooks - are never enumerated as seams (only 'profile handlers' appears, once, inside a Section 1 table cell), and EndpointPickerConfig, the configuration surface that selects all of them, is never named in the report.",
+      "requires_orchestrator_restructure": false,
+      "recommendation": "Add a compact list at the head of Section 3D naming the full seam set - filters, scorers, pickers, profile handlers, pre-request and post-response hooks, data sources and extractors, peer discovery, endpoint discovery - and the single configuration file (EndpointPickerConfig / the plugins-config YAML) that selects them by name. One clause per seam stating it operates on datastore endpoint metadata and is therefore backend-agnostic. This strengthens rather than dilutes the thesis: it shows the seam inventory was audited and that exactly one entry is pod-coupled."
+    },
+    {
+      "severity": "major",
+      "atomic_item": "cover both deployment readings: router running inside Kubernetes targeting external backends, AND router running outside Kubernetes entirely",
+      "failure_mode": "under-covered",
+      "location": "Section 7A, Rule 1 ('If it is, run the picker in-cluster under the Helm chart - leader election over a Lease works normally - while the backend inventory points off-cluster'), with fragments in Section 3D (chart escape hatches) and Section 8 ('Nobody has published the hybrid shape')",
+      "issue": "The fully-outside reading gets a whole phase, a reference Envoy topology, static scrape config and flag set; the in-Kubernetes-router / external-backends reading gets one sentence in Rule 1 plus a scattered escape-hatch mention, so the reader cannot tell what the hybrid actually buys or costs.",
+      "requires_orchestrator_restructure": false,
+      "recommendation": "Expand the Rule 1 hybrid branch into a short paragraph that settles the ledger explicitly: what the in-cluster placement recovers (Lease-based leader election, Helm packaging and upgrade path, container ops), what it does not (PodMonitor cannot discover external workers, so static scrape config is still required; the P/D sidecar allowlist still has no pool to select), and - the sharpest open point - whether the InferenceObjective / InferenceModelRewrite reconcilers become usable again when a Kubernetes API is present, or whether the discovery-plugin branch's skipping of controller-manager setup (Section 2B item 1) forecloses them even in-cluster. Flag that last one as an inference or an audited absence rather than asserting it."
+    },
+    {
+      "severity": "minor",
+      "atomic_item": "How does the llm-d router discover, represent, and track backends today (InferencePool selector over pod labels, EPP datastore/pod reconciler, metrics scraping, endpoint identity, ext-proc protocol with the proxy, destination-endpoint header)",
+      "failure_mode": "under-covered",
+      "location": "Section 2. How the llm-d Router Discovers and Tracks Backends Today - subsections A through D; the tracking loop itself is described only in a Section 1 table cell ('Polls each endpoint's Prometheus /metrics for queue depth and KV-cache utilisation')",
+      "issue": "Six mechanisms were named for this section and five are worked; metrics scraping - which is the 'tracks' half of discover-represent-track and the only continuous per-endpoint signal that survives off-cluster - is never described in Section 2, so the reader never learns the scrape cadence or what a scrape failure does to an endpoint's standing.",
+      "requires_orchestrator_restructure": false,
+      "recommendation": "Add two or three sentences to Section 2D covering the metrics-scraping loop: its interval, the metrics it reads, and critically whether a persistently failing scrape causes the endpoint to be deprioritised, stale-scored, or ignored. This directly reinforces Section 2D's thesis that health gating is the first design rule - if scrape failure does not evict, that is another way a dead backend keeps attracting traffic. If the vault does not resolve the failure behaviour, say so as an audited absence naming what was searched."
+    },
+    {
+      "severity": "minor",
+      "atomic_item": "What upstream work, proposals, issues, or releases in llm-d and the Kubernetes Gateway API Inference Extension address non-pod or external backends (standalone EPP mode, static/file endpoint lists, endpoint discovery abstraction, multi-cluster InferencePool, non-k8s deployments)?",
+      "failure_mode": "under-covered",
+      "location": "Section 4. Upstream State - '### D. The gateway tier is moving the other way' and '### C. The audited absence'",
+      "issue": "Four of the five named upstream threads are tracked precisely; multi-cluster InferencePool is not - the report discusses the shipped multicluster-file-discovery plugin (Sections 3B and 5B) but never states where multi-cluster InferencePool itself stands upstream, which matters because it is the one upstream thread whose endpoints are natively not pods.",
+      "requires_orchestrator_restructure": false,
+      "recommendation": "Add one or two sentences to Section 4D (or the end of 4A) placing multi-cluster InferencePool on the upstream timeline - proposal or merged, and whether its endpoint model is an address or an object reference - and connect it back to the Section 3B argument that upstream has already shipped a discovery plugin whose endpoints are hostnames rather than pod IPs. If the vault only supports the plugin side and not the API side, state that boundary explicitly."
+    }
+  ]
+}

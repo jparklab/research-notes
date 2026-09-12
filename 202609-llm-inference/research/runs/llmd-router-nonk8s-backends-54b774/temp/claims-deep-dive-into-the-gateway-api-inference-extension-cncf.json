@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "In the pre-GA v1alpha2 API, InferencePool used fields extensionRef and targetPortNumber, which have since been renamed to endpointPickerRef and targetPorts in the v1 GA spec.",
+    "stance": "refutes",
+    "stance_target": "the InferencePool field names shown in this April 2025 CNCF post reflect the current (v1 GA) API",
+    "evidence_type": "empirical",
+    "scope_conditions": "CNCF blog dated April 21 2025, using apiVersion inference.networking.x-k8s.io/v1alpha2 -- superseded by v1 GA inference.networking.k8s.io/v1 seen in other batch sources",
+    "quoted_support": "apiVersion: inference.networking.x-k8s.io/v1alpha2\\nkind: InferencePool\\n...\\nspec:\\n  targetPortNumber: 8000\\n  selector:\\n    app: vllm-llama2-7b\\n  extensionRef:\\n    name: vllm-llama2-7b-endpoint-picker",
+    "numbers": ["v1alpha2"],
+    "entities": ["InferencePool", "extensionRef", "targetPortNumber", "endpointPickerRef", "targetPorts"],
+    "time_period": "April 2025 (pre-GA)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "deep-dive-into-the-gateway-api-inference-extension-cncf"
+  },
+  {
+    "claim": "The Endpoint Selection Extension (ESE) filter chain for Critical requests checks, in order: queue wait size below 50, then LoRA adapter affinity, then least-queuing, then least-KV-cache, to arrive at a final endpoint.",
+    "stance": "supports",
+    "stance_target": "exact scheduling/filter algorithm the endpoint picker runs for latency-critical requests",
+    "evidence_type": "empirical",
+    "scope_conditions": "CNCF blog worked example, April 2025, describing reference EPP filter logic",
+    "quoted_support": "The filter flow starts with 'is this a critical request'? If the request is a Critical request, it will then check whether there are LLM endpoints with a wait queue lower than 50... then check whether those endpoints have the LoRA adapter loaded...",
+    "numbers": ["50"],
+    "entities": ["Endpoint Selection Extension", "Critical", "LoRA affinity", "queue wait"],
+    "time_period": "April 2025",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "deep-dive-into-the-gateway-api-inference-extension-cncf"
+  },
+  {
+    "claim": "For Sheddable (non-critical) requests, the filter requires KV cache utilization below 80% AND fewer than 5 queued requests; if no endpoint meets that bar, the request is dropped (load shed) rather than routed to an overloaded endpoint.",
+    "stance": "supports",
+    "stance_target": "GIE implements explicit load-shedding for low-priority requests based on live KV-cache and queue metrics",
+    "evidence_type": "empirical",
+    "scope_conditions": "CNCF blog worked example, April 2025",
+    "quoted_support": "If the filter sees a request that is Sheddable then it will find LLMs that have lower than 80% KV cache utilization and fewer than 5 requests waiting in its queue. If it cannot find LLM endpoints that meet that criteria, the Sheddable request is dropped.",
+    "numbers": ["80%", "5"],
+    "entities": ["Sheddable", "KV cache utilization", "load shedding"],
+    "time_period": "April 2025",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "deep-dive-into-the-gateway-api-inference-extension-cncf"
+  },
+  {
+    "claim": "The Endpoint Selection Extension extracts the modelName from the request body assuming the OpenAI chat completion API format, then matches it against InferenceModel objects' modelName field to resolve backend targets.",
+    "stance": "supports",
+    "stance_target": "endpoint selection is driven by parsing an OpenAI-shaped HTTP request body, not by any Kubernetes-native request attribute",
+    "evidence_type": "empirical",
+    "scope_conditions": "CNCF blog, April 2025, pre-GA InferenceModel CRD (renamed InferenceObjective in v1)",
+    "quoted_support": "When a request reaches the Endpoint Selection Extension (ESE), it extracts the modelName from the request body. Currently, the ESE expects the request body to follow the OpenAI API format.",
+    "numbers": [],
+    "entities": ["ESE", "modelName", "InferenceModel", "OpenAI API"],
+    "time_period": "April 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "deep-dive-into-the-gateway-api-inference-extension-cncf"
+  }
+]

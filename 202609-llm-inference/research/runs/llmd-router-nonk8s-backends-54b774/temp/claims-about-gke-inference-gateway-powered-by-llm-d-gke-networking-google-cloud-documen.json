@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "The llm-d Router is architecturally split into two independent sub-components: an L7 Proxy (any ext-proc-capable Envoy-based gateway) handling the data plane, and the llm-d Endpoint Picker (EPP) service consulted per-request over the Envoy ext-proc protocol, which holds the routing intelligence.",
+    "stance": "neutral",
+    "stance_target": "llm-d Router architecture and where custom backend logic would need to be inserted",
+    "evidence_type": "empirical",
+    "scope_conditions": "GKE Inference Gateway Gateway Mode; applies to llm-d Router generally per Google's docs",
+    "quoted_support": "The llm-d Router is the intelligent request routing component that Inference Gateway uses to make per request endpoint decisions. It is composed of two sub-components... L7 Proxy... llm-d Endpoint Picker (EPP).",
+    "numbers": [],
+    "entities": ["llm-d Router", "Envoy", "llm-d Endpoint Picker", "ext-proc"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "about-gke-inference-gateway-powered-by-llm-d-gke-networking-google-cloud-documen"
+  },
+  {
+    "claim": "InferencePool is defined as representing 'a group of Pods (containers) that share the same compute configuration, accelerator type, base language model, and model server,' confirming the object's backend type is Pods, not arbitrary endpoints.",
+    "stance": "supports",
+    "stance_target": "InferencePool selects Pods, not Services/EndpointSlices",
+    "evidence_type": "empirical",
+    "scope_conditions": "GKE Inference Gateway / OSS Gateway API Inference Extension alignment",
+    "quoted_support": "InferencePool object: represents a group of Pods (containers) that share the same compute configuration, accelerator type, base language model, and model server.",
+    "numbers": [],
+    "entities": ["InferencePool"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "about-gke-inference-gateway-powered-by-llm-d-gke-networking-google-cloud-documen"
+  },
+  {
+    "claim": "Multi-port InferencePools hit a hard scaling ceiling under GCP's Network Endpoint Group (NEG) limits: each port in each zone creates a dedicated NEG, capped at 50 NEGs per GCP Backend Service, so an 8-port InferencePool across 3 zones (24 NEGs) can only be aggregated from at most 2 clusters in a multi-cluster Gateway before hitting the limit.",
+    "stance": "neutral",
+    "stance_target": "scalability limits of GKE's approach to multi-backend/multi-cluster InferencePool aggregation",
+    "evidence_type": "empirical",
+    "scope_conditions": "GKE-specific NEG limits",
+    "quoted_support": "Network Endpoint Group (NEG) limits: has a limit of 50 NEGs per Google Cloud Backend Service... an InferencePool with eight ports in a typical regional cluster (three zones) generates 24 NEGs. Therefore, a multi-cluster Gateway can only aggregate such an InferencePool from a maximum of two clusters (two clusters times 24 NEGs = 48 NEGs) before reaching the 50 NEG limit.",
+    "numbers": ["50 NEGs per Backend Service", "8 ports", "3 zones", "24 NEGs", "2 clusters", "48 NEGs"],
+    "entities": ["Network Endpoint Group", "InferencePool", "GCP Backend Service"],
+    "time_period": "2026",
+    "region": "Google Cloud (GKE)",
+    "confidence": "high",
+    "source_note_id": "about-gke-inference-gateway-powered-by-llm-d-gke-networking-google-cloud-documen"
+  },
+  {
+    "claim": "GKE Inference Gateway supports a numeric Priority/Criticality field on InferenceObjective; requests with Priority less than 0 are dropped first (returning HTTP 429) under load, while default Priority 0 requests are never dropped purely on priority grounds.",
+    "stance": "neutral",
+    "stance_target": "request-shedding behavior of the llm-d/GIE routing stack",
+    "evidence_type": "empirical",
+    "scope_conditions": "GKE Inference Gateway",
+    "quoted_support": "When the system is under pressure, requests with a Priority less than 0 are considered lower priority and are dropped first, returning a 429 error to protect more critical workloads. By default, the Priority is 0.",
+    "numbers": ["Priority default 0", "HTTP 429"],
+    "entities": ["InferenceObjective", "Priority", "Criticality"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "about-gke-inference-gateway-powered-by-llm-d-gke-networking-google-cloud-documen"
+  },
+  {
+    "claim": "GKE Inference Gateway never retries a streaming response if an error occurs mid-stream; the stream terminates and the client receives an error directly.",
+    "stance": "neutral",
+    "stance_target": "reliability semantics of the llm-d Router data plane for streaming inference",
+    "evidence_type": "empirical",
+    "scope_conditions": "GKE Inference Gateway streaming inference",
+    "quoted_support": "If an error occurs during a streaming response, the stream terminates, and the client receives an error message. GKE Inference Gateway does not retry streaming responses.",
+    "numbers": [],
+    "entities": ["GKE Inference Gateway"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "about-gke-inference-gateway-powered-by-llm-d-gke-networking-google-cloud-documen"
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "The PeerNotifier interface's doc comment confirms file-based peer discovery is a real, named alternative fed into the same sink as the Kubernetes reconciler, mirroring the file-vs-k8s duality already established for endpoint discovery.",
+    "stance": "supports",
+    "stance_target": "feasibility of a custom non-k8s PeerDiscovery plugin for cross-replica state sync",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router pkg/epp/framework/interface/datalayer/peer.go, HEAD Sep 2026",
+    "quoted_support": "It mirrors DiscoveryNotifier: the k8s reconciler and any file-based discovery feed the same sink.",
+    "numbers": [],
+    "entities": ["PeerNotifier", "PeerDiscovery", "file-based discovery"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "peergo"
+  },
+  {
+    "claim": "PeerStore is intentionally kept separate from the endpoint Datastore because peers and endpoints have different consumers (cross-replica syncer vs. scheduler) and different lifecycles, with endpoints explicitly bound to the InferencePool (a Kubernetes CRD) even in an architecture that otherwise decouples peer tracking from Kubernetes.",
+    "stance": "neutral",
+    "stance_target": "how deeply InferencePool (a k8s-specific CRD) is embedded in the endpoint lifecycle even under a pluggable discovery architecture",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router pkg/epp/framework/interface/datalayer/peer.go",
+    "quoted_support": "endpoints and peers have different consumers (scheduler vs. cross-replica syncer) and different lifecycles (bound to the InferencePool vs. the EPP deployment)",
+    "numbers": [],
+    "entities": ["PeerStore", "Datastore", "InferencePool"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "peergo"
+  },
+  {
+    "claim": "No built-in PeerDiscovery implementation (neither a Kubernetes nor a file-based one) ships in llm-d-router's datalayer interface package itself -- only the interface is defined, consistent with peer-discovery.md's finding that no built-in plugin type is named anywhere in the docs.",
+    "stance": "neutral",
+    "stance_target": "audited absence: default PeerDiscovery implementations",
+    "evidence_type": "empirical",
+    "scope_conditions": "searched pkg/epp/framework/interface/datalayer/peer.go",
+    "quoted_support": "PeerDiscovery discovers peer EPP replicas and drives their lifecycle through a PeerNotifier. Implementations are registered in the plugin registry and selected via EndpointPickerConfig.dataLayer.discovery.peers.pluginRef.",
+    "numbers": [],
+    "entities": ["PeerDiscovery"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "peergo"
+  }
+]

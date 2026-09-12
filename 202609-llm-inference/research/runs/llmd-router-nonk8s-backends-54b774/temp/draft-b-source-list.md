@@ -1,0 +1,51 @@
+# Draft B — must_read_note_ids (n=45)
+
+Angle: Steelman-contrarian. Defend the minority position: do NOT customize llm-d's router for non-pod backends. Argue that llm-d is Kubernetes-native where it counts — the operations layer (HA leader election via Lease, Helm charts with no discovery knobs, the P/D sidecar's InferencePool-bound SSRF allowlist, CRD-driven policy inputs) — and that the honest options are to convert the estate to pods (Slinky), keep the router in Kubernetes, or adopt a router that already treats static/file backends as first-class (vLLM Router, Dynamo, production-stack). Take seriously that the out-of-tree plugin has zero precedent and no ratified support policy.
+
+- interim-report-custom-discovery-plugin-design: Custom EndpointDiscovery plugin design: llm-d-router's only shipped plugin is file-discovery (poll+fsnotify); the K8s watch-based plugin PR (#1007) wa
+- interim-report-kv-event-path-off-k8s: extractor.go confirms precise-prefix-cache-producer's per-endpoint ZMQ subscription is driven by the backend-agnostic fwkdl.EndpointExtractor/endpoint
+- interim-report-topology-and-k8s-shims: Topology decision rule: EndpointSlice-shimming is a category error (InferencePool/EPP discovery watches Pods directly, confirmed at pod_reconciler.go 
+- interim-report-availability-and-lifecycle-off-k8s: RESOLVED: llm-d-router's default EPP HA (--ha-enable-leader-election) literally uses Kubernetes coordination.k8s.io/Lease (confirmed in docs/operation
+- interim-report-lost-k8s-policy-inputs: Only per-request priority assignment (InferenceObjective) is a genuine off-cluster gap needing new code; PodMonitor is solved by static Prometheus con
+- interim-report-extension-mechanism: Out-of-tree EndpointDiscovery plugin (thin downstream main() importing cmd/epp/runner) beats in-tree fork and custom-router embedding for non-pod back
+- source-analysis-llm-d-router-github-repo-readme-commit-history: Digest of the llm-d-router GitHub repo (README + commit history through Sep 11 2026, tag v0.10.0): confirms the Inference-Scheduler-to-Router rename a
+- pd-sidecar-allowlist-stores-only-pod-ip-not-hostport-issue-979-llm-dllm-d-router: GitHub issue #979 (opened May 3 2026, status OPEN as of this research), ported from llm-d-inference-scheduler#1365, with a full live-cluster reproduct
+- llm-d-routerdocsoperationsmd-at-main-llm-dllm-d-router-github: THE load-bearing HA/leader-election doc for llm-d-router (discovered as a lead from peer-discovery.md; peer-discovery.md itself never mentions leader 
+- github-llm-dllm-d-routing-sidecar-incubating-pd-sidecar-for-llm-d-github: GitHub repo for llm-d-routing-sidecar (Go, Apache-2.0), now a public archive: the README's deprecation banner states the sidecar's code moved to llm-d
+- running-large-scale-gpu-workloads-on-kubernetes-with-slurm-nvidia-technical-blog: NVIDIA technical blog on the SlinkyProject slurm-operator represents the OPPOSITE integration direction from interLink/virtual-kubelet: rather than ma
+- helm-support-for-sidecar-injection-in-epp-by-capri-xiyue-pull-request-1821-kuber: GIE PR #1821 (capri-xiyue, opened Nov 5 2025, fixes issue #1778) originally titled 'helm support for EPP standalone mode with Envoy Proxy' but retitle
+- releases-llm-dllm-d: llm-d/llm-d GitHub Releases page, fetched covering v0.3.0 (10 Oct 2025) through v0.9.0 (17 Aug 2026). Dated timeline: v0.3.0 (10 Oct 2025), v0.3.1 (6 
+- featsidecar-implement-ssrf-protection-with-inferencepool-host-port-allowlist-by: PR #1647 (merged ~Jun 2026 by weizhoublue), fixing issue #979, is the CURRENT SSRF-protection implementation at HEAD (the allowlist.go/chat_completion
+- github-ai-dynamodynamo-a-datacenter-scale-distributed-inference-serving-framewor: ai-dynamo/dynamo GitHub repo README (fetched at HEAD, v1.4.2 latest release, Rust 52.7%/Python 34.6%/Go 10.5%). Dynamo is NVIDIA's orchestration layer
+- potential-ssrf-via-x-prefiller-url-or-x-prefiller-host-port-header-issue-242-llm: GitHub issue #242 (opened Jul 16 2025 by pierDipi, closed Jul 18 2025), the original public SSRF disclosure against the routing sidecar: the sidecar h
+- llm-d-routerconfigchartsreadmemd-at-main-llm-dllm-d-router-github: config/charts/README.md from llm-d/llm-d-router (main branch, fetched Sep 11 2026). Documents the two Helm charts -- llm-d-router-gateway (Gateway Mod
+- github-slinkyprojectslurm-operator-run-slurm-on-kubernetes-a-slinky-project-gith: SlinkyProject/slurm-operator (NVIDIA/SchedMD 'Slinky' project, 359 stars, 1419 commits, active as of Sep 11 2026) runs a full Slurm cluster's control-
+- add-standalone-agentgateway-proxy-support-by-danehans-pull-request-2882-kubernet: GIE PR #2882 (danehans, opened Apr 24 2026, fixes issue #2883, approved) adds standalone Helm chart support for running agentgateway as the EPP sideca
+- refresh-support-for-kgateway-agentgateway-gie-and-gw-api-by-danehans-pull-reques: llm-d PR #421 (danehans/solo.io, opened Oct 31 2025, targeted at llm-d v0.4/v0.5 release tracker, fixes issue #399) is llm-d's official gateway-provid
+- github-interlink-hqinterlink-slurm-plugin-github: interlink-slurm-plugin is the Slurm sidecar implementation for interLink: it submits Slurm batch jobs that run the pod containers via Singularity/Appt
+- llm-d-v07-from-feature-introduction-to-production-hardening-llm-d: llm-d v0.7 release blog ('From Feature Introduction to Production Hardening') -- highly load-bearing for router/non-k8s research.
+
+RENAME: v0.7 rename
+- allowlistgo: Go source (pkg/sidecar/proxy/allowlist.go, llm-d-router@main) implementing AllowlistValidator, the SSRF protection for the P/D disaggregation sidecar.
+- istio-kubernetes-gateway-api-inference-extension: Istio's official GIE integration task doc, confirming Istio's Inference Extension support is entirely Kubernetes-native and InferencePool-bound: it re
+- gateway-api-inference-extension-nginx-documentation: NGINX Gateway Fabric (NGF) how-to for GIE integration, confirming NGF's Inference Extension support is also Kubernetes/InferencePool-bound: enabled vi
+- introduction-interlink: interLink project docs (v0.6.x, fetched as substitute for a paywalled CHEP2025 conference paper on the same project) describe a Virtual-Kubelet-based 
+- feathelm-support-structured-plugin-config-by-hugosmoreira-pull-request-2620-llm: PR #2620 'feat(helm): support structured plugin config' (opened Aug 30 2026, merged 2026-09-11T17:51:16Z -- HEAD as of this run). Implements option (b
+- llm-dguidespredicted-latency-routing-at-main-llm-dllm-d-github: LONG (6188 words) upstream operator guide (llm-d/llm-d, guides/predicted-latency-routing, README last commit Sep 9 2026) for deploying predicted-laten
+- release-v140-kubernetes-sigsgateway-api-inference-extension-github: GIE v1.4.0 release notes, released by @danehans on Mar 20 (2026). Release Highlights: standalone chart work landed and is included in release artifact
+- kv-aware-routing-on-kubernetes-nvidia-dynamo-documentation: NVIDIA Dynamo docs page (redirect landed on 'KV-Aware Routing on Kubernetes', current as of fetch) lays out three deployment topologies for KV-cache-a
+- github-llm-dllm-d-achieve-state-of-the-art-inference-performance-with-modern-acc: llm-d/llm-d GitHub repo homepage (fetched Sep 11 2026, HEAD at commit 3a82b81, 1,425 commits, 18 branches, 4.5k stars). Confirms current release caden
+- how-llm-d-routes-model-inference-traffic-on-amazon-eks-red-hat-developer: Red Hat Developer article (Aug 13, 2026) traces a live request through llm-d on Amazon EKS via KServe LLMInferenceService, Istio, and Gateway API Infe
+- llm-d-v08-from-platform-to-control-plane-llm-d: llm-d.ai v0.8 release blog ('From Platform to Control Plane', targeted ~mid-2026, v0.9 milestone referenced as 'early August'). This is the release th
+- add-initial-gateway-api-inference-extension-support-issue-10411-kgateway-devkgat: Closed kgateway (formerly Gloo Edge/k8sgateway) meta-issue #10411 (Dec 2024 - Sep 2025) scoping initial GIE support, confirming kgateway's implementat
+- proxygo: Go source (pkg/sidecar/proxy/proxy.go, llm-d-router@main), the pd-sidecar's Server type. Start() constructs the AllowlistValidator from s.config.Enabl
+- inference-support-agentgateway-as-a-standalone-provider-issue-620-agentgatewayag: Closed agentgateway design/implementation issue (#620, Nov 2025 - Apr 2026) tracing the full origin of standalone (non-Gateway-API) EPP support, which
+- llm-d-distributed-inference-serving-on-kubernetes-kgateway: kgateway.dev blog post (Christian Posta, Solo.io, May 20 2025) covering llm-d's launch announcement (Red Hat/Google/IBM). Frames llm-d's two pillars a
+- chat_completionsgo: Go source (pkg/sidecar/proxy/chat_completions.go, llm-d-router@main), disaggregatedPrefillHandler: reads the client-supplied x-prefiller-host-port hea
+- inference-refactor-plugin-to-use-override_host-lb-issue-11824-kgateway-devkgatew: kgateway issue #11824 (opened Jul 30 2025 by danehans, closed Sep 30 2025) documents kgateway's Inference (GIE) plugin evolution: PR #11810 shipped EP
+- watcherrs: Dynamo (ai-dynamo/dynamo) ModelWatcher (lib/llm/src/discovery/watcher.rs) -- worker/model discovery consumer built atop the runtime's abstract Discove
+- optionsgo: Go source (pkg/sidecar/proxy/options.go, llm-d-router@main) defining the pd-sidecar CLI flags. --enable-ssrf-protection is a bool flag defaulting to f
+- both-endpoints-and-endpointslices-not-working-with-service-abstraction-for-exter: GitHub issue #123954 (kubernetes/kubernetes, opened Mar 15 2024, closed Apr 18 2024) is direct adversarial evidence of a real failure mode in the sele
+- beyond-gateway-inference-traffic-control-practice-with: Secondary (Nov 14, 2025) blog walkthrough of Gateway API Inference Extension, useful mainly for its plain-language restatement of the resource model a
+- release-v130-kubernetes-sigsgateway-api-inference-extension-github: GIE v1.3.0 release notes, released by @kfswain on Jan 21 (2026), tag signed with verified SSH signature. Noteworthy section: (1) LoRA Syncer feature d
+- clear-prefill-target-header-if-set-in-incoming-request-by-elevran-pull-request-2: PR #244 (merged Jul 16 2025, elevran), the primary fix for issue #242: sets the prefill-target header to an empty string if present on an incoming req

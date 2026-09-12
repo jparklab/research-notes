@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "The RAMSES-supercomputer architecture discovers available vLLM endpoints via a central PostgreSQL table (ai_model_endpoints) rather than via Kubernetes Pod objects, with a separate 'Job Worker' background process as the sole bridge that reconciles desired state (ai_model_configurations) against actual Slurm jobs (ai_model_endpoint_jobs) and submits/removes vLLM-serving Slurm jobs accordingly.",
+    "stance": "supports",
+    "stance_target": "a database/registry-backed discovery mechanism, populated by an external bridge process, is a viable and precedented pattern for a non-K8s-pod EndpointDiscovery plugin",
+    "evidence_type": "empirical",
+    "scope_conditions": "RAMSES supercomputer, MIND '25 workshop paper",
+    "quoted_support": "Subsequent to the authentication and validation process (1), the Web Gateway conducts a search for available endpoints corresponding to the requested LLM within the ai_model_endpoints table (2). It then forwards the request ... to a matching node (3).",
+    "numbers": [],
+    "entities": ["Web Gateway", "ai_model_endpoints", "Job Worker", "PostgreSQL"],
+    "time_period": "2025 (MIND '25, published Nov 2025 per arXiv 2511.21413)",
+    "region": "Germany (RAMSES, Ruhr University Bochum / University of Cologne)",
+    "confidence": "high",
+    "source_note_id": "automated-dynamic-ai-inference-scaling-on"
+  },
+  {
+    "claim": "The benchmarked Kubernetes-to-Slurm bridge architecture scales to 100, 500, and 1000 concurrent requests with only approximately 500ms of added end-to-end latency overhead.",
+    "stance": "neutral",
+    "stance_target": "performance cost of a K8s-gateway-to-Slurm-backend bridging architecture",
+    "evidence_type": "empirical",
+    "scope_conditions": "RAMSES supercomputer benchmark, MIND '25",
+    "quoted_support": "The initial benchmark indicates that the proposed architecture scales efficiently for 100, 500 and 1000 concurrent requests, incurring only an overhead of approximately 500 ms in terms of end-to-end latency.",
+    "numbers": ["100 concurrent requests", "500 concurrent requests", "1000 concurrent requests", "~500ms overhead"],
+    "entities": ["vLLM", "Slurm", "Kubernetes", "RAMSES"],
+    "time_period": "2025",
+    "region": "Germany",
+    "confidence": "medium",
+    "source_note_id": "automated-dynamic-ai-inference-scaling-on"
+  },
+  {
+    "claim": "The system uses Apptainer, not Docker/containerd, as the container runtime specifically because it is designed for HPC environments, a constraint any llm-d-router-based non-K8s backend integration would also need to account for if targeting classic HPC clusters.",
+    "stance": "neutral",
+    "stance_target": "container runtime constraints in HPC-integrated LLM serving architectures",
+    "evidence_type": "empirical",
+    "scope_conditions": "RAMSES supercomputer, MIND '25",
+    "quoted_support": "For the underlying container runtime we use Apptainer, since it is specifically designed for HPC environments.",
+    "numbers": [],
+    "entities": ["Apptainer", "HPC"],
+    "time_period": "2025",
+    "region": "Germany",
+    "confidence": "medium",
+    "source_note_id": "automated-dynamic-ai-inference-scaling-on"
+  },
+  {
+    "claim": "This system is a bespoke, independently engineered Kubernetes+Slurm+vLLM gateway, not built on llm-d, GIE (Gateway API Inference Extension), or llm-d-router -- it offers an architecture pattern (discovery via bridge-populated database) rather than reusable code or a compatible plugin.",
+    "stance": "neutral",
+    "stance_target": "applicability and reuse potential of this paper's system relative to llm-d-router",
+    "evidence_type": "empirical",
+    "scope_conditions": "RAMSES supercomputer, MIND '25",
+    "quoted_support": "In this paper, we propose our solution that serves LLMs by integrating vLLM, Slurm and Kubernetes on the supercomputer RAMSES.",
+    "numbers": [],
+    "entities": ["vLLM", "Slurm", "Kubernetes", "llm-d (absent)"],
+    "time_period": "2025",
+    "region": "Germany",
+    "confidence": "high",
+    "source_note_id": "automated-dynamic-ai-inference-scaling-on"
+  }
+]

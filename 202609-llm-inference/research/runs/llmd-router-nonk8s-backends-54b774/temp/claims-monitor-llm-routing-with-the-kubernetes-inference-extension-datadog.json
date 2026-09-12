@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "The Endpoint Picker in the Gateway API Inference Extension is commonly powered by the CNCF llm-d project's dedicated production-grade scheduler, and the extension exposes a programmable plugin architecture letting operators customize exactly how each routing signal is scored and weighted.",
+    "stance": "supports",
+    "stance_target": "the plugin/IPP framework is the documented customization seam for router logic",
+    "evidence_type": "empirical",
+    "scope_conditions": "Gateway API Inference Extension / llm-d, 2026",
+    "quoted_support": "The gateway uses Envoy's ext_proc (external processing) filter to pass information about the request to an advanced EPP--typically powered by a dedicated, production-grade scheduler like the CNCF llm-d project... Inference Extension's programmable plugin architecture lets you customize exactly how each signal is scored and weighted.",
+    "numbers": [],
+    "entities": ["llm-d", "Gateway API Inference Extension", "EPP", "ext_proc"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "monitor-llm-routing-with-the-kubernetes-inference-extension-datadog"
+  },
+  {
+    "claim": "The EPP ultimately only returns the IP address of the chosen endpoint to the gateway -- it does not execute the physical routing itself -- meaning the gateway that calls it can in principle be any ext-proc-capable proxy, not necessarily one that manages Kubernetes pods.",
+    "stance": "supports",
+    "stance_target": "the EPP/gateway contract is a thin IP-selection protocol decoupled from how the gateway itself is implemented",
+    "evidence_type": "empirical",
+    "scope_conditions": "Gateway API Inference Extension, 2026",
+    "quoted_support": "Ultimately, the EPP selects the target backend but does not execute the physical routing. It simply returns the IP address of the chosen endpoint to the gateway, which forwards the request.",
+    "numbers": [],
+    "entities": ["EPP", "Gateway API Inference Extension"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "monitor-llm-routing-with-the-kubernetes-inference-extension-datadog"
+  },
+  {
+    "claim": "EPP flow control uses a central queue (rather than backend-local queues) so it can dispatch by InferenceObjective priority and fairness, shed low-priority traffic via 429/503 at configurable saturation thresholds, and support scale-to-zero for batch workloads since requests can wait centrally while GPU backends are provisioned.",
+    "stance": "neutral",
+    "stance_target": "EPP-owned scheduling behavior a non-k8s backend integration would need to replicate or interface with",
+    "evidence_type": "empirical",
+    "scope_conditions": "Gateway API Inference Extension flow control, 2026",
+    "quoted_support": "If the pool reaches a configured saturation threshold, flow control sheds low-priority requests entirely, throwing 429 Too Many Requests or 503 Service Unavailable errors while continuing to queue normal-priority requests for dispatch.",
+    "numbers": ["429", "503", "50% full", "99% saturation example"],
+    "entities": ["EPP", "flow control", "InferenceObjective"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "monitor-llm-routing-with-the-kubernetes-inference-extension-datadog"
+  },
+  {
+    "claim": "A gateway extracts the target model name either directly from the request path/headers or via a Body-Based Router (BBR) that inspects the JSON payload, before mapping the request to the corresponding InferencePool.",
+    "stance": "neutral",
+    "stance_target": "how a non-k8s-aware gateway could implement the same model-to-pool mapping step",
+    "evidence_type": "empirical",
+    "scope_conditions": "Gateway API Inference Extension, 2026",
+    "quoted_support": "Once the gateway has validated the request, it extracts the target model either directly from the request's path or headers, or by using a Body-Based Router (BBR) if the model is specified within the JSON payload.",
+    "numbers": [],
+    "entities": ["Body-Based Router", "InferencePool"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "monitor-llm-routing-with-the-kubernetes-inference-extension-datadog"
+  }
+]

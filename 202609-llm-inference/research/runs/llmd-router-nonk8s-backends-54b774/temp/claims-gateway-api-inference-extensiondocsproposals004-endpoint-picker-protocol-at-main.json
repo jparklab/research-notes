@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "The EPP-proxy wire protocol identifies backends purely as ip:port strings, not Kubernetes object references, which makes the protocol itself backend-agnostic even though the surrounding project assumes pods.",
+    "stance": "supports",
+    "stance_target": "a custom EPP/router can support non-k8s-pod backends without violating the ext-proc wire protocol",
+    "evidence_type": "empirical",
+    "scope_conditions": "GIE Endpoint Picker Protocol v1.0.0, dated 2025-07-29",
+    "quoted_support": "The value of the header or metadata entry MUST contain at least one endpoint in <ip:port> format or multiple endpoints in <ip:port>,<ip:port>,... format.",
+    "numbers": ["v1.0.0", "2025-07-29"],
+    "entities": ["Endpoint Picker Protocol", "Envoy", "ext_proc"],
+    "time_period": "as of 2025-07-29 (v1.0.0)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "gateway-api-inference-extensiondocsproposals004-endpoint-picker-protocol-at-main"
+  },
+  {
+    "claim": "The data plane can restrict the EPP to a caller-specified endpoint subset via the envoy.lb.subset_hint filter metadata key x-gateway-destination-endpoint-subset, and the EPP must return 503 if none in that subset is eligible.",
+    "stance": "neutral",
+    "stance_target": "EPP endpoint subset mechanism",
+    "evidence_type": "theoretical",
+    "scope_conditions": "GIE Endpoint Picker Protocol",
+    "quoted_support": "If the key x-gateway-destination-endpoint-subset is set, the EPP MUST only select endpoints from the specified list. If none of the endpoints in the list is eligible or the list is empty, then the EPP MUST return a ImmediateResponse with 503 (Service Unavailable) HTTP status code.",
+    "numbers": ["503"],
+    "entities": ["envoy.lb.subset_hint", "x-gateway-destination-endpoint-subset"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "gateway-api-inference-extensiondocsproposals004-endpoint-picker-protocol-at-main"
+  },
+  {
+    "claim": "The EPP must communicate its picked endpoint(s) both as the x-gateway-destination-endpoint HTTP header and as envoy.lb dynamic_metadata, and setting mismatched values between the two is protocol-undefined behavior.",
+    "stance": "neutral",
+    "stance_target": "EPP response protocol requirements",
+    "evidence_type": "theoretical",
+    "scope_conditions": "GIE Endpoint Picker Protocol",
+    "quoted_support": "The EPP MUST not set two different values in the header and the inner response metadata value. Setting different value leads to unpredictable behavior because proxies aren't guaranteed to support both paths.",
+    "numbers": [],
+    "entities": ["x-gateway-destination-endpoint", "envoy.lb"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "gateway-api-inference-extensiondocsproposals004-endpoint-picker-protocol-at-main"
+  },
+  {
+    "claim": "A 2026-07-23 protocol amendment (PR #3003) scoped ordered endpoint lists to the specific InferencePool backend that produced them, requiring the data plane to invoke a different backend's EPP on route-level failover rather than reusing the previous backend's endpoint list.",
+    "stance": "supports",
+    "stance_target": "the protocol is evolving toward explicit multi-backend awareness",
+    "evidence_type": "empirical",
+    "scope_conditions": "GIE proposal 004, amendment dated 2026-07-23",
+    "quoted_support": "If route-level retry or failover selects a different InferencePool backend, the data plane MUST invoke the EPP associated with the newly selected backend and MUST NOT reuse endpoints returned for the previous backend.",
+    "numbers": ["2026-07-23", "#3003"],
+    "entities": ["InferencePool", "PR #3003"],
+    "time_period": "2026-07-23",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "gateway-api-inference-extensiondocsproposals004-endpoint-picker-protocol-at-main"
+  },
+  {
+    "claim": "The EPP must expose gRPC Health Checking Protocol services for liveness, readiness, and the ext_proc service itself, with readiness gated on datastore sync and leader election status.",
+    "stance": "neutral",
+    "stance_target": "EPP operational requirements",
+    "evidence_type": "theoretical",
+    "scope_conditions": "GIE Endpoint Picker Protocol",
+    "quoted_support": "Readiness Check (readiness): ... Returns SERVING if the EPP datastore has synced and the EPP is the elected leader (in multi-replica deployments). Returns NOT_SERVING if the datastore has not synced or the EPP is a follower.",
+    "numbers": [],
+    "entities": ["gRPC Health Checking Protocol"],
+    "time_period": null,
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "gateway-api-inference-extensiondocsproposals004-endpoint-picker-protocol-at-main"
+  }
+]

@@ -1,0 +1,284 @@
+---
+title: "Tags Index"
+id: "_tags"
+type: index
+created: 2026-09-12T03:37:38.375689+00:00
+updated: 2026-09-12T03:37:38.375689+00:00
+---
+
+# Tags Index
+
+**269** unique tags.
+
+- **llmd-router-nonk8s-backends-54b774** (225 notes) → [[_tag-llmd-router-nonk8s-backends-54b774]]
+- **llmd-router-nonk8s** (33 notes) → [[_tag-llmd-router-nonk8s]]
+- **llmd-router-nonk8s-backends** (32 notes) → [[_tag-llmd-router-nonk8s-backends]]
+- **llmd-router** (23 notes) → [[_tag-llmd-router]]
+- **epp-architecture** (20 notes) → [[_tag-epp-architecture]]
+- **file-discovery** (17 notes) → [[_tag-file-discovery]]
+- **epp** (15 notes) → [[_tag-epp]]
+- **pd-sidecar** (15 notes) → [[_tag-pd-sidecar]]
+- **llm-d** (13 notes) → [[_tag-llm-d]]
+- **agentgateway** (10 notes) → [[_tag-agentgateway]]
+- **go-source** (10 notes) → [[_tag-go-source]]
+- **inferencepool** (10 notes) → [[_tag-inferencepool]]
+- **locus-availability-and-lifecycle-off-k8s** (10 notes) → [[_tag-locus-availability-and-lifecycle-off-k8s]]
+- **non-k8s-backend** (10 notes) → [[_tag-non-k8s-backend]]
+- **standalone-epp** (10 notes) → [[_tag-standalone-epp]]
+- **data-layer** (9 notes) → [[_tag-data-layer]]
+- **endpoint-discovery** (9 notes) → [[_tag-endpoint-discovery]]
+- **zmq-kv-events** (9 notes) → [[_tag-zmq-kv-events]]
+- **audited-absence** (8 notes) → [[_tag-audited-absence]]
+- **discovery-config** (8 notes) → [[_tag-discovery-config]]
+- **kv-cache-indexer** (8 notes) → [[_tag-kv-cache-indexer]]
+- **out-of-tree-plugin-support** (8 notes) → [[_tag-out-of-tree-plugin-support]]
+- **ssrf-protection** (8 notes) → [[_tag-ssrf-protection]]
+- **standalone-mode** (7 notes) → [[_tag-standalone-mode]]
+- **epp-plugin-registration** (6 notes) → [[_tag-epp-plugin-registration]]
+- **gie** (6 notes) → [[_tag-gie]]
+- **llm-d-architecture** (6 notes) → [[_tag-llm-d-architecture]]
+- **locus-extension-mechanism** (6 notes) → [[_tag-locus-extension-mechanism]]
+- **locus-kv-event-path-off-k8s** (6 notes) → [[_tag-locus-kv-event-path-off-k8s]]
+- **router-extensibility** (6 notes) → [[_tag-router-extensibility]]
+- **directory-listing** (5 notes) → [[_tag-directory-listing]]
+- **endpointpickerconfig** (5 notes) → [[_tag-endpointpickerconfig]]
+- **epp-protocol** (5 notes) → [[_tag-epp-protocol]]
+- **fail-open** (5 notes) → [[_tag-fail-open]]
+- **llm-d-releases** (5 notes) → [[_tag-llm-d-releases]]
+- **locus-custom-discovery-plugin-design** (5 notes) → [[_tag-locus-custom-discovery-plugin-design]]
+- **nixl** (5 notes) → [[_tag-nixl]]
+- **no-kubernetes** (5 notes) → [[_tag-no-kubernetes]]
+- **pd-disaggregation** (5 notes) → [[_tag-pd-disaggregation]]
+- **precise-prefix-cache-producer** (5 notes) → [[_tag-precise-prefix-cache-producer]]
+- **source-hub** (5 notes) → [[_tag-source-hub]]
+- **absence-finding** (4 notes) → [[_tag-absence-finding]]
+- **envoy** (4 notes) → [[_tag-envoy]]
+- **envoy-ai-gateway** (4 notes) → [[_tag-envoy-ai-gateway]]
+- **epp-ha** (4 notes) → [[_tag-epp-ha]]
+- **flow-control** (4 notes) → [[_tag-flow-control]]
+- **gie-design** (4 notes) → [[_tag-gie-design]]
+- **non-k8s** (4 notes) → [[_tag-non-k8s]]
+- **peer-discovery** (4 notes) → [[_tag-peer-discovery]]
+- **plugin-registration** (4 notes) → [[_tag-plugin-registration]]
+- **pod-discovery** (4 notes) → [[_tag-pod-discovery]]
+- **service-discovery** (4 notes) → [[_tag-service-discovery]]
+- **architecture** (3 notes) → [[_tag-architecture]]
+- **benchmark** (3 notes) → [[_tag-benchmark]]
+- **endpoint-extractor** (3 notes) → [[_tag-endpoint-extractor]]
+- **ext-proc** (3 notes) → [[_tag-ext-proc]]
+- **helm** (3 notes) → [[_tag-helm]]
+- **k8s-only** (3 notes) → [[_tag-k8s-only]]
+- **kgateway** (3 notes) → [[_tag-kgateway]]
+- **llm-d-router** (3 notes) → [[_tag-llm-d-router]]
+- **llm-d-router-releases** (3 notes) → [[_tag-llm-d-router-releases]]
+- **llminferenceservice** (3 notes) → [[_tag-llminferenceservice]]
+- **low-authority** (3 notes) → [[_tag-low-authority]]
+- **non-k8s-discovery** (3 notes) → [[_tag-non-k8s-discovery]]
+- **pkg-go-dev-reverse-deps** (3 notes) → [[_tag-pkg-go-dev-reverse-deps]]
+- **rank-index** (3 notes) → [[_tag-rank-index]]
+- **reference-design** (3 notes) → [[_tag-reference-design]]
+- **release-notes** (3 notes) → [[_tag-release-notes]]
+- **rl-integration** (3 notes) → [[_tag-rl-integration]]
+- **vllm-router** (3 notes) → [[_tag-vllm-router]]
+- **zero-importers-evidence** (3 notes) → [[_tag-zero-importers-evidence]]
+- **active-active** (2 notes)
+- **config-schema** (2 notes)
+- **consul** (2 notes)
+- **discovery-plugin** (2 notes)
+- **dynamo** (2 notes)
+- **epp-config** (2 notes)
+- **epp-header-sanitization** (2 notes)
+- **epp-internals** (2 notes)
+- **epp-metrics-auth** (2 notes)
+- **epp-plugin-pattern** (2 notes)
+- **epp-releases** (2 notes)
+- **epp-router** (2 notes)
+- **gap-5** (2 notes)
+- **github-search-auth-wall** (2 notes)
+- **hpc-slurm** (2 notes)
+- **kaito** (2 notes)
+- **kserve** (2 notes)
+- **kv-cache-events** (2 notes)
+- **latency-predictor** (2 notes)
+- **locus-lost-k8s-policy-inputs** (2 notes)
+- **locus-topology-and-k8s-shims** (2 notes)
+- **no-k8s-mode** (2 notes)
+- **non-k8s-gap-evidence** (2 notes)
+- **non-k8s-precedent** (2 notes)
+- **observability** (2 notes)
+- **openshift-ai** (2 notes)
+- **original-dst** (2 notes)
+- **override-host** (2 notes)
+- **plugin-interfaces** (2 notes)
+- **predicted-latency** (2 notes)
+- **production-stack** (2 notes)
+- **prometheus** (2 notes)
+- **rdma** (2 notes)
+- **roadmap** (2 notes)
+- **router** (2 notes)
+- **semantic-routing** (2 notes)
+- **slurm** (2 notes)
+- **tls** (2 notes)
+- **version-gap** (2 notes)
+- **vllm-internals** (2 notes)
+- **x-gateway-destination-endpoint** (2 notes)
+- **zmq-subscriber-manager** (2 notes)
+- **aaif** (1 notes)
+- **academic-anchor** (1 notes)
+- **adversarial** (1 notes)
+- **adversarial-benchmark** (1 notes)
+- **ai-gateway-layering** (1 notes)
+- **ai-generated-secondary** (1 notes)
+- **aks** (1 notes)
+- **api-reference** (1 notes)
+- **async-broker** (1 notes)
+- **benchmarks** (1 notes)
+- **body-based-routing** (1 notes)
+- **bug-fix** (1 notes)
+- **bylabel** (1 notes)
+- **cncf** (1 notes)
+- **competing-approaches** (1 notes)
+- **component-rename** (1 notes)
+- **component-versioning** (1 notes)
+- **conference-talk** (1 notes)
+- **configmap** (1 notes)
+- **configuration** (1 notes)
+- **contributing-guide** (1 notes)
+- **coordinator-architecture** (1 notes)
+- **correction** (1 notes)
+- **cross-replica-syncer** (1 notes)
+- **custom-epp** (1 notes)
+- **custom-plugin** (1 notes)
+- **datastore** (1 notes)
+- **deleted-doc** (1 notes)
+- **deployment-guide** (1 notes)
+- **deployment-modes** (1 notes)
+- **derivative-of** (1 notes)
+- **design-history** (1 notes)
+- **design-proposal** (1 notes)
+- **destination-header** (1 notes)
+- **destination-mode** (1 notes)
+- **disaggregated-serving** (1 notes)
+- **disaggregation** (1 notes)
+- **docs** (1 notes)
+- **docs-cleanup** (1 notes)
+- **eks** (1 notes)
+- **endpoint-metadata** (1 notes)
+- **engine-backend** (1 notes)
+- **envoy-gateway-eds** (1 notes)
+- **envoy-lb-policy** (1 notes)
+- **epp-entrypoint** (1 notes)
+- **epp-failure-mode** (1 notes)
+- **epp-filter-chain** (1 notes)
+- **epp-flags** (1 notes)
+- **epp-headers** (1 notes)
+- **epp-migration** (1 notes)
+- **epp-passthrough** (1 notes)
+- **epp-scale-benchmark** (1 notes)
+- **fail-closed** (1 notes)
+- **fallback-endpoints** (1 notes)
+- **fastapi** (1 notes)
+- **filediscovery** (1 notes)
+- **founding-design** (1 notes)
+- **gap-1** (1 notes)
+- **gateway-api-inference-extension** (1 notes)
+- **gateway-latency** (1 notes)
+- **gateway-pattern** (1 notes)
+- **gateway-provider** (1 notes)
+- **gie-overview** (1 notes)
+- **github-issue-search** (1 notes)
+- **github-repo** (1 notes)
+- **gke** (1 notes)
+- **go-mod-structural-check** (1 notes)
+- **go-packages** (1 notes)
+- **go-source-path** (1 notes)
+- **governance** (1 notes)
+- **ground-truth-rfc** (1 notes)
+- **health-filtering** (1 notes)
+- **helm-chart** (1 notes)
+- **helm-deployment** (1 notes)
+- **hpc-offload** (1 notes)
+- **implementers-guide** (1 notes)
+- **inference-objective** (1 notes)
+- **inferenceobjective** (1 notes)
+- **inferencepool-spec** (1 notes)
+- **inferencepoolimport** (1 notes)
+- **inverse-strategy** (1 notes)
+- **istio** (1 notes)
+- **k8s-discovery** (1 notes)
+- **k8s-native** (1 notes)
+- **k8s-pod-discovery** (1 notes)
+- **kubernetes-lease** (1 notes)
+- **kv-aware-routing** (1 notes)
+- **kv-cache-disaggregation** (1 notes)
+- **kv-cache-routing** (1 notes)
+- **kv-cache-scoring** (1 notes)
+- **kv-connector** (1 notes)
+- **kv-event-sourcing** (1 notes)
+- **leader-election** (1 notes)
+- **leads-only** (1 notes)
+- **litellm** (1 notes)
+- **lmcache** (1 notes)
+- **local-config** (1 notes)
+- **long-source** (1 notes)
+- **lora-metrics** (1 notes)
+- **maintainer-statement** (1 notes)
+- **metrics** (1 notes)
+- **microserving** (1 notes)
+- **migration-shim** (1 notes)
+- **model-server-protocol** (1 notes)
+- **mooncake-conductor** (1 notes)
+- **multi-cluster** (1 notes)
+- **multicluster** (1 notes)
+- **navigational** (1 notes)
+- **negative-finding** (1 notes)
+- **networking** (1 notes)
+- **nginx** (1 notes)
+- **no-external-plugin-doc** (1 notes)
+- **no-internal-api-disclaimer** (1 notes)
+- **no-internal-path-blocker** (1 notes)
+- **not-llm-d-specific** (1 notes)
+- **not-merged** (1 notes)
+- **nvidia-dynamo** (1 notes)
+- **out-of-scope** (1 notes)
+- **plugin-catalog** (1 notes)
+- **plugin-interface** (1 notes)
+- **plugin-lifecycle** (1 notes)
+- **pod-assumptions** (1 notes)
+- **pod-readiness** (1 notes)
+- **pod-selector** (1 notes)
+- **pods-assumption** (1 notes)
+- **portability** (1 notes)
+- **pre-ga-api** (1 notes)
+- **priority-routing** (1 notes)
+- **prometheus-metrics** (1 notes)
+- **prometheus-security** (1 notes)
+- **proposal** (1 notes)
+- **pull-request** (1 notes)
+- **ray** (1 notes)
+- **redis-coordination** (1 notes)
+- **rejected-proposal** (1 notes)
+- **release-cadence** (1 notes)
+- **request-parsers** (1 notes)
+- **rl-batch-use-case** (1 notes)
+- **router-abstraction** (1 notes)
+- **routing-sidecar** (1 notes)
+- **security** (1 notes)
+- **sglang** (1 notes)
+- **sidecar-injection** (1 notes)
+- **source-analysis** (1 notes)
+- **ssrf** (1 notes)
+- **stale-path** (1 notes)
+- **stateless-coordinator** (1 notes)
+- **superseded** (1 notes)
+- **tangential** (1 notes)
+- **two-tier-gateway** (1 notes)
+- **uccl** (1 notes)
+- **ucx** (1 notes)
+- **unreleased-change** (1 notes)
+- **v0.10.0-included** (1 notes)
+- **virtual-kubelet** (1 notes)
+- **well-lit-path** (1 notes)
+
+---
+*Auto-generated by hyperresearch. Do not edit manually.*

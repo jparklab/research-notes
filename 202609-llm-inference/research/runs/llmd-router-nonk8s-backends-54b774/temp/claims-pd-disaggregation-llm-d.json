@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "The reference P/D disaggregation deployment uses 4 replicas of TP=1 vLLM for prefill and 1 replica of TP=5 vLLM for decode, both belonging to the same InferencePool and distinguished via the llm-d.ai/role label.",
+    "stance": "neutral",
+    "stance_target": "reference topology sizing for P/D",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d v0.9 well-lit path example",
+    "quoted_support": "The prefill Deployment is 4 replicas of TP=1 vLLM - labeled with llm-d.ai/role=prefill. The decode Deployment is 1 replica of TP=5 vLLM - labeled with llm-d.ai/role=decode.",
+    "numbers": ["4 replicas", "TP=1", "1 replica", "TP=5"],
+    "entities": ["vLLM", "InferencePool", "llm-d.ai/role"],
+    "time_period": "v0.9",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "pd-disaggregation-llm-d"
+  },
+  {
+    "claim": "NIXL supports TCP transfer but high-bandwidth networking (InfiniBand, RoCE, or EFA) is highly recommended for production P/D disaggregation usage.",
+    "stance": "supports",
+    "stance_target": "RDMA-class networking is a practical requirement for production P/D, not just Kubernetes-pod networking",
+    "evidence_type": "empirical",
+    "scope_conditions": null,
+    "quoted_support": "NIXL supports TCP transfer, but high-bandwidth networking (IB, RoCE, EFA) is highly recommended for production usage.",
+    "numbers": [],
+    "entities": ["NIXL", "IB", "RoCE", "EFA"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "pd-disaggregation-llm-d"
+  },
+  {
+    "claim": "Long-context workloads at a 10:1 input-sequence-length to output-sequence-length ratio, on medium-to-large models, are the workload profile where separating prefill and decode into separate instances is justified.",
+    "stance": "neutral",
+    "stance_target": "when P/D disaggregation pays off",
+    "evidence_type": "empirical",
+    "scope_conditions": "10:1 ISL:OSL ratio",
+    "quoted_support": "For long context workloads (10:1 ISL:OSL) and medium-to-large models, separating prefill and decode into separate instances enables: Improved throughput via specialization...",
+    "numbers": ["10:1 ISL:OSL"],
+    "entities": ["ISL", "OSL"],
+    "time_period": null,
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "pd-disaggregation-llm-d"
+  },
+  {
+    "claim": "P/D disaggregation observability treats prefill and decode as independently scaled pools joined by NIXL KV transfer, so pool balance and transfer health are the primary signals to monitor rather than a single aggregate latency metric.",
+    "stance": "neutral",
+    "stance_target": "operational monitoring model for disaggregated deployments",
+    "evidence_type": "empirical",
+    "scope_conditions": null,
+    "quoted_support": "P/D disaggregation runs prefill and decode as independently scaled pools joined by a NIXL KV transfer, so the signals that matter are pool balance and transfer health rather than a single aggregate latency.",
+    "numbers": [],
+    "entities": ["NIXL"],
+    "time_period": null,
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "pd-disaggregation-llm-d"
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "The interlink-slurm-plugin ships a Tsocks configuration option, described as enabling 'proxy networking' and 'only implemented for the Slurm sidecar at the moment,' whose TsocksLoginNode setting is documented as providing an SSH-based 'window to the external world' for the Slurm job.",
+    "stance": "refutes",
+    "stance_target": "a Slurm-backed virtual pod gets a normal, directly cluster-routable pod IP that an inference router could dial into",
+    "evidence_type": "empirical",
+    "scope_conditions": "interlink-slurm-plugin configuration reference",
+    "quoted_support": "Tsocks | true or false values only. Enables or Disables the use of tsocks library to allow proxy networking. Only implemented for the Slurm sidecar at the moment. | TsocksLoginNode | specify an existing node to ssh to. It will be your \"window to the external world\"",
+    "numbers": [],
+    "entities": ["interlink-slurm-plugin", "Tsocks", "TsocksLoginNode"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-interlink-hqinterlink-slurm-plugin-github"
+  },
+  {
+    "claim": "The Slurm sidecar plugin executes pod containers as Slurm batch jobs via Singularity/Apptainer, with pod ConfigMaps and Secrets exported and mounted as files into the Singularity container rather than injected through native Kubernetes secret/volume mechanisms.",
+    "stance": "neutral",
+    "stance_target": "how faithfully a Slurm-backed virtual pod reproduces normal Kubernetes pod semantics",
+    "evidence_type": "empirical",
+    "scope_conditions": "interlink-slurm-plugin, ExportPodData config option",
+    "quoted_support": "ExportPodData | Set it to true if you want to export Pod's ConfigMaps and Secrets as mountpoints in your Singularity Container",
+    "numbers": [],
+    "entities": ["interlink-slurm-plugin", "Singularity", "Apptainer"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "github-interlink-hqinterlink-slurm-plugin-github"
+  }
+]

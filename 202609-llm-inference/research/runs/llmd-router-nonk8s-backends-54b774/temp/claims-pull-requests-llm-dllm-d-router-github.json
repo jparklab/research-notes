@@ -1,0 +1,28 @@
+[
+ {
+  "claim": "A PR search across llm-d-router for consul/etcd/slurm/ray/discovery terms returns no PR implementing a Consul, etcd, Slurm, or Ray discovery backend; every discovery-related PR targets flat files or Kubernetes primitives (Pods, EndpointSlices, readinessGates).",
+  "stance": "supports",
+  "stance_target": "report's claim that no non-k8s discovery plugin exists in llm-d-router as of the report date",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d/llm-d-router pull request history, 2026-09-11",
+  "quoted_support": "docs: document that endpoint discovery honours custom pod readinessGates",
+  "numbers": [
+   "PR #2604",
+   "PR #2501",
+   "PR #2434",
+   "PR #2341"
+  ],
+  "entities": [
+   "FileDiscovery",
+   "EndpointDiscovery",
+   "Consul",
+   "etcd",
+   "Slurm",
+   "Ray"
+  ],
+  "time_period": "2026-09-11",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "pull-requests-llm-dllm-d-router-github"
+ }
+]

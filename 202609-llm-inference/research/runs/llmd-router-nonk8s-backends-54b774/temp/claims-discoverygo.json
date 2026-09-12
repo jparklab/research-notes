@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "The EndpointDiscovery Go interface's own doc comment names FileDiscovery as a concrete, first-party discovery plugin implementation alongside a Kubernetes list+watch plugin, treating both as equally valid 'initial sync' mechanisms.",
+    "stance": "supports",
+    "stance_target": "existence of a built-in or at least framework-anticipated non-k8s discovery plugin",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router pkg/epp/framework/interface/datalayer/discovery.go, HEAD Sep 2026",
+    "quoted_support": "\"Initial sync\" means whatever the plugin considers a complete first pass (e.g. file load for FileDiscovery; first list+watch reconcile for a Kubernetes plugin). Zero endpoints is a valid outcome.",
+    "numbers": [],
+    "entities": ["EndpointDiscovery", "FileDiscovery", "Kubernetes"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "discoverygo"
+  },
+  {
+    "claim": "DiscoveryNotifier (the callback a custom EndpointDiscovery plugin uses to report endpoint state) is explicitly not goroutine-safe and imposes a strict event-ordering contract that any custom non-k8s discovery implementation must itself enforce.",
+    "stance": "neutral",
+    "stance_target": "implementation constraints on a custom non-k8s EndpointDiscovery plugin",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router pkg/epp/framework/interface/datalayer/discovery.go",
+    "quoted_support": "Plugin implementations MUST preserve event order -- do not buffer or dispatch calls concurrently in a way that could reorder them. For example, an Upsert followed by a Delete for the same endpoint must arrive in that order, or the endpoint will be incorrectly left in the datastore.",
+    "numbers": [],
+    "entities": ["DiscoveryNotifier", "EndpointDiscovery"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "discoverygo"
+  }
+]

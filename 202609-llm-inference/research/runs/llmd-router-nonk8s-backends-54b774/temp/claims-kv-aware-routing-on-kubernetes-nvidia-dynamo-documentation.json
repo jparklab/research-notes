@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "NVIDIA Dynamo offers a 'GAIE with vanilla vLLM' topology that adds Dynamo's KV-cache-aware routing to upstream vLLM pods without migrating them to the Dynamo worker stack, via a standalone Dynamo EPP doing direct vLLM worker discovery and vLLM-native token rendering.",
+    "stance": "supports",
+    "stance_target": "EPP-based routing to non-native (non-Dynamo-worker) backend fleets is an established, productized pattern outside llm-d/GIE",
+    "evidence_type": "empirical",
+    "scope_conditions": "NVIDIA Dynamo on Kubernetes, GAIE routing topology",
+    "quoted_support": "Using GAIE with vanilla vLLM | You already run upstream vLLM pods and want to add Dynamo's advanced KV-aware routing without migrating the fleet to Dynamo workers. | Gateway API, GAIE, a compatible Gateway implementation, and standalone Dynamo EPP support. | EPP with direct vLLM worker discovery and vLLM token rendering.",
+    "numbers": [],
+    "entities": ["NVIDIA Dynamo", "GAIE", "vLLM", "EPP"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "kv-aware-routing-on-kubernetes-nvidia-dynamo-documentation"
+  },
+  {
+    "claim": "Dynamo's docs state worker-selection authority must be singular per request path: the Frontend must not re-select a worker after the EPP has already made the selection.",
+    "stance": "supports",
+    "stance_target": "design constraint for layering custom routing logic on top of EPP-based selection: only one component may own the pick per request",
+    "evidence_type": "empirical",
+    "scope_conditions": "NVIDIA Dynamo routing architecture",
+    "quoted_support": "The Frontend and GAIE topologies are alternatives for a request path. Do not configure the Frontend to select a worker after the EPP has already selected one.",
+    "numbers": [],
+    "entities": ["NVIDIA Dynamo", "EPP", "Frontend"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "kv-aware-routing-on-kubernetes-nvidia-dynamo-documentation"
+  },
+  {
+    "claim": "In Dynamo's GAIE topology, worker Frontend sidecars run in --router-mode direct because routing decisions are already made upstream by the EPP, meaning the worker-side component trusts the externally selected destination rather than re-scoring it.",
+    "stance": "supports",
+    "stance_target": "pattern of downstream components trusting an EPP-selected destination without re-validation, applicable to non-pod backend routing designs",
+    "evidence_type": "empirical",
+    "scope_conditions": "NVIDIA Dynamo GAIE routing topology",
+    "quoted_support": "A Kubernetes Gateway receives the request and asks the Dynamo Endpoint Picker Plugin (EPP) to select an endpoint before forwarding the request to a worker pod... worker Frontend sidecars run with --router-mode direct because the EPP has already made the routing decision.",
+    "numbers": [],
+    "entities": ["NVIDIA Dynamo", "EPP", "Gateway API"],
+    "time_period": null,
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "kv-aware-routing-on-kubernetes-nvidia-dynamo-documentation"
+  }
+]

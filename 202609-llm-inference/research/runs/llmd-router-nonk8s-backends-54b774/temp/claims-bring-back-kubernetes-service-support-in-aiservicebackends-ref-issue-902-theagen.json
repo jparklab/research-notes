@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Plain Kubernetes Service support in Envoy AI Gateway's AIServiceBackend.BackendRef was previously supported and then deliberately disabled, not simply never implemented.",
+    "stance": "refutes",
+    "stance_target": "the assumption that only InferencePool/Envoy-Gateway-Backend refs were ever supported by design",
+    "evidence_type": "empirical",
+    "scope_conditions": "envoyproxy/ai-gateway (now theagentrouter/agent-router), issue opened Jul 17, 2025",
+    "quoted_support": "Kubernetes Service was temporarily disabled as a BackendRef in AIserviceBackend.",
+    "numbers": ["issue #902"],
+    "entities": ["AIServiceBackend", "Kubernetes Service"],
+    "time_period": "July 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "bring-back-kubernetes-service-support-in-aiservicebackends-ref-issue-902-theagen"
+  },
+  {
+    "claim": "The reason Envoy AI Gateway cannot yet cleanly support a plain k8s Service (or by extension any backend outside the Envoy Gateway Backend abstraction) is that Envoy Gateway propagates Service endpoints via EDS separately from CDS, so the ai-gateway's own ext_proc extension server never receives the per-backendRef endpoint list needed to support per-backend priority or modelNameOverride.",
+    "stance": "supports",
+    "stance_target": "the structural, control-plane-level difficulty of adding generic non-k8s-object backend support to an Envoy-based AI gateway",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Envoy Gateway xDS architecture, analysis dated Jul 24, 2025",
+    "quoted_support": "Currently, upstream_host_locality_metadata only carries the BackendRef's name (+namespace, kind, port) but that doesn't include the exact index of the backend reference in a specific rule... we still cannot support the per-backendRef level priority as the endpoints are not passed to extension server (note that with Service, EG distributes endpoints via EDS, not together with CDS.)",
+    "numbers": [],
+    "entities": ["Envoy Gateway", "EDS", "CDS", "extproc server", "upstream_host_locality_metadata"],
+    "time_period": "July 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "bring-back-kubernetes-service-support-in-aiservicebackends-ref-issue-902-theagen"
+  },
+  {
+    "claim": "The fix for generic Service backend support was deferred across three milestones (v0.4.0, v0.5.0, v0.6.0) pending an upstream Envoy Gateway v1.5 change that passes endpoint lists directly to the extension server, and as of the note's fetch date (mid-2026) was still open and past its due milestone.",
+    "stance": "supports",
+    "stance_target": "how long-lived and non-trivial the non-k8s/non-InferencePool backend gap has been in the reference implementation",
+    "evidence_type": "empirical",
+    "scope_conditions": "envoyproxy/ai-gateway / theagentrouter/agent-router milestones, Jul 2025 - Jul 2026",
+    "quoted_support": "So, i think I would defer this to v0.4.0 with the endpoints support in the extension server after EG v1.5... modified the milestones: v0.5.0, v0.6.0 [on Oct 9, 2025]... Milestone v0.6.0 Past due by Apr 25, 2026",
+    "numbers": ["v0.4.0", "v0.5.0", "v0.6.0", "past due Apr 25, 2026"],
+    "entities": ["Envoy Gateway v1.5", "AIServiceBackend"],
+    "time_period": "July 2025 - July 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "bring-back-kubernetes-service-support-in-aiservicebackends-ref-issue-902-theagen"
+  },
+  {
+    "claim": "As an interim mitigation, PR #1328 enforced the k8s-Service backend limitation at the CRD validation level, rather than leaving the unsupported reference type to silently misroute.",
+    "stance": "neutral",
+    "stance_target": "how the project handled the unsupported backend type in the meantime",
+    "evidence_type": "empirical",
+    "scope_conditions": "envoyproxy/ai-gateway, Oct 2025",
+    "quoted_support": "api: enforce the limitation on k8s service at CRD (#1328)",
+    "numbers": ["PR #1328"],
+    "entities": ["AIServiceBackend CRD"],
+    "time_period": "October 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "bring-back-kubernetes-service-support-in-aiservicebackends-ref-issue-902-theagen"
+  }
+]

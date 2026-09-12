@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "interLink explicitly excludes long-running, continuously available services from its design target, optimizing instead for tasks with a defined start and end -- it is not built for persistent services that expose intra-cluster communication endpoints.",
+    "stance": "refutes",
+    "stance_target": "interLink's virtual-kubelet abstraction is a suitable mechanism for exposing a long-lived non-Kubernetes inference backend as a routable pod-like endpoint",
+    "evidence_type": "empirical",
+    "scope_conditions": "interLink project documentation, v0.6.x",
+    "quoted_support": "Long-running services: Our solution is not designed for services that need to run continuously for extended periods. It is optimized for tasks that have a defined start and end, rather than persistent services exposing intra-cluster communication endpoints.",
+    "numbers": ["v0.6.x"],
+    "entities": ["interLink", "Virtual Kubelet"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "introduction-interlink"
+  },
+  {
+    "claim": "interLink's stated target applications are batch-like K8s workloads offloaded to HPC (AI training, ML optimization), GPU-heavy remote runner jobs, and lambda-like on-demand functions -- not persistent inference-serving endpoints.",
+    "stance": "neutral",
+    "stance_target": "scope of interLink's virtual-pod offload model",
+    "evidence_type": "empirical",
+    "scope_conditions": "interLink documentation, target-applications section",
+    "quoted_support": "K8s applications with tasks to be executed on HPC systems... Remote runner-like application for heavy payload execution requiring GPUs... Lambda-like functions calling on external resources.",
+    "numbers": [],
+    "entities": ["interLink", "HPC", "SLURM", "HTCondor"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "introduction-interlink"
+  },
+  {
+    "claim": "interLink supports three deployment topologies (edge-node, in-cluster, tunneled) for arranging its API server and remote provider plugin, with the tunneled mode designed for secure communication through NAT or shared multi-user login nodes.",
+    "stance": "neutral",
+    "stance_target": "interLink's network topology options for reaching remote (non-k8s) compute resources",
+    "evidence_type": "empirical",
+    "scope_conditions": "interLink deployment documentation",
+    "quoted_support": "This deployment involves the Virtual Kubelet connecting to a remote interLink API server and its plugin through a secure tunnel. This setup ensures secure communication between the Kubernetes cluster and the remote resources, making it suitable for environments with strict security requirements or to host services on a multi user host like a login node.",
+    "numbers": [],
+    "entities": ["interLink", "Virtual Kubelet"],
+    "time_period": null,
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "introduction-interlink"
+  }
+]

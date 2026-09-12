@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Before GIE PR #2025, EPP's ext_proc header generation logic transparently passed through all inbound request/response headers to Envoy, including headers a client should not control.",
+    "stance": "supports",
+    "stance_target": "malicious clients could set x-gateway-destination-endpoint and have it forwarded unmodified",
+    "evidence_type": "empirical",
+    "scope_conditions": "kubernetes-sigs/gateway-api-inference-extension EPP ext_proc server, pre-PR#2025 (merged 2025-12-19)",
+    "quoted_support": "Previously, the header generation logic in generateHeaders (Request) and generateResponseHeaders (Response) acted as a transparent passthrough, appending user-supplied headers to the outgoing message.",
+    "numbers": ["PR #2025", "merged Dec 19, 2025"],
+    "entities": ["gateway-api-inference-extension", "EPP", "ext_proc", "LukeAVanDrie"],
+    "time_period": "Dec 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "fix-harden-header-sanitization-and-handling-logic-by-lukeavandrie-pull-request-2"
+  },
+  {
+    "claim": "PR #2025 introduces IsSystemOwnedHeader() which enforces a strict blocklist of protocol, routing, and control headers that must be managed exclusively by EPP, silently dropping any client-supplied values for these keys.",
+    "stance": "supports",
+    "stance_target": "EPP sanitizes/strips inbound headers before generating outbound headers, mitigating header-injection redirection",
+    "evidence_type": "empirical",
+    "scope_conditions": "kubernetes-sigs/gateway-api-inference-extension pkg/epp/util/request/headers.go, post-PR#2025",
+    "quoted_support": "Strict Blocklist: Introduces requtil.IsSystemOwnedHeader to define a specific set of headers (Protocol, Routing, and Control) that must be managed exclusively by the extension. Sanitization: Updates the header generation loops to silently drop any external values for these keys.",
+    "numbers": [],
+    "entities": ["IsSystemOwnedHeader", "EPP"],
+    "time_period": "Dec 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "fix-harden-header-sanitization-and-handling-logic-by-lukeavandrie-pull-request-2"
+  },
+  {
+    "claim": "The vulnerability being fixed by PR #2025 was filed as issue #1624 and framed as preventing ambiguity in downstream proxy (Envoy) routing caused by user-influenceable internal routing headers.",
+    "stance": "supports",
+    "stance_target": "the pre-fix behavior was a real routing-integrity risk, not just a cosmetic bug",
+    "evidence_type": "empirical",
+    "scope_conditions": "GIE ext_proc / Envoy ORIGINAL_DST routing integration",
+    "quoted_support": "These changes are necessary to prevent ambiguity in downstream proxies (Envoy) and backends. For example, internal routing headers should not be influenceable by external input.",
+    "numbers": ["issue #1624"],
+    "entities": ["Envoy", "EPP"],
+    "time_period": "Dec 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "fix-harden-header-sanitization-and-handling-logic-by-lukeavandrie-pull-request-2"
+  },
+  {
+    "claim": "PR #2025 was cherry-picked / mirrored into the llm-d/llm-d-router repository on Apr 23, 2026 by elevran.",
+    "stance": "neutral",
+    "stance_target": "llm-d-router shares the same EPP header-sanitization fix as upstream GIE",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d/llm-d-router repo",
+    "quoted_support": "elevran pushed a commit to llm-d/llm-d-router that referenced this pull request [ Apr 23, 2026 ]",
+    "numbers": ["Apr 23, 2026"],
+    "entities": ["llm-d-router", "elevran"],
+    "time_period": "Apr 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "fix-harden-header-sanitization-and-handling-logic-by-lukeavandrie-pull-request-2"
+  }
+]

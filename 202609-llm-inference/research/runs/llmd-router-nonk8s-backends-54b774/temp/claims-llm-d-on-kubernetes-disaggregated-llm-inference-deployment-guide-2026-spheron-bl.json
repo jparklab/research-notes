@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "NVIDIA Dynamo, a competing disaggregated-inference framework, runs its orchestration layer entirely outside Kubernetes above vLLM, using NIXL for KV transfer, whereas llm-d is Kubernetes-native using standard CRDs and Gateway API.",
+    "stance": "neutral",
+    "stance_target": "out-of-cluster orchestration for KV-aware routing is an established pattern distinct from llm-d's k8s-native design",
+    "evidence_type": "empirical",
+    "scope_conditions": "as of March 2026, NVIDIA Dynamo vs llm-d comparison",
+    "quoted_support": "Unlike NVIDIA Dynamo's disaggregated inference approach, which is an orchestration layer running above vLLM outside Kubernetes, llm-d is a first-class Kubernetes citizen using standard CRDs and the Gateway API Inference Extension.",
+    "numbers": [],
+    "entities": ["NVIDIA Dynamo", "llm-d", "NIXL", "Gateway API Inference Extension"],
+    "time_period": "March 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "llm-d-on-kubernetes-disaggregated-llm-inference-deployment-guide-2026-spheron-bl"
+  },
+  {
+    "claim": "llm-d has four core components: the llm-d scheduler (cache-aware routing process), the InferencePool CRD (groups decode pods), the InferenceObjective CRD (maps model/LoRA names to backends with traffic weights and criticality labels), and Gateway API Inference Extension integration.",
+    "stance": "neutral",
+    "stance_target": "component inventory of llm-d as of its CNCF Sandbox acceptance",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d accepted into CNCF Sandbox March 24 2026",
+    "quoted_support": "Four core components: llm-d scheduler... InferencePool CRD... InferenceObjective CRD... Gateway API Inference Extension integration.",
+    "numbers": [],
+    "entities": ["llm-d", "InferencePool", "InferenceObjective", "CNCF Sandbox"],
+    "time_period": "March 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "llm-d-on-kubernetes-disaggregated-llm-inference-deployment-guide-2026-spheron-bl"
+  },
+  {
+    "claim": "llm-d was donated to CNCF and accepted into the CNCF Sandbox program on March 24, 2026, backed by IBM, Red Hat, Google, CoreWeave, and NVIDIA among others.",
+    "stance": "neutral",
+    "stance_target": "governance and backing of llm-d as an open-source project",
+    "evidence_type": "historical",
+    "scope_conditions": "March 24, 2026",
+    "quoted_support": "Backed by IBM, Red Hat, Google, CoreWeave, and NVIDIA, among others, the project was donated to CNCF on March 24, 2026 and immediately accepted into the Sandbox program.",
+    "numbers": ["March 24, 2026"],
+    "entities": ["llm-d", "CNCF", "IBM", "Red Hat", "Google", "CoreWeave", "NVIDIA"],
+    "time_period": "March 2026",
+    "region": null,
+    "confidence": "low",
+    "source_note_id": "llm-d-on-kubernetes-disaggregated-llm-inference-deployment-guide-2026-spheron-bl"
+  }
+]

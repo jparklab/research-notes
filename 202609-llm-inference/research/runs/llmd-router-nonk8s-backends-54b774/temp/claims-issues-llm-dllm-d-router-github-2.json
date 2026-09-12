@@ -1,0 +1,22 @@
+[
+ {
+  "claim": "None of the 16 open issues in the v0.11 milestone reference dataLayer, discovery, or EndpointPickerConfig discovery reshaping; the nearest match (#1308) concerns a different config surface (SaturationDetector/Parser fields).",
+  "stance": "refutes",
+  "stance_target": "possibility of a near-term further discovery config reshaping in v0.11",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d-router v0.11 milestone, 2026-09-11",
+  "quoted_support": "[Deprecation]: remove SaturationDetector and Parser fields from the top level EndpointPickerConfig API",
+  "numbers": [
+   "issue #1308",
+   "16 open"
+  ],
+  "entities": [
+   "EndpointPickerConfig",
+   "SaturationDetector"
+  ],
+  "time_period": "2026-09-11",
+  "region": null,
+  "confidence": "medium",
+  "source_note_id": "issues-llm-dllm-d-router-github-2"
+ }
+]

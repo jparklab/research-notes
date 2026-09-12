@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "virtual-kubelet imposes no framework-level constraint on what PodIP a provider reports in a virtual pod's PodStatus, or on whether that IP is actually reachable from the cluster network; GetPodStatus returns a plain corev1.PodStatus that the provider constructs however it wants.",
+    "stance": "neutral",
+    "stance_target": "what pod IP a virtual pod reports and whether it is reachable",
+    "evidence_type": "empirical",
+    "scope_conditions": "virtual-kubelet library v1.14.0, PodLifecycleHandler interface",
+    "quoted_support": "GetPodStatus retrieves the status of a pod by name from the provider.",
+    "numbers": [],
+    "entities": ["virtual-kubelet", "PodLifecycleHandler", "PodStatus"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "github-virtual-kubeletvirtual-kubelet-virtual-kubelet-is-an-open-source-kubernet"
+  },
+  {
+    "claim": "virtual-kubelet's own README states it is explicitly not intended to be an alternative to Kubernetes federation.",
+    "stance": "refutes",
+    "stance_target": "virtual-kubelet as a multi-cluster federation mechanism",
+    "evidence_type": "empirical",
+    "scope_conditions": "virtual-kubelet project README",
+    "quoted_support": "It should be noted that VK is explicitly not intended to be an alternative to Kubernetes federation.",
+    "numbers": [],
+    "entities": ["virtual-kubelet"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-virtual-kubeletvirtual-kubelet-virtual-kubelet-is-an-open-source-kubernet"
+  },
+  {
+    "claim": "Virtual-kubelet nodes can be incorrectly added to cloud Load Balancer pools by default; the documented workaround requires Kubernetes 1.9+ and enabling the ServiceNodeExclusion feature-gate on the controller-manager to exclude virtual nodes from LB target pools.",
+    "stance": "neutral",
+    "stance_target": "networking/service-integration quirks of virtual-kubelet-backed nodes",
+    "evidence_type": "empirical",
+    "scope_conditions": "clusters using cloud Load Balancer integration with virtual-kubelet nodes",
+    "quoted_support": "Kubernetes 1.9 introduces a new flag, ServiceNodeExclusion, for the control plane's Controller Manager. Enabling this flag... allows Kubernetes to exclude Virtual Kubelet nodes from being added to Load Balancer pools.",
+    "numbers": ["Kubernetes 1.9+"],
+    "entities": ["virtual-kubelet", "ServiceNodeExclusion"],
+    "time_period": "documented since Kubernetes 1.9",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "github-virtual-kubeletvirtual-kubelet-virtual-kubelet-is-an-open-source-kubernet"
+  },
+  {
+    "claim": "Among virtual-kubelet providers, Liqo is distinguished by extending real pod-to-pod networking across peered clusters, enabling east-west Service traffic with endpoints reachable on both clusters -- unlike most other providers (e.g. ACI, Fargate) whose virtual pods only proxy execution, not full cluster-network membership.",
+    "stance": "neutral",
+    "stance_target": "which virtual-kubelet provider architecture actually gives a virtual pod a reachable, cluster-routable IP",
+    "evidence_type": "empirical",
+    "scope_conditions": "Liqo provider for virtual-kubelet",
+    "quoted_support": "The provider combined with the Liqo network fabric extends the cluster networking by enabling Pod-to-Pod traffic and multi-cluster east-west services, supporting endpoints on both clusters.",
+    "numbers": [],
+    "entities": ["Liqo", "virtual-kubelet"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "github-virtual-kubeletvirtual-kubelet-virtual-kubelet-is-an-open-source-kubernet"
+  },
+  {
+    "claim": "A virtual-kubelet provider must implement PodLifecycleHandler (CreatePod, UpdatePod, DeletePod, GetPod, GetPodStatus, GetPods) and NodeProvider (Ping, NotifyNodeStatus); the optional PodNotifier interface is recommended for providers running large numbers of pods to avoid virtual-kubelet's default periodic polling of pod status.",
+    "stance": "neutral",
+    "stance_target": "engineering contract for building a custom virtual-kubelet-backed provider",
+    "evidence_type": "empirical",
+    "scope_conditions": "virtual-kubelet library API",
+    "quoted_support": "It is highly recommended to implement PodNotifier, especially if you plan to run a large number of pods.",
+    "numbers": [],
+    "entities": ["virtual-kubelet", "PodLifecycleHandler", "NodeProvider", "PodNotifier"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-virtual-kubeletvirtual-kubelet-virtual-kubelet-is-an-open-source-kubernet"
+  }
+]

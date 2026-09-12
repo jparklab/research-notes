@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "llm-d's founding architecture explicitly designates the EPP's scorer/filterer plugin layer -- not the proxy/router layer -- as the intended customization point, while treating the IGW-compliant gateway/proxy as a fixed component.",
+    "stance": "refutes",
+    "stance_target": "customizing the proxy/router layer of llm-d (rather than the EPP scoring layer) to support non-pod backends is aligned with llm-d's original extensibility design",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d founding announcement blog post, llm-d.ai",
+    "quoted_support": "Advanced teams can also tweak or implement their own scorers and filterers to further customize for their use cases, while still benefiting from upcoming operational features in the inference gateway, like flow control and latency-aware balancing.",
+    "numbers": [],
+    "entities": ["llm-d", "EPP", "vLLM Optimized Inference Scheduler"],
+    "time_period": null,
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "announcing-the-llm-d-community-llm-d"
+  },
+  {
+    "claim": "llm-d's founding blog post describes the project as 'Kubernetes-native' and co-designed/integrated with Kubernetes Inference Gateway, with no mention of non-Kubernetes deployment modes, standalone EPP, or static/file-based discovery.",
+    "stance": "supports",
+    "stance_target": "non-Kubernetes-backend support is a later addition to llm-d, not part of its original design",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d founding announcement, compared against later releases (v0.7.0 standalone-mode default, v0.8-0.9 FileDiscovery plugin)",
+    "quoted_support": "llm-d is a Kubernetes-native high-performance distributed LLM inference framework - a well-lit path for anyone to serve at scale... co-designed and integrated with the Kubernetes operational tooling in Inference Gateway (IGW).",
+    "numbers": [],
+    "entities": ["llm-d", "Kubernetes", "Inference Gateway"],
+    "time_period": null,
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "announcing-the-llm-d-community-llm-d"
+  },
+  {
+    "claim": "llm-d's disaggregated serving and disaggregated prefix caching both route through vLLM's pluggable KV Connector API, using NVIDIA NIXL as a high-performance transport for prefill/decode instance-to-instance data movement.",
+    "stance": "neutral",
+    "stance_target": "llm-d's KV/data-transport mechanism underlying disaggregated serving, relevant background for any router customization that must be transport-aware",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d architecture, disaggregated serving design",
+    "quoted_support": "llm-d leverages vLLM's recently enabled support for disaggregated serving via a pluggable KV Connector API to run prefill and decode on independent instances, using high-performance transport libraries like NVIDIA's NIXL.",
+    "numbers": [],
+    "entities": ["llm-d", "vLLM", "NVIDIA NIXL", "KV Connector API"],
+    "time_period": null,
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "announcing-the-llm-d-community-llm-d"
+  }
+]

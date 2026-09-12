@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Kubernetes only auto-creates EndpointSlices for Services that have a selector; for a selectorless Service, EndpointSlice objects must be created directly by the user or a controller.",
+    "stance": "supports",
+    "stance_target": "feasibility of selectorless Service + manual EndpointSlice as a router backend strategy",
+    "evidence_type": "empirical",
+    "scope_conditions": "Kubernetes, EndpointSlice API stable since v1.21",
+    "quoted_support": "The control plane automatically creates EndpointSlices for any Kubernetes Service that has a selector specified.",
+    "numbers": [],
+    "entities": ["EndpointSlice", "Service"],
+    "time_period": "current (docs last modified June 22, 2025)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "endpointslices-kubernetes"
+  },
+  {
+    "claim": "The official Kubernetes docs explicitly direct users who manually specify endpoints for selectorless Services to create EndpointSlice resources directly, rather than creating legacy Endpoints resources and relying on mirroring, because the older Endpoints API and its mirroring are deprecated.",
+    "stance": "supports",
+    "stance_target": "correct implementation path for a manual selectorless-Service backend",
+    "evidence_type": "empirical",
+    "scope_conditions": "EndpointSlice mirroring deprecated since Kubernetes v1.33",
+    "quoted_support": "Users who manually specify endpoints for selectorless Services should do so by creating EndpointSlice resources directly, rather than by creating Endpoints resources and allowing them to be mirrored.",
+    "numbers": ["deprecated since v1.33"],
+    "entities": ["EndpointSlice", "Endpoints API"],
+    "time_period": "current",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "endpointslices-kubernetes"
+  },
+  {
+    "claim": "EndpointSlices, not the legacy Endpoints object, are the literal source of truth kube-proxy reads to determine internal traffic routing.",
+    "stance": "supports",
+    "stance_target": "manual EndpointSlices are sufficient to make kube-proxy route traffic to non-pod backends",
+    "evidence_type": "empirical",
+    "scope_conditions": "kube-proxy-based clusters",
+    "quoted_support": "EndpointSlices act as the source of truth for kube-proxy when it comes to how to route internal traffic.",
+    "numbers": [],
+    "entities": ["EndpointSlice", "kube-proxy"],
+    "time_period": "current",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "endpointslices-kubernetes"
+  },
+  {
+    "claim": "Each EndpointSlice is capped at 100 endpoints by default, configurable up to a maximum of 1000 via the kube-controller-manager --max-endpoints-per-slice flag, and multiple entities can co-manage separate EndpointSlices for the same Service via the endpointslice.kubernetes.io/managed-by label.",
+    "stance": "neutral",
+    "stance_target": "scaling and multi-controller-ownership limits relevant to a custom EndpointSlice-writing controller",
+    "evidence_type": "empirical",
+    "scope_conditions": "Kubernetes EndpointSlice API",
+    "quoted_support": "By default, the control plane creates and manages EndpointSlices to have no more than 100 endpoints each. You can configure this with the --max-endpoints-per-slice kube-controller-manager flag, up to a maximum of 1000.",
+    "numbers": ["100 endpoints default cap", "1000 max endpoints per slice"],
+    "entities": ["EndpointSlice", "kube-controller-manager"],
+    "time_period": "current",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "endpointslices-kubernetes"
+  }
+]

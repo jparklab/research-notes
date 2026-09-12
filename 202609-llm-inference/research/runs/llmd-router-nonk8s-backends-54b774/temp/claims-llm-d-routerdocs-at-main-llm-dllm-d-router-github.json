@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "PR #2073 ('feat: implement EPP plugin stability lifecycle and --allow-experimental-plugins flag (#1912) (#2073)') was merged into llm-d/llm-d-router main on Aug 3, 2026, and is the commit that introduced the Alpha/Beta/Stable plugin stability lifecycle later announced in the v0.9 blog.",
+    "stance": "neutral",
+    "stance_target": "exact merge date/PR number for the plugin stability lifecycle feature",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d/llm-d-router repo, commit 8791c008bb7ae6fc7bdee0bba69e7de96eb4c13c, merged Aug 3, 2026",
+    "quoted_support": "feat: implement EPP plugin stability lifecycle and --allow-experimental-plugins flag (#1912) (#2073)",
+    "numbers": ["#1912", "#2073"],
+    "entities": ["EPP", "plugin stability lifecycle", "--allow-experimental-plugins"],
+    "time_period": "merged Aug 3, 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerdocs-at-main-llm-dllm-d-router-github"
+  },
+  {
+    "claim": "The GitHub file-tree fetch of llm-d-router/docs did not render a complete directory listing (only 3 of the docs/ files surfaced with usable links: coordinator_architecture.md, coordinator_async_broker.md, plugin-metric-protocol.md); other documented files like docs/architecture.md and docs/disaggregation.md are referenced by the README and by commit messages but were not independently confirmed present at this exact path by this fetch.",
+    "stance": "neutral",
+    "stance_target": "completeness/reliability of this particular source as an inventory of llm-d-router documentation",
+    "evidence_type": "empirical",
+    "scope_conditions": "single fetch of https://github.com/llm-d/llm-d-router/tree/main/docs on Sep 11, 2026",
+    "quoted_support": "There was an error while loading. Please reload this page.",
+    "numbers": [],
+    "entities": ["docs/", "GitHub file tree"],
+    "time_period": "as fetched Sep 11, 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "llm-d-routerdocs-at-main-llm-dllm-d-router-github"
+  }
+]

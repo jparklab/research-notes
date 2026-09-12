@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Envoy AI Gateway/Agent Router is architected around an explicit 'Two-tier gateway pattern': a Tier One gateway for centralized auth, routing, and global token-based rate limiting across external AI providers, and a Tier Two gateway for fine-grained self-hosted model access with native InferencePool (endpoint picker) support.",
+    "stance": "supports",
+    "stance_target": "the layered pattern separating external-provider routing from self-hosted-pool routing is an intentional, named architectural tier in the reference implementation",
+    "evidence_type": "empirical",
+    "scope_conditions": "Envoy AI Gateway / Agent Router, project proposal dated Apr 24, 2026, approved",
+    "quoted_support": "Tier One Gateway: Centralized entry point handling authentication, top-level routing, and global token-based rate limiting across all AI providers. Tier Two Gateway: Fine-grained control over self-hosted model access, with InferencePool (endpoint picker) support for LLM inference optimization.",
+    "numbers": [],
+    "entities": ["Envoy AI Gateway", "Agent Router", "InferencePool", "Tier One Gateway", "Tier Two Gateway"],
+    "time_period": "April 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "project-proposal-agent-router-previously-envoy-ai-gateway-issue-18-aaifproject-p"
+  },
+  {
+    "claim": "Envoy AI Gateway abstracts 16+ AI providers (OpenAI, Azure OpenAI, AWS Bedrock, Google Gemini/Vertex AI, Anthropic, Mistral, Cohere, Groq, DeepSeek, and more) under a single OpenAI-compatible API with per-user/per-model/per-team token-based rate limiting and automatic multi-provider failover.",
+    "stance": "neutral",
+    "stance_target": "scope of the external-provider side of the layered pattern",
+    "evidence_type": "empirical",
+    "scope_conditions": "Envoy AI Gateway, as of April 2026",
+    "quoted_support": "Unified API: Abstracts 16+ AI providers (OpenAI, Azure OpenAI, AWS Bedrock, Google Gemini/Vertex AI, Anthropic, Mistral, Cohere, Groq, DeepSeek, and more) under a single OpenAI-compatible API.",
+    "numbers": ["16+ providers"],
+    "entities": ["Envoy AI Gateway", "OpenAI", "AWS Bedrock", "Azure OpenAI"],
+    "time_period": "April 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "project-proposal-agent-router-previously-envoy-ai-gateway-issue-18-aaifproject-p"
+  },
+  {
+    "claim": "Envoy AI Gateway supports a standalone mode via an 'aigw' CLI that runs without Kubernetes, including stdio MCP server proxying.",
+    "stance": "supports",
+    "stance_target": "the router/gateway can operate outside a Kubernetes control plane entirely, a precedent for non-k8s backend support",
+    "evidence_type": "empirical",
+    "scope_conditions": "Envoy AI Gateway, as of April 2026",
+    "quoted_support": "Standalone mode (aigw CLI): Run without Kubernetes, including stdio MCP server proxying.",
+    "numbers": [],
+    "entities": ["Envoy AI Gateway", "aigw CLI", "MCP"],
+    "time_period": "April 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "project-proposal-agent-router-previously-envoy-ai-gateway-issue-18-aaifproject-p"
+  },
+  {
+    "claim": "AWS has adopted Envoy AI Gateway as its preferred AI gateway system for EKS, and the project counts Bloomberg, Tencent Cloud, Tetrate, Nutanix, LY Corporation, and the National Research Platform among named production adopters.",
+    "stance": "supports",
+    "stance_target": "real-world production adoption of the reference two-tier gateway implementation",
+    "evidence_type": "empirical",
+    "scope_conditions": "as of April 2026",
+    "quoted_support": "In addition, AWS has embraced it as the preferred AI GW system in for EKS",
+    "numbers": ["1500+ stars", "1300+ commits", "97 contributors", "21 releases"],
+    "entities": ["AWS", "EKS", "Bloomberg", "Tencent Cloud", "Nutanix", "LY Corporation"],
+    "time_period": "April 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "project-proposal-agent-router-previously-envoy-ai-gateway-issue-18-aaifproject-p"
+  }
+]

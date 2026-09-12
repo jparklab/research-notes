@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "GIE's EPP Helm chart controls a --metrics-endpoint-auth CLI flag on the EPP container, and pre-PR#2061 this flag was set to false (auth disabled) only when Prometheus monitoring itself was disabled, conflating 'is Prometheus scraping configured' with 'is metrics auth required'.",
+    "stance": "neutral",
+    "stance_target": "EPP/Prometheus metrics endpoint auth is on by default and how its toggle is wired",
+    "evidence_type": "empirical",
+    "scope_conditions": "config/charts/inferencepool/templates/epp-deployment.yaml, kubernetes-sigs/gateway-api-inference-extension, pre-PR#2061 (merged 2026-01-05)",
+    "quoted_support": "{{- if not .Values.inferenceExtension.monitoring.prometheus.enabled }}\\n- --metrics-endpoint-auth=false\\n{{- end }}",
+    "numbers": ["PR #2061", "merged 2026-01-05"],
+    "entities": ["epp-deployment.yaml", "metrics-endpoint-auth", "Prometheus"],
+    "time_period": "before Jan 5, 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "2061diff"
+  },
+  {
+    "claim": "PR #2061 rewires the same guard to key off a new nested value, monitoring.prometheus.auth.enabled, so that metrics-endpoint-auth can now be independently disabled even while Prometheus scraping is enabled.",
+    "stance": "supports",
+    "stance_target": "the metrics endpoint has a dedicated auth toggle separate from whether monitoring/Prometheus itself is turned on",
+    "evidence_type": "empirical",
+    "scope_conditions": "config/charts/inferencepool/templates/epp-deployment.yaml, post-PR#2061",
+    "quoted_support": "{{- if not .Values.inferenceExtension.monitoring.prometheus.auth.enabled }}\\n- --metrics-endpoint-auth=false\\n{{- end }}",
+    "numbers": [],
+    "entities": ["monitoring.prometheus.auth.enabled", "metrics-endpoint-auth"],
+    "time_period": "Jan 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "2061diff"
+  },
+  {
+    "claim": "The bug fixed by PR #2061 implies that in the pre-fix chart, if a user enabled Prometheus monitoring without knowing about a separate auth sub-value, --metrics-endpoint-auth would remain at its underlying binary default (not forced to false by the chart), which the PR author treats as unwanted/incorrect behavior needing an explicit disable path -- consistent with the EPP binary defaulting metrics-endpoint-auth to true/on.",
+    "stance": "supports",
+    "stance_target": "EPP metrics endpoint auth is on by default absent explicit chart configuration to disable it",
+    "evidence_type": "theoretical",
+    "scope_conditions": "inferred from Helm chart guard logic; PR title 'fix prometheus auth', fixes issue #2060",
+    "quoted_support": "- --metrics-endpoint-auth=false",
+    "numbers": ["issue #2060"],
+    "entities": ["metrics-endpoint-auth flag"],
+    "time_period": "Jan 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "2061diff"
+  }
+]

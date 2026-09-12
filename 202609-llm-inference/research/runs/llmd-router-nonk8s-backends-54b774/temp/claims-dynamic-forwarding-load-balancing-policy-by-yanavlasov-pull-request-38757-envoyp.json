@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Envoy's new dynamic_forwarding LB policy lets an ext_proc-based external endpoint picker set primary and fallback/retry candidate hosts via header or dynamic metadata, consumed at LB chooseHost() time, degrading to a configurable fallback policy only when the header/metadata is absent or unparseable.",
+    "stance": "neutral",
+    "stance_target": "mechanism by which Envoy can honor an externally-selected (non-pod) destination for retries as well as the initial pick",
+    "evidence_type": "empirical",
+    "scope_conditions": "envoyproxy/envoy, merged PR #38757, ai-gateway / inference workload load balancing",
+    "quoted_support": "If neither header nor metadata is present or there were errors parsing header or metadata values the specified fallback load balancing policy is used. This allows load balancing to degrade to a built in policy (i.e. Round Robin) in case external endpoint picker fails.",
+    "numbers": ["PR #38757"],
+    "entities": ["Envoy", "yanavlasov", "ext_proc", "dynamic_forwarding"],
+    "time_period": "March 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "dynamic-forwarding-load-balancing-policy-by-yanavlasov-pull-request-38757-envoyp"
+  },
+  {
+    "claim": "Two independent Envoy maintainers/reviewers argued the existing setUpstreamOverrideHost() API already met the endpoint-picker requirement and that a whole new LB policy extension was unnecessary complexity, differing from the author's view only on whether multi-host retry justified a new policy.",
+    "stance": "refutes",
+    "stance_target": "a brand-new Envoy LB-policy extension is necessary to honor externally (EPP)-picked destinations",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Envoy PR review discussion, March 2025",
+    "quoted_support": "I didn't found any thing is the setUpstreamOverrideHost cannot do (except the retry.)... the story could much simpler, the ext proc filter could set these endpoint candidates by the setUpstreamOverrideHost. This only enhancement necessarily is making setUpstreamOverrideHost could accept multiple addresses to support retry.",
+    "numbers": [],
+    "entities": ["wbpcode", "setUpstreamOverrideHost", "Envoy"],
+    "time_period": "March 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "dynamic-forwarding-load-balancing-policy-by-yanavlasov-pull-request-38757-envoyp"
+  },
+  {
+    "claim": "The PR author justified the new LB policy over enhancing setUpstreamOverrideHost by citing two simultaneous requirements: EPP-driven primary+fallback endpoint selection to avoid stale retry endpoints, and a longer-term goal of a full external 'ext_lb' remote-callout load-balancing protocol.",
+    "stance": "supports",
+    "stance_target": "a new LB-policy extension (vs. reusing override-host) is justified for EPP-style external endpoint picking",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Envoy PR #38757 discussion",
+    "quoted_support": "The goal is broader than the downstream filter overriding the upstream endpoint... The eventual goal is to make ext_lb - protocol for external picking of endpoints, as the initial approach is not very effective for retries - it can end up using stale retry endpoints.",
+    "numbers": [],
+    "entities": ["yanavlasov", "ext_lb", "GIE endpoint-picker-protocol"],
+    "time_period": "March 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "dynamic-forwarding-load-balancing-policy-by-yanavlasov-pull-request-38757-envoyp"
+  },
+  {
+    "claim": "CORRECTED (see kgateway-dev/kgateway#11824 for full context): kgateway planned to refactor its Inference plugin's EPP-fail-open handling from a 'static cluster + subset LB' workaround to Envoy's new override_host LB once available (Envoy v1.35), but closed that refactor issue in September 2025 not because it adopted override_host, but because kgateway's maintainers decided to deprecate the entire Envoy-based data plane in favor of agentgateway for AI-related features -- i.e. the override_host-vs-dynamic_forwarding debate was ultimately superseded by a bigger architectural move away from Envoy-as-data-plane altogether for this use case.",
+    "stance": "neutral",
+    "stance_target": "whether production GIE gateways converged on override_host LB as the standard mechanism for honoring EPP-picked destinations",
+    "evidence_type": "empirical",
+    "scope_conditions": "kgateway-dev/kgateway issue #11824, opened Jul 30 2025, closed Sep 30 2025",
+    "quoted_support": "Closing since the community decided to deprecate the Envoy-based data plane in favor of agentgateway for AI-related features.",
+    "numbers": ["issue #11824", "PR #11810", "PR #11784"],
+    "entities": ["kgateway", "danehans", "agentgateway", "override_host LB", "Envoy v1.35"],
+    "time_period": "July-September 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "dynamic-forwarding-load-balancing-policy-by-yanavlasov-pull-request-38757-envoyp"
+  }
+]

@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "At llm-d-router v0.10.0, the only publicly exported EndpointDiscovery implementation package is pkg/epp/framework/plugins/datalayer/discovery/file ('a file-based EndpointDiscovery implementation that reads a YAML (or JSON) file listing inference endpoints'); no discovery/kube, discovery/consul, discovery/slurm, or discovery/ray package is publicly listed in the module's directory index.",
+    "stance": "supports",
+    "stance_target": "as of the current release, only one non-Kubernetes discovery backend (file) ships as a documented, exported plugin; other backends (Slurm/Ray/Consul/etcd) are not yet implemented as plugins",
+    "evidence_type": "empirical",
+    "scope_conditions": "pkg.go.dev package index for github.com/llm-d/llm-d-router@v0.10.0",
+    "quoted_support": "epp/framework/plugins/datalayer/discovery/file - Package file provides a file-based EndpointDiscovery implementation that reads a YAML (or JSON) file listing inference endpoints.",
+    "numbers": ["v0.10.0"],
+    "entities": ["EndpointDiscovery", "discovery/file", "FileDiscovery"],
+    "time_period": "as of v0.10.0 (Aug 17, 2026 release)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-router-module-githubcomllm-dllm-d-router-go-packages"
+  },
+  {
+    "claim": "The package index exposes a 'Click to show internal directories' toggle, meaning some packages (including, plausibly, any Kubernetes-watch-based discovery code) are marked internal/unexported and not part of the public API surface at v0.10.0.",
+    "stance": "neutral",
+    "stance_target": "whether Kubernetes discovery is already refactored behind the EndpointDiscovery interface as its own plugin, or still embedded in EPP core code",
+    "evidence_type": "empirical",
+    "scope_conditions": "pkg.go.dev package index for github.com/llm-d/llm-d-router@v0.10.0",
+    "quoted_support": "Click to show internal directories.",
+    "numbers": [],
+    "entities": ["internal packages", "Kubernetes discovery"],
+    "time_period": "as of v0.10.0",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "llm-d-router-module-githubcomllm-dllm-d-router-go-packages"
+  },
+  {
+    "claim": "pkg/epp/framework/plugins/scheduling/filter/endpointattribute provides 'a generic filter plugin that filters candidate endpoints by a single configured numeric endpoint attribute' -- an engine/backend-agnostic filtering primitive not tied to Kubernetes or any specific inference engine.",
+    "stance": "supports",
+    "stance_target": "the router's scheduling layer already has generic, backend-agnostic filter/scorer primitives that a custom non-k8s backend could populate via its own EndpointDiscovery/attribute plugins",
+    "evidence_type": "empirical",
+    "scope_conditions": "pkg.go.dev package index for github.com/llm-d/llm-d-router@v0.10.0",
+    "quoted_support": "Package endpointattribute provides a generic filter plugin that filters candidate endpoints by a single configured numeric endpoint attribute.",
+    "numbers": [],
+    "entities": ["endpointattribute", "filter", "scorer"],
+    "time_period": "as of v0.10.0",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-router-module-githubcomllm-dllm-d-router-go-packages"
+  },
+  {
+    "claim": "The bylabel package (pkg/epp/framework/plugins/scheduling/filter/bylabel) is a public, standalone Go package at v0.10.0 providing 'filter plugins for the epp' -- confirming the llm-d.ai/role label-based P/D filter referenced in the no-Kubernetes blog is exported and independently importable/testable.",
+    "stance": "neutral",
+    "stance_target": "confirming the location and public-API status of the label-based filter plugin package",
+    "evidence_type": "empirical",
+    "scope_conditions": "pkg.go.dev package index for github.com/llm-d/llm-d-router@v0.10.0",
+    "quoted_support": "epp/framework/plugins/scheduling/filter/bylabel - Package bylabel provides filter plugins for the epp.",
+    "numbers": [],
+    "entities": ["bylabel", "llm-d.ai/role"],
+    "time_period": "as of v0.10.0",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-router-module-githubcomllm-dllm-d-router-go-packages"
+  },
+  {
+    "claim": "pkg/epp/framework/plugins/datalayer/source/http exists as a generic HTTP data-source package for the data layer, separate from the discovery/file plugin, suggesting an additional extension point for pulling endpoint or attribute data over HTTP rather than a filesystem watch.",
+    "stance": "neutral",
+    "stance_target": "additional non-Kubernetes data-ingestion extension points beyond EndpointDiscovery/file",
+    "evidence_type": "empirical",
+    "scope_conditions": "pkg.go.dev package index for github.com/llm-d/llm-d-router@v0.10.0",
+    "quoted_support": "epp/framework/plugins/datalayer/source/http",
+    "numbers": [],
+    "entities": ["datalayer/source/http", "HTTPDataSource"],
+    "time_period": "as of v0.10.0",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "llm-d-router-module-githubcomllm-dllm-d-router-go-packages"
+  }
+]

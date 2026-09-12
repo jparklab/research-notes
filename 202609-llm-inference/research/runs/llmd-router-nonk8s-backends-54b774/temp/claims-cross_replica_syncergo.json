@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "llm-d-router ships a CrossReplicaSyncer plugin interface, distinct from PeerDiscovery, that actually moves per-endpoint plugin state between EPP replicas via Set/Get/Delete/GetOrSet, with GetOrSet required to be linearizable across every replica sharing the syncer.",
+    "stance": "neutral",
+    "stance_target": "whether Active-Active EPP has a framework-level mechanism for syncing plugin state beyond just knowing peer membership",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router pkg/epp/framework/interface/datalayer/cross_replica_syncer.go, HEAD Sep 2026",
+    "quoted_support": "GetOrSet atomically returns the value already stored for key and id, or stores candidate and returns it... Implementations must provide linearizable behavior across every EPP replica sharing the syncer.",
+    "numbers": [],
+    "entities": ["CrossReplicaSyncer", "EPP", "PeerDiscovery"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "cross_replica_syncergo"
+  },
+  {
+    "claim": "Cross-replica state synchronization for any given endpoint-extractor plugin is opt-in via the CrossReplicaContributor interface and is documented as suited only for state that 'can tolerate periodic synchronization,' not hard-realtime correctness guarantees.",
+    "stance": "neutral",
+    "stance_target": "strength of the consistency guarantee available to plugins that want cross-replica state sharing",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router pkg/epp/framework/interface/datalayer/cross_replica_syncer.go",
+    "quoted_support": "Prefer it for per-endpoint state that can tolerate periodic synchronization.",
+    "numbers": [],
+    "entities": ["CrossReplicaContributor", "CrossReplicaSpec"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "cross_replica_syncergo"
+  },
+  {
+    "claim": "The precise-prefix-cache extractor plugin (extractor.go) implements only fwkdl.EndpointExtractor and does not implement CrossReplicaContributor, meaning it does not use the CrossReplicaSyncer state-sharing path at all -- its Active-Active consistency comes entirely from each replica independently subscribing to the KV-event stream, not from any cross-replica sync mechanism.",
+    "stance": "supports",
+    "stance_target": "the draft's claim that precise prefix-cache consistency across Active-Active replicas comes from independent per-replica KV-event subscription rather than coordination",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router precise-prefix-cache producer package, cross-referenced against cross_replica_syncer.go interface",
+    "quoted_support": "var _ fwkdl.EndpointExtractor = &Producer{}",
+    "numbers": [],
+    "entities": ["precise-prefix-cache", "EndpointExtractor", "CrossReplicaContributor"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "cross_replica_syncergo"
+  }
+]

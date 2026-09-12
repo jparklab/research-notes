@@ -1,0 +1,23 @@
+[
+ {
+  "claim": "No open GitHub milestone for llm-d-router is named 'v0.10' -- open milestones as of 11 Sep 2026 are only v0.11 (due 30 Sep 2026, 20% complete), '1.0' (target date Oct 8 2026, 65% complete), and v0.12 (no due date). v0.10 already fully shipped.",
+  "stance": "refutes",
+  "stance_target": "investigator's framing that v0.10 is 'targeted September 2026'",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d/llm-d-router milestones, 2026-09-11",
+  "quoted_support": "Due by September 30, 2026 -- 4/20 issues closed -- 20% complete [16 open][4 closed]",
+  "numbers": [
+   "v0.11",
+   "2026-09-30",
+   "20%",
+   "4/20"
+  ],
+  "entities": [
+   "llm-d-router milestones"
+  ],
+  "time_period": "2026-09-11",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "milestones-llm-dllm-d-router-github"
+ }
+]

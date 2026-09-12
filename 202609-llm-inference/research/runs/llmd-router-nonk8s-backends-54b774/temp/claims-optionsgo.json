@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "SSRF protection defaults to OFF; --enable-ssrf-protection must be explicitly set to true, and only then does --inference-pool (or INFERENCE_POOL env var) become mandatory.",
+    "stance": "supports",
+    "stance_target": "gap-3: SSRF protection is opt-in",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router@main, pkg/sidecar/proxy/options.go",
+    "quoted_support": "if opts.EnableSSRFProtection {\n\t\tif opts.InferencePoolNamespace == \"\" || opts.InferencePoolName == \"\" {\n\t\t\treturn errors.New(\"--inference-pool flag or INFERENCE_POOL environment variable is required when --enable-ssrf-protection is true\")",
+    "numbers": [],
+    "entities": ["enable-ssrf-protection", "inference-pool", "INFERENCE_POOL"],
+    "time_period": "2026 (current HEAD)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "optionsgo"
+  },
+  {
+    "claim": "TLS to the prefill, decode, and encoder hops is configured via --enable-tls/--tls-insecure-skip-verify/--tls-min-version/--tls-cipher-suites, a per-stage flag design fully independent of Kubernetes -- these are plain Go crypto/tls settings.",
+    "stance": "refutes",
+    "stance_target": "concern that the P/D sidecar has no transport-security option outside Kubernetes",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router@main, pkg/sidecar/proxy/options.go and proxy.go",
+    "quoted_support": "fs.StringSliceVar(&opts.enableTLS, enableTLS, opts.enableTLS, \"stages to enable TLS for. Supported: prefill, decode, encode...\")",
+    "numbers": [],
+    "entities": ["enable-tls", "tls-min-version", "tls-cipher-suites", "cert-path"],
+    "time_period": "2026 (current HEAD)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "optionsgo"
+  }
+]

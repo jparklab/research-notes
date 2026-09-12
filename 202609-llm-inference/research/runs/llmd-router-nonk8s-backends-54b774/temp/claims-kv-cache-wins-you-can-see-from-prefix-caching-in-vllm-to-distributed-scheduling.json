@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "The KV-cache indexer's write path is handled by kvevents.Pool, a sharded ZMQ worker pool that ingests the KVEvent stream from vLLM pods and updates a low-level KV-Block Index mapping block hashes to (pod, memory-medium).",
+    "stance": "neutral",
+    "stance_target": "KV-cache indexer internal architecture",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-kv-cache library, 2026",
+    "quoted_support": "kvevents.Pool: This component consumes the high-throughput stream of events. As it digests them, it continuously updates a low-level KV-Block Index, which maintains a simple, real-time map of block-hashes to the pod and memory-medium (GPU/CPU) it resides on.",
+    "numbers": [],
+    "entities": ["kvevents.Pool", "KV-Block Index", "llm-d-kv-cache"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "kv-cache-wins-you-can-see-from-prefix-caching-in-vllm-to-distributed-scheduling"
+  },
+  {
+    "claim": "llm-d's precise prefix-cache scheduling design natively supports active-active or active-passive HA deployments via full view duplication or index sharding across router replicas.",
+    "stance": "neutral",
+    "stance_target": "router HA for the KV-cache index",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d-kv-cache library design, 2026",
+    "quoted_support": "This design naturally supports active-active or active-passive deployments, with either full view duplication or sharding through configurations.",
+    "numbers": [],
+    "entities": ["llm-d-kv-cache", "high availability"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "kv-cache-wins-you-can-see-from-prefix-caching-in-vllm-to-distributed-scheduling"
+  },
+  {
+    "claim": "In a controlled benchmark (8 vLLM pods, 16 H100 GPUs, 150 simulated enterprise customers with 6,000-token shared prefixes, 3-60 QPS), precise prefix-cache scheduling achieved 8,730 output tokens/sec and 0.542s p90 TTFT, versus 6,944 tok/s and 31.083s p90 TTFT for approximate scheduling and 4,429 tok/s and ~93s p90 TTFT for cache-blind scheduling.",
+    "stance": "supports",
+    "stance_target": "performance benefit of precise KV-cache-aware routing",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d benchmark, Qwen3-32B, 16xH100, 2026",
+    "quoted_support": "precise-scheduling delivered a P90 TTFT of just 0.542 seconds. In contrast, the approximate scheduler took over 31 seconds, and the cache-blind schedulers took over 90 seconds... precise-scheduling is 57x faster than approximate-scheduling.",
+    "numbers": ["8730.0 tok/s", "6944.4 tok/s", "4428.7 tok/s", "0.542s", "31.083s", "94.865s", "57x", "170x"],
+    "entities": ["llm-d", "precise-scheduling", "approximate-scheduling", "Qwen3-32B", "H100"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "kv-cache-wins-you-can-see-from-prefix-caching-in-vllm-to-distributed-scheduling"
+  },
+  {
+    "claim": "The KV-cache indexer's memory overhead is negligible relative to the GPU KV-cache it tracks -- a 365GB KV-cache pool for DeepSeek-R1 FP8 on 8xH200 requires only about 339KB of index metadata, a 1,000,000:1 data-to-metadata ratio.",
+    "stance": "neutral",
+    "stance_target": "scalability of the global KV-cache index",
+    "evidence_type": "theoretical",
+    "scope_conditions": "DeepSeek-R1 FP8 on 8xH200, 2026 scaling analysis",
+    "quoted_support": "managing the entire 365 GB cache pool requires only about 339 KB of memory for the scheduler's index - a data-to-metadata ratio of over 1,000,000-to-1.",
+    "numbers": ["365 GB", "339 KB", "1,000,000:1", "8.6 MB per block", "128 tokens per block"],
+    "entities": ["DeepSeek-R1", "H200", "KV-Block Index"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "kv-cache-wins-you-can-see-from-prefix-caching-in-vllm-to-distributed-scheduling"
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Agentgateway's standalone request scheduler mode does not support the Kubernetes InferencePool resource.",
+    "stance": "supports",
+    "stance_target": "which gateways only work with Kubernetes InferencePool",
+    "evidence_type": "empirical",
+    "scope_conditions": "agentgateway standalone deployment mode, current docs",
+    "quoted_support": "Standalone request scheduler mode does not support InferencePool.",
+    "numbers": [],
+    "entities": ["agentgateway", "InferencePool", "Gateway API Inference Extension"],
+    "time_period": "current (2026)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "inference-routing-agentgateway-agent-connectivity-solved"
+  },
+  {
+    "claim": "In agentgateway standalone mode, setting destinationMode: passthrough tells agentgateway to forward EPP-selected destinations directly rather than validating them against locally known workload endpoints.",
+    "stance": "supports",
+    "stance_target": "how the proxy honors the EPP's chosen destination when backends are not pods",
+    "evidence_type": "empirical",
+    "scope_conditions": "agentgateway standalone inferenceRouting policy config",
+    "quoted_support": "When EPP owns endpoint discovery, set destinationMode: passthrough so EPP-selected destinations can be forwarded to directly without matching local workload endpoint data.",
+    "numbers": [],
+    "entities": ["agentgateway", "destinationMode", "passthrough", "EPP"],
+    "time_period": "current (2026)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "inference-routing-agentgateway-agent-connectivity-solved"
+  },
+  {
+    "claim": "Agentgateway standalone mode requires a synthetic top-level 'services' entry that the route backend references, since there is no real service discovery backing the route.",
+    "stance": "neutral",
+    "stance_target": "how non-k8s backends are configured in agentgateway",
+    "evidence_type": "empirical",
+    "scope_conditions": "agentgateway standalone config schema",
+    "quoted_support": "The standalone configuration must define a top-level synthetic service, such as a services entry, and the route backend must reference that service.",
+    "numbers": ["8000", "8081", "9002"],
+    "entities": ["agentgateway", "services", "synthetic service"],
+    "time_period": "current (2026)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "inference-routing-agentgateway-agent-connectivity-solved"
+  },
+  {
+    "claim": "The upstream llm-d-router standalone Helm chart can deploy agentgateway as the sidecar proxy using proxyType: agentgateway.",
+    "stance": "neutral",
+    "stance_target": "llm-d packaging of alternative router proxies",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router Helm chart configuration",
+    "quoted_support": "the upstream standalone Helm chart can deploy agentgateway as the sidecar proxy with proxyType: agentgateway.",
+    "numbers": [],
+    "entities": ["llm-d-router", "agentgateway", "Helm chart"],
+    "time_period": "current (2026)",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "inference-routing-agentgateway-agent-connectivity-solved"
+  }
+]

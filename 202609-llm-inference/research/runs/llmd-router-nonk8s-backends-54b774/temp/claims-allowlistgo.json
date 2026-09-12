@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "The pd-sidecar's SSRF-protection allowlist has no non-Kubernetes source: it is populated exclusively by watching one named InferencePool CRD and the pods matched by that pool's label selector.",
+    "stance": "supports",
+    "stance_target": "gap-3: SSRF protection is InferencePool/Kubernetes-coupled with no static/CIDR alternative",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router@main, pkg/sidecar/proxy/allowlist.go, current HEAD as of 2026-09-11",
+    "quoted_support": "// AllowlistValidator manages allowed prefill targets based on InferencePool resources ... loadingRules := clientcmd.NewDefaultClientConfigLoadingRules() ... failed to get Kubernetes config (ensure running in a pod with proper RBAC)",
+    "numbers": [],
+    "entities": ["llm-d-router", "AllowlistValidator", "InferencePool", "inference.networking.k8s.io", "inference.networking.x-k8s.io"],
+    "time_period": "2026 (current HEAD)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "allowlistgo"
+  },
+  {
+    "claim": "When SSRF protection is disabled, IsAllowed() unconditionally returns true for every host:port, explicitly documented as 'backward compatibility'.",
+    "stance": "supports",
+    "stance_target": "gap-3: without Kubernetes, the sidecar accepts arbitrary hosts",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router@main, pkg/sidecar/proxy/allowlist.go",
+    "quoted_support": "if !av.enabled {\n\t\t// If SSRF protection is disabled, allow all requests (backward compatibility)\n\t\treturn true\n\t}",
+    "numbers": [],
+    "entities": ["AllowlistValidator", "IsAllowed"],
+    "time_period": "2026 (current HEAD)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "allowlistgo"
+  },
+  {
+    "claim": "The allowlist only ever contains a matched pod's IP address and pod name -- no support for arbitrary hostnames, CIDR ranges, or external service endpoints even when enabled.",
+    "stance": "supports",
+    "stance_target": "gap-3: allowlist mechanism is pod-identity-based, not network-based",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router@main, pkg/sidecar/proxy/allowlist.go",
+    "quoted_support": "podIP, _, _ := unstructured.NestedString(pod.Object, \"status\", \"podIP\") ... if podIP != \"\" { av.allowedTargets.Insert(podIP) } ... if podName != \"\" { av.allowedTargets.Insert(podName) }",
+    "numbers": [],
+    "entities": ["AllowlistValidator", "addPodToAllowlist"],
+    "time_period": "2026 (current HEAD)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "allowlistgo"
+  }
+]

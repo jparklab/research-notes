@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "llm-d's own design principles from the project's founding (May 2025) explicitly invite advanced teams to write their own scorers and filterers for the EPP while remaining compatible with upcoming Inference Gateway features like flow control and latency-aware balancing.",
+    "stance": "supports",
+    "stance_target": "router customization for non-standard backends is aligned with llm-d's original extensibility design intent",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "llm-d project announcement, May 20 2025, authored by Google/IBM founding contributors",
+    "quoted_support": "Advanced teams can also tweak or implement their own scorers and filterers to further customize for their use cases, while still benefiting from upcoming operational features in the inference gateway, like flow control and latency-aware balancing.",
+    "numbers": [],
+    "entities": ["llm-d", "EPP", "Inference Gateway"],
+    "time_period": "May 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-kubernetes-native-distributed-inferencing-red-hat-developer"
+  },
+  {
+    "claim": "llm-d's architecture is explicitly three-layered: vLLM (inference engine), Kubernetes (orchestration), and Inference Gateway/IGW (Gateway API extension providing the Endpoint Picker Protocol).",
+    "stance": "neutral",
+    "stance_target": "layered architecture of llm-d as designed",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d architecture as announced May 2025",
+    "quoted_support": "To achieve this objective, we designed llm-d with a modular and layered architecture... on top of industry-standard open source technologies: vLLM, Kubernetes, and Inference Gateway.",
+    "numbers": [],
+    "entities": ["vLLM", "Kubernetes", "Inference Gateway", "IGW"],
+    "time_period": "May 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-kubernetes-native-distributed-inferencing-red-hat-developer"
+  },
+  {
+    "claim": "llm-d's disaggregated P/D and disaggregated prefix caching both build on vLLM's pluggable KV Connector API, using NVIDIA NIXL for high-performance transport and supporting integration with external systems like LMCache.",
+    "stance": "supports",
+    "stance_target": "the KV Connector abstraction is the extension point through which non-standard backends could plug into llm-d's disaggregation model",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d architecture design, 2025",
+    "quoted_support": "llm-d leverages vLLM's recently enabled support for disaggregated serving via a pluggable KV Connector API to run prefill and decode on independent instances, using high-performance transport libraries like NVIDIA NIXL... llm-d uses the same vLLM KV connector API used in disaggregated serving to provide a pluggable cache for previous calculations, including offloading KVs to host, remote storage, and systems like LMCache.",
+    "numbers": [],
+    "entities": ["KV Connector API", "NVIDIA NIXL", "LMCache"],
+    "time_period": "2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-kubernetes-native-distributed-inferencing-red-hat-developer"
+  },
+  {
+    "claim": "Early llm-d benchmarks (2 x 8xH100 nodes) showed ~3x lower mean TTFT at 4 QPS and ~50% higher QPS at the same latency SLO versus a round-robin baseline.",
+    "stance": "supports",
+    "stance_target": "llm-d's prefix-aware scheduling delivers measurable early performance gains",
+    "evidence_type": "empirical",
+    "scope_conditions": "2 NVIDIA 8xH100 nodes, LMbenchmark synthetic-multi-round-qa long-input/short-output config, models LlaMA 4 Scout FP8 and Llama 3.1 70B FP16",
+    "quoted_support": "At 4 QPS, llm-d achieves a mean TTFT approximately 3X lower than the baseline (lower is better). llm-d delivers ~50% higher QPS than the baseline while meeting SLO requirements.",
+    "numbers": ["3x", "50%", "2x8 H100 nodes"],
+    "entities": ["llm-d Inference Scheduler", "LMbenchmark", "LlaMA 4 Scout", "Llama 3.1 70B"],
+    "time_period": "2025",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "llm-d-kubernetes-native-distributed-inferencing-red-hat-developer"
+  }
+]

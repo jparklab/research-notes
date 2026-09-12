@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "The llm-d-kv-cache-manager repository was renamed to llm-d-kv-cache: fetching an old v0.4.0 URL under llm-d/llm-d-kv-cache-manager 301-redirects to the equivalent path under llm-d/llm-d-kv-cache.",
+    "stance": "neutral",
+    "stance_target": "repository history / naming used across llm-d KV-cache documentation",
+    "evidence_type": "empirical",
+    "scope_conditions": "GitHub redirect observed 2026, PR history shows llm-d-kv-cache commit history for the same path",
+    "quoted_support": "llm-d-kv-cache/examples/valkey_example/README.md at v0.4.0 · llm-d/llm-d-kv-cache · GitHub",
+    "numbers": [],
+    "entities": ["llm-d-kv-cache-manager", "llm-d-kv-cache"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-kv-cacheexamplesvalkey_examplereadmemd-at-v040-llm-dllm-d-kv-cache-github"
+  },
+  {
+    "claim": "The KV-Cache Indexer's block-index backend can be configured to use Valkey or Redis via a JSON kvBlockIndexConfig with parallel redisConfig/valkeyConfig blocks specifying address, backendType, and enableRDMA -- and Valkey-backed state persists across restarts, unlike the default in-memory backend.",
+    "stance": "supports",
+    "stance_target": "options for persisting/externalizing KV index state outside a Kubernetes-native in-memory process",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-kv-cache example, PR #139 merged Oct 19 2025",
+    "quoted_support": "Persistence: Valkey data persists across restarts (unlike in-memory backends). Scalability: Suitable for distributed deployments with multiple indexer replicas.",
+    "numbers": [],
+    "entities": ["Valkey", "Redis", "kvBlockIndexConfig"],
+    "time_period": "October 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-kv-cacheexamplesvalkey_examplereadmemd-at-v040-llm-dllm-d-kv-cache-github"
+  },
+  {
+    "claim": "The KV-Cache Indexer's scoring API treats pod identity as an arbitrary opaque string (e.g. 'demo-pod-1' in the example output), not necessarily tied to a real Kubernetes pod object, as long as the caller uses the same identity consistently between ZMQ-topic-derived pod entries and its own endpoint bookkeeping.",
+    "stance": "supports",
+    "stance_target": "identity mapping between the KV index and a router's endpoint name for non-Kubernetes backends",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-kv-cache Valkey example, demo run output",
+    "quoted_support": "Cache score prompt=\"Hello, how are you today?\" score=1.0 podID=\"demo-pod-1\"",
+    "numbers": [],
+    "entities": ["podID", "kv-cache indexer scoring API"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "llm-d-kv-cacheexamplesvalkey_examplereadmemd-at-v040-llm-dllm-d-kv-cache-github"
+  }
+]

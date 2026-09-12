@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "The upstream predicted-latency-routing guide's 'Standalone Mode' deploys the llm-d Router with an Envoy sidecar via a Helm chart with no Kubernetes Gateway object, but the entire installation path (kubectl, Helm, Gateway API CRDs, Secrets) is still Kubernetes-native -- 'standalone' means 'no Gateway API object', not 'no Kubernetes'.",
+    "stance": "refutes",
+    "stance_target": "the term 'Standalone Mode' in llm-d documentation implies a non-Kubernetes deployment path",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d/llm-d guides/predicted-latency-routing README, current as of Sep 9 2026",
+    "quoted_support": "This deploys the llm-d Router with an Envoy sidecar, it doesn't set up a Kubernetes Gateway. helm install ${GUIDE_NAME} ${ROUTER_STANDALONE_CHART} ...",
+    "numbers": [],
+    "entities": ["Standalone Mode", "Helm", "Envoy sidecar", "ROUTER_STANDALONE_CHART"],
+    "time_period": "Sep 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-dguidespredicted-latency-routing-at-main-llm-dllm-d-github"
+  },
+  {
+    "claim": "Across every backend variant documented (GPU/vLLM, TPU, P/D-disaggregated, multimodal, Intel XPU), the guide states the latency predictor is 'EPP-side only, so the model server needs no predictor-specific changes.'",
+    "stance": "supports",
+    "stance_target": "predicted-latency scheduling does not require modifying or instrumenting the backend/model-server, only the EPP/router side",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d/llm-d guides/predicted-latency-routing README",
+    "quoted_support": "Reuse the agentic-serving guide's model server. It is re-labeled llm-d.ai/guide=optimized-baseline so the router values above select it with no changes (same as the GPU path), and the latency predictor is EPP-side only, so the model server needs no predictor-specific changes.",
+    "numbers": [],
+    "entities": ["latency predictor", "EPP", "model server"],
+    "time_period": "Sep 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-dguidespredicted-latency-routing-at-main-llm-dllm-d-github"
+  },
+  {
+    "claim": "SLO-aware and P/D-disaggregated predicted-latency configurations require streamingMode:true and every client request to be sent with stream:true, because TPOT training samples derive from the inter-token gaps of a streamed response.",
+    "stance": "neutral",
+    "stance_target": "client-protocol constraint imposed by predicted-latency scheduling in TPOT-prediction configurations",
+    "evidence_type": "empirical",
+    "scope_conditions": "predicted-latency-slo.values.yaml and predicted-latency-pd.values.yaml configurations",
+    "quoted_support": "The P/D values file sets streamingMode: true, so clients must send \"stream\": true. TPOT training samples come from the inter-token gaps of a streamed response, and decode here is scheduled purely on predicted TPOT -- so non-streaming traffic leaves the half of the predictor that places decode with nothing to learn from.",
+    "numbers": [],
+    "entities": ["streamingMode", "TPOT", "stream:true"],
+    "time_period": "Sep 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-dguidespredicted-latency-routing-at-main-llm-dllm-d-github"
+  },
+  {
+    "claim": "OpenShift support for the predicted-latency-routing guide is currently unreliable as-is, because the latency-predictor sidecars may require additional OpenShift-specific runtime adjustments beyond the shipped manifests; GKE or CoreWeave are the recommended tested platforms.",
+    "stance": "neutral",
+    "stance_target": "platform-specific caveat for anyone adopting predicted-latency scheduling on a non-vanilla Kubernetes distribution",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d/llm-d guides/predicted-latency-routing README, Sep 2026",
+    "quoted_support": "OpenShift support for this guide is currently not reliable as-is. The latency-predictor sidecars used by predicted-latency scheduling may require additional OpenShift-specific runtime adjustments beyond the manifests in this guide. Until that is resolved, prefer GKE or CoreWeave for the tested path.",
+    "numbers": [],
+    "entities": ["OpenShift", "GKE", "CoreWeave"],
+    "time_period": "Sep 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-dguidespredicted-latency-routing-at-main-llm-dllm-d-github"
+  },
+  {
+    "claim": "Deployment/benchmarking tooling for this guide (llmdbenchmark CLI) auto-deploys a Kubernetes harness pod (llmdbench-harness-launcher) into the target namespace, an additional Kubernetes-coupled dependency in the reference workflow beyond the router itself.",
+    "stance": "supports",
+    "stance_target": "even the tooling around llm-d guides, not just the router, assumes Kubernetes",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-benchmark / llmdbenchmark CLI",
+    "quoted_support": "When orchestrating benchmarks via llmdbenchmark, the CLI automatically and transparently deploys a harness pod (llmdbench-harness-launcher) into your namespace.",
+    "numbers": [],
+    "entities": ["llmdbenchmark", "llmdbench-harness-launcher"],
+    "time_period": "Sep 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "llm-dguidespredicted-latency-routing-at-main-llm-dllm-d-github"
+  }
+]

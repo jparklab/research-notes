@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "The KV-Event Processing pool config exposes a documented 'Static Endpoint Mode' (discoverPods: false, zmqEndpoint set) that requires no Kubernetes API access at all: the indexer binds a local ZMQ socket and any process (Kubernetes or not) that publishes a matching 'kv@'-prefixed topic can connect to it as a PUB client.",
+    "stance": "supports",
+    "stance_target": "feasibility of supporting non-Kubernetes backends without modifying the KV-cache indexer",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-kv-cache library, main branch, commit a746476 (May 2026)",
+    "quoted_support": "1. Static Endpoint Mode: Connects to a single ZMQ endpoint ... The zmqEndpoint field specifies the local ZMQ socket address to bind to.",
+    "numbers": ["tcp://indexer:5557"],
+    "entities": ["Static Endpoint Mode", "zmqEndpoint", "kv-cache indexer"],
+    "time_period": "May 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-kv-cachedocsconfigurationmd-at-main-llm-dllm-d-kv-cache-github"
+  },
+  {
+    "claim": "Auto-Discovery Mode (default, discoverPods: true) is implemented as a Kubernetes pod reconciler that watches pods and requires all of: label-selector match, pod.Status.Phase == Running, pod.Status.PodIP != '', and PodReady == ConditionTrue before creating a ZMQ subscriber, tearing it down automatically if any condition becomes false.",
+    "stance": "supports",
+    "stance_target": "exact scope of the Kubernetes coupling in the KV-cache indexer's pod-discovery path",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-kv-cache library, main branch (2026)",
+    "quoted_support": "For the reconciler to create a subscriber for a pod, the pod must meet these conditions: 1. Match label selector... 2. Running state: pod.Status.Phase == Running 3. Has IP address: pod.Status.PodIP != \"\" 4. Ready condition: Pod has condition PodReady == ConditionTrue",
+    "numbers": [],
+    "entities": ["PodDiscoveryConfig", "Kubernetes pod reconciler", "podLabelSelector"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-kv-cachedocsconfigurationmd-at-main-llm-dllm-d-kv-cache-github"
+  },
+  {
+    "claim": "Using Auto-Discovery pod-reconciler mode requires explicit RBAC grants (get/list/watch on the 'pods' resource) scoped either per-namespace or cluster-wide depending on whether podNamespace is set.",
+    "stance": "neutral",
+    "stance_target": "operational cost of the Kubernetes-coupled discovery path",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-kv-cache library, main branch (2026)",
+    "quoted_support": "When using the pod reconciler, ensure the service account has appropriate RBAC permissions... resources: [\"pods\"] verbs: [\"get\", \"list\", \"watch\"]",
+    "numbers": [],
+    "entities": ["RBAC", "ClusterRole", "Role"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-kv-cachedocsconfigurationmd-at-main-llm-dllm-d-kv-cache-github"
+  },
+  {
+    "claim": "The KV-event pool's engineType field ('vllm' or 'sglang', default 'vllm') selects which EngineAdapter parses the wire format, confirming engine-format extensibility is a config-level adapter selection rather than a discovery-layer concern.",
+    "stance": "neutral",
+    "stance_target": "extension points for supporting additional inference engines",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-kv-cache library, main branch (2026)",
+    "quoted_support": "engineType | string | Inference engine adapter type (\"vllm\" or \"sglang\") | \"vllm\"",
+    "numbers": [],
+    "entities": ["engineType", "EngineAdapter"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-kv-cachedocsconfigurationmd-at-main-llm-dllm-d-kv-cache-github"
+  },
+  {
+    "claim": "The indexer's internal request-key hashSeed is explicitly independent of vLLM's PYTHONHASHSEED and requires no alignment with any engine-side seed, because engine keys and request keys are bridged on ingestion rather than computed identically.",
+    "stance": "neutral",
+    "stance_target": "hash-seed configuration independence between the indexer and the inference engine",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-kv-cache library, main branch (2026)",
+    "quoted_support": "The hashSeed in TokenProcessorConfig seeds the indexer's internal request-key hashing. Engine keys and request keys are decoupled -- no alignment with vLLM's PYTHONHASHSEED is required.",
+    "numbers": [],
+    "entities": ["hashSeed", "TokenProcessorConfig", "PYTHONHASHSEED"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-kv-cachedocsconfigurationmd-at-main-llm-dllm-d-kv-cache-github"
+  }
+]

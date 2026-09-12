@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "agentgateway added an explicit inferenceRouting destinationMode setting so operators can choose between validating EPP-selected destinations against local endpoint data or trusting them directly.",
+    "stance": "supports",
+    "stance_target": "agentgateway can be extended to route to non-Kubernetes-pod backends selected by an EPP",
+    "evidence_type": "empirical",
+    "scope_conditions": "agentgateway proxy, inferenceRouting service backends, merged into main Apr 24 2026",
+    "quoted_support": "Use EPP-selected destinations directly for inferenceRouting service backends when `destinationMode: passthrough` is configured. Keep the default destination mode endpoint-validated so existing configs retain local endpoint-derived behavior.",
+    "numbers": [],
+    "entities": ["agentgateway", "danehans", "solo.io", "EPP", "inferenceRouting"],
+    "time_period": "April 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "trust-standalone-epp-selected-destinations-by-danehans-pull-request-1658-agentga"
+  },
+  {
+    "claim": "In passthrough mode, agentgateway does not require mirrored local Kubernetes workload/endpoint data at all -- the standalone EPP fully owns endpoint discovery.",
+    "stance": "supports",
+    "stance_target": "standalone EPP + agentgateway passthrough removes the Kubernetes Endpoints dependency for backend discovery",
+    "evidence_type": "empirical",
+    "scope_conditions": "agentgateway passthrough destinationMode",
+    "quoted_support": "Use the destination returned by inference routing directly for service backends so standalone EPP can own endpoint discovery without mirrored local workload data.",
+    "numbers": [],
+    "entities": ["agentgateway", "standalone EPP"],
+    "time_period": "April 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "trust-standalone-epp-selected-destinations-by-danehans-pull-request-1658-agentga"
+  },
+  {
+    "claim": "The passthrough destination-trust change was paired with a separate, explicitly-tracked fail-open concern rather than being solved in the same PR.",
+    "stance": "neutral",
+    "stance_target": "maintainers' security/fail-open trade-off deliberation for standalone EPP routing",
+    "evidence_type": "empirical",
+    "scope_conditions": "agentgateway issue tracker, April 2026",
+    "quoted_support": "Support fail-open fallback for standalone EPP inference routing #1661",
+    "numbers": ["issue #1661", "issue #620"],
+    "entities": ["agentgateway", "howardjohn", "danehans"],
+    "time_period": "April 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "trust-standalone-epp-selected-destinations-by-danehans-pull-request-1658-agentga"
+  },
+  {
+    "claim": "Passthrough mode was end-to-end tested against a companion GIE PR adding standalone agentgateway proxy support, tying the agentgateway-side change to a specific upstream integration PR.",
+    "stance": "neutral",
+    "stance_target": "standalone EPP + agentgateway integration path",
+    "evidence_type": "empirical",
+    "scope_conditions": "cross-repo integration test",
+    "quoted_support": "I e2e tested `passthrough` mode using kubernetes-sigs/gateway-api-inference-extension#2882.",
+    "numbers": ["PR #2882"],
+    "entities": ["agentgateway", "kubernetes-sigs/gateway-api-inference-extension"],
+    "time_period": "April 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "trust-standalone-epp-selected-destinations-by-danehans-pull-request-1658-agentga"
+  }
+]

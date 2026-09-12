@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "In no-Kubernetes deployments, the request path flows client -> Envoy listener :8081 -> ext_proc gRPC :9002 (EPP picks endpoint, sets header) -> ORIGINAL_DST cluster -> Envoy reads the x-gateway-destination-endpoint header from the EPP response -> forwards to <address>:<port> of the chosen vLLM worker.",
+    "stance": "neutral",
+    "stance_target": "exact wire-level mechanism (including the literal header name) by which Envoy learns the EPP's routing decision outside Kubernetes",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d/llm-d, docs/infrastructure/no-kubernetes-deployment.md, main branch, last touched by commit 3cb74f77 (PR #1917, merged Jun 24, 2026)",
+    "quoted_support": "client -> Envoy listener :8081 -> ext_proc gRPC :9002 (EPP picks endpoint, sets header) -> ORIGINAL_DST cluster -> reads x-gateway-destination-endpoint from EPP response -> <address>:<port> of the vLLM worker chosen by the EPP",
+    "numbers": ["8081", "9002"],
+    "entities": ["Envoy", "ext_proc", "ORIGINAL_DST", "x-gateway-destination-endpoint", "EPP"],
+    "time_period": "as of commit merged Jun 24, 2026 (file may be older in substance)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-ddocsinfrastructureno-kubernetes-deploymentmd-at-main-llm-dllm-d-github"
+  },
+  {
+    "claim": "Without Kubernetes, three specific features are explicitly out of scope: InferenceObjective-driven FlowControl, the InferenceModelRewrite model-name rewriter, and PodMonitor-based Prometheus discovery; Prometheus metrics exposed on --metrics-port itself continue to work.",
+    "stance": "refutes",
+    "stance_target": "file-discovery-mode llm-d deployments have full feature parity with Kubernetes deployments, and specifically that FlowControl is unaffected",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d/llm-d, docs/infrastructure/no-kubernetes-deployment.md, main branch, as of commit merged Jun 24, 2026",
+    "quoted_support": "Without Kubernetes, some pieces of the llm-d stack are out of scope: InferenceObjective-driven FlowControl, the InferenceModelRewrite model-name rewriter, and PodMonitor-based Prometheus discovery. Scoring, prefix-cache affinity, saturation-based admission, and Prometheus metrics on --metrics-port all work.",
+    "numbers": [],
+    "entities": ["InferenceObjective", "FlowControl", "InferenceModelRewrite", "PodMonitor"],
+    "time_period": "as of commit merged Jun 24, 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-ddocsinfrastructureno-kubernetes-deploymentmd-at-main-llm-dllm-d-github"
+  },
+  {
+    "claim": "The motivating non-Kubernetes environments named by the design doc are HPC schedulers (Slurm, LSF) that launch workers dynamically, Ray-based stacks running workers as actors, bare-metal inference farms, and single-workstation development setups.",
+    "stance": "neutral",
+    "stance_target": "the full set of target environments the llm-d project itself designed file-discovery to cover, beyond what the blog emphasized (blog focused mainly on RL/Slurm; this doc adds LSF explicitly)",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d/llm-d, docs/infrastructure/no-kubernetes-deployment.md, main branch, as of commit merged Jun 24, 2026",
+    "quoted_support": "Many environments don't have a Kubernetes control plane, though: HPC schedulers like Slurm or LSF launch workers dynamically, Ray-based stacks run workers as actors, bare-metal inference farms operate without K8s, and a single workstation with a couple of GPUs is often enough for development.",
+    "numbers": [],
+    "entities": ["Slurm", "LSF", "Ray", "bare-metal"],
+    "time_period": "as of commit merged Jun 24, 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-ddocsinfrastructureno-kubernetes-deploymentmd-at-main-llm-dllm-d-github"
+  },
+  {
+    "claim": "The plugin set, weights, and scheduling profile in the no-Kubernetes deployment match the Optimized Baseline well-lit path exactly, so 'routing behaviour is identical to the Kubernetes-based deployment.'",
+    "stance": "supports",
+    "stance_target": "swapping the discovery backend does not change routing/scoring behavior, only how endpoints are learned",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d/llm-d, docs/infrastructure/no-kubernetes-deployment.md, main branch, as of commit merged Jun 24, 2026",
+    "quoted_support": "The plugin set, weights, and scheduling profile match the Optimized Baseline, so routing behaviour is identical to the Kubernetes-based deployment.",
+    "numbers": [],
+    "entities": ["Optimized Baseline", "EPP", "file-discovery"],
+    "time_period": "as of commit merged Jun 24, 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-ddocsinfrastructureno-kubernetes-deploymentmd-at-main-llm-dllm-d-github"
+  }
+]

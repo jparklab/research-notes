@@ -1,0 +1,47 @@
+[
+  {
+    "verdict": "wrong-source",
+    "severity": "critical",
+    "sentence": "Inside, the dial target is built arithmetically — `PodDiscoveryConfig.SocketPort` plus the endpoint's rank index — while the index key is a separate literal formed from `Address` and `Port`; the same construction appears on delete, clearing index entries, and again in the scoring path [[llm-d-routerpkgeppframeworkpluginsrequestcontroldataproducerpreciseprefixcachepr]].",
+    "cited_note_id": "llm-d-routerpkgeppframeworkpluginsrequestcontroldataproducerpreciseprefixcachepr",
+    "correct_note_id": "llm-d-routerpkgeppframeworkpluginsrequestcontroldataproducerpreciseprefixcacheex",
+    "evidence": "The cited note is producer.go, which the note's own doc comment says only handles the request-time Produce() path; it never mentions SocketPort, dial, or rank at all. The extractor.go note (id ending '...cacheex', not '...cachepr') is the one that documents PodDiscoveryConfig.SocketPort + meta.GetRankIndex() building the ZMQ dial address and the address:port index key, exactly matching this sentence.",
+    "suggested_fix": "swap citation to llm-d-routerpkgeppframeworkpluginsrequestcontroldataproducerpreciseprefixcacheex"
+  },
+  {
+    "verdict": "partially-supported",
+    "severity": "major",
+    "sentence": "Upstream-reported benchmarks on eight vLLM replicas across sixteen H100 GPUs put P90 time-to-first-token falling from roughly 35 seconds to roughly 120 milliseconds with throughput up 151 percent [[intelligent-inference-scheduling-with-llm-d-on-red-hat-ai-red-hat-developer]], and a companion write-up reports precise scheduling at 8,730 output tokens per second against 4,429 for cache-blind routing [[kv-cache-wins-you-can-see-from-prefix-caching-in-vllm-to-distributed-scheduling]].",
+    "cited_note_id": "intelligent-inference-scheduling-with-llm-d-on-red-hat-ai-red-hat-developer",
+    "correct_note_id": null,
+    "evidence": "The note states plainly 'Time-to-first-token: 35 seconds to 120 milliseconds' and 'Throughput: More than doubled (+151%)' on 8 vLLM replicas / 16 H100 GPUs — the magnitudes match, but the note never says these are P90 figures; no percentile qualifier appears anywhere in the note.",
+    "suggested_fix": "soften claim to what the source supports: drop the 'P90' qualifier for this citation, or attribute the P90 framing only to the companion kv-cache-wins source where percentile figures (0.542s vs 31.083s p90) actually appear"
+  },
+  {
+    "verdict": "partially-supported",
+    "severity": "major",
+    "sentence": "And the one genuine gap is data-parallel multi-rank engines: the dial port is the base socket port plus a rank index, and the file schema carries no rank field, so every file-discovered endpoint stays at rank zero [[readmemd]].",
+    "cited_note_id": "readmemd",
+    "correct_note_id": "llm-d-routerpkgeppframeworkpluginsrequestcontroldataproducerpreciseprefixcacheex",
+    "evidence": "readmemd (file-discovery plugin README) fully supports the 'no rank field in schema, so RankIndex stays at zero-value' half of the sentence, but says nothing about SocketPort, dial addresses, or how the dial port is computed — that mechanism is documented in the precise-prefix-cache extractor.go note instead.",
+    "suggested_fix": "add a second citation to llm-d-routerpkgeppframeworkpluginsrequestcontroldataproducerpreciseprefixcacheex for the dial-port-arithmetic clause"
+  },
+  {
+    "verdict": "partially-supported",
+    "severity": "major",
+    "sentence": "It is the documented path and the one where you can deliberately add a fallback cluster and set the ext_proc failure mode [[external-processing-envoy-1400-dev-13b0a8-documentation]].",
+    "cited_note_id": "external-processing-envoy-1400-dev-13b0a8-documentation",
+    "correct_note_id": null,
+    "evidence": "The cited note is the Envoy ext_proc filter's session-affinity, statistics, and access-log documentation; it lists a 'failure_mode_allowed' counter but nowhere documents configuring an ext_proc failure mode or adding a fallback cluster for the filter.",
+    "suggested_fix": "swap citation to Envoy documentation covering the ext_proc filter's failure_mode_allow config field and cluster/route fallback configuration, or soften the claim to what this note actually shows (the failure_mode_allowed stat exists)"
+  },
+  {
+    "verdict": "partially-supported",
+    "severity": "major",
+    "sentence": "Priority tiers add an admitter, registered at Alpha and therefore requiring `--allow-experimental-plugins` [[llm-d-routerpkgeppframeworkpluginsreadmemd-at-main-llm-dllm-d-router-github]].",
+    "cited_note_id": "llm-d-routerpkgeppframeworkpluginsreadmemd-at-main-llm-dllm-d-router-github",
+    "correct_note_id": null,
+    "evidence": "The note confirms the generic Alpha/--allow-experimental-plugins gating mechanism but never mentions 'admitter' or 'priority tiers' anywhere in its plugin catalogue (it covers stability levels generally and the multi-cluster plugin variants); the closest vault support for a priority-related Admitter is only an interim synthesis note, not a primary source.",
+    "suggested_fix": "swap citation to a primary source that actually names the priority-tier admitter plugin and its Alpha status, or soften the sentence to the generically-supported claim that Alpha plugins require the flag"
+  }
+]

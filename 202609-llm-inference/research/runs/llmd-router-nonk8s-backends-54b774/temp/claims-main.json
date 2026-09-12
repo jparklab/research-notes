@@ -1,0 +1,22 @@
+[
+ {
+  "claim": "Neither cmd/epp/runner nor pkg/epp/framework/interface/plugin nor pkg/epp/framework/interface/datalayer lives under an internal/ path in llm-d-router, so nothing in Go's internal-package visibility rule structurally blocks an out-of-tree module from importing them.",
+  "stance": "refutes",
+  "stance_target": "an internal/ path structurally blocks out-of-tree import of the EPP runner or plugin interfaces",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d/llm-d-router repository at main branch HEAD, Sep 11 2026",
+  "quoted_support": "cmd/epp/runner/runner.go; pkg/epp/framework/interface/plugin/registry.go; pkg/epp/framework/interface/datalayer/discovery.go",
+  "numbers": [
+   "1819 total paths in the recursive tree listing"
+  ],
+  "entities": [
+   "cmd/epp/runner",
+   "pkg/epp/framework/interface/plugin",
+   "internal/runnable"
+  ],
+  "time_period": "Sep 2026",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "main"
+ }
+]

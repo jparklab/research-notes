@@ -1,0 +1,172 @@
+---
+title: envoy.yaml
+id: envoyyaml
+tags:
+- llmd-router-nonk8s-backends-54b774
+- envoy
+- original-dst
+- no-kubernetes
+created: '2026-09-11T20:52:59.265242Z'
+updated: '2026-09-12T03:37:37.722730Z'
+source: https://raw.githubusercontent.com/llm-d/llm-d/main/guides/no-kubernetes-deployment/router/envoy/envoy.yaml
+source_domain: raw.githubusercontent.com
+fetched_at: '2026-09-11T20:52:59.244469Z'
+fetch_provider: crawl4ai
+status: review
+type: note
+tier: unknown
+content_type: unknown
+deprecated: false
+summary: 'llm-d guides/no-kubernetes-deployment/router/envoy/envoy.yaml at main (fetched
+  2026-09-11): static Envoy config for the no-Kubernetes path, mirroring the llm-d-router-standalone
+  Helm preset. Listener :8081 -> ext_proc filter (gRPC to localhost:9002, FULL_DUPLEX_STREAMED
+  request/response bodies, 10s gRPC timeout, 1000s message timeout) -> route to cluster
+  original_destination_cluster of type ORIGINAL_DST with lb_policy CLUSTER_PROVIDED
+  and original_dst_lb_config.use_http_header: true on header x-gateway-destination-endpoint,
+  i.e. stock Envoy honors the EPP-chosen ip:port with no custom proxy code. EPP cluster
+  has gRPC health checks and 40k circuit-breaker thresholds. TLS on the ext_proc cluster
+  is deliberately dropped for same-host colocation; comment says restore the transport_socket
+  block for split-host deployments.'
+utility_score: 14.0
+---
+
+```
+# Envoy config for the no-Kubernetes file-discovery deployment.
+#
+# Mirrors the parameters used by the standalone Envoy preset that the
+# optimized-baseline guide deploys via Helm
+# (config/charts/llm-d-router-standalone/values.yaml in llm-d-router),
+# trimmed of the parts that only apply inside Kubernetes:
+#   - The cluster-internal /ready + /stats listener on :19001 is dropped
+#     (Envoy's admin endpoint on :19000 already exposes /ready and /stats).
+#   - TLS on the ext_proc cluster is dropped because Envoy and the EPP are
+#     colocated on the same host; for split-host deployments restore the
+#     transport_socket block from the standalone preset.
+#
+# All other behaviour matches the standalone preset: listener on :8081,
+# ext_proc to localhost:9002 with the same processing modes and timeouts,
+# ORIGINAL_DST routing on the x-gateway-destination-endpoint header, and
+# the same circuit-breaker thresholds and gRPC health checks for the EPP.
+
+admin:
+  address:
+    socket_address:
+      address: 127.0.0.1
+      port_value: 19000
+
+static_resources:
+  listeners:
+    - name: vllm
+      address:
+        socket_address:
+          address: 0.0.0.0
+          port_value: 8081
+      per_connection_buffer_limit_bytes: 32768
+      filter_chains:
+        - filters:
+            - name: envoy.filters.network.http_connection_manager
+              typed_config:
+                "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+                stat_prefix: http-8081
+                route_config:
+                  name: vllm
+                  virtual_hosts:
+                    - name: vllm-default
+                      domains: ["*"]
+                      routes:
+                        - match:
+                            prefix: "/"
+                          route:
+                            cluster: original_destination_cluster
+                            timeout: 86400s
+                            idle_timeout: 86400s
+                            upgrade_configs:
+                              - upgrade_type: websocket
+                          typed_per_filter_config:
+                            envoy.filters.http.ext_proc:
+                              "@type": type.googleapis.com/envoy.config.route.v3.FilterConfig
+                              config: {}
+                http_filters:
+                  - name: envoy.filters.http.ext_proc
+                    typed_config:
+                      "@type": type.googleapis.com/envoy.extensions.filters.http.ext_proc.v3.ExternalProcessor
+                      grpc_service:
+                        envoy_grpc:
+                          cluster_name: ext_proc
+                          authority: localhost:9002
+                        timeout: 10s
+                      processing_mode:
+                        request_header_mode: SEND
+                        response_header_mode: SEND
+                        request_body_mode: FULL_DUPLEX_STREAMED
+                        response_body_mode: FULL_DUPLEX_STREAMED
+                        request_trailer_mode: SEND
+                        response_trailer_mode: SEND
+                      message_timeout: 1000s
+                  - name: envoy.filters.http.router
+                    typed_config:
+                      "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+                      suppress_envoy_headers: true
+                http2_protocol_options:
+                  max_concurrent_streams: 100
+                  initial_stream_window_size: 65536
+                  initial_connection_window_size: 1048576
+                use_remote_address: true
+                normalize_path: true
+                merge_slashes: true
+                server_header_transformation: PASS_THROUGH
+                common_http_protocol_options:
+                  headers_with_underscores_action: REJECT_REQUEST
+                path_with_escaped_slashes_action: UNESCAPE_AND_REDIRECT
+
+  clusters:
+    - name: original_destination_cluster
+      type: ORIGINAL_DST
+      connect_timeout: 1000s
+      lb_policy: CLUSTER_PROVIDED
+      circuit_breakers:
+        thresholds:
+          - max_connections: 40000
+            max_pending_requests: 40000
+            max_requests: 40000
+      original_dst_lb_config:
+        use_http_header: true
+        http_header_name: x-gateway-destination-endpoint
+
+    - name: ext_proc
+      type: STATIC
+      connect_timeout: 86400s
+      lb_policy: LEAST_REQUEST
+      circuit_breakers:
+        thresholds:
+          - max_connections: 40000
+            max_pending_requests: 40000
+            max_requests: 40000
+            max_retries: 1024
+      health_checks:
+        - timeout: 2s
+          interval: 10s
+          unhealthy_threshold: 3
+          healthy_threshold: 2
+          reuse_connection: true
+          grpc_health_check:
+            service_name: "envoy.service.ext_proc.v3.ExternalProcessor"
+      typed_extension_protocol_options:
+        envoy.extensions.upstreams.http.v3.HttpProtocolOptions:
+          "@type": type.googleapis.com/envoy.extensions.upstreams.http.v3.HttpProtocolOptions
+          explicit_http_config:
+            http2_protocol_options:
+              initial_stream_window_size: 65536
+              initial_connection_window_size: 1048576
+      load_assignment:
+        cluster_name: ext_proc
+        endpoints:
+          - lb_endpoints:
+              - endpoint:
+                  address:
+                    socket_address:
+                      address: 127.0.0.1
+                      port_value: 9002
+
+```
+

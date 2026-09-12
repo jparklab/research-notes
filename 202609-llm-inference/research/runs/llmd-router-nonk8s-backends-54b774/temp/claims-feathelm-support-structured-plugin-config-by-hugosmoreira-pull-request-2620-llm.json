@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "PR #2620 (merged 2026-09-11T17:51:16Z, HEAD as of this run) adds a Helm value router.epp.pluginsConfig for authoring the EndpointPickerConfig as structured YAML composable across values-file overlays, but touches zero Go files -- all 8 changed files are Helm chart templates, values, testdata, and verification scripts.",
+    "stance": "refutes",
+    "stance_target": "the most recent (Sep 11 2026) HEAD commit changes how plugin factories are registered or adds a new out-of-tree registration hook",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router, PR #2620, merged Sep 11 2026",
+    "quoted_support": "changed_files 8\nadditions 234 deletions 4",
+    "numbers": ["8 changed files", "+234/-4", "2026-09-11T17:51:16Z"],
+    "entities": ["PR #2620", "router.epp.pluginsConfig", "Helm chart"],
+    "time_period": "Sep 11, 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "feathelm-support-structured-plugin-config-by-hugosmoreira-pull-request-2620-llm"
+  },
+  {
+    "claim": "PR #2620 implements 'option (b)' of issue #2358, allowing structured (map) plugin config in Helm values to be layered/overridden across feature-gate overlay values files, complementing the already-merged 'option (a)' in PR #2388.",
+    "stance": "neutral",
+    "stance_target": "how Helm-templated EndpointPickerConfig authoring evolved through 2026",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router, PR #2620, opened Aug 30 2026",
+    "quoted_support": "Implements option (b) from #2358. `router.epp.pluginsConfig` accepts a structured EPP configuration and renders it into `pluginsConfigFile`. A feature-gate overlay can share the plugins and scheduling profiles defined in a base values file.",
+    "numbers": ["issue #2358", "PR #2388"],
+    "entities": ["router.epp.pluginsConfig", "pluginsConfigFile"],
+    "time_period": "Aug-Sep 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "feathelm-support-structured-plugin-config-by-hugosmoreira-pull-request-2620-llm"
+  }
+]

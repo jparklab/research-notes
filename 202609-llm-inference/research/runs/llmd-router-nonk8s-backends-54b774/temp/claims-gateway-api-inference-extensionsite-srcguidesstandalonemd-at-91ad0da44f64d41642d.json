@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Standalone mode's flag-only configuration path ('Without Inference APIs Support') still requires a Kubernetes pod label selector (endpointSelector) to discover backend pods, with no non-k8s endpoint source documented.",
+    "stance": "supports",
+    "stance_target": "standalone mode, even in its simplest flag-only form, assumes Kubernetes pods as the backend unit",
+    "evidence_type": "empirical",
+    "scope_conditions": "site-src/guides/standalone.md, last version before deletion (commit 91ad0da4)",
+    "quoted_support": "EPP is configured using command line flags. This is the simplest method for standalone jobs which doesn't require installing the inference extension apis, which means no support for the features expressed using the inference APIs (such as InferenceObjectives).",
+    "numbers": [],
+    "entities": ["standalone mode", "endpointSelector", "InferenceObjectives"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "gateway-api-inference-extensionsite-srcguidesstandalonemd-at-91ad0da44f64d41642d"
+  },
+  {
+    "claim": "Standalone mode was designed specifically to reduce operational overhead for single-tenant workloads (e.g. an offline RL post-training sampler) where deploying a separate external proxy tied to the Gateway API is impractical.",
+    "stance": "neutral",
+    "stance_target": "the design motivation for standalone mode",
+    "evidence_type": "theoretical",
+    "scope_conditions": "site-src/guides/standalone.md",
+    "quoted_support": "Consider an offline RL post-training job, where the sampler, the inference service in the job, is a single tenant/workload with a lifecycle tied with the training job... A simpler deployment mode would reduce the barrier to adopting the EPP for such single-tenant workloads.",
+    "numbers": [],
+    "entities": ["offline RL post-training", "standalone mode"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "gateway-api-inference-extensionsite-srcguidesstandalonemd-at-91ad0da44f64d41642d"
+  },
+  {
+    "claim": "Standalone mode with the agentgateway sidecar preset explicitly does not support the InferencePool API at all, unlike the Envoy sidecar preset which supports both InferencePool-backed and flag-only configuration.",
+    "stance": "neutral",
+    "stance_target": "feature parity between Envoy and agentgateway standalone presets",
+    "evidence_type": "empirical",
+    "scope_conditions": "site-src/guides/standalone.md",
+    "quoted_support": "Agentgateway standalone does not support InferencePool.",
+    "numbers": [],
+    "entities": ["agentgateway", "InferencePool", "Envoy"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "gateway-api-inference-extensionsite-srcguidesstandalonemd-at-91ad0da44f64d41642d"
+  },
+  {
+    "claim": "Standalone mode deploys the proxy as a sidecar container to the EPP within a single pod, communicating over localhost, distributed via a Helm chart hosted at a Google Cloud Artifact Registry OCI URL.",
+    "stance": "neutral",
+    "stance_target": "standalone mode deployment mechanics",
+    "evidence_type": "empirical",
+    "scope_conditions": "site-src/guides/standalone.md",
+    "quoted_support": "A proxy is deployed as a sidecar to the EPP. The proxy and EPP communicate over localhost.",
+    "numbers": ["oci://us-central1-docker.pkg.dev/k8s-staging-images/gateway-api-inference-extension/charts/standalone"],
+    "entities": ["Helm chart", "standalone chart"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "gateway-api-inference-extensionsite-srcguidesstandalonemd-at-91ad0da44f64d41642d"
+  }
+]

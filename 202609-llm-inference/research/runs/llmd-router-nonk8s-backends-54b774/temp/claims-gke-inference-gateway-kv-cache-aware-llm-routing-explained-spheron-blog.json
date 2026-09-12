@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "GKE Inference Gateway's routing intelligence is the same open-source Endpoint Picker (EPP) from the kubernetes-sigs gateway-api-inference-extension repository used on any Kubernetes cluster; only the managed control plane, load balancer provisioning, and IAM integration are GCP-proprietary.",
+    "stance": "supports",
+    "stance_target": "cloud vendors wrap the identical upstream EPP rather than forking it",
+    "evidence_type": "empirical",
+    "scope_conditions": "GKE Inference Gateway, announced Google Cloud Next 2025",
+    "quoted_support": "Crucially, the EPP is not proprietary. It ships in the open-source gateway-api-inference-extension repository under kubernetes-sigs. The GCP-specific parts are the managed control plane, the Google Cloud Load Balancer provisioning, and the IAM integration. The routing logic, the CRDs, and the vLLM integration are identical whether you run on GKE or on your own Kubernetes cluster.",
+    "numbers": [],
+    "entities": ["GKE Inference Gateway", "EPP", "gateway-api-inference-extension", "kubernetes-sigs"],
+    "time_period": "2025-2026",
+    "region": "Google Cloud",
+    "confidence": "medium",
+    "source_note_id": "gke-inference-gateway-kv-cache-aware-llm-routing-explained-spheron-blog"
+  },
+  {
+    "claim": "When no replica has a strong prefix match, the EPP falls back to routing based on the vllm:kv_cache_usage_perc metric rather than random/round-robin selection.",
+    "stance": "neutral",
+    "stance_target": "EPP fallback scoring signal when prefix caching is uninformative",
+    "evidence_type": "empirical",
+    "scope_conditions": "GKE Inference Gateway EPP behavior",
+    "quoted_support": "KV cache utilization balancing: When no replica has a strong prefix match, the EPP falls back to routing based on vllm:kv_cache_usage_perc, sending new requests to the replica with the most available cache capacity.",
+    "numbers": [],
+    "entities": ["EPP", "vllm:kv_cache_usage_perc"],
+    "time_period": null,
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "gke-inference-gateway-kv-cache-aware-llm-routing-explained-spheron-blog"
+  },
+  {
+    "claim": "Under round-robin across 8 replicas, a shared system prompt is seen by any given replica only about 12.5% of the time, driving near-zero per-replica cache hit rates; cache-hit efficiency of KV-aware routing improves as replica count scales up, the opposite of round-robin.",
+    "stance": "supports",
+    "stance_target": "round-robin load balancing is fundamentally unsuited to LLM inference and gets relatively worse with scale",
+    "evidence_type": "empirical",
+    "scope_conditions": "8-replica vLLM deployment, shared system prompt workload",
+    "quoted_support": "With round-robin across 8 replicas, the same system prompt gets distributed across all 8 replicas, and each replica sees the prefix only about 12.5% of the time. Cache hit rate per replica is near zero... This scales worse as you add replicas. More replicas means lower per-replica cache hit rate with round-robin. KV-aware routing gets more efficient as you scale.",
+    "numbers": ["8 replicas", "12.5%"],
+    "entities": ["round-robin", "KV-aware routing"],
+    "time_period": null,
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "gke-inference-gateway-kv-cache-aware-llm-routing-explained-spheron-blog"
+  },
+  {
+    "claim": "A 128K-token system prompt on a 70B FP8 model costs roughly 11 seconds of prefill; at 1,000 requests/hour with round-robin, nearly every request re-pays that cost (~11,000 GPU-seconds wasted/hour), versus under 2,000 GPU-seconds with KV-aware routing.",
+    "stance": "supports",
+    "stance_target": "quantified cost of redundant prefill under round-robin versus KV-aware routing",
+    "evidence_type": "empirical",
+    "scope_conditions": "70B FP8 model, 128K-token system prompt, multi-GPU tensor-parallel setup, 1,000 req/hr chatbot workload",
+    "quoted_support": "On a chatbot handling 1,000 requests per hour with a shared system prompt, that's the difference between 11,000 GPU-seconds wasted on redundant prefill versus under 2,000.",
+    "numbers": ["128K tokens", "11 seconds", "1,000 requests/hour", "11,000 GPU-seconds", "2,000 GPU-seconds"],
+    "entities": ["70B FP8 model"],
+    "time_period": null,
+    "region": null,
+    "confidence": "low",
+    "source_note_id": "gke-inference-gateway-kv-cache-aware-llm-routing-explained-spheron-blog"
+  }
+]

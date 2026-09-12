@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "Envoy's ORIGINAL_DST cluster type, as documented in its canonical example, forwards each connection to the destination address it was addressed to before iptables REDIRECT intercepted it, using a network-namespace/iptables setup rather than an HTTP header.",
+    "stance": "neutral",
+    "stance_target": "the ORIGINAL_DST mechanism as a route to non-pod backends",
+    "evidence_type": "empirical",
+    "scope_conditions": "Envoy upstream example config, main branch",
+    "quoted_support": "An original destination cluster forwards requests to the same destination the request was going to before being redirected to Envoy using an iptables REDIRECT rule.",
+    "numbers": [],
+    "entities": ["Envoy", "ORIGINAL_DST cluster", "iptables"],
+    "time_period": "current (Envoy main)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "envoyconfigsoriginal-dst-clusterreadmemd-at-main-envoyproxyenvoy-github"
+  },
+  {
+    "claim": "This canonical Envoy ORIGINAL_DST example documents only the connection-level (iptables/SO_ORIGINAL_DST) redirection mechanism and does not document the request-level header-override variant needed to honor a per-request EPP destination decision.",
+    "stance": "refutes",
+    "stance_target": "using the basic original-dst-cluster README as sufficient documentation for EPP-driven per-request routing",
+    "evidence_type": "empirical",
+    "scope_conditions": "Envoy upstream example config README",
+    "quoted_support": "netns_setup.sh and netns_cleanup.sh are provided as examples for setting up and cleaning up, respectively, a network namespace and the required iptables rule to redirect traffic to Envoy.",
+    "numbers": [],
+    "entities": ["Envoy", "ORIGINAL_DST cluster"],
+    "time_period": "current (Envoy main)",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "envoyconfigsoriginal-dst-clusterreadmemd-at-main-envoyproxyenvoy-github"
+  }
+]

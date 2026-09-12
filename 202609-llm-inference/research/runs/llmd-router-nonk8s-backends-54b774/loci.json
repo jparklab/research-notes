@@ -1,0 +1,209 @@
+{
+ "loci": [
+  {
+   "name": "extension-mechanism",
+   "one_line": "Which extension mechanism maximizes llm-d reuse for non-pod backends: file-discovery fed by an external generator (no Go), an out-of-tree EndpointDiscovery plugin in a thin downstream EPP build (exported registry, undocumented, no precedent), an in-tree fork (documented, merge burden), embedding llm-d scheduling/kv-cache packages in a custom router, or upstreaming the plugin \u2014 and what does each cost across llm-d's ~monthly release cadence?",
+   "flavor": "dialectical",
+   "importance": 10,
+   "uncertainty": 7,
+   "disagreement": 7,
+   "decision_impact": 10,
+   "composite_score": 34,
+   "source_budget": 10,
+   "rationale": "This is the strategy decision the user asked for. Code shows out-of-tree registration is technically sound (exported Registry + Register, importable runner) but the only documented path is editing runner.go, no downstream precedent exists, the interface is ~3 months old with Alpha/Beta lifecycle, and the docs' own plugin skeleton does not compile against HEAD. The investigator must commit to a ranked recommendation with a maintenance-cost argument, and settle whether library embedding is lightweight or heavyweight reuse.",
+   "merged_from": {
+    "a": "discovery-plugin-injection-viability",
+    "b": "out-of-tree-plugin-registration + scheduling-framework-library-embeddability"
+   },
+   "corpus_evidence": [
+    "registrygo",
+    "runnergo",
+    "maingo",
+    "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github",
+    "llm-d-routerdocscreate_new_filtermd-at-main-llm-dllm-d-router-github",
+    "feat-add-pluggable-discoveryplugin-interface-by-ezrasilvera-pull-request-908-llm",
+    "llm-d-router-module-githubcomllm-dllm-d-router-go-packages",
+    "llm-d-v09-hardened-for-scale-llm-d"
+   ]
+  },
+  {
+   "name": "kv-event-path-off-k8s",
+   "one_line": "Does precise prefix-cache-aware routing (llm-d's flagship scorer) work when endpoints come from file/custom discovery \u2014 i.e. does the EPP-embedded KV indexer use Static Endpoint Mode (backends push to a bound ZMQ SUB) or a Kubernetes pod reconciler, and do KV-event identities (kv@ip:port@model) line up with EndpointDiscovery's NamespacedName ids?",
+   "flavor": "technical",
+   "importance": 9,
+   "uncertainty": 9,
+   "disagreement": 6,
+   "decision_impact": 8,
+   "composite_score": 32,
+   "source_budget": 10,
+   "rationale": "If precise prefix routing silently degrades off-k8s, the recommendation must say so and prescribe the approximate prefix scorer or a fix. The corpus documents both modes but never demonstrates precise routing with file discovery end-to-end; the no-k8s guide's plugin mix uses the approximate prefix-cache-scorer, which is itself a signal. Needs code-level reading of the precise-prefix plugin's indexer wiring in llm-d-router and llm-d-kv-cache.",
+   "merged_from": {
+    "a": "kv-cache-identity-and-transport-off-k8s",
+    "b": "kv-event-push-mode-for-file-discovery"
+   },
+   "corpus_evidence": [
+    "llm-dguidesprecise-prefix-cache-routingreadmemd-at-main-llm-dllm-d-github",
+    "llm-d-kv-cachedocsconfigurationmd-at-main-llm-dllm-d-kv-cache-github",
+    "llm-d-kv-cachedocsarchitecturemd-at-main-llm-dllm-d-kv-cache-github",
+    "llm-d-kv-cacheexamplesvalkey_examplereadmemd-at-v040-llm-dllm-d-kv-cache-github",
+    "configyaml",
+    "plugingo"
+   ]
+  },
+  {
+   "name": "availability-and-lifecycle-off-k8s",
+   "one_line": "Outside Kubernetes the EPP becomes a fail-closed hard dependency and endpoint health/eviction becomes the caller's job \u2014 what is the production design for EPP HA (v0.9 multi-replica under file/custom discovery, replica consistency), health gating in lieu of pod readiness, and securing metrics scraping, ZMQ KV events and the ORIGINAL_DST header path?",
+   "flavor": "dialectical",
+   "importance": 8,
+   "uncertainty": 7,
+   "disagreement": 6,
+   "decision_impact": 7,
+   "composite_score": 28,
+   "source_budget": 7,
+   "rationale": "Fail-open vs fail-closed is a live maintainer dispute (agentgateway #1661 open); the corpus asserts but never shows that v0.9 HA replicas cover non-k8s discovery; security defaults are audited absences (plain-HTTP metrics, no ZMQ auth, TLS to EPP dropped when colocated). These determine the operational half of the roadmap.",
+   "merged_from": {
+    "a": "epp-availability-outside-fail-open-envelope",
+    "b": "fail-open-vs-fail-closed-standalone (+ lifecycle half of nok8s-lost-inputs-and-lifecycle-replacements)"
+   },
+   "corpus_evidence": [
+    "support-fail-open-fallback-for-standalone-epp-inference-routing-issue-1661-agent",
+    "add-standalone-inference-routing-local-config-by-danehans-pull-request-1429-agen",
+    "trust-standalone-epp-selected-destinations-by-danehans-pull-request-1658-agentga",
+    "llm-d-v09-hardened-for-scale-llm-d",
+    "envoyyaml",
+    "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github",
+    "metrics-llm-d"
+   ]
+  },
+  {
+   "name": "custom-discovery-plugin-design",
+   "one_line": "Since llm-d ships no dynamic discovery backend, what should a production custom EndpointDiscovery plugin (Consul/etcd/cloud SD/Slurm/Ray-fed) look like \u2014 watch vs poll, initial enumeration + Ready semantics, single-goroutine notifier ordering, health filtering, identity synthesis (NamespacedName, --pool-namespace), labels for P/D roles \u2014 using Dynamo (etcd/NATS), production-stack (StaticServiceDiscovery), RAMSES (Postgres-fed) and the file plugin as design references?",
+   "flavor": "synthesis",
+   "importance": 8,
+   "uncertainty": 6,
+   "disagreement": 3,
+   "decision_impact": 7,
+   "composite_score": 24,
+   "source_budget": 6,
+   "rationale": "Audited absence of any non-file plugin; the roadmap needs a concrete reference design and effort estimate. Converges rather than argues, so a moderate budget.",
+   "merged_from": {
+    "a": "non-file-discovery-precedent",
+    "b": "custom-discovery-plugin-design-precedent"
+   },
+   "corpus_evidence": [
+    "plugingo",
+    "llm-d-routerpkgeppframeworkinterfacedatalayerdiscoverygo-at-main-llm-dllm-d-rout",
+    "feat-add-pluggable-discoveryplugin-interface-by-ezrasilvera-pull-request-908-llm",
+    "github-ai-dynamodynamo-a-datacenter-scale-distributed-inference-serving-framewor",
+    "router-configuration-vllm-projectproduction-stack-deepwiki",
+    "automated-dynamic-ai-inference-scaling-on",
+    "endpoint-metadata-updates-do-not-trigger-endpoint-notification-events-issue-1403"
+   ]
+  },
+  {
+   "name": "topology-and-k8s-shims",
+   "one_line": "Which deployment topology fits which backend estate: router fully outside Kubernetes (file/custom discovery), router inside Kubernetes targeting out-of-cluster backends (file discovery via ConfigMap or custom plugin), or making backends real pods (Slinky slurm-operator) so stock InferencePool works \u2014 and are EndpointSlice/virtual-kubelet shims ever viable for the EPP?",
+   "flavor": "dialectical",
+   "importance": 7,
+   "uncertainty": 5,
+   "disagreement": 6,
+   "decision_impact": 6,
+   "composite_score": 24,
+   "source_budget": 4,
+   "rationale": "Corpus largely resolves the EndpointSlice/virtual-kubelet branch (InferencePool selects Pods only; interLink excludes long-running services; Slurm plugin egress-only) but leaves the hybrid and Slinky branches under-argued; the report's strategy table needs a topology decision rule.",
+   "merged_from": {
+    "a": "k8s-shim-vs-native-plugin-tradeoff",
+    "b": "k8s-object-shim-vs-native-discovery"
+   },
+   "corpus_evidence": [
+    "inferencepool-kubernetes-gateway-api-inference-extension",
+    "endpointslices-kubernetes",
+    "both-endpoints-and-endpointslices-not-working-with-service-abstraction-for-exter",
+    "github-slinkyprojectslurm-operator-run-slurm-on-kubernetes-a-slinky-project-gith",
+    "github-interlink-hqinterlink-slurm-plugin-github",
+    "plugingo"
+   ]
+  },
+  {
+   "name": "lost-k8s-policy-inputs",
+   "one_line": "What replaces the Kubernetes-only policy inputs off-cluster \u2014 InferenceObjective priority/SLO (FlowControl priority bands), InferenceModelRewrite (model aliasing, canary splits), PodMonitor metrics discovery \u2014 using static config, the Inference Payload Processor, or the gateway tier?",
+   "flavor": "synthesis",
+   "importance": 6,
+   "uncertainty": 5,
+   "disagreement": 5,
+   "decision_impact": 5,
+   "composite_score": 21,
+   "source_budget": 3,
+   "rationale": "Analyst A judged parity well covered; analyst B found an internal tension (platform-invariant claim vs listed inactive features). The gap is WHAT TO BUILD, which the corpus does not answer; a short pass suffices.",
+   "merged_from": {
+    "a": "(rejected by a as feature-parity workarounds)",
+    "b": "nok8s-lost-inputs-and-lifecycle-replacements (inputs half)"
+   },
+   "corpus_evidence": [
+    "no-kubernetes-no-problem-llm-d-now-runs-anywhere-llm-d",
+    "llm-ddocsinfrastructureno-kubernetes-deploymentmd-at-main-llm-dllm-d-github",
+    "llm-d-routerpkgeppframeworkpluginsdatalayerdiscoveryfile-at-main-llm-dllm-d-rout",
+    "llm-d-flow-control-priority-queuing-for-shared-gpu-inference-red-hat-developer"
+   ]
+  }
+ ],
+ "skip_loci": [
+  {
+   "slug": "feature-parity-workarounds-nonk8s",
+   "reason": "The nok8s-feature-parity fight (InferenceObjective/InferenceModelRewrite/PodMonitor/health-lifecycle becoming 'the caller's job' off-Kubernetes) is real and load-bearing, but coverage-gaps.md already rates Q8 (risks) as 'Well-covered' with 10 independent sources documenting the gap precisely; a depth investigator would mostly be re-confirming an already-well-evidenced absence rather than resolving a genuine open question. Better spent as a clearly-flagged risk in the draft (with citations already in hand) than as a 6th depth-investigation slot; deprioritized in favor of the two dialectical strategy-fork loci (discovery-plugin-injection-viability, k8s-shim-vs-native-plugin-tradeoff) which change the actual recommendation.",
+   "from_analyst": "a"
+  },
+  {
+   "slug": "independent-ext-proc-overhead-benchmark",
+   "reason": "coverage-gaps.md logs this as an audited absence (no independent measurement of EPP/ext_proc overhead; only vendor-internal vLLM Router comparison and unrelated gateway anecdotes) and the deep-inference directive says such absences are worth digging for. Rejected as a standalone locus only because it is orthogonal to the user's actual decision (which strategy to implement, not which router is fastest) -- decision_relevance for the analogous llm-d-vs-alternative-routers fight in the contradiction graph is 'medium' and the graph itself notes the user's stated constraint (maximize llm-d reuse) makes this 'a check on the premise rather than the decision.' Worth one paragraph noting the absence in the draft; not worth a dedicated depth investigator given the fixed budget of 6 loci.",
+   "from_analyst": "a"
+  },
+  {
+   "slug": "standalone-vs-nok8s-terminology",
+   "reason": "The 'standalone-means-no-k8s' fight in the contradiction graph is explicitly resolved by its own scope_overlap note as a terminology conflict, not a substantive disagreement (Standalone = no Gateway API objects; only file/custom EndpointDiscovery removes Kubernetes itself). No further investigation would change the report's conclusion; it needs one clarifying sentence in section 2 or 4, not a depth investigator.",
+   "from_analyst": "a"
+  },
+  {
+   "slug": "external-managed-provider-integration",
+   "reason": "The 'external-providers-in-router' fight is explicitly resolved by its own scope_overlap note as not a genuine disagreement -- both sides describe the same two-tier design (AI gateway picks provider class, EPP picks within self-hosted pools). Also orthogonal to the user's stated backend types (VMs/bare-metal/HPC self-hosted model servers, not managed OpenAI-compatible APIs), so low relevance to the research_query even though it appears in the decomposition's scope_conditions as one 'kind' of non-pod backend.",
+   "from_analyst": "a"
+  },
+  {
+   "slug": "standalone-means-no-k8s-terminology",
+   "reason": "Contradiction-graph cluster 'standalone-means-no-k8s' resolves to a pure terminology conflict once scoped (Standalone = no Gateway API objects; only file/custom discovery removes Kubernetes itself), decision_relevance medium, and does not change any recommendation -- not worth a depth-investigator slot.",
+   "from_analyst": "b"
+  },
+  {
+   "slug": "k8s-native-by-design-philosophy",
+   "reason": "Cluster 'k8s-native-by-design' is a historical-framing question (was Kubernetes coupling intentional or incidental) rather than a forward-looking design decision; the corpus's own scope_overlap note already resolves it as 'k8s-native by origin, decoupling in progress' and depth investigation here would produce narrative color, not a decision input.",
+   "from_analyst": "b"
+  },
+  {
+   "slug": "external-providers-in-router",
+   "reason": "Contradiction-graph explicitly flags this as 'not a genuine disagreement' -- both sides describe the same two-tier design (gateway picks provider class, EPP picks within self-hosted pools). Including managed/external APIs (OpenAI, Bedrock) as a 'non-pod backend' is also a scope stretch beyond what the research_query is asking (customizing the router for self-hosted non-pod compute, not multi-provider gateway federation).",
+   "from_analyst": "b"
+  },
+  {
+   "slug": "llm-d-vs-alternative-routers-benchmarks",
+   "reason": "Both sides of this fight are vendor-reported, unreproduced benchmarks (llm-d-reported cache-aware gains vs. vLLM-Router-reported throughput/TTFT gains) -- the evidence_quality_delta in the contradiction graph already flags this as weak on both sides, and the user's stated constraint (maximize llm-d reuse) makes this a premise check, not a live decision; a depth investigator would likely return 'benchmarks remain unreproduced' rather than new decision-relevant information.",
+   "from_analyst": "b"
+  },
+  {
+   "slug": "discovery-config-path-versioning",
+   "reason": "Cluster 'discovery-config-path' (dataLayer.discovery.pluginRef vs .endpoints.pluginRef) is a low-relevance, already-resolved API-drift artifact (PR #2434, legacy key still works via migration shim) -- a documentation-currency footnote for the draft, not a locus.",
+   "from_analyst": "b"
+  },
+  {
+   "slug": "metrics-and-addressing-schema-limits",
+   "reason": "Clusters 'metrics-endpoint-coupling' and 'file-discovery-addressing' are both already resolved in the contradiction graph as narrow schema limitations of the file plugin specifically (not the EPP data model), medium/low decision_relevance -- worth a sentence in the draft, not a depth investigation.",
+   "from_analyst": "b"
+  },
+  {
+   "slug": "scheduling-framework-library-embeddability (merged)",
+   "reason": "Analyst B's library-embeddability locus merged into 'extension-mechanism' \u2014 importing llm-d scheduling/kv-cache packages into a custom binary is one branch of the same extension-mechanism decision, not a separate question.",
+   "from_analyst": "orchestrator"
+  }
+ ],
+ "total_source_budget": 40,
+ "inference_depth": "deep (unchanged \u2014 load-bearing forks are settled only by code-level reading)"
+}

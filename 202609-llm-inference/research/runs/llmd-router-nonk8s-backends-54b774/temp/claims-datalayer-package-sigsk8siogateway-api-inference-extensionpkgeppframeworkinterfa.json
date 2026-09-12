@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "The core EndpointMetadata struct is explicitly documented as representing Kubernetes Pod state, with fields NamespacedName, PodName, Address, MetricsHost and Labels, making the data layer's concrete metadata type inherently pod-shaped.",
+    "stance": "supports",
+    "stance_target": "the datalayer assumes Kubernetes pods at the type-definition level",
+    "evidence_type": "empirical",
+    "scope_conditions": "pkg.go.dev sigs.k8s.io/gateway-api-inference-extension/pkg/epp/framework/interface/datalayer, EndpointMetadata",
+    "quoted_support": "EndpointMetadata represents the relevant Kubernetes Pod state of an inference server.",
+    "numbers": [],
+    "entities": ["EndpointMetadata", "NamespacedName", "PodName"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "datalayer-package-sigsk8siogateway-api-inference-extensionpkgeppframeworkinterfa"
+  },
+  {
+    "claim": "PollingDataSource is a generic interface requiring only an Endpoint and returning arbitrary data with no direct Kubernetes type dependency, making it the more portable of the two DataSource extension points for a non-k8s backend.",
+    "stance": "refutes",
+    "stance_target": "every part of the EPP data layer requires Kubernetes objects",
+    "evidence_type": "empirical",
+    "scope_conditions": "pkg.go.dev framework/interface/datalayer, PollingDataSource interface",
+    "quoted_support": "Poll fetches data for an endpoint and returns it. The Runtime handles calling extractors with the returned data.",
+    "numbers": [],
+    "entities": ["PollingDataSource"],
+    "time_period": null,
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "datalayer-package-sigsk8siogateway-api-inference-extensionpkgeppframeworkinterfa"
+  },
+  {
+    "claim": "NotificationSource is explicitly documented as event-driven for a single Kubernetes GroupVersionKind, with the framework core owning k8s watches, caches, and informers -- this extension point is tightly bound to Kubernetes and not portable to non-k8s backends without framework changes.",
+    "stance": "supports",
+    "stance_target": "the datalayer's notification-based extension mechanism is Kubernetes-specific",
+    "evidence_type": "empirical",
+    "scope_conditions": "pkg.go.dev framework/interface/datalayer, NotificationSource interface",
+    "quoted_support": "NotificationSource is an event-driven DataSource for a single k8s GVK. The framework core owns the k8s notification mechanisms (e.g., watches, caches, informers) and calls the source's Notify on events.",
+    "numbers": [],
+    "entities": ["NotificationSource", "GroupVersionKind"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "datalayer-package-sigsk8siogateway-api-inference-extensionpkgeppframeworkinterfa"
+  },
+  {
+    "claim": "EventType constants are defined explicitly in terms of Kubernetes object lifecycle (created, updated, deleted), reinforcing that the event model underlying NotificationSource is k8s-native.",
+    "stance": "supports",
+    "stance_target": "the datalayer's event model is Kubernetes-native",
+    "evidence_type": "empirical",
+    "scope_conditions": "pkg.go.dev framework/interface/datalayer, EventType constants",
+    "quoted_support": "EventAddOrUpdate is fired when a k8s object is created or updated. EventDelete is fired when a k8s object is deleted.",
+    "numbers": [],
+    "entities": ["EventType", "EventAddOrUpdate", "EventDelete"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "datalayer-package-sigsk8siogateway-api-inference-extensionpkgeppframeworkinterfa"
+  },
+  {
+    "claim": "The Metrics struct holding model-server load state (active/waiting models, KV cache usage, queue sizes) contains no Kubernetes or pod fields, so it is backend-agnostic and reusable for a non-k8s backend provided a valid EndpointMetadata can be synthesized.",
+    "stance": "neutral",
+    "stance_target": "which parts of the data layer are portable to non-k8s backends",
+    "evidence_type": "empirical",
+    "scope_conditions": "pkg.go.dev framework/interface/datalayer, Metrics struct",
+    "quoted_support": "Metrics holds the latest metrics snapshot scraped from a pod.",
+    "numbers": [],
+    "entities": ["Metrics", "KVCacheUsagePercent"],
+    "time_period": null,
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "datalayer-package-sigsk8siogateway-api-inference-extensionpkgeppframeworkinterfa"
+  }
+]

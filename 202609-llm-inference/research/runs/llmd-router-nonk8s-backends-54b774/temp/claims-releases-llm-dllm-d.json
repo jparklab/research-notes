@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "llm-d shipped a 'FileDiscovery plugin' for llm-d-router enabling a 'Non-Kubernetes mode (RL/Slurm)' as a new capability.",
+    "stance": "supports",
+    "stance_target": "llm-d itself already provides an official, non-Kubernetes-pod backend-discovery mechanism for its router",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d/llm-d GitHub Releases, capability table appearing in the v0.8.0-v0.9.0 release window (exact release ambiguous, see caveat)",
+    "quoted_support": "Non-Kubernetes mode (RL/Slurm) | llm-d-router (FileDiscovery plugin) | New",
+    "numbers": [],
+    "entities": ["llm-d-router", "FileDiscovery", "RL", "Slurm"],
+    "time_period": "circa June-August 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "releases-llm-dllm-d"
+  },
+  {
+    "claim": "As of the v0.7.0 release (12 May 2026), llm-d changed its default deployment to 'standalone mode' using a generic proxy instead of a full-featured gateway, citing gateway-configuration difficulty for adopters, while still recommending a full gateway for production.",
+    "stance": "supports",
+    "stance_target": "standalone (non-Gateway-API) EPP deployment is llm-d's mainline default onboarding path, not a niche mode",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d/llm-d, release v0.7.0, 12 May 2026",
+    "quoted_support": "due to the difficulty configuring gateways for many adopters, we have made the default deployment of llm-d to use \"standalone mode\" where we use a generic proxy instead of the more feature full gateway. We still recomend a fully gateway for customers in production.",
+    "numbers": ["v0.7.0"],
+    "entities": ["llm-d", "standalone mode"],
+    "time_period": "May 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "releases-llm-dllm-d"
+  },
+  {
+    "claim": "llm-d renamed its core EPP image from llm-d-inference-scheduler to llm-d-router-endpoint-picker, and its P/D disaggregation routing sidecar from llm-d-routing-sidecar to llm-d-router-disagg-sidecar.",
+    "stance": "neutral",
+    "stance_target": "current canonical component names for llm-d's EPP and routing-sidecar, relevant to anyone reading older llm-d docs/code referencing the pre-rename names",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d/llm-d, Deprecated/Removed Components table, June-August 2026 release window",
+    "quoted_support": "llm-d/llm-d-inference-scheduler | Renamed | ghcr.io/llm-d/llm-d-router-endpoint-picker | llm-d/llm-d-routing-sidecar | Renamed | ghcr.io/llm-d/llm-d-router-disagg-sidecar",
+    "numbers": [],
+    "entities": ["llm-d-inference-scheduler", "llm-d-router-endpoint-picker", "llm-d-routing-sidecar", "llm-d-router-disagg-sidecar"],
+    "time_period": "circa June-August 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "releases-llm-dllm-d"
+  },
+  {
+    "claim": "llm-d's default gateway/proxy naming evolved from 'KGateway' (through v0.5.1, v2.1.1) to being labeled 'agentgateway (old KGateway)' starting at v0.7.0 (v2.2.1), and by v0.9.0 was tracked as an independently versioned AgentGateway v1.1.0, with Envoy Gateway and Envoy AI Gateway newly added as tracked infrastructure options.",
+    "stance": "neutral",
+    "stance_target": "timeline of llm-d's proxy/gateway component rebranding from KGateway to agentgateway",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d/llm-d Infrastructure Changes tables, Feb 2026 - Aug 2026",
+    "quoted_support": "AgentGateway | v1.1.0 | v2.3.3 (as kgateway) | Envoy Gateway / Envoy AI Gateway | v1.8.1 / v0.7.0 | —",
+    "numbers": ["v1.1.0", "v2.3.3", "v1.8.1", "v0.7.0"],
+    "entities": ["KGateway", "agentgateway", "AgentGateway", "Envoy Gateway", "Envoy AI Gateway"],
+    "time_period": "February 2026 - August 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "releases-llm-dllm-d"
+  },
+  {
+    "claim": "llm-d v0.5.0 (3 Feb 2026) adopted the Gateway API Inference Extension's v1 InferencePool API, requiring cluster admins to upgrade Gateway API, Istio and KGateway infrastructure components before upgrading.",
+    "stance": "neutral",
+    "stance_target": "dated milestone for llm-d's InferencePool API version dependency, relevant for scoping which llm-d releases correspond to which GIE InferencePool API version",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d/llm-d release v0.5.0, 3 Feb 2026",
+    "quoted_support": "We upgraded to the following versions to consume the new v1 Inference Pool API. This means cluster admins should descale their workloads and upgrade these Infrastructure level components before proceeding.",
+    "numbers": ["v0.5.0", "Gateway API v1.4.0", "Istio 1.28.1", "KGateway v2.1.1"],
+    "entities": ["llm-d", "InferencePool", "Gateway API", "KGateway"],
+    "time_period": "February 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "releases-llm-dllm-d"
+  }
+]

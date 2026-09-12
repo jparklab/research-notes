@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "EPP peer discovery is a separate mechanism from leader election, used only for active-active cross-replica state sync (e.g. future prefix-cache metadata exchange).",
+    "stance": "neutral",
+    "stance_target": "whether peer-discovery.md documents leader-election locking",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d-router EPP, active-active topology",
+    "quoted_support": "EPP replicas operating in an active-active topology need to know about each other so a future cross-replica syncer can exchange state (e.g. prefix-cache metadata) between them.",
+    "numbers": [],
+    "entities": ["llm-d-router", "EPP", "PeerDiscovery", "PeerNotifier"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerdocspeer-discoverymd-at-main-llm-dllm-d-router-github"
+  },
+  {
+    "claim": "Peer discovery is configured via a generic pluginRef, not a hardwired Kubernetes mechanism, and is disabled by default.",
+    "stance": "supports",
+    "stance_target": "existence of a Kubernetes-independent peer-discovery path",
+    "evidence_type": "theoretical",
+    "scope_conditions": "EndpointPickerConfig dataLayer.discovery.peers",
+    "quoted_support": "It is configured via dataLayer.discovery.peers.pluginRef in the EndpointPickerConfig. Implementations are registered in the plugin registry and selected by name. When omitted, peer discovery is disabled and no peer set is maintained.",
+    "numbers": [],
+    "entities": ["dataLayer.discovery.peers.pluginRef", "EndpointPickerConfig"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerdocspeer-discoverymd-at-main-llm-dllm-d-router-github"
+  },
+  {
+    "claim": "No built-in peer-discovery plugin implementation (kubernetes, file, or static) is named in the doc; the only example given is a custom hand-written plugin.",
+    "stance": "neutral",
+    "stance_target": "whether a file/static peer-discovery plugin exists as an alternative to a kubernetes one",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d-router repo, docs/peer-discovery.md as of the fetched commit",
+    "quoted_support": "Implement fwkdl.PeerDiscovery and register the factory with the plugin registry. A runnable example of this pattern is in the test suite... package myplugin ... const PluginType = \"my-peer-discovery\"",
+    "numbers": [],
+    "entities": ["fwkdl.PeerDiscovery", "MyPeerDiscovery", "fwkplugin.Register"],
+    "time_period": null,
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "llm-d-routerdocspeer-discoverymd-at-main-llm-dllm-d-router-github"
+  },
+  {
+    "claim": "PeerStore is deliberately architecturally separated from Datastore (endpoint store) to avoid coupling the peer-tracking subsystem to the endpoint/scheduling subsystem.",
+    "stance": "neutral",
+    "stance_target": "endpoint-datastore vs peer-store consistency architecture",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d-router EPP internal architecture",
+    "quoted_support": "PeerStore and Datastore share the same Upsert/Delete/notifier shape, but they serve different consumers and have different lifecycles... Keeping them separate avoids coupling unrelated subsystems.",
+    "numbers": [],
+    "entities": ["PeerStore", "Datastore", "InferencePool", "EPP Deployment"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerdocspeer-discoverymd-at-main-llm-dllm-d-router-github"
+  },
+  {
+    "claim": "The PeerNotifier interface is not goroutine-safe and requires strict single-goroutine sequential ordering of Upsert/Delete calls, but the doc specifies no cross-replica reconciliation or consistency guarantee for divergent peer-discovery sources (e.g. file-based).",
+    "stance": "neutral",
+    "stance_target": "endpoint/peer datastore consistency across active-active replicas using file/custom discovery",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d-router EPP PeerNotifier contract",
+    "quoted_support": "PeerNotifier is not goroutine-safe. All Upsert and Delete calls must be made sequentially from a single goroutine so that an Upsert followed by a Delete for the same peer is applied in that order.",
+    "numbers": [],
+    "entities": ["PeerNotifier", "MemoryPeerStore"],
+    "time_period": null,
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "llm-d-routerdocspeer-discoverymd-at-main-llm-dllm-d-router-github"
+  }
+]

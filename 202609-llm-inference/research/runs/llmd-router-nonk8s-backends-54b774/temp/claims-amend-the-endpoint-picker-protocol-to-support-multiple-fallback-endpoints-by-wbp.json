@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "GIE PR #761 changed the x-gateway-destination-endpoint header value format from a single endpoint to an ordered list of endpoints, treating the old single-endpoint format as a special case, so the EPP can communicate multiple fallback candidates in one header.",
+    "stance": "supports",
+    "stance_target": "the endpoint-picker protocol's header format is the mechanism by which a non-pod destination (and its fallbacks) is communicated from EPP to proxy",
+    "evidence_type": "empirical",
+    "scope_conditions": "kubernetes-sigs/gateway-api-inference-extension, endpoint-picker-protocol, part of issue #414",
+    "quoted_support": "This PR extend value format of x-gateway-destination-endpoint to support multiple endpoints. The new format could support multiple fallback endpoints. The new format is compatible with previous format because the previous format could be treated as a special case of new format.",
+    "numbers": ["issue #414"],
+    "entities": ["wbpcode", "x-gateway-destination-endpoint", "GIE"],
+    "time_period": "April 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "amend-the-endpoint-picker-protocol-to-support-multiple-fallback-endpoints-by-wbp"
+  },
+  {
+    "claim": "The author designed the proxy-side consumption model as ordered iteration: the proxy walks the endpoint list in order, selects the first valid one, and on retry resumes iteration from where it left off, rather than encoding primary/fallback in separate headers or metadata fields.",
+    "stance": "supports",
+    "stance_target": "single-list-header design simplifies both EPP and proxy implementations relative to split primary/fallback encodings",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "GIE endpoint-picker-protocol design, April 2025",
+    "quoted_support": "from the proxy's perspective, I will prefer only one source to get the external specified endpoints. And the proxy could iterate the endpoints list in order and select the first valid one. If the retrying happens, the proxy could continue the iteration from the position where it stop last time.",
+    "numbers": [],
+    "entities": ["wbpcode"],
+    "time_period": "April 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "amend-the-endpoint-picker-protocol-to-support-multiple-fallback-endpoints-by-wbp"
+  },
+  {
+    "claim": "A reviewer raised an unresolved compatibility question between the ordered-endpoint-list header design and proxy implementations relying on Envoy subset-based load balancing (citing an internal Istio implementation of the same endpoint-picker API), indicating subset LB and explicit destination-list routing are architecturally distinct paths that may not compose cleanly.",
+    "stance": "neutral",
+    "stance_target": "compatibility between EPP's list-header protocol and subset-based proxy routing implementations",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "GIE PR #761 review, May 2025",
+    "quoted_support": "Question - how would it work with an implementation that leverage envoy subsets? For ref - see the istio implementation of this API",
+    "numbers": [],
+    "entities": ["LiorLieberman", "Istio", "Envoy subsets"],
+    "time_period": "May 2025",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "amend-the-endpoint-picker-protocol-to-support-multiple-fallback-endpoints-by-wbp"
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "llm-d-router's CONTRIBUTING.md contains no mention of third-party plugins, external plugins, out-of-tree contributions, or a plugin marketplace/registry concept.",
+    "stance": "supports",
+    "stance_target": "no documented third-party/external plugin pathway exists for llm-d-router",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d/llm-d-router repository, CONTRIBUTING.md as of commit d81a9b6 (PR #2666, Sep 4 2026)",
+    "quoted_support": "Please access the llm-d organization contributing guide for overall contributing guidelines. This document covers only what is different or specific to this repository.",
+    "numbers": ["16 lines", "719 bytes"],
+    "entities": ["llm-d-router", "CONTRIBUTING.md", "llm-d organization"],
+    "time_period": "as of Sep 4 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routercontributingmd-at-main-llm-dllm-d-router-github"
+  },
+  {
+    "claim": "llm-d-router's contributing process is issue-claim-based (comment to claim, maintainer assigns), with legacy Prow /assign supported in some sibling repos.",
+    "stance": "neutral",
+    "stance_target": "general contribution workflow, not specific to plugin extensibility",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router repo",
+    "quoted_support": "Comment on the issue to say you would like to work on it. That comment is what marks the issue as taken, so check for an existing claim before you start work.",
+    "numbers": [],
+    "entities": ["llm-d-router", "Prow"],
+    "time_period": "Sep 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "llm-d-routercontributingmd-at-main-llm-dllm-d-router-github"
+  }
+]

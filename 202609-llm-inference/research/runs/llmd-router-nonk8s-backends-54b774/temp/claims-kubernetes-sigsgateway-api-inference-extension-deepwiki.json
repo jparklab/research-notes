@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "The gateway-api-inference-extension repository contains a reference lightweight EPP implementation (lwepp) for conformance testing, while production deployments often use a more advanced implementation referred to as llm-d-router.",
+    "stance": "supports",
+    "stance_target": "llm-d-router is recognized (by a secondary/AI-generated source) as the production-grade EPP implementation as opposed to the project's own reference implementation",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "DeepWiki AI-generated wiki over gateway-api-inference-extension repo, indexed 24 Aug 2026 at commit 84436a96 -- LOW AUTHORITY, unverified against primary repo files, treat as a lead not a citable fact",
+    "quoted_support": "This repository provides a Lightweight Endpoint Picker (lwepp). It serves as a reference implementation for conformance testing purposes. For production, users often use more advanced implementations like the llm-d-router.",
+    "numbers": [],
+    "entities": ["lwepp", "llm-d-router", "EPP"],
+    "time_period": "as of Aug 2026 index",
+    "region": null,
+    "confidence": "low",
+    "source_note_id": "kubernetes-sigsgateway-api-inference-extension-deepwiki"
+  },
+  {
+    "claim": "The reference lwepp implementation is structured as an ext_proc StreamingServer wrapping a Datastore, populated by an InferencePoolReconciler and a PodReconciler, which together call PickEndpoint to serve routing decisions.",
+    "stance": "neutral",
+    "stance_target": "internal component architecture of the reference EPP implementation",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "DeepWiki AI-generated wiki, low authority, referencing site-src/guides/implementers.md and README.md at commit 84436a96",
+    "quoted_support": "runner.ExtProcServerRunner / handlers.StreamingServer / datastore.Datastore / controller.InferencePoolReconciler / controller.PodReconciler / Pod Endpoints -- Diagram: Internal components of the lwepp reference implementation",
+    "numbers": [],
+    "entities": ["lwepp", "StreamingServer", "Datastore", "InferencePoolReconciler", "PodReconciler", "PickEndpoint"],
+    "time_period": "as of Aug 2026 index",
+    "region": null,
+    "confidence": "low",
+    "source_note_id": "kubernetes-sigsgateway-api-inference-extension-deepwiki"
+  },
+  {
+    "claim": "Over 25 Gateway API implementations exist, with several (Envoy Gateway, kgateway, GKE Gateway, Istio) actively working to support the inference extension.",
+    "stance": "neutral",
+    "stance_target": "breadth of ecosystem adoption/in-progress support for GIE across Gateway API implementations",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "DeepWiki AI-generated wiki, low authority, citing site-src/index.md",
+    "quoted_support": "Gateway API Implementations: Over 25 implementations exist. Projects like Envoy Gateway, kgateway, GKE Gateway, and Istio are working to support this extension",
+    "numbers": ["25"],
+    "entities": ["Envoy Gateway", "kgateway", "GKE Gateway", "Istio"],
+    "time_period": "as of Aug 2026 index",
+    "region": null,
+    "confidence": "low",
+    "source_note_id": "kubernetes-sigsgateway-api-inference-extension-deepwiki"
+  }
+]

@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "producer.go's own doc comment states that request-time scoring logic (Produce) lives in producer.go, speculative-indexing logic lives in prerequest.go, and per-pod ZMQ subscriber lifecycle lives in extractor.go — a deliberate separation of the request-scoring path from the endpoint-discovery-driven subscription path.",
+    "stance": "supports",
+    "stance_target": "PRECISE prefix-cache-aware routing's subscription wiring is separate from its scoring logic and is delegated to a router-level extractor",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router main branch, producer.go",
+    "quoted_support": "Speculative-indexing logic lives in prerequest.go; per-pod ZMQ subscriber lifecycle in extractor.go.",
+    "numbers": [],
+    "entities": ["producer.go", "prerequest.go", "extractor.go", "Producer"],
+    "time_period": "as of Sep 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerpkgeppframeworkpluginsrequestcontroldataproducerpreciseprefixcachepr"
+  },
+  {
+    "claim": "The subscriberManager interface used by Producer is a narrow, router-defined abstraction (EnsureSubscriber/RemoveSubscriber/GetActiveSubscribers/Shutdown) over kvevents.SubscriberManager, not the llm-d-kv-cache library's PodDiscoveryConfig Kubernetes reconciler type.",
+    "stance": "supports",
+    "stance_target": "PRECISE prefix-cache-aware routing can work with non-Kubernetes EndpointDiscovery plugins",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router main branch, producer.go",
+    "quoted_support": "type subscriberManager interface { EnsureSubscriber(ctx context.Context, podIdentifier, sourceEndpoint, endpoint, replayEndpoint, topicFilter string, remoteSocket bool) error; RemoveSubscriber(ctx context.Context, podIdentifier string); GetActiveSubscribers() ([]string, []string); Shutdown(ctx context.Context) }",
+    "numbers": [],
+    "entities": ["subscriberManager", "kvevents.SubscriberManager", "PodDiscoveryConfig"],
+    "time_period": "as of Sep 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerpkgeppframeworkpluginsrequestcontroldataproducerpreciseprefixcachepr"
+  },
+  {
+    "claim": "In Centralized mode (kvEventsConfig.ZMQEndpoint set), the producer's constructor New() directly calls subscribersManager.EnsureSubscriber with podIdentifier 'local-subscriber' and remoteSocket=false at plugin construction time, entirely independent of any endpoint discovery event.",
+    "stance": "supports",
+    "stance_target": "Centralized KV-event delivery mode requires no endpoint discovery at all",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router main branch, producer.go New()",
+    "quoted_support": "if config.KVEventsConfig.ZMQEndpoint != \"\" { if err := subscribersManager.EnsureSubscriber(ctx, \"local-subscriber\", \"\", config.KVEventsConfig.ZMQEndpoint, \"\", config.KVEventsConfig.TopicFilter, false); err != nil { return nil, fmt.Errorf(\"failed to create local subscriber for global socket mode: %w\", err) } }",
+    "numbers": [],
+    "entities": ["ZMQEndpoint", "local-subscriber", "New", "Producer"],
+    "time_period": "as of Sep 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerpkgeppframeworkpluginsrequestcontroldataproducerpreciseprefixcachepr"
+  },
+  {
+    "claim": "The Produce() path matches endpoints against the KV-block index using a key of address:port (fmt.Sprintf(\"%s:%s\", md.Address, md.Port)) taken from each candidate endpoint's metadata at scoring time, independent of how those candidates were discovered.",
+    "stance": "supports",
+    "stance_target": "The request-time scoring path is backend-agnostic with respect to endpoint discovery mechanism",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router main branch, producer.go produceFromBlockKeys()",
+    "quoted_support": "match := matches[fmt.Sprintf(\"%s:%s\", md.Address, md.Port)]",
+    "numbers": [],
+    "entities": ["produceFromBlockKeys", "PodMatch", "PrefixCacheMatchInfo"],
+    "time_period": "as of Sep 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "llm-d-routerpkgeppframeworkpluginsrequestcontroldataproducerpreciseprefixcachepr"
+  },
+  {
+    "claim": "PluginConfig for precise-prefix-cache-producer bundles TokenProcessorConfig, IndexerConfig (kvcache.Config), KVEventsConfig (kvevents.Config), plus SpeculativeIndexing/SpeculativeTTL fields, all independently JSON-configurable per plugin instance in the router's EPP config.",
+    "stance": "neutral",
+    "stance_target": "Configuration surface of the precise-prefix-cache-producer plugin",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router main branch, producer.go PluginConfig struct",
+    "quoted_support": "type PluginConfig struct { TokenProcessorConfig *kvblock.TokenProcessorConfig; IndexerConfig *kvcache.Config; KVEventsConfig *kvevents.Config; SpeculativeIndexing bool; SpeculativeTTL string }",
+    "numbers": [],
+    "entities": ["PluginConfig", "TokenProcessorConfig", "IndexerConfig", "KVEventsConfig"],
+    "time_period": "as of Sep 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerpkgeppframeworkpluginsrequestcontroldataproducerpreciseprefixcachepr"
+  }
+]

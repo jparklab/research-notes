@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "GIE v1.4.0 (released 2026-03-20) made FailOpen the default failure mode in the InferencePool Helm chart, changing prior fail-closed behavior when the EPP is unavailable.",
+    "stance": "supports",
+    "stance_target": "fail-open is the current default EPP-unavailability behavior as of v1.4.0",
+    "evidence_type": "empirical",
+    "scope_conditions": "GIE v1.4.0 release notes, PR #2365",
+    "quoted_support": "Update InferencePool helm chart to use FailOpen as default by @RyanRosario in #2365",
+    "numbers": ["v1.4.0", "2026-03-20", "#2365"],
+    "entities": ["InferencePool", "FailOpen", "Helm chart"],
+    "time_period": "2026-03-20",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "release-v140-kubernetes-sigsgateway-api-inference-extension-github"
+  },
+  {
+    "claim": "v1.4.0 shipped a datalayer interface refactor separating polling-based and notification-based data source types, corresponding to the PollingDataSource/NotificationSource split documented in the framework interface package.",
+    "stance": "supports",
+    "stance_target": "the polling vs notification datalayer split is a recent (v1.4.0) architectural change, not a long-standing design",
+    "evidence_type": "empirical",
+    "scope_conditions": "GIE v1.4.0 release notes, PR #2407",
+    "quoted_support": "Refactor datalayer interfaces, separating polling and notification based types by @elevran in #2407",
+    "numbers": ["v1.4.0", "#2407"],
+    "entities": ["PollingDataSource", "NotificationSource", "datalayer"],
+    "time_period": "released 2026-03-20",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "release-v140-kubernetes-sigsgateway-api-inference-extension-github"
+  },
+  {
+    "claim": "v1.4.0 release highlights list standalone chart work as landed and included in release artifacts, alongside InferencePool/Helm/gRPC improvements including appProtocol and ALPN h2 support.",
+    "stance": "neutral",
+    "stance_target": "state of standalone-mode packaging as of v1.4.0",
+    "evidence_type": "empirical",
+    "scope_conditions": "GIE v1.4.0 release notes",
+    "quoted_support": "Standalone chart work landed and is included in release artifacts",
+    "numbers": ["v1.4.0"],
+    "entities": ["standalone chart", "appProtocol", "ALPN h2"],
+    "time_period": "2026-03-20",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "release-v140-kubernetes-sigsgateway-api-inference-extension-github"
+  }
+]

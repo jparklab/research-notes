@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "vLLM Router's basic and standard usage documentation is entirely static-worker-URL-based ('--worker-urls http://worker1:8000 http://worker2:8000'); Kubernetes Service Discovery is a separate, opt-in feature documented under 'Advanced Features,' not the default operating mode.",
+    "stance": "supports",
+    "stance_target": "leading non-K8s router alternatives to llm-d are static-URL-first by design, with K8s discovery as an add-on",
+    "evidence_type": "empirical",
+    "scope_conditions": "vllm-project/router README, HEAD as of Sept 2026",
+    "quoted_support": "Launch router with data parallelism (8 replicas per worker URL) ... --worker-urls http://worker1:8000 http://worker2:8000 --policy consistent_hash ... ### Kubernetes Service Discovery\\nAutomatic worker discovery and management in Kubernetes environments.",
+    "numbers": [],
+    "entities": ["vllm-project/router", "--worker-urls", "--service-discovery"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-vllm-projectrouter-a-high-performance-and-light-weight-router-for-vllm-la"
+  },
+  {
+    "claim": "vLLM Router supports three distinct, Kubernetes-independent backend-discovery mechanisms for prefill/decode disaggregation depending on the KV transfer connector in use: static CLI-supplied URL lists (NIXL connector), a ZMQ-based discovery endpoint (NCCL connector, via --vllm-discovery-address), and router-initiated queries to each prefill node's Mooncake bootstrap server at startup (Mooncake connector).",
+    "stance": "supports",
+    "stance_target": "production-grade routers already implement multiple non-K8s worker-discovery strategies for disaggregated serving",
+    "evidence_type": "empirical",
+    "scope_conditions": "vllm-project/router README, P/D disaggregation section",
+    "quoted_support": "When vLLM runs the Mooncake connector, pass --kv-connector mooncake. The router queries each prefill node's Mooncake bootstrap server at startup to learn engine_id per DP rank, and injects transfer_id / remote_bootstrap_addr / remote_engine_id into each request's kv_transfer_params for P/D coordination.",
+    "numbers": [],
+    "entities": ["NIXL", "NCCL", "Mooncake", "vllm-discovery-address"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-vllm-projectrouter-a-high-performance-and-light-weight-router-for-vllm-la"
+  },
+  {
+    "claim": "Load-balancing policies (cache-aware, power-of-two, consistent hashing, random, round robin) in vLLM Router are configured via a separate --policy flag independent of the worker-discovery mechanism (static URLs, K8s selectors, ZMQ, or Mooncake bootstrap), confirming routing-policy and discovery are architecturally decoupled in this codebase.",
+    "stance": "supports",
+    "stance_target": "existing routers already decouple routing-policy code from the backend-discovery layer, which is the architectural pattern the user would need to replicate for a non-K8s llm-d-derived router",
+    "evidence_type": "empirical",
+    "scope_conditions": "vllm-project/router CLI flags, README usage examples",
+    "quoted_support": "--policy consistent_hash --intra-node-data-parallel-size 8 ... --prefill-policy consistent_hash --decode-policy consistent_hash",
+    "numbers": [],
+    "entities": ["--policy", "consistent_hash", "power of two"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "github-vllm-projectrouter-a-high-performance-and-light-weight-router-for-vllm-la"
+  }
+]

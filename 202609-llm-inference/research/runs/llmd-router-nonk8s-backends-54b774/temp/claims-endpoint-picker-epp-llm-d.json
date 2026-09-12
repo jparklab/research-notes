@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "The EPP's Data Layer operates asynchronously and watches the Kubernetes API server specifically for InferencePool and Pod object updates, which is the primary place where a Kubernetes-pod assumption is baked into the EPP.",
+    "stance": "supports",
+    "stance_target": "identifying where Kubernetes/pod assumptions live inside the EPP",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d dev (unreleased) documentation as of Sep 2026, version dev branch",
+    "quoted_support": "Asynchronously, the Data layer watches the Kubernetes API server for updates to relevant objects like InferencePools and Pods for endpoint discovery.",
+    "numbers": [],
+    "entities": ["EPP", "Data Layer", "InferencePool", "Kubernetes API server"],
+    "time_period": "llm-d dev branch, Sep 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "endpoint-picker-epp-llm-d"
+  },
+  {
+    "claim": "The EPP is structured as four extensible components -- Request Handler (Parser plugins), Flow Control, Request Scheduler (Filter->Score->Pick), and Data Layer -- with the Ext-Proc Server itself explicitly marked non-extensible ('Extension is ill-advised').",
+    "stance": "neutral",
+    "stance_target": "EPP internal component boundaries and which parts are meant to be customized",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d dev docs",
+    "quoted_support": "The Ext-Proc Server protocol is very well defined & specific, deviations could cause the EPP to become unusable or unstable. Extension is ill-advised.",
+    "numbers": [],
+    "entities": ["Ext-Proc Server", "Request Handler", "Flow Control", "Request Scheduler", "Data Layer"],
+    "time_period": "llm-d dev branch, Sep 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "endpoint-picker-epp-llm-d"
+  },
+  {
+    "claim": "Custom request parsers are an explicitly supported extension point: users can write a parser for a non-default protocol, and the rest of EPP functionality is agnostic to the original request protocol.",
+    "stance": "supports",
+    "stance_target": "extensibility of EPP outside default OpenAI/vLLM-gRPC formats",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d dev docs",
+    "quoted_support": "In addition, users can write a custom parser for their own protocol. The rest of the functionality in EPP is agnostic to the original request protocol, enabling easy adaptation of the EPP to new request formats.",
+    "numbers": [],
+    "entities": ["Request Handler", "Parser plugin", "OpenAI HTTP", "vLLM gRPC"],
+    "time_period": "llm-d dev branch, Sep 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "endpoint-picker-epp-llm-d"
+  },
+  {
+    "claim": "The Data Layer's inputs already include non-Kubernetes sources by design: 'consultant' sidecars such as a latency predictor, kv-indexer, or tokenizer feed advanced routing decisions alongside Kube API and model-server metrics data.",
+    "stance": "supports",
+    "stance_target": "existence of a precedent extension path for non-pod / non-k8s data sources in the EPP",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d dev docs",
+    "quoted_support": "\"Consultant\" sidecars like the latency predictor, the kv-indexer or tokenizer for advanced routing",
+    "numbers": [],
+    "entities": ["Data Layer", "latency predictor", "kv-indexer", "tokenizer"],
+    "time_period": "llm-d dev branch, Sep 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "endpoint-picker-epp-llm-d"
+  },
+  {
+    "claim": "The EPP configuration (EndpointPickerConfig YAML via --config-file or --config-text) is read only at process startup; no hot reload exists, so backend-type additions that only change config still require an EPP restart.",
+    "stance": "neutral",
+    "stance_target": "operational constraint on any router customization strategy",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d dev docs",
+    "quoted_support": "The configuration is only read on startup. Any updates to the configuration require a restart of the EPP process to take effect.",
+    "numbers": [],
+    "entities": ["EndpointPickerConfig", "--config-file", "--config-text"],
+    "time_period": "llm-d dev branch, Sep 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "endpoint-picker-epp-llm-d"
+  }
+]

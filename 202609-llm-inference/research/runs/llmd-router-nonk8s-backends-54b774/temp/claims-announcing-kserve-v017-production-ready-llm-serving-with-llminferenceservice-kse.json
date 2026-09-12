@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "KServe v0.17's LLMInferenceService controller is 'built on the llm-d framework' and auto-provisions a full stack including InferencePool, InferenceModel, and an EPP (Endpoint Picker Pod) from a single CRD.",
+    "stance": "supports",
+    "stance_target": "KServe reuses llm-d's router components as-is rather than reimplementing them",
+    "evidence_type": "empirical",
+    "scope_conditions": "KServe v0.17, released March 13 2026",
+    "quoted_support": "This creates a full serving stack including the Deployment, Service, Gateway, HTTPRoute, InferencePool, InferenceModel, and EPP (Endpoint Picker Pod) — all managed by the LLMInferenceService controller.",
+    "numbers": [],
+    "entities": ["KServe", "LLMInferenceService", "InferencePool", "InferenceModel", "EPP"],
+    "time_period": "March 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "announcing-kserve-v017-production-ready-llm-serving-with-llminferenceservice-kse"
+  },
+  {
+    "claim": "The EPP scheduling pipeline is configured through an EndpointPickerConfig CRD with a plugin list and weighted schedulingProfiles, e.g. prefix-cache-scorer weight 2.0 and load-aware-scorer weight 1.0 feeding a max-score-picker.",
+    "stance": "neutral",
+    "stance_target": "exact API shape for configuring EPP scheduling behavior in KServe v0.17",
+    "evidence_type": "empirical",
+    "scope_conditions": "KServe v0.17, Gateway Inference Extension (GIE) v1.3.0, inference.networking.x-k8s.io/v1alpha1",
+    "quoted_support": "schedulingProfiles:-name: defaultplugins:-pluginRef: prefix-cache-scorerweight:2.0-pluginRef: load-aware-scorerweight:1.0-pluginRef: max-score-picker",
+    "numbers": ["weight 2.0", "weight 1.0"],
+    "entities": ["EndpointPickerConfig", "GIE v1.3.0", "prefix-cache-scorer", "load-aware-scorer", "max-score-picker"],
+    "time_period": "March 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "announcing-kserve-v017-production-ready-llm-serving-with-llminferenceservice-kse"
+  },
+  {
+    "claim": "The EPP tracks real-time KV cache state across all vLLM instances via ZMQ events (BlockStored, BlockRemoved), building an index mapping {ModelName, BlockHash} to {PodID, DeviceTier}.",
+    "stance": "supports",
+    "stance_target": "KV cache index keys are logically pod+device-tier pairs, which is the abstraction a non-pod backend router would need to replace",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d inference scheduler as embedded in KServe v0.17",
+    "quoted_support": "The EPP solves this by tracking real-time KV cache states across all vLLM instances via ZMQ events (BlockStored, BlockRemoved) and building an index mapping {ModelName, BlockHash} → {PodID, DeviceTier}.",
+    "numbers": [],
+    "entities": ["EPP", "ZMQ", "BlockStored", "BlockRemoved"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "announcing-kserve-v017-production-ready-llm-serving-with-llminferenceservice-kse"
+  },
+  {
+    "claim": "The EndpointPickerConfig can be supplied inline in the LLMInferenceService spec or referenced from a ConfigMap, allowing platform teams to standardize router configuration across many deployments.",
+    "stance": "neutral",
+    "stance_target": "router configuration reuse/composition mechanism in KServe",
+    "evidence_type": "empirical",
+    "scope_conditions": "KServe v0.17 LLMInferenceService",
+    "quoted_support": "The EndpointPickerConfig can be provided inline in the LLMInferenceService spec or referenced from a ConfigMap, giving platform teams the flexibility to standardize scheduling behavior across deployments.",
+    "numbers": [],
+    "entities": ["LLMInferenceService", "EndpointPickerConfig", "ConfigMap"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "announcing-kserve-v017-production-ready-llm-serving-with-llminferenceservice-kse"
+  },
+  {
+    "claim": "KServe v0.17 restructures into three independently deployable components (kserve core, llmisvc controller, localmodel) across 10 Helm charts, and the LLMInferenceService scheduler (EPP) now supports HA with multiple replicas.",
+    "stance": "neutral",
+    "stance_target": "modularity and operational maturity of the llm-d-based router in KServe",
+    "evidence_type": "empirical",
+    "scope_conditions": "KServe v0.17",
+    "quoted_support": "The LLMInferenceService scheduler (EPP) now supports scaling and high availability, allowing multiple EPP replicas for production deployments that require fault tolerance and higher routing throughput.",
+    "numbers": ["10 Helm charts", "3 components"],
+    "entities": ["KServe", "llmisvc", "EPP"],
+    "time_period": "March 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "announcing-kserve-v017-production-ready-llm-serving-with-llminferenceservice-kse"
+  }
+]

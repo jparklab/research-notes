@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "GIE's standalone-EPP pod-selector discovery mode was motivated explicitly by Reinforcement Learning (RL) post-training and batch inference workloads finding the InferencePool CRD + Gateway API coupling to be unnecessary operational overhead.",
+    "stance": "supports",
+    "stance_target": "the concrete motivating use case for non-standard (non-InferencePool) EPP discovery mechanisms is RL/batch workloads, corroborating GIE issue #1838",
+    "evidence_type": "empirical",
+    "scope_conditions": "GIE issue #1779, Oct 2025",
+    "quoted_support": "The endpoint picker (EPP)... is currently deployed as an ext-proc service tightly coupled to the Kubernetes Gateway API, a setup that adds unnecessary operational overhead for non-serving workloads like Reinforcement Learning (RL) post-training.",
+    "numbers": [],
+    "entities": ["capri-xiyue", "GIE", "EPP", "RL"],
+    "time_period": "October 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "standalone-epp-endpoint-discovery-using-pod-selector-investigation-issue-1779-ku"
+  },
+  {
+    "claim": "A GIE maintainer distinguished standalone EPP's actual target as bypassing the InferencePool CRD specifically, not the Gateway API broadly, and criticized command-line pod-selector configuration as conflicting with Kubernetes' dynamic, declarative reconciliation principles.",
+    "stance": "refutes",
+    "stance_target": "static/CLI-specified pod-selector discovery is an uncontroversial, maintainer-endorsed design for standalone EPP",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "GIE issue #1779 discussion, Nov 2025",
+    "quoted_support": "this issue is not about bypassing Gateway API, it's about bypassing InferencePool CRD which is one of GIE main building blocks. specifying pod labels selector as cmd-line is against k8s principles and is not matching how GIE works today where the selection label can changed dynamically in runtime.",
+    "numbers": [],
+    "entities": ["nirrozenbaum", "InferencePool", "GIE"],
+    "time_period": "November 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "standalone-epp-endpoint-discovery-using-pod-selector-investigation-issue-1779-ku"
+  },
+  {
+    "claim": "To avoid conflicts between CLI pod-selector configuration and the InferencePool CRD, the proposed design has the EPP validate that only one discovery source is active at a time.",
+    "stance": "neutral",
+    "stance_target": "conflict-resolution mechanism proposed for coexisting discovery sources in standalone EPP",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "GIE issue #1779, Nov 2025",
+    "quoted_support": "The EPP will have validation that either use inference[Pool CRD or the cmd-line pod selector, not both].",
+    "numbers": [],
+    "entities": ["capri-xiyue", "EPP", "InferencePool"],
+    "time_period": "November 2025",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "standalone-epp-endpoint-discovery-using-pod-selector-investigation-issue-1779-ku"
+  }
+]

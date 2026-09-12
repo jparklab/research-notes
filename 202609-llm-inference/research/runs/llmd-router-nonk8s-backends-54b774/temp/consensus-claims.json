@@ -1,0 +1,160 @@
+[
+ {
+  "consensus_id": "epp-proxy-contract",
+  "claim": "The EPP selects the endpoint and returns it to the proxy as an ip:port in the x-gateway-destination-endpoint header over Envoy ext_proc; the wire identity is not a Kubernetes object.",
+  "sources": [
+   "gateway-api-inference-extensiondocsproposals004-endpoint-picker-protocol-at-main",
+   "api-overview-kubernetes-gateway-api-inference-extension",
+   "envoyyaml",
+   "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github",
+   "how-llm-d-routes-model-inference-traffic-on-amazon-eks-red-hat-developer"
+  ],
+  "independent_voices": 5,
+  "note": ""
+ },
+ {
+  "consensus_id": "inferencepool-selects-pods",
+  "claim": "InferencePool selects Pods by label selector and target ports; it does not select Services or EndpointSlices.",
+  "sources": [
+   "inferencepool-kubernetes-gateway-api-inference-extension",
+   "about-gke-inference-gateway-powered-by-llm-d-gke-networking-google-cloud-documen",
+   "beyond-gateway-inference-traffic-control-practice-with",
+   "architecture-llm-d",
+   "api-overview-kubernetes-gateway-api-inference-extension"
+  ],
+  "independent_voices": 5,
+  "note": ""
+ },
+ {
+  "consensus_id": "endpointdiscovery-seam",
+  "claim": "llm-d-router defines an EndpointDiscovery plugin interface (Start + Ready, pushing Upsert/Delete to a DiscoveryNotifier); file-discovery is the only shipped non-Kubernetes implementation as of 2026-09.",
+  "sources": [
+   "no-kubernetes-no-problem-llm-d-now-runs-anywhere-llm-d",
+   "feat-add-pluggable-discoveryplugin-interface-by-ezrasilvera-pull-request-908-llm",
+   "llm-d-routerpkgeppframeworkinterfacedatalayerdiscoverygo-at-main-llm-dllm-d-rout",
+   "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github",
+   "llm-d-router-module-githubcomllm-dllm-d-router-go-packages",
+   "llm-d-v08-from-platform-to-control-plane-llm-d"
+  ],
+  "independent_voices": 6,
+  "note": ""
+ },
+ {
+  "consensus_id": "no-k8s-epp-has-no-api-deps",
+  "claim": "With a discovery plugin configured, the EPP starts no controller manager and needs no API server, InferencePool CRD, or RBAC.",
+  "sources": [
+   "no-kubernetes-no-problem-llm-d-now-runs-anywhere-llm-d",
+   "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github",
+   "llm-ddocsinfrastructureno-kubernetes-deploymentmd-at-main-llm-dllm-d-github",
+   "filediscovery-plugin-44-wiring-into-the-runner-by-ezrasilvera-pull-request-1218"
+  ],
+  "independent_voices": 4,
+  "note": ""
+ },
+ {
+  "consensus_id": "crd-features-inactive-off-k8s",
+  "claim": "InferenceObjective and InferenceModelRewrite are inactive outside Kubernetes (no file-mode equivalent today).",
+  "sources": [
+   "no-kubernetes-no-problem-llm-d-now-runs-anywhere-llm-d",
+   "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github",
+   "llm-d-routerpkgeppframeworkpluginsdatalayerdiscoveryfile-at-main-llm-dllm-d-rout",
+   "llm-ddocsinfrastructureno-kubernetes-deploymentmd-at-main-llm-dllm-d-github"
+  ],
+  "independent_voices": 4,
+  "note": ""
+ },
+ {
+  "consensus_id": "model-server-contract-portable",
+  "claim": "The backend-side contract is OpenAI-compatible HTTP plus Prometheus metrics (queue depth, running requests, KV-cache utilization); nothing in it references Kubernetes objects.",
+  "sources": [
+   "gateway-api-inference-extensiondocsproposals003-model-server-protocolreadmemd-at",
+   "gateway-api-inference-extensionsite-srcguidesepp-configurationconfig-textmd-at-9",
+   "configyaml"
+  ],
+  "independent_voices": 3,
+  "note": ""
+ },
+ {
+  "consensus_id": "managed-providers-at-gateway-tier",
+  "claim": "Managed/external model APIs are routed at an AI-gateway tier above or beside the inference gateway, not inside InferencePool/EPP.",
+  "sources": [
+   "api-overview-kubernetes-gateway-api-inference-extension",
+   "application-gateway-for-containers-inference-gateway-microsoft-learn",
+   "project-proposal-agent-router-previously-envoy-ai-gateway-issue-18-aaifproject-p",
+   "routing-agent-traffic-is-really-three-decisions-aks-engineering-blog",
+   "api-reference-agent-router",
+   "centralized-routing-for-external-and-self-hosted-llms-on-openshift-ai-red-hat-de"
+  ],
+  "independent_voices": 6,
+  "note": ""
+ },
+ {
+  "consensus_id": "gateway-mode-proxies-inferencepool-bound",
+  "claim": "Gateway-mode proxies (Istio, NGINX Gateway Fabric, kgateway, GKE) implement GIE only through InferencePool and cannot target non-pod endpoints directly.",
+  "sources": [
+   "istio-kubernetes-gateway-api-inference-extension",
+   "gateway-api-inference-extension-nginx-documentation",
+   "add-initial-gateway-api-inference-extension-support-issue-10411-kgateway-devkgat",
+   "about-gke-inference-gateway-powered-by-llm-d-gke-networking-google-cloud-documen"
+  ],
+  "independent_voices": 4,
+  "note": ""
+ },
+ {
+  "consensus_id": "epp-code-moved-to-llm-d-router",
+  "claim": "Core EPP code (plus InferenceObjective/InferenceModelRewrite APIs) moved from GIE into llm-d/llm-d-router in 2026; GIE keeps the InferencePool API and the Endpoint Picker Protocol.",
+  "sources": [
+   "github-llm-dllm-d-router-llm-d-router-the-intelligent-entry-point-for-inferenc-2",
+   "github-kubernetes-sigsgateway-api-inference-extension-gateway-api-inference-exte",
+   "llm-d-v07-from-feature-introduction-to-production-hardening-llm-d",
+   "gateway-api-inference-extensionsite-srcguidesstandalonemd-at-91ad0da44f64d41642d"
+  ],
+  "independent_voices": 4,
+  "note": "the two llm-d-router README captures are one voice; only the canonical copy is listed"
+ },
+ {
+  "consensus_id": "pd-works-off-k8s",
+  "claim": "Prefill/decode disaggregation works outside Kubernetes given llm-d.ai/role labels on endpoints and network reachability for NIXL KV transfer; P/D pairing needs no central discovery plane.",
+  "sources": [
+   "no-kubernetes-no-problem-llm-d-now-runs-anywhere-llm-d",
+   "networking-for-distributed-inference-in-llm-d-llm-d",
+   "llm-d-routerpkgeppframeworkpluginsschedulingfilterbylabelrolesgo-at-main-llm-dll"
+  ],
+  "independent_voices": 3,
+  "note": ""
+ },
+ {
+  "consensus_id": "lifecycle-is-callers-job-off-k8s",
+  "claim": "Off Kubernetes, readiness gating and removal of failed endpoints are the surrounding orchestrator's responsibility (health agent rewriting the endpoint source); Kubernetes readiness semantics do not apply.",
+  "sources": [
+   "no-kubernetes-no-problem-llm-d-now-runs-anywhere-llm-d",
+   "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github",
+   "llm-dguidesno-kubernetes-deployment-at-main-llm-dllm-d-github"
+  ],
+  "independent_voices": 3,
+  "note": ""
+ },
+ {
+  "consensus_id": "alt-routers-static-discovery",
+  "claim": "Alternative routers (vLLM Router, vLLM production-stack, NVIDIA Dynamo) ship static-URL or file-based discovery natively, with discovery decoupled from routing policy.",
+  "sources": [
+   "github-vllm-projectrouter-a-high-performance-and-light-weight-router-for-vllm-la",
+   "router-configuration-vllm-projectproduction-stack-deepwiki",
+   "github-ai-dynamodynamo-a-datacenter-scale-distributed-inference-serving-framewor"
+  ],
+  "independent_voices": 3,
+  "note": ""
+ },
+ {
+  "consensus_id": "cache-aware-routing-beats-round-robin",
+  "claim": "KV/prefix-cache-aware routing materially outperforms round-robin or plain Service load balancing on shared-prefix workloads (vendor-reported, not independently reproduced).",
+  "sources": [
+   "introducing-gateway-api-inference-extension-kubernetes",
+   "intelligent-inference-scheduling-with-llm-d-on-red-hat-ai-red-hat-developer",
+   "llm-d-intelligent-inference-at-scale-beyond-what-more-gpus-can-deliver-by-yakov",
+   "mooncake-a-kvcache-centric-disaggregated"
+  ],
+  "independent_voices": 4,
+  "note": ""
+ }
+]

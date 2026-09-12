@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "The llm-d-router default parser list (openai-parser, anthropic-parser, vllmhttp-parser, passthrough-parser) always includes a trailing passthrough-parser, so unclaimed paths are forwarded unparsed rather than rejected -- but an explicit requestHandler.parsers list overrides this and gains no implicit fallback.",
+    "stance": "supports",
+    "stance_target": "operational risk of customizing router configuration for a non-standard backend: explicit parser lists must include passthrough-parser last or unmatched paths get 400-rejected",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router pkg/epp/framework/plugins/requesthandling/parsers, commit ebab687 (Aug 22 2026)",
+    "quoted_support": "If no parsers are specified, openai-parser, anthropic-parser, vllmhttp-parser, and passthrough-parser are used by default... An explicit requestHandler.parsers list is used as given. It gains no fallback, so a path no listed parser claims is rejected. Add passthrough-parser as the last entry to forward that traffic instead.",
+    "numbers": [],
+    "entities": ["openai-parser", "anthropic-parser", "vllmhttp-parser", "passthrough-parser", "requestHandler.parsers"],
+    "time_period": "Aug 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerpkgeppframeworkpluginsrequesthandlingparsersreadmemd-at-main-llm-dll"
+  },
+  {
+    "claim": "Using the model-agnostic passthrough-parser to support a non-standard/custom backend's request format forfeits payload-derived scheduling signals such as prefix-cache-scorer, because the EPP cannot parse the payload.",
+    "stance": "supports",
+    "stance_target": "trade-off of adding a custom backend that doesn't speak OpenAI/Anthropic/vLLM/SGLang/VertexAI wire formats",
+    "evidence_type": "empirical",
+    "scope_conditions": "passthrough-parser plugin",
+    "quoted_support": "passthrough-parser: A model-agnostic parser that supports any request format by passing the request body through without interpretation... Drawback: EPP cannot parse the payload, so payload-related scheduling scorers (e.g., prefix-cache-scorer) are not supported.",
+    "numbers": [],
+    "entities": ["passthrough-parser", "prefix-cache-scorer"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerpkgeppframeworkpluginsrequesthandlingparsersreadmemd-at-main-llm-dll"
+  },
+  {
+    "claim": "Parser resolution uses longest-suffix path matching, and registration/matching stops at the first parser claiming no paths, so ordering in the parsers list is semantically significant.",
+    "stance": "neutral",
+    "stance_target": "configuration semantics relevant to registering a custom parser plugin for a non-standard backend API",
+    "evidence_type": "empirical",
+    "scope_conditions": "EndpointPickerConfig requestHandler.parsers",
+    "quoted_support": "The EPP resolves incoming request paths to the matching parser using longest-suffix matching. Suffixes are defined by each parser plugin's claims... Registration stops at the first parser claiming no paths. Any parser listed after it is skipped, so a fallback belongs last.",
+    "numbers": [],
+    "entities": ["EndpointPickerConfig", "requestHandler.parsers"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerpkgeppframeworkpluginsrequesthandlingparsersreadmemd-at-main-llm-dll"
+  },
+  {
+    "claim": "Plugins in llm-d-router's EndpointPickerConfig are declared in a top-level plugins block by name and type, then referenced elsewhere (e.g. requestHandler.parsers, schedulingProfiles) by that name -- a generic pattern applicable to registering a custom EndpointDiscovery-style plugin.",
+    "stance": "neutral",
+    "stance_target": "plugin registration pattern reusable for a custom backend-discovery plugin",
+    "evidence_type": "empirical",
+    "scope_conditions": "EndpointPickerConfig YAML schema, apiVersion llm-d.ai/v1alpha1",
+    "quoted_support": "Parsers are configured via the requestHandler.parsers list in the EndpointPickerConfig YAML file. You must first instantiate the parser plugin in the plugins section, and then reference its name in the requestHandler.parsers list.",
+    "numbers": [],
+    "entities": ["EndpointPickerConfig", "plugins", "pluginRef"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerpkgeppframeworkpluginsrequesthandlingparsersreadmemd-at-main-llm-dll"
+  }
+]

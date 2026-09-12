@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "PR #2061's own description frames the change as allowing Prometheus to be enabled while metrics auth is disabled -- i.e. before the fix, enabling Prometheus scraping via the chart implicitly left metrics-endpoint-auth on, which the author needed to override.",
+    "stance": "supports",
+    "stance_target": "metrics endpoint auth is expected-on when Prometheus monitoring is enabled unless explicitly disabled",
+    "evidence_type": "empirical",
+    "scope_conditions": "kubernetes-sigs/gateway-api-inference-extension PR #2061, sallyom, merged 2026-01-05T22:18:38Z",
+    "quoted_support": "Update inferencepool charts so prometheus can be enabled with metrics-auth disabled.",
+    "numbers": ["Fixes #2060", "1 file changed, 1 addition, 1 deletion"],
+    "entities": ["sallyom", "inferencepool chart"],
+    "time_period": "2026-01-05",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "2061"
+  },
+  {
+    "claim": "The PR is classified kind/bug and was a minimal, single-line Helm-chart change, not a change to the underlying EPP metrics-auth mechanism (bearer token / mTLS) itself.",
+    "stance": "neutral",
+    "stance_target": "scope of what PR #2061 does and does not establish about the auth mechanism",
+    "evidence_type": "empirical",
+    "scope_conditions": "kubernetes-sigs/gateway-api-inference-extension PR #2061 metadata",
+    "quoted_support": "\"additions\": 1, \"deletions\": 1, \"changed_files\": 1",
+    "numbers": ["1 addition", "1 deletion", "1 changed file"],
+    "entities": ["PR #2061"],
+    "time_period": "2026-01-05",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "2061"
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "InferencePool is defined as a label-selector grouping of Model Server pods serving the same base model, conceptualized as an 'LLM-optimized Service' and serving as the discovery target for the Router -- i.e. the discovery mechanism is explicitly pod-label-based, not backend-address-based.",
+    "stance": "supports",
+    "stance_target": "identifying where the pod/Kubernetes assumption is encoded at the API level",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d v0.9 (latest) architecture docs",
+    "quoted_support": "The API that groups Model Server pods serving the same base model via a label selector. Conceptualized as an \"LLM-optimized Service\", it serves as the discovery target for the Router.",
+    "numbers": [],
+    "entities": ["InferencePool", "Model Server", "label selector"],
+    "time_period": "llm-d v0.9",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "architecture-llm-d"
+  },
+  {
+    "claim": "A 'Variant' (prefill/decode role, cost profile, performance profile) is expressed purely through pod labels rather than a dedicated Kubernetes resource, meaning the sub-grouping mechanism used throughout llm-d for routing decisions is itself label-based and pod-native.",
+    "stance": "supports",
+    "stance_target": "extent of pod/label coupling in llm-d's core data model",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d v0.9 architecture docs",
+    "quoted_support": "Variant - A logical sub-grouping of Model Server pods within an InferencePool, expressed through pod labels rather than a dedicated resource.",
+    "numbers": [],
+    "entities": ["Variant", "InferencePool", "pod labels"],
+    "time_period": "llm-d v0.9",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "architecture-llm-d"
+  },
+  {
+    "claim": "llm-d's Kubernetes-native autoscaling paths (HPA/KEDA) explicitly consume metrics exported by the EPP such as queue depth, coupling the autoscaling story to the same pod/metrics assumptions as the scheduler.",
+    "stance": "neutral",
+    "stance_target": "breadth of k8s coupling beyond just routing (autoscaling also depends on pod-based metrics)",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d v0.9 architecture docs, Advanced Patterns section",
+    "quoted_support": "HPA/KEDA: Standard Kubernetes-native scaling using metrics exported by the EPP (like queue depth).",
+    "numbers": [],
+    "entities": ["HPA", "KEDA", "Workload Variant Autoscaler", "EPP"],
+    "time_period": "llm-d v0.9",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "architecture-llm-d"
+  }
+]

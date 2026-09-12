@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "Standalone EPP mode was introduced at GIE v1.3.0 (released 2026-01-21) as an experimental feature allowing the EPP to run as a sidecar to an Envoy proxy inside a single pod, targeting batch inference scenarios.",
+    "stance": "supports",
+    "stance_target": "standalone mode's origin and maturity level",
+    "evidence_type": "empirical",
+    "scope_conditions": "GIE v1.3.0 release notes, released 2026-01-21",
+    "quoted_support": "Standalone EPP: This functionality allows the EPP to be deployed as a proxy, all contained within a single pod. This is achieved by the Envoy proxy having EPP as a sidecar container. This feature was developed for batch inference scenarios, and is currently considered experimental.",
+    "numbers": ["v1.3.0", "2026-01-21"],
+    "entities": ["Standalone EPP", "Envoy"],
+    "time_period": "2026-01-21",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "release-v130-kubernetes-sigsgateway-api-inference-extension-github"
+  },
+  {
+    "claim": "v1.3.0 deprecated the LoRA syncer feature/image in favor of vLLM's filesystem LoRA resolver plugin, with full code removal planned for the next release.",
+    "stance": "neutral",
+    "stance_target": "LoRA management feature roadmap",
+    "evidence_type": "empirical",
+    "scope_conditions": "GIE v1.3.0 release notes",
+    "quoted_support": "This release, and future releases will not have the lora syncer image associated with them, as we are deprecating that feature... In the next release, the lora syncer code will be removed from the codebase.",
+    "numbers": ["v1.3.0"],
+    "entities": ["LoRA syncer", "vLLM filesystem resolver"],
+    "time_period": "2026-01-21",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "release-v130-kubernetes-sigsgateway-api-inference-extension-github"
+  },
+  {
+    "claim": "v1.3.0 added Scale-from/to-Zero support to Flow Control, permitting requests to reach an EPP with zero model-serving endpoints and emitting autoscaler-consumable metrics to scale the pool back up.",
+    "stance": "neutral",
+    "stance_target": "flow control capability at v1.3.0",
+    "evidence_type": "empirical",
+    "scope_conditions": "GIE v1.3.0 release notes",
+    "quoted_support": "Flow Control continues to evolve with the addition of Scale from/to Zero support. Allowing requests to be sent to an EPP with no model serving endpoints behind it, and emitting metrics to be used by the autoscaler to then scale up the pool.",
+    "numbers": ["v1.3.0"],
+    "entities": ["Flow Control", "Scale from/to Zero"],
+    "time_period": "2026-01-21",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "release-v130-kubernetes-sigsgateway-api-inference-extension-github"
+  }
+]

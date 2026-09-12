@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "Mooncake's KVCache-centric disaggregated architecture separates prefill and decoding clusters and uses underutilized CPU, DRAM, and SSD resources of the GPU cluster to implement a disaggregated KVCache pool.",
+    "stance": "supports",
+    "stance_target": "KV cache should be treated as a first-class, tiered, cluster-wide resource pool rather than confined per-GPU/per-pod",
+    "evidence_type": "empirical",
+    "scope_conditions": "Mooncake, production platform for Kimi (Moonshot AI)",
+    "quoted_support": "It features a KVCache-centric disaggregated architecture that separates the prefill and decoding clusters. It also leverages the underutilized CPU, DRAM, and SSD resources of the GPU cluster to implement a disaggregated cache of KVCache.",
+    "numbers": [],
+    "entities": ["Mooncake", "Kimi", "Moonshot AI", "KVCache"],
+    "time_period": "2024",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "mooncake-a-kvcache-centric-disaggregated"
+  },
+  {
+    "claim": "Mooncake's core scheduler balances maximizing overall effective throughput against per-request latency SLOs (TTFT and TBT), and includes a prediction-based early-rejection policy for overload scenarios.",
+    "stance": "neutral",
+    "stance_target": "necessary properties of a KV-cache-aware global scheduler under SLO constraints and overload",
+    "evidence_type": "theoretical",
+    "scope_conditions": "Mooncake architecture design",
+    "quoted_support": "The core of Mooncake is its KVCache-centric scheduler, which balances maximizing overall effective throughput while meeting latency-related Service Level Objectives (SLOs)... To mitigate these, we developed a prediction-based early rejection policy.",
+    "numbers": [],
+    "entities": ["Mooncake", "TTFT", "TBT", "SLO"],
+    "time_period": "2024",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "mooncake-a-kvcache-centric-disaggregated"
+  },
+  {
+    "claim": "Mooncake achieved up to a 525% increase in throughput over baseline in certain simulated long-context scenarios while adhering to SLOs, and enabled Kimi to handle 75% more requests under real production workloads.",
+    "stance": "supports",
+    "stance_target": "KV-cache-centric disaggregated scheduling produces large, measured throughput gains in production",
+    "evidence_type": "empirical",
+    "scope_conditions": "Mooncake, long-context simulated scenarios and real Kimi production workloads",
+    "quoted_support": "Mooncake can achieve up to a 525% increase in throughput in certain simulated scenarios while adhering to SLOs. Under real workloads, Mooncake's innovative architecture enables Kimi to handle 75% more requests.",
+    "numbers": ["525%", "75%"],
+    "entities": ["Mooncake", "Kimi"],
+    "time_period": "2024",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "mooncake-a-kvcache-centric-disaggregated"
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "PR #2434, which introduces the dataLayer.discovery.endpoints.pluginRef key, was merged into llm-d-router:main on 25 Aug 2026 -- eight days after the v0.10.0 tag (17 Aug 2026) -- so it is absent from every tagged release as of 11 Sep 2026.",
+    "stance": "refutes",
+    "stance_target": "target position's version floor claim 'llm-d-router >= v0.9.0' for dataLayer.discovery.endpoints.pluginRef",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d/llm-d-router PR #2434",
+    "quoted_support": "[elevran] merged commit 950c963644b88d697fafda6f9e79390855996e19 into llm-d:main [Aug 25, 2026]",
+    "numbers": ["PR #2434", "2026-08-25", "2026-08-17"],
+    "entities": ["pazqo", "elevran", "llm-d-router"],
+    "time_period": "2026-08-25",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "config-consolidate-discovery-plugins-under-a-single-discovery-section-follow-up"
+  },
+  {
+    "claim": "PR #2434 consolidates two separate top-level config fields (dataLayer.discovery and dataLayer.peerDiscovery) into a single dataLayer.discovery section with endpoints and peers sub-fields, with an automatic migration shim for both legacy keys.",
+    "stance": "supports",
+    "stance_target": "target position's description of the migration-shim mechanism",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router config loader, PR #2434 (unreleased/main only as of 2026-09-11)",
+    "quoted_support": "A migration shim in the config loader preserves backward compatibility: dataLayer.discovery.pluginRef migrates to discovery.endpoints.pluginRef; dataLayer.peerDiscovery migrates to discovery.peers.",
+    "numbers": ["PR #2434"],
+    "entities": ["dataLayer.discovery", "dataLayer.peerDiscovery", "pluginRef"],
+    "time_period": "2026-08-25",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "config-consolidate-discovery-plugins-under-a-single-discovery-section-follow-up"
+  },
+  {
+    "claim": "The official release-note text for PR #2434 explicitly deprecates (not removes) the old dataLayer.discovery.pluginRef field: 'The old field is still accepted and automatically migrated.'",
+    "stance": "supports",
+    "stance_target": "target position's claim that the legacy key is still accepted via migration shim",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router PR #2434 release-note draft",
+    "quoted_support": "The dataLayer.discovery.pluginRef config field is deprecated. Use dataLayer.discovery.endpoints.pluginRef instead. The old field is still accepted and automatically migrated.",
+    "numbers": ["PR #2434"],
+    "entities": ["dataLayer.discovery.pluginRef", "dataLayer.discovery.endpoints.pluginRef"],
+    "time_period": "2026-08-25",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "config-consolidate-discovery-plugins-under-a-single-discovery-section-follow-up"
+  }
+]

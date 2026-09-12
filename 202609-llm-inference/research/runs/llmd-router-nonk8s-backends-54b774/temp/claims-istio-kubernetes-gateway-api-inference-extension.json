@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "Istio's Gateway API Inference Extension support requires the InferencePool CRD with a pod-label selector and provides no standalone or non-Kubernetes-backend mode.",
+    "stance": "supports",
+    "stance_target": "which gateways only work with Kubernetes InferencePool",
+    "evidence_type": "empirical",
+    "scope_conditions": "Istio official task documentation, current",
+    "quoted_support": "InferencePool represents a collection of backends for an inference workload, and contains a reference to an associated endpoint picker service.",
+    "numbers": ["v1.6.0", "v1.0.1"],
+    "entities": ["Istio", "InferencePool", "Gateway API Inference Extension"],
+    "time_period": "current (2026)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "istio-kubernetes-gateway-api-inference-extension"
+  },
+  {
+    "claim": "Enabling GIE support in Istio requires setting Pilot environment flags SUPPORT_GATEWAY_API_INFERENCE_EXTENSION and ENABLE_GATEWAY_API_INFERENCE_EXTENSION at install time.",
+    "stance": "neutral",
+    "stance_target": "how Istio's InferencePool support is activated",
+    "evidence_type": "empirical",
+    "scope_conditions": "Istio istioctl install, minimal profile",
+    "quoted_support": "istioctl install --set profile=minimal --set values.pilot.env.SUPPORT_GATEWAY_API_INFERENCE_EXTENSION=true --set values.pilot.env.ENABLE_GATEWAY_API_INFERENCE_EXTENSION=true -y",
+    "numbers": [],
+    "entities": ["Istio", "Pilot", "Gateway API Inference Extension"],
+    "time_period": "current (2026)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "istio-kubernetes-gateway-api-inference-extension"
+  },
+  {
+    "claim": "Istio's InferencePool setup requires a DestinationRule to enable TLS between the gateway and the endpoint-picker service, with certificate verification disabled by default in the example (insecureSkipVerify: true).",
+    "stance": "neutral",
+    "stance_target": "security posture of gateway-to-EPP communication",
+    "evidence_type": "empirical",
+    "scope_conditions": "Istio GIE task example config",
+    "quoted_support": "spec:\n      tls:\n        mode: SIMPLE\n        insecureSkipVerify: true",
+    "numbers": [],
+    "entities": ["Istio", "DestinationRule", "TLS"],
+    "time_period": "current (2026)",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "istio-kubernetes-gateway-api-inference-extension"
+  }
+]

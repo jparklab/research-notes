@@ -1,0 +1,199 @@
+{
+  "recommendations": [
+    {
+      "id": "rec-1",
+      "category": "make-list",
+      "severity": "major",
+      "section": "## 7. Recommended Strategy and Implementation Roadmap — ### A. The decision rules (Rule 1)",
+      "current": "*Rule 1 — availability selects topology, and this is the first branch after Rule 0.* This inverts the intuitive framing that router placement is merely organisational. If a single router instance is acceptable — job-scoped serving, reinforcement-learning rollouts, batch, development, an HPC allocation whose lifetime equals the job's — run the router entirely outside Kubernetes: the picker binary plus Envoy as host processes or containers, using the published flag set [[llm-dguidesno-kubernetes-deployment-at-main-llm-dllm-d-github]]. If you need multi-replica availability, the tie-breaker is whether a small Kubernetes control plane is acceptable. If it is, run the picker in-cluster under the Helm chart — leader election over a Lease works normally — while the backend inventory points off-cluster, using the chart's `pluginsCustomConfig` and `volumes`/`volumeMounts` escape hatches [[llm-d-routerdocsoperationsmd-at-main-llm-dllm-d-router-github]] [[llm-d-routerconfigchartsreadmemd-at-main-llm-dllm-d-router-github]]. If Kubernetes is unavailable anywhere, run N pickers Active-Active behind a plain layer-4 load balancer with leader election **explicitly disabled** and **precise** prefix routing on.",
+      "recommended": "*Rule 1 — availability selects topology, and this is the first branch after Rule 0.* This inverts the intuitive framing that router placement is merely organisational. If you need multi-replica availability, the tie-breaker is whether a small Kubernetes control plane is acceptable.\n\n- **A single router instance is acceptable** — job-scoped serving, reinforcement-learning rollouts, batch, development, an HPC allocation whose lifetime equals the job's: run the router entirely outside Kubernetes, the picker binary plus Envoy as host processes or containers, using the published flag set [[llm-dguidesno-kubernetes-deployment-at-main-llm-dllm-d-github]].\n- **Multi-replica, and a small Kubernetes control plane is acceptable** — run the picker in-cluster under the Helm chart, where leader election over a Lease works normally, while the backend inventory points off-cluster, using the chart's `pluginsCustomConfig` and `volumes`/`volumeMounts` escape hatches [[llm-d-routerdocsoperationsmd-at-main-llm-dllm-d-router-github]] [[llm-d-routerconfigchartsreadmemd-at-main-llm-dllm-d-router-github]].\n- **Kubernetes is unavailable anywhere** — run N pickers Active-Active behind a plain layer-4 load balancer with leader election **explicitly disabled** and **precise** prefix routing on.",
+      "rationale": "The report's single most actionable decision — a three-way topology branch — is currently buried as three inline 'If...' clauses in a 1,200-character paragraph, so a reader cannot locate their own case without re-reading."
+    },
+    {
+      "id": "rec-2",
+      "category": "make-list",
+      "severity": "moderate",
+      "section": "## 5. Non-Pod Backend Types and What Each Requires from the Router — ### A. The universal contract",
+      "current": "Whatever the backend is, it must satisfy four things, all protocol-level rather than platform-level: an OpenAI-compatible HTTP endpoint at a routable address and port; a Prometheus metrics endpoint the router can scrape for queue depth, running requests and KV-cache utilisation, with engine-specific metric names selected by a label [[gateway-api-inference-extensionsite-srcguidesepp-configurationconfig-textmd-at-9]]; something that tells the router when it appears and disappears; and network reachability from the proxy for traffic and from the router for metrics and, optionally, KV events. Nothing in that list mentions Kubernetes.",
+      "recommended": "Whatever the backend is, it must satisfy four things, all protocol-level rather than platform-level:\n\n- **An OpenAI-compatible HTTP endpoint** at a routable address and port.\n- **A Prometheus metrics endpoint** the router can scrape for queue depth, running requests and KV-cache utilisation, with engine-specific metric names selected by a label [[gateway-api-inference-extensionsite-srcguidesepp-configurationconfig-textmd-at-9]].\n- **A lifecycle signal** — something that tells the router when it appears and disappears.\n- **Network reachability** from the proxy for traffic and from the router for metrics and, optionally, KV events.\n\nNothing in that list mentions Kubernetes.",
+      "rationale": "A four-item semicolon chain announced as 'four things' is already enumerative in structure, and as a bulleted checklist it becomes the portability test a reader can apply to their own estate at a glance."
+    },
+    {
+      "id": "rec-3",
+      "category": "make-list",
+      "severity": "moderate",
+      "section": "## 7. Recommended Strategy and Implementation Roadmap — ### A. The decision rules (Rule 2)",
+      "current": "Escalate to a custom plugin when any of four gates trips: endpoints are addressed by hostname rather than IPv4 literal; the inventory exceeds the 1 MiB file budget; backends are data-parallel and need a non-zero rank index; or churn is fast enough that a regenerate-and-rewrite loop leaves a measurable window of routing to dead workers.",
+      "recommended": "Escalate to a custom plugin when any of four gates trips:\n\n- Endpoints are addressed by **hostname** rather than IPv4 literal.\n- The inventory exceeds the **1 MiB file budget**.\n- Backends are **data-parallel** and need a non-zero rank index.\n- **Churn** is fast enough that a regenerate-and-rewrite loop leaves a measurable window of routing to dead workers.",
+      "rationale": "These four gates are the report's escalation trigger and are cross-referenced later as 'a Rule-2 gate tripped', so they need to be individually scannable rather than fused into one 330-character sentence."
+    },
+    {
+      "id": "rec-4",
+      "category": "make-list",
+      "severity": "moderate",
+      "section": "## 3. Extension Seams in the Router for Non-Pod Backends — ### B. The shipped reference implementation and its ceilings",
+      "current": "Its limits are the thresholds against which your estate must be measured: the file is capped at 1 MiB; `address` must be a literal IPv4 value, with hostnames unresolved and IPv6 rejected outright; metrics are scraped from the same address and port that serves inference; a single bad entry is skipped but an unparseable file aborts startup [[readmemd]] [[file-discovery-34-add-filediscovery-plugin-with-yamljson-file-loading-and-fsnoti]]. A custom plugin escapes",
+      "recommended": "Its limits are the thresholds against which your estate must be measured:\n\n- The file is capped at **1 MiB**.\n- `address` must be a **literal IPv4 value**, with hostnames unresolved and IPv6 rejected outright.\n- Metrics are scraped from the **same address and port that serves inference**.\n- A single bad entry is skipped but an **unparseable file aborts startup** [[readmemd]] [[file-discovery-34-add-filediscovery-plugin-with-yamljson-file-loading-and-fsnoti]].\n\nA custom plugin escapes",
+      "rationale": "These are the numeric thresholds a reader must check their estate against, and a four-clause semicolon run buries them; citations stay attached to the clause they support."
+    },
+    {
+      "id": "rec-5",
+      "category": "make-list",
+      "severity": "moderate",
+      "section": "## 8. Risks, Trade-offs, and Open Questions",
+      "current": "**Falsification conditions.** Four specific commits would change this analysis, and each is plausible within two release cycles. If the panic-isolation issue is triaged toward a documented out-of-tree posture and that text lands in the plugin developer documentation, the precedent objection weakens materially. If a merged change adds a pluggable coordination primitive with a file, etcd, or Consul lock, the availability constraint driving Rule 1 substantially collapses. If any orchestrator-native discovery plugin merges, the audited absence closes and the seam acquires the in-repo precedent it lacks. If the charts grow a first-class discovery key, the packaging objection disappears outright.",
+      "recommended": "**Falsification conditions.** Four specific commits would change this analysis, and each is plausible within two release cycles.\n\n- If the panic-isolation issue is triaged toward a documented out-of-tree posture and that text lands in the plugin developer documentation, the precedent objection weakens materially.\n- If a merged change adds a pluggable coordination primitive with a file, etcd, or Consul lock, the availability constraint driving Rule 1 substantially collapses.\n- If any orchestrator-native discovery plugin merges, the audited absence closes and the seam acquires the in-repo precedent it lacks.\n- If the charts grow a first-class discovery key, the packaging objection disappears outright.",
+      "rationale": "Four parallel 'If X, then Y' conditions are a watch-list a reader will return to, and parallel syntax already makes them a list in everything but formatting."
+    },
+    {
+      "id": "rec-6",
+      "category": "make-list",
+      "severity": "moderate",
+      "section": "## 4. Upstream State: Proposals and Work on Non-Pod and External Endpoints — ### D. The gateway tier is moving the other way",
+      "current": "Every conformant gateway data plane reaches backends only through an `InferencePool` that selects pods by label: Istio requires the extension resources plus a pod-label selector [[istio-kubernetes-gateway-api-inference-extension]], NGINX Gateway Fabric selects from a pool of ready pods designated by the assigned InferencePool's Selector field [[gateway-api-inference-extension-nginx-documentation]], and kgateway's support auto-enables only when those resources exist in-cluster [[add-initial-gateway-api-inference-extension-support-issue-10411-kgateway-devkgat]]. Standalone mode",
+      "recommended": "Every conformant gateway data plane reaches backends only through an `InferencePool` that selects pods by label:\n\n- **Istio** requires the extension resources plus a pod-label selector [[istio-kubernetes-gateway-api-inference-extension]].\n- **NGINX Gateway Fabric** selects from a pool of ready pods designated by the assigned InferencePool's Selector field [[gateway-api-inference-extension-nginx-documentation]].\n- **kgateway**'s support auto-enables only when those resources exist in-cluster [[add-initial-gateway-api-inference-extension-support-issue-10411-kgateway-devkgat]].\n\nStandalone mode",
+      "rationale": "Three named gateways each with a one-clause finding and its own citation is a comparison already in list shape, and bolding the product names lets a reader find the one they run."
+    },
+    {
+      "id": "rec-7",
+      "category": "break-paragraph",
+      "severity": "moderate",
+      "section": "## 2. How the llm-d Router Discovers and Tracks Backends Today — ### D. What discovery does not supply",
+      "current": "rather than evicted ones [[llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github]]. Because the precise prefix producer installs",
+      "recommended": "rather than evicted ones [[llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github]].\n\nBecause the precise prefix producer installs",
+      "rationale": "This ~1,450-character paragraph turns at exactly this point from the missing health gate to the downstream subscriber-leak consequence, which is a different and more severe claim deserving its own block."
+    },
+    {
+      "id": "rec-8",
+      "category": "break-paragraph",
+      "severity": "moderate",
+      "section": "## 4. Upstream State: Proposals and Work on Non-Pod and External Endpoints — ### D. The gateway tier is moving the other way",
+      "current": "as its addressing anchor [[add-standalone-agentgateway-proxy-support-by-danehans-pull-request-2882-kubernet]]. Meanwhile kgateway abandoned",
+      "recommended": "as its addressing anchor [[add-standalone-agentgateway-proxy-support-by-danehans-pull-request-2882-kubernet]].\n\nMeanwhile kgateway abandoned",
+      "rationale": "The paragraph runs to roughly 1,500 characters and pivots here from 'standalone is still Kubernetes-shaped' to data-plane deprecation churn, two separable findings."
+    },
+    {
+      "id": "rec-9",
+      "category": "break-paragraph",
+      "severity": "moderate",
+      "section": "## 7. Recommended Strategy and Implementation Roadmap — ### B. Phases (Phase 3)",
+      "current": "tests, packaging and continuous integration. Structure: one package",
+      "recommended": "tests, packaging and continuous integration.\n\nStructure: one package",
+      "rationale": "Phase 3 changes register here from effort estimates to concrete implementation instructions, and the split gives the build recipe its own scannable block."
+    },
+    {
+      "id": "rec-10",
+      "category": "break-paragraph",
+      "severity": "minor",
+      "section": "## 5. Non-Pod Backend Types and What Each Requires from the Router — ### C. The KV-event path, where the thesis is won",
+      "current": "and again in the scoring path [[llm-d-routerpkgeppframeworkpluginsrequestcontroldataproducerpreciseprefixcacheex]]. The only Kubernetes-shaped artifact left",
+      "recommended": "and again in the scoring path [[llm-d-routerpkgeppframeworkpluginsrequestcontroldataproducerpreciseprefixcacheex]].\n\nThe only Kubernetes-shaped artifact left",
+      "rationale": "The hinge from code-level mechanics to the interpretation ('only a name is left') is the paragraph's payload and currently arrives mid-block after ~900 characters of detail."
+    },
+    {
+      "id": "rec-11",
+      "category": "break-paragraph",
+      "severity": "minor",
+      "section": "## 6. Candidate Strategies Compared — ### D. Steel-manning the strongest objection",
+      "current": "serving configurations [[predicted-latency-based-scheduling-llm-d]]. The specific adverse result",
+      "recommended": "serving configurations [[predicted-latency-based-scheduling-llm-d]].\n\nThe specific adverse result",
+      "rationale": "Splits the answer paragraph (not the objection) where it moves from the plugin-depth asset claim to the competing benchmark and its scoping, leaving the steel-man in 6D untouched."
+    },
+    {
+      "id": "rec-12",
+      "category": "break-paragraph",
+      "severity": "minor",
+      "section": "## 7. Recommended Strategy and Implementation Roadmap — ### A. The decision rules (Rule 4)",
+      "current": "Do not assume fail-open off Kubernetes. The documented default in standalone mode",
+      "recommended": "Do not assume fail-open off Kubernetes.\n\nThe documented default in standalone mode",
+      "rationale": "Ends the proxy-choice instruction on its imperative and gives the failOpen-does-not-transfer analysis its own block, improving the rule's readability without touching content."
+    },
+    {
+      "id": "rec-13",
+      "category": "break-paragraph",
+      "severity": "minor",
+      "section": "## 5. Non-Pod Backend Types and What Each Requires from the Router — ### E. The one functional loss",
+      "current": "only sub-zero priorities are sheddable [[llm-d-flow-control-priority-queuing-for-shared-gpu-inference-red-hat-developer]]. Explicit model selection",
+      "recommended": "only sub-zero priorities are sheddable [[llm-d-flow-control-priority-queuing-for-shared-gpu-inference-red-hat-developer]].\n\nExplicit model selection",
+      "rationale": "Separates the priority/fairness analysis from the model-rewrite substitute and the closing instruction, which are a distinct policy input."
+    },
+    {
+      "id": "rec-14",
+      "category": "break-paragraph",
+      "severity": "minor",
+      "section": "## 3. Extension Seams in the Router for Non-Pod Backends — ### C. Registration, and the objection it invites",
+      "current": "a sanctioned mechanism that is unprecedented in the wild — and the concession needs scoping, because what lacks precedent is out-of-tree Go registration against llm-d, not the architecture. On the RAMSES supercomputer",
+      "recommended": "a sanctioned mechanism that is unprecedented in the wild — and the concession needs scoping, because what lacks precedent is out-of-tree Go registration against llm-d, not the architecture.\n\nOn the RAMSES supercomputer",
+      "rationale": "The RAMSES deployment is a separate corroborating exhibit with its own scoping caveat, and it currently trails a mitigation checklist inside one ~1,150-character block."
+    },
+    {
+      "id": "rec-15",
+      "category": "merge-paragraphs",
+      "severity": "moderate",
+      "section": "## 4. Upstream State: Proposals and Work on Non-Pod and External Endpoints — ### B. What did not land",
+      "current": "only the file one does, and the module's published package index at v0.10.0 lists exactly one exported discovery backend [[main]] [[llm-d-router-module-githubcomllm-dllm-d-router-go-packages]].\n\nThe consequence is an honest cost: there is no watch-based discovery implementation anywhere in the repository to copy.",
+      "recommended": "only the file one does, and the module's published package index at v0.10.0 lists exactly one exported discovery backend [[main]] [[llm-d-router-module-githubcomllm-dllm-d-router-go-packages]]. The consequence is an honest cost: there is no watch-based discovery implementation anywhere in the repository to copy.",
+      "rationale": "A 245-character paragraph that states the direct consequence of the paragraph immediately above it belongs in that paragraph; merging yields a ~860-character block squarely in the target range."
+    },
+    {
+      "id": "rec-16",
+      "category": "merge-paragraphs",
+      "severity": "minor",
+      "section": "## 1. llm-d Component Inventory and Kubernetes Coupling — ### C. The split the table draws",
+      "current": "takes input exclusively from an `InferencePool` [[allowlistgo]].\n\nOne expectation to correct: the capability is real",
+      "recommended": "takes input exclusively from an `InferencePool` [[allowlistgo]]. One expectation to correct: the capability is real",
+      "rationale": "Both paragraphs are corrective notes closing the inventory section, and the second is a 225-character orphan that reads as a stranded aside on its own."
+    },
+    {
+      "id": "rec-17",
+      "category": "split-sentence",
+      "severity": "moderate",
+      "section": "## 7. Recommended Strategy and Implementation Roadmap — ### A. The decision rules (Rule 3)",
+      "current": "Only once that is settled does the polling question matter, and it resolves toward the cheap answer: default to an interval poll plus snapshot diff, a near-mechanical transliteration of the file plugin's load loop [[plugingo]]; use a long-poll primitive where the registry offers one, such as a blocking query carrying the last-seen index with server-side health filtering [[blocking-queries-consul-hashicorp-developer]] [[health-http-api-consul-hashicorp-developer]]; and reserve a persistent watch for cases where staleness has a named, measured cost.",
+      "recommended": "Only once that is settled does the polling question matter, and it resolves toward the cheap answer. Default to an interval poll plus snapshot diff, a near-mechanical transliteration of the file plugin's load loop [[plugingo]]. Use a long-poll primitive where the registry offers one, such as a blocking query carrying the last-seen index with server-side health filtering [[blocking-queries-consul-hashicorp-developer]] [[health-http-api-consul-hashicorp-developer]]. Reserve a persistent watch for cases where staleness has a named, measured cost.",
+      "rationale": "A 460-character sentence carrying three separate instructions and four citations splits cleanly at its semicolons into three imperatives, each keeping its own citation."
+    },
+    {
+      "id": "rec-18",
+      "category": "split-sentence",
+      "severity": "moderate",
+      "section": "## 7. Recommended Strategy and Implementation Roadmap — ### B. Phases (Phase 3)",
+      "current": "The core loop is cheap, on calibrated estimates rather than measured figures — no team has published effort spent against this interface: an interval poll plus snapshot diff is roughly 2-4 days of work, anchored on transliterating about 200 lines of already-reviewed reference code, a long-poll variant adds 1-2 days, and a genuine persistent watch is 1-2 weeks with no in-repo precedent to copy — the repository's only attempt at one was abandoned as too large to review [[discovery-plugins-k8s-and-file-based-endpoint-discovery-by-ezrasilvera-pull-requ]].",
+      "recommended": "The core loop is cheap, on calibrated estimates rather than measured figures — no team has published effort spent against this interface. An interval poll plus snapshot diff is roughly 2-4 days of work, anchored on transliterating about 200 lines of already-reviewed reference code; a long-poll variant adds 1-2 days; and a genuine persistent watch is 1-2 weeks with no in-repo precedent to copy — the repository's only attempt at one was abandoned as too large to review [[discovery-plugins-k8s-and-file-based-endpoint-discovery-by-ezrasilvera-pull-requ]].",
+      "rationale": "A 480-character sentence mixing a calibration caveat, three effort estimates and a repository fact across nested em-dashes and commas becomes legible when the caveat is closed and the estimates separated by semicolons."
+    },
+    {
+      "id": "rec-19",
+      "category": "split-sentence",
+      "severity": "moderate",
+      "section": "## 7. Recommended Strategy and Implementation Roadmap — ### A. The decision rules (Rule 1 evidence)",
+      "current": "That last branch needs its evidence stated, because the documented Active-Active warning is scoped to *approximate* prefix routing, where replicas genuinely do not share state, and the same document publishes near-linear Active-Active scaling — 2.0x, 2.7x and 3.5x throughput at two, three and four replicas — against no throughput gain at all in Active-Passive, where standby replicas answer the readiness probe NOT_SERVING and never enter the endpoint list [[llm-d-routerdocsoperationsmd-at-main-llm-dllm-d-router-github]].",
+      "recommended": "That last branch needs its evidence stated, because the documented Active-Active warning is scoped to *approximate* prefix routing, where replicas genuinely do not share state. The same document publishes near-linear Active-Active scaling — 2.0x, 2.7x and 3.5x throughput at two, three and four replicas — against no throughput gain at all in Active-Passive, where standby replicas answer the readiness probe NOT_SERVING and never enter the endpoint list [[llm-d-routerdocsoperationsmd-at-main-llm-dllm-d-router-github]].",
+      "rationale": "A 450-character sentence holds two independent findings — the warning's scope and the measured scaling numbers — and the split lets the throughput figures land on their own."
+    },
+    {
+      "id": "rec-20",
+      "category": "split-sentence",
+      "severity": "minor",
+      "section": "## 5. Non-Pod Backend Types and What Each Requires from the Router — ### D. The one component you cannot reuse unchanged",
+      "current": "Its protection against server-side request forgery (SSRF — coercing a server into making requests to addresses the attacker chooses) is off by default (`--enable-ssrf-protection`); when enabled it watches a specific InferencePool resource and maintains an allowlist of valid prefill targets based on pods matching the InferencePool selectors, returning 403 to anything else",
+      "recommended": "Its protection against server-side request forgery (SSRF — coercing a server into making requests to addresses the attacker chooses) is off by default (`--enable-ssrf-protection`). When enabled, it watches a specific InferencePool resource and maintains an allowlist of valid prefill targets based on pods matching the InferencePool selectors, returning 403 to anything else",
+      "rationale": "A 360-character sentence carrying a parenthetical definition, a parenthetical flag and a semicolon-joined second clause reads far more clearly as two sentences."
+    }
+  ],
+  "summary": {
+    "total_recommendations": 20,
+    "by_category": {
+      "merge-paragraphs": 2,
+      "break-paragraph": 8,
+      "make-list": 6,
+      "make-table": 0,
+      "bold-keyterms": 0,
+      "split-sentence": 4,
+      "remove-hr": 0,
+      "add-whitespace": 0
+    },
+    "highest_severity": "major",
+    "expected_net_char_delta": 245
+  }
+}

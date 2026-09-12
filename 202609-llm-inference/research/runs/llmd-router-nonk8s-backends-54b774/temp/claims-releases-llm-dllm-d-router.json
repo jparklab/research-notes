@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "The newest released llm-d-router version is v0.10.0, tagged 17 Aug 2026 21:00 UTC, and no later patch or minor tag exists as of 11 Sep 2026.",
+    "stance": "refutes",
+    "stance_target": "target position's implicit framing that the endpoints.pluginRef surface is part of a currently-shipping release cycle",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d/llm-d-router GitHub repo, as of 2026-09-11",
+    "quoted_support": "[github-actions] released this 17 Aug 21:00 [v0.10.0]",
+    "numbers": ["v0.10.0", "17 Aug 2026"],
+    "entities": ["llm-d-router", "hexfusion"],
+    "time_period": "2026-08-17",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "releases-llm-dllm-d-router"
+  },
+  {
+    "claim": "The v0.10.0 release notes' Upgrade Steps & Deprecations section contains no mention of dataLayer.discovery, endpoints.pluginRef, or any discovery-plugin config reshaping.",
+    "stance": "refutes",
+    "stance_target": "target position claiming dataLayer.discovery.endpoints.pluginRef ships as of v0.10.0",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router v0.10.0 release notes",
+    "quoted_support": "The deprecated data-layer feature gate is removed (#1728).",
+    "numbers": ["v0.10.0"],
+    "entities": ["llm-d-router", "dataLayer"],
+    "time_period": "2026-08-17",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "releases-llm-dllm-d-router"
+  },
+  {
+    "claim": "v0.9.0 (released 23 Jun 2026) introduced the FileDiscovery plugin for YAML/JSON file-based backend discovery with fsnotify file watching.",
+    "stance": "neutral",
+    "stance_target": "version floor for file-discovery capability",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router v0.9.0",
+    "quoted_support": "Introduced a new FileDiscovery plugin to handle YAML/JSON file loading and fsnotify file watching (PR #1135).",
+    "numbers": ["v0.9.0", "PR #1135", "23 Jun 2026"],
+    "entities": ["FileDiscovery", "llm-d-router"],
+    "time_period": "2026-06-23",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "releases-llm-dllm-d-router"
+  }
+]

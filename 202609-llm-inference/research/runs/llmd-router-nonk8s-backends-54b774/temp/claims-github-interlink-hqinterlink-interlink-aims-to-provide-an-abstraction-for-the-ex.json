@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "interLink explicitly scopes 'Long-running Services: Persistent services with continuous availability requirements' as Out of Scope for the project, in direct tension with using it to back an always-on LLM inference server.",
+    "stance": "refutes",
+    "stance_target": "interLink/virtual-kubelet is a good fit for backing long-running vLLM/model-server pods behind an inference router",
+    "evidence_type": "empirical",
+    "scope_conditions": "interLink v0.6.2, CNCF-hosted project, as fetched",
+    "quoted_support": "Out of Scope: Long-running Services: Persistent services with continuous availability requirements",
+    "numbers": [],
+    "entities": ["interLink", "CNCF"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-interlink-hqinterlink-interlink-aims-to-provide-an-abstraction-for-the-ex"
+  },
+  {
+    "claim": "interLink explicitly scopes 'Kubernetes Federation: Multi-cluster resource management and federation' as Out of Scope, meaning it is not offered as a cross-cluster backend-reachability solution.",
+    "stance": "refutes",
+    "stance_target": "interLink as a multi-cluster backend-reachability mechanism",
+    "evidence_type": "empirical",
+    "scope_conditions": "interLink project scope statement",
+    "quoted_support": "Out of Scope: ... Kubernetes Federation: Multi-cluster resource management and federation",
+    "numbers": [],
+    "entities": ["interLink"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-interlink-hqinterlink-interlink-aims-to-provide-an-abstraction-for-the-ex"
+  },
+  {
+    "claim": "interLink's in-scope use cases are HPC/GPU batch workloads (AI training, ML inference batch jobs, scientific simulations, batch processing, hybrid-cloud workload distribution), positioning it as a batch-execution abstraction rather than a live-serving abstraction.",
+    "stance": "neutral",
+    "stance_target": "appropriate use cases for interLink within an llm-d architecture",
+    "evidence_type": "empirical",
+    "scope_conditions": "interLink project scope statement",
+    "quoted_support": "In Scope: HPC Workloads: AI training, ML inference, scientific simulations requiring specialized hardware; GPU-intensive Tasks... Batch Processing: On-demand container execution with specific compute requirements; Hybrid Cloud: Workload distribution across multiple infrastructure providers",
+    "numbers": [],
+    "entities": ["interLink"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "github-interlink-hqinterlink-interlink-aims-to-provide-an-abstraction-for-the-ex"
+  },
+  {
+    "claim": "As of July 2026, interLink maintainers were actively merging a PR titled 'stabilize shadow pod networking lifecycle', indicating the networking behavior of interLink's remote-backed virtual pods ('shadow pods') was still being hardened/changed recently rather than being long-stable.",
+    "stance": "neutral",
+    "stance_target": "maturity/stability of interLink's virtual pod networking model",
+    "evidence_type": "empirical",
+    "scope_conditions": "interLink repo commit history, PR #538",
+    "quoted_support": "532 stabilize shadow pod networking lifecycle and add optional tls ingress support (#538)",
+    "numbers": ["PR #538"],
+    "entities": ["interLink", "shadow pod"],
+    "time_period": "July 29, 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "github-interlink-hqinterlink-interlink-aims-to-provide-an-abstraction-for-the-ex"
+  }
+]

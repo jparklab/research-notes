@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "The official llm-d-router plugin-authoring tutorial (docs/create_new_filter.md) instructs developers to add the plugin.Register call directly inside cmd/epp/runner/runner.go's registerInTreePlugins() -- i.e. to edit the router's own repo -- as the only documented way to hook a new plugin into the scheduling flow.",
+    "stance": "refutes",
+    "stance_target": "out-of-tree registration (without touching the repo) is the officially sanctioned/documented path",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router docs, last touched Aug 3 2026",
+    "quoted_support": "Add an import and a `plugin.Register` call in [`runner.go`](https://github.com/llm-d/llm-d-router/blob/main/cmd/epp/runner/runner.go). New plugins should generally be registered with `plugin.StabilityAlpha` unless intended to be enabled by default",
+    "numbers": [],
+    "entities": ["create_new_filter.md", "runner.go", "registerInTreePlugins"],
+    "time_period": "Aug 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerdocscreate_new_filtermd-at-main-llm-dllm-d-router-github"
+  },
+  {
+    "claim": "A minimal plugin only needs to implement plugin.Plugin (TypedName()) plus the specific interface for its plugin category (e.g. scheduling.Filter requires Filter(ctx, request, endpoints)) and a factory function of the signature func(name string, rawParameters *json.Decoder, handle plugin.Handle) (plugin.Plugin, error).",
+    "stance": "neutral",
+    "stance_target": "minimum interface surface a custom plugin (including a discovery plugin) must implement",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router docs, Aug 2026",
+    "quoted_support": "type Plugin interface {\n    TypedName() TypedName\n}",
+    "numbers": [],
+    "entities": ["plugin.Plugin", "scheduling.Filter", "FactoryFunc"],
+    "time_period": "Aug 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerdocscreate_new_filtermd-at-main-llm-dllm-d-router-github"
+  },
+  {
+    "claim": "After registration, a plugin is activated purely through the EndpointPickerConfig YAML: declared once in the top-level plugins list (with type, name, and optional parameters) and referenced by name (pluginRef) in a schedulingProfiles entry -- no further Go code changes needed once the factory is registered.",
+    "stance": "neutral",
+    "stance_target": "config-driven plugin activation mechanism",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router docs, Aug 2026",
+    "quoted_support": "plugins:\n- type: label-selector-filter\n  name: my-label-filter\n  parameters:\n    matchLabels:\n      role: decode\nschedulingProfiles:\n- name: default\n  plugins:\n  - pluginRef: my-label-filter",
+    "numbers": [],
+    "entities": ["EndpointPickerConfig", "schedulingProfiles", "pluginRef"],
+    "time_period": "Aug 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerdocscreate_new_filtermd-at-main-llm-dllm-d-router-github"
+  }
+]

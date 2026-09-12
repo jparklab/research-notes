@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "LiteLLM Proxy can be deployed as a standard OpenShift Deployment to route OpenAI-compatible requests to a mix of external providers (OpenAI, Gemini) and a self-hosted vLLM model served via KServe InferenceService, using only a static YAML model_list and no InferencePool/EPP integration.",
+    "stance": "neutral",
+    "stance_target": "a gateway-abstraction pattern that unifies external and self-hosted backends without any k8s-pod-aware endpoint picker",
+    "evidence_type": "empirical",
+    "scope_conditions": "Red Hat OpenShift AI 3.4, LiteLLM main-stable image, May 2026",
+    "quoted_support": "The following LiteLLM YAML configuration defines a list of models backed by different providers. Entries point to external APIs and self-hosted models running inside the OpenShift AI cluster.",
+    "numbers": ["port 4000", "port 8080"],
+    "entities": ["LiteLLM", "OpenShift AI", "KServe", "vLLM"],
+    "time_period": "May 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "centralized-routing-for-external-and-self-hosted-llms-on-openshift-ai-red-hat-de"
+  },
+  {
+    "claim": "Red Hat OpenShift AI 3.4 ships a built-in Models-as-a-Service (MaaS) capability, powered by Red Hat Connectivity Link, that natively unifies routing to self-hosted vLLM models and external providers behind a single endpoint with centralized governance.",
+    "stance": "neutral",
+    "stance_target": "vendor-native alternative to a custom or third-party gateway for the external/self-hosted split",
+    "evidence_type": "empirical",
+    "scope_conditions": "Red Hat OpenShift AI 3.4, 2026",
+    "quoted_support": "MaaS acts as an integrated AI inference gateway directly within the platform. It provides centralized governance while routing requests through a single unified endpoint to both self-hosted models (using vLLM) and external providers.",
+    "numbers": ["OpenShift AI 3.4"],
+    "entities": ["Red Hat OpenShift AI", "Red Hat Connectivity Link", "MaaS"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "centralized-routing-for-external-and-self-hosted-llms-on-openshift-ai-red-hat-de"
+  }
+]

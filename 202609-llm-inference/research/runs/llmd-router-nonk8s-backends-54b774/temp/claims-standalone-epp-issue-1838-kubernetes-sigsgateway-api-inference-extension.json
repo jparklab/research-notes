@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "GIE maintainer ahg-g proposed standalone EPP as a maturation ladder of four deployment modes, from zero-k8s-dependency static config to fully Gateway-API-provisioned, explicitly to reduce adoption friction for users not yet on Kubernetes.",
+    "stance": "supports",
+    "stance_target": "standalone EPP mode exists to lower the barrier to adopting GIE routing outside full k8s+Gateway API deployments",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "kubernetes-sigs/gateway-api-inference-extension design discussion, Nov 2025-Mar 2026",
+    "quoted_support": "The idea is to offer deployment modes that allow the least amount of friction for users as they mature in the journey from simple deployments to full fledged ones that integrate with Gateway API. The end goal is to land users on k8s and the gateway api, but many users are not there yet.",
+    "numbers": ["4 deployment modes"],
+    "entities": ["ahg-g", "GIE", "InferencePool", "Gateway API"],
+    "time_period": "November 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "standalone-epp-issue-1838-kubernetes-sigsgateway-api-inference-extension"
+  },
+  {
+    "claim": "The maintainer identified exactly three EPP endpoint-discovery mechanisms to support as pluggable discovery plugins: InferencePool (reconciler-driven), podSelector, and a static set of endpoints.",
+    "stance": "supports",
+    "stance_target": "GIE's standalone-mode design commits to a pluggable discovery-plugin architecture rather than a single k8s-pod-only mechanism",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "GIE EPP architecture proposal, Nov 2025",
+    "quoted_support": "there are three discovery modes I had in mind: 1) InfPool 2) podSelector 3) static set",
+    "numbers": ["3 discovery modes"],
+    "entities": ["ahg-g", "InferencePool", "podSelector"],
+    "time_period": "November 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "standalone-epp-issue-1838-kubernetes-sigsgateway-api-inference-extension"
+  },
+  {
+    "claim": "The stated motivating use cases for zero-k8s-dependency standalone EPP mode are batch inference and RL (reinforcement learning) customers, with Mistral cited as a named requester who independently asked for exactly those deployment modes.",
+    "stance": "supports",
+    "stance_target": "concrete named-customer demand drove the standalone/orchestrator-agnostic EPP deployment mode, not a hypothetical",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "GIE community input, cited Nov 2025",
+    "quoted_support": "We hear this from batch inference and RL customers. In fact, Mistral asked for those two deployment modes independently without knowing that we are already pursuing them.",
+    "numbers": [],
+    "entities": ["Mistral", "ahg-g", "GIE"],
+    "time_period": "November 2025",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "standalone-epp-issue-1838-kubernetes-sigsgateway-api-inference-extension"
+  },
+  {
+    "claim": "The maintainer deliberately excluded any control-plane dependency (etcd, DNS, k8s reconcilers) from the static/orchestrator-agnostic discovery mode, reasoning that adding one would defeat the mode's purpose, and pointed to sglang's sgl-router static endpoint configuration for prefill/decode disaggregation as the reference implementation pattern.",
+    "stance": "supports",
+    "stance_target": "the static-endpoint standalone discovery mode is meant to be a genuinely dependency-free configuration surface, modeled on prior art outside GIE/k8s",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "GIE EPP-as-container design, Nov 2025",
+    "quoted_support": "I don't think we need to offer anything beyond a static set of endpoints because otherwise we need to build or create a dependency on a control plane, which goes against the main motivation behind this mode. See sglang-router as an example of how static endpoints are set.",
+    "numbers": [],
+    "entities": ["ahg-g", "sglang", "sgl-router"],
+    "time_period": "November 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "standalone-epp-issue-1838-kubernetes-sigsgateway-api-inference-extension"
+  },
+  {
+    "claim": "A contributor proposed generalizing the podSelector discovery mode into a broader service-discovery abstraction covering Service+EndpointSlice, DNS resolvers, and external stores like etcd/Consul/cloud service registries.",
+    "stance": "neutral",
+    "stance_target": "how far standalone discovery abstraction should extend beyond Kubernetes-native mechanisms",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "GIE design discussion, Nov 2025, linked to PR #1833 and issue #1779",
+    "quoted_support": "For mode (1) one might use a fix list of IP's and ports, or an external DNS resolver, or etcd/Consul/cloud service... Each mechanism would be it's own discovery plugin and would make EPP adaptable to more use cases.",
+    "numbers": ["PR #1833", "issue #1779"],
+    "entities": ["elevran", "etcd", "Consul", "EndpointSlice"],
+    "time_period": "November 2025",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "standalone-epp-issue-1838-kubernetes-sigsgateway-api-inference-extension"
+  }
+]

@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "vLLM Router's kv_aware policy subscribes directly to vLLM workers' native ZMQ KV-cache-event stream (PUB socket, default port 5557) rather than polling an LMCache controller, giving microsecond index lookups instead of ~200ms HTTP round-trips.",
+    "stance": "supports",
+    "stance_target": "non-K8s, non-etcd worker-state discovery via direct event-stream subscription is a viable production pattern",
+    "evidence_type": "empirical",
+    "scope_conditions": "bet0x/vllm-router fork v0.12.0, vLLM 0.10+",
+    "quoted_support": "Each vLLM decode worker runs a ZMQ PUB socket on port 5557 (configurable). The router opens a SUB socket per worker, decodes the msgpack payload, and updates a global index.",
+    "numbers": ["5557", "200ms"],
+    "entities": ["vLLM Router", "ZMQ", "kv_aware"],
+    "time_period": "2026-04-24",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "vllm-router-v0120-routing-on-real-kv-cache-events-barrahomeorg"
+  },
+  {
+    "claim": "The router re-hashes block keys from token_ids using its own deterministic FNV-1a rather than trusting the worker-published hash, because different vLLM versions/configs produce different hashes for identical tokens.",
+    "stance": "neutral",
+    "stance_target": "correctness invariant for KV-event-based routing across heterogeneous backend versions",
+    "evidence_type": "empirical",
+    "scope_conditions": "kv_aware policy implementation, v0.12.0",
+    "quoted_support": "You'd think you could trust the published hash. You can't always — different vLLM versions and different randomization configurations produce different hashes for the same tokens. So the index updater re-hashes from token_ids using the router's own BlockKeyGenerator.",
+    "numbers": [],
+    "entities": ["FNV-1a", "BlockKeyGenerator"],
+    "time_period": "2026-04-24",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "vllm-router-v0120-routing-on-real-kv-cache-events-barrahomeorg"
+  },
+  {
+    "claim": "vLLM Router v0.11.0 added Unix domain socket backend addressing (unix:///path.sock) as an alternative to http://host:port, eliminating local TCP overhead and removing the need to expose vLLM ports, independent of any Kubernetes networking construct.",
+    "stance": "supports",
+    "stance_target": "routers can address backends via non-K8s, non-network transport mechanisms",
+    "evidence_type": "empirical",
+    "scope_conditions": "bet0x/vllm-router fork, same-host deployments only; PD modes reject UDS at startup",
+    "quoted_support": "v0.11.0 — Unix domain socket backends. Workers can be addressed as unix:///path.sock instead of http://host:port. Eliminates local TCP overhead for same-host deployments and removes the need to expose vLLM ports.",
+    "numbers": [],
+    "entities": ["Unix domain socket", "vLLM Router"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "vllm-router-v0120-routing-on-real-kv-cache-events-barrahomeorg"
+  },
+  {
+    "claim": "Rendezvous (HRW) hashing gives ~49% lower coefficient of variation than a 100-vnode consistent hash ring at 512 sessions across 3 workers, and only sessions mapped to a removed worker are redistributed on membership change.",
+    "stance": "supports",
+    "stance_target": "worker-membership-change handling can be made minimally disruptive without K8s-specific mechanisms",
+    "evidence_type": "empirical",
+    "scope_conditions": "bet0x/vllm-router fork v0.12.0 contract test, 300 test sessions, 3 workers",
+    "quoted_support": "With 512 sessions and 3 workers, HRW has roughly 49% lower coefficient of variation than a 100-vnode consistent hash. ... removing one of three workers moves at most a handful of the 300 test sessions (the ones that were on the removed worker), the rest stay put.",
+    "numbers": ["49%", "512 sessions", "3 workers", "300 test sessions", "100-vnode"],
+    "entities": ["rendezvous_hash", "consistent_hash", "HRW"],
+    "time_period": "2026-04-24",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "vllm-router-v0120-routing-on-real-kv-cache-events-barrahomeorg"
+  },
+  {
+    "claim": "kv_aware ignores the LMCache 'medium' field (GPU/CPU/disk) as of v0.12.0, so it overestimates the benefit of a matched prefix when that prefix lives in CPU or disk offload rather than GPU HBM; medium-aware scoring is planned for v0.13.",
+    "stance": "neutral",
+    "stance_target": "current limitations of event-driven KV-aware routing when combined with tiered offload",
+    "evidence_type": "empirical",
+    "scope_conditions": "bet0x/vllm-router fork v0.12.0 with LMCache offload enabled",
+    "quoted_support": "kv_aware v0.12.0 ignores that field and treats every cached block as equivalent. ... the router will correctly identify which worker has the most cached prefix, but it will overestimate the wall-clock benefit when the prefix lives on CPU or disk rather than GPU HBM.",
+    "numbers": ["v0.12.0", "v0.13"],
+    "entities": ["LMCache", "medium field", "kv_aware"],
+    "time_period": "2026-04-24",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "vllm-router-v0120-routing-on-real-kv-cache-events-barrahomeorg"
+  }
+]

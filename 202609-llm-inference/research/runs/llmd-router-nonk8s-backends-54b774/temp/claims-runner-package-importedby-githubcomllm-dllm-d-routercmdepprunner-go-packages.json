@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "pkg.go.dev's reverse-dependency index shows zero publicly known Go modules importing github.com/llm-d/llm-d-router/cmd/epp/runner as of September 2026.",
+    "stance": "supports",
+    "stance_target": "the out-of-tree main()-importing-cmd/epp/runner pattern has zero known precedent",
+    "evidence_type": "empirical",
+    "scope_conditions": "public Go module proxy index only; would not detect private/unpublished downstream forks",
+    "quoted_support": "No known importers for this package!",
+    "numbers": [],
+    "entities": ["pkg.go.dev", "llm-d-router", "cmd/epp/runner"],
+    "time_period": "as of Sep 11, 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "runner-package-importedby-githubcomllm-dllm-d-routercmdepprunner-go-packages"
+  },
+  {
+    "claim": "pkg.go.dev shows zero known importers of the plugin registration package pkg/epp/framework/interface/plugin, which exposes the exported fwkplugin.Register function used to add custom plugin factories.",
+    "stance": "supports",
+    "stance_target": "zero known precedent for out-of-tree plugin registration against llm-d-router",
+    "evidence_type": "empirical",
+    "scope_conditions": "public Go module proxy index only",
+    "quoted_support": "No known importers for this package!",
+    "numbers": [],
+    "entities": ["pkg.go.dev", "llm-d-router", "fwkplugin.Register"],
+    "time_period": "as of Sep 11, 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "plugin-package-importedby-githubcomllm-dllm-d-routerpkgeppframeworkinterfaceplug"
+  },
+  {
+    "claim": "pkg.go.dev shows zero known importers of pkg/epp/framework/interface/datalayer, the package defining the EndpointDiscovery interface a custom non-k8s discovery plugin must implement.",
+    "stance": "supports",
+    "stance_target": "zero known precedent for out-of-tree EndpointDiscovery plugins",
+    "evidence_type": "empirical",
+    "scope_conditions": "public Go module proxy index only",
+    "quoted_support": "No known importers for this package!",
+    "numbers": [],
+    "entities": ["pkg.go.dev", "llm-d-router", "EndpointDiscovery"],
+    "time_period": "as of Sep 11, 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "datalayer-package-importedby-githubcomllm-dllm-d-routerpkgeppframeworkinterfaced"
+  }
+]

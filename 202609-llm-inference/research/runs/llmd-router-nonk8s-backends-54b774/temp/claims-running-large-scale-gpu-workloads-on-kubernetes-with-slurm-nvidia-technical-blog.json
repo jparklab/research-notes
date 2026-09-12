@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "SlinkyProject's slurm-operator runs Slurm control-plane and worker daemons (slurmctld, slurmdbd, slurmd, slurmrestd) themselves as real Kubernetes pods via CRDs, the inverse integration direction from interLink/virtual-kubelet (which makes external Slurm jobs masquerade as virtual K8s pods).",
+    "stance": "neutral",
+    "stance_target": "alternative strategies for making Slurm-hosted inference reachable by a stock InferencePool/router without customizing the router",
+    "evidence_type": "empirical",
+    "scope_conditions": "SlinkyProject slurm-operator, NVIDIA production deployments",
+    "quoted_support": "Slinky slurm-operator represents each Slurm component (slurmctld for scheduling, slurmdbd for accounting, slurmd for compute workers, slurmrestd for API access) as a Kubernetes Custom Resource Definition (CRD).",
+    "numbers": [],
+    "entities": ["SlinkyProject", "slurm-operator", "slurmctld", "slurmd"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "running-large-scale-gpu-workloads-on-kubernetes-with-slurm-nvidia-technical-blog"
+  },
+  {
+    "claim": "Because Slinky's slurmd workers run as genuine Kubernetes pods, they receive normal pod IPs and Service/EndpointSlice membership, meaning they would be selectable by a stock, unmodified InferencePool label selector -- an alternative to customizing the router to reach non-pod backends is to make the non-native compute (Slurm) itself run as native pods.",
+    "stance": "supports",
+    "stance_target": "there exists a non-router-customization path to reach Slurm-hosted compute from InferencePool",
+    "evidence_type": "theoretical",
+    "scope_conditions": "inference derived from Slinky's pod-native architecture; not a claim the source makes about InferencePool specifically",
+    "quoted_support": "Slinky slurm-operator represents each Slurm component... as a Kubernetes Custom Resource Definition (CRD)... managing their lifecycle as pods.",
+    "numbers": [],
+    "entities": ["Slinky", "InferencePool", "slurmd"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "low",
+    "source_note_id": "running-large-scale-gpu-workloads-on-kubernetes-with-slurm-nvidia-technical-blog"
+  },
+  {
+    "claim": "NVIDIA reports Slinky slurm-operator running in production across clusters scaling to over 8,000 GPUs and 1,000+ worker nodes for LLM training and multinode inference, with NCCL all-reduce/all-gather GPU communication benchmarks matching noncontainerized Slurm performance.",
+    "stance": "supports",
+    "stance_target": "Slinky slurm-operator is production-viable at scale for GPU/LLM workloads",
+    "evidence_type": "empirical",
+    "scope_conditions": "NVIDIA internal production clusters",
+    "quoted_support": "NVIDIA runs Slinky slurm-operator in production across multiple clusters, with some deployments scaling to over 8,000 GPUs. These clusters run large-scale LLM training and multinode inference workloads daily.",
+    "numbers": ["1,000+ worker nodes", "8,000+ GPUs"],
+    "entities": ["NVIDIA", "Slinky", "NCCL"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "running-large-scale-gpu-workloads-on-kubernetes-with-slurm-nvidia-technical-blog"
+  },
+  {
+    "claim": "Slinky's slurm-operator currently assumes one worker pod per node, which over-provisions resources for workloads that are exclusively single-node Slurm jobs; the companion slurm-bridge project is suggested as a lighter-weight alternative for that case.",
+    "stance": "neutral",
+    "stance_target": "limitations of the Slinky slurm-operator approach",
+    "evidence_type": "empirical",
+    "scope_conditions": "Slinky slurm-operator current design",
+    "quoted_support": "One constraint to be aware of: Slinky's slurm-operator currently assumes one worker pod per node. If your workloads are exclusively single-node Slurm jobs, this over-provisions relative to what you need, and a lighter-weight integration (or slurm-bridge) may be a better fit.",
+    "numbers": ["one worker pod per node"],
+    "entities": ["Slinky", "slurm-bridge"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "running-large-scale-gpu-workloads-on-kubernetes-with-slurm-nvidia-technical-blog"
+  }
+]

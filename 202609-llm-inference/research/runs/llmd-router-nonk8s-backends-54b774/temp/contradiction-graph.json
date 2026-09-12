@@ -1,0 +1,461 @@
+[
+ {
+  "cluster_id": "out-of-tree-plugin-registration",
+  "fight": "Can a custom EndpointDiscovery plugin be added to llm-d-router without forking the repo?",
+  "side_a": {
+   "position": "Yes: the plugin registry is an exported package-level map with an exported Register(); docs say register the factory before Run(); main.go is a thin wrapper over an importable runner.",
+   "claims": [
+    "registry.go: Registry is an exported map[string]FactoryFunc and Register() is exported",
+    "PR #908: a custom discovery backend is enabled purely through configuration once registered",
+    "discovery.md: register the factory via fwkplugin.Register before calling Run, then reference it in EndpointPickerConfig"
+   ],
+   "sources": [
+    "registrygo",
+    "feat-add-pluggable-discoveryplugin-interface-by-ezrasilvera-pull-request-908-llm",
+    "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github",
+    "maingo"
+   ]
+  },
+  "side_b": {
+   "position": "Only in-tree is supported: the official tutorial says to edit runner.go's registerInTreePlugins(); the Runner exposes no WithPlugins hook; no downstream out-of-tree example exists; duplicate type names silently overwrite.",
+   "claims": [
+    "create_new_filter.md instructs adding plugin.Register inside cmd/epp/runner/runner.go",
+    "registerInTreePlugins() is unexported; no exported plugin-injection option on Runner",
+    "Register() has no duplicate-key guard"
+   ],
+   "sources": [
+    "llm-d-routerdocscreate_new_filtermd-at-main-llm-dllm-d-router-github",
+    "runnergo",
+    "llm-dllm-d-inference-scheduler-deepwiki",
+    "llm-d-routerpkgeppframeworkpluginsreadmemd-at-main-llm-dllm-d-router-github"
+   ]
+  },
+  "evidence_quality_delta": "Both sides are empirical (source code + official docs); side A is code-level capability, side B is documentation/support posture plus an audited absence of precedent.",
+  "scope_overlap": "Scoped differently, both right: out-of-tree registration is technically sound (Go init() + exported registry) but undocumented, unprecedented, and exposed to internal-API drift.",
+  "decision_relevance": "high"
+ },
+ {
+  "cluster_id": "kv-event-subscription-mode-off-k8s",
+  "fight": "How does precise prefix-cache routing receive KV events from backends that are not Kubernetes pods?",
+  "side_a": {
+   "position": "Router-side pull: each EPP replica opens an outbound ZMQ SUB connection to every discovered pod's PUB socket, driven by a Kubernetes pod reconciler; topic kv@<pod-ip>:<port>@<model>.",
+   "claims": [
+    "precise-prefix guide: router-side subscription is connect-initiated per discovered pod",
+    "kv-cache config: default Auto-Discovery Mode is a Kubernetes pod reconciler needing pods get/list/watch RBAC"
+   ],
+   "sources": [
+    "llm-dguidesprecise-prefix-cache-routingreadmemd-at-main-llm-dllm-d-github",
+    "llm-d-kv-cachedocsconfigurationmd-at-main-llm-dllm-d-kv-cache-github",
+    "master-kv-cache-aware-routing-with-llm-d-for-efficient-ai-inference-red-hat-deve"
+   ]
+  },
+  "side_b": {
+   "position": "Push via Static Endpoint Mode: indexer binds a ZMQ SUB socket and backends connect out as PUB clients, with zero Kubernetes API access; pod identity is an opaque string.",
+   "claims": [
+    "kv-cache config: Static Endpoint Mode (discoverPods: false + zmqEndpoint) requires no Kubernetes API",
+    "Valkey example: scoring API treats pod identity as an arbitrary opaque string"
+   ],
+   "sources": [
+    "llm-d-kv-cachedocsconfigurationmd-at-main-llm-dllm-d-kv-cache-github",
+    "llm-d-kv-cacheexamplesvalkey_examplereadmemd-at-v040-llm-dllm-d-kv-cache-github",
+    "llm-d-kv-cachedocsarchitecturemd-at-main-llm-dllm-d-kv-cache-github",
+    "rfc-kv-aware-routing-for-pd-disaggregated-serving-via-sourced-kv-events-issue-99"
+   ]
+  },
+  "evidence_quality_delta": "Both empirical (current docs); the RH Oct-2025 'kv@pod-id@model' topic claim is stale versus HEAD's kv@IP:port@model.",
+  "scope_overlap": "Both modes exist; OPEN QUESTION whether the EPP-embedded indexer in file-discovery mode can use Static Endpoint Mode (push) or needs endpoints fed from the EPP datastore \u2014 and whether identity strings line up (ip:port vs NamespacedName).",
+  "decision_relevance": "high"
+ },
+ {
+  "cluster_id": "nok8s-feature-parity",
+  "fight": "Does the llm-d router lose capabilities when run with file/custom discovery instead of Kubernetes?",
+  "side_a": {
+   "position": "No loss of routing intelligence: scoring, filtering, picking, saturation admission, FlowControl, P/D and Prometheus metrics behave exactly as on Kubernetes.",
+   "claims": [
+    "no-k8s blog: the router is platform-invariant by construction",
+    "guide: scheduling profile identical to optimized baseline",
+    "discovery.md: all scheduling, request control, and metrics collection behaviour is unchanged"
+   ],
+   "sources": [
+    "no-kubernetes-no-problem-llm-d-now-runs-anywhere-llm-d",
+    "llm-dguidesno-kubernetes-deployment-at-main-llm-dllm-d-github",
+    "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github",
+    "llm-d-v08-from-platform-to-control-plane-llm-d"
+   ]
+  },
+  "side_b": {
+   "position": "Inputs and lifecycle are lost: InferenceObjective (priority/SLO), InferenceModelRewrite, k8s-notification-source and PodMonitor discovery are inactive; readiness gating and dead-endpoint eviction become the caller's job.",
+   "claims": [
+    "file plugin README + discovery.md: InferenceModelRewrite, InferenceObjective, k8s-notification-source inactive",
+    "llm-d no-k8s doc: InferenceObjective-driven FlowControl, InferenceModelRewrite, PodMonitor discovery out of scope",
+    "blog: endpoint lifecycle removal is the orchestrator's responsibility off Kubernetes"
+   ],
+   "sources": [
+    "llm-d-routerpkgeppframeworkpluginsdatalayerdiscoveryfile-at-main-llm-dllm-d-rout",
+    "llm-ddocsinfrastructureno-kubernetes-deploymentmd-at-main-llm-dllm-d-github",
+    "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github",
+    "no-kubernetes-no-problem-llm-d-now-runs-anywhere-llm-d"
+   ]
+  },
+  "evidence_quality_delta": "Same upstream authors on both sides; empirical. Minor internal discrepancy: whether FlowControl itself or only its InferenceObjective priority input is affected.",
+  "scope_overlap": "Scoped differently: routing LOGIC has parity; routing INPUTS (CRD-driven policy) and endpoint LIFECYCLE (health/eviction) do not.",
+  "decision_relevance": "high"
+ },
+ {
+  "cluster_id": "k8s-object-shim-viability",
+  "fight": "Should non-pod backends be made to look like Kubernetes objects (selectorless Service + EndpointSlice, virtual pods, Slurm-as-pods) so the stock InferencePool path works?",
+  "side_a": {
+   "position": "Viable: selectorless Service + manual EndpointSlice is the officially documented way to expose external endpoints; virtual-kubelet providers define pod IPs; Slinky runs Slurm workers as real pods; InferencePoolImport reaches other clusters.",
+   "claims": [
+    "EndpointSlices doc: manual EndpointSlices for selectorless Services are the supported path",
+    "Slinky NodeSet makes Slurm workers real pods",
+    "InferencePoolImport imports remote InferencePools"
+   ],
+   "sources": [
+    "endpointslices-kubernetes",
+    "github-slinkyprojectslurm-operator-run-slurm-on-kubernetes-a-slinky-project-gith",
+    "api-overview-kubernetes-gateway-api-inference-extension",
+    "github-virtual-kubeletvirtual-kubelet-virtual-kubelet-is-an-open-source-kubernet"
+   ]
+  },
+  "side_b": {
+   "position": "Not viable for the EPP: InferencePool selects Pods by label only (not Services/EndpointSlices); manual EndpointSlices fail silently on port-name mismatch; interLink excludes long-running services and its Slurm plugin networking is egress-only.",
+   "claims": [
+    "InferencePool represents a group of Pods selected by label",
+    "port-name mismatch installs a REJECT rule while kubectl shows healthy endpoints",
+    "interLink scopes long-running services out; Slurm plugin networking is SSH/tsocks egress"
+   ],
+   "sources": [
+    "inferencepool-kubernetes-gateway-api-inference-extension",
+    "beyond-gateway-inference-traffic-control-practice-with",
+    "both-endpoints-and-endpointslices-not-working-with-service-abstraction-for-exter",
+    "github-interlink-hqinterlink-interlink-aims-to-provide-an-abstraction-for-the-ex",
+    "github-interlink-hqinterlink-slurm-plugin-github",
+    "introduction-interlink"
+   ]
+  },
+  "evidence_quality_delta": "Side B is stronger for the EPP use case (spec-level: InferencePool selects Pods); side A is valid for plain Service routing and for the Slurm-as-real-pods inverse strategy.",
+  "scope_overlap": "Partly scoped: EndpointSlice/virtual-pod shims do not reach the EPP at all; Slinky (real pods) does, but only if a Kubernetes control plane is acceptable.",
+  "decision_relevance": "high"
+ },
+ {
+  "cluster_id": "fail-open-vs-fail-closed",
+  "fight": "When the EPP is unavailable, should traffic to non-pod backends fail open or fail closed?",
+  "side_a": {
+   "position": "Fail-open is an established option: InferencePool endpointPickerRef.failureMode FailOpen, GIE v1.4 FailOpen, Envoy ext_proc failure_mode_allowed, kgateway static-cluster fallback.",
+   "claims": [
+    "InferencePool failureMode FailOpen forwards to a gateway-chosen endpoint if the EPP fails",
+    "Envoy ext_proc exposes failure_mode_allowed telemetry"
+   ],
+   "sources": [
+    "inferencepool-kubernetes-gateway-api-inference-extension",
+    "external-processing-envoy-1400-dev-13b0a8-documentation",
+    "how-llm-d-routes-model-inference-traffic-on-amazon-eks-red-hat-developer",
+    "inference-refactor-plugin-to-use-override_host-lb-issue-11824-kgateway-devkgatew"
+   ]
+  },
+  "side_b": {
+   "position": "Standalone/non-pod routing is fail-closed by design: with passthrough there is no local endpoint list to fall back to; maintainers questioned exposing fail-open for a sidecar EPP; fail-open remains an open issue.",
+   "claims": [
+    "agentgateway standalone routing deliberately fail-closed (PR #1429/#1658)",
+    "#1661 fail-open fallback for standalone EPP still open",
+    "maintainer: no separate service endpoint fallback path when EPP is a sidecar"
+   ],
+   "sources": [
+    "support-fail-open-fallback-for-standalone-epp-inference-routing-issue-1661-agent",
+    "add-standalone-inference-routing-local-config-by-danehans-pull-request-1429-agen",
+    "trust-standalone-epp-selected-destinations-by-danehans-pull-request-1658-agentga",
+    "inference-support-agentgateway-as-a-standalone-provider-issue-620-agentgatewayag"
+   ]
+  },
+  "evidence_quality_delta": "Both empirical/expert-opinion from maintainers; tight fight.",
+  "scope_overlap": "Scoped: fail-open works where the proxy has its own endpoint set (Gateway mode); outside Kubernetes the EPP is a hard data-path dependency, so HA EPP replicas (v0.9) replace fail-open.",
+  "decision_relevance": "high"
+ },
+ {
+  "cluster_id": "standalone-means-no-k8s",
+  "fight": "Does llm-d/GIE 'Standalone Mode' mean running without Kubernetes?",
+  "side_a": {
+   "position": "Standalone is the non-Gateway path for the EPP: no InferencePool required in agentgateway standalone, standalone became the llm-d default in v0.7, GIE designed standalone for RL/batch/single-tenant workloads.",
+   "claims": [
+    "agentgateway standalone mode does not support InferencePool",
+    "v0.7: standalone mode default",
+    "GIE #1838 motivating use cases RL/batch"
+   ],
+   "sources": [
+    "inference-routing-agentgateway-agent-connectivity-solved",
+    "llm-d-v07-from-feature-introduction-to-production-hardening-llm-d",
+    "standalone-epp-issue-1838-kubernetes-sigsgateway-api-inference-extension",
+    "releases-llm-dllm-d"
+   ]
+  },
+  "side_b": {
+   "position": "Standalone still assumes Kubernetes: charts are Helm/kubectl-native, the agentgateway standalone chart still generates a k8s Service, standalone EPP depended on the InferencePool CRD, and maintainers describe it as bypassing the CRD, not Kubernetes.",
+   "claims": [
+    "predicted-latency guide: standalone means no Gateway API object, not no Kubernetes",
+    "standalone agentgateway chart still generates a Kubernetes Service",
+    "llm-d-router charts expose no discovery/dataLayer knobs"
+   ],
+   "sources": [
+    "llm-dguidespredicted-latency-routing-at-main-llm-dllm-d-github",
+    "add-standalone-agentgateway-proxy-support-by-danehans-pull-request-2882-kubernet",
+    "helm-support-for-sidecar-injection-in-epp-by-capri-xiyue-pull-request-1821-kuber",
+    "standalone-epp-endpoint-discovery-using-pod-selector-investigation-issue-1779-ku",
+    "llm-d-routerconfigchartsreadmemd-at-main-llm-dllm-d-router-github"
+   ]
+  },
+  "evidence_quality_delta": "Both empirical; terminology conflict rather than factual disagreement.",
+  "scope_overlap": "Terminology: Standalone = no Gateway API objects; only file/custom EndpointDiscovery removes Kubernetes itself.",
+  "decision_relevance": "medium"
+ },
+ {
+  "cluster_id": "k8s-native-by-design",
+  "fight": "Is llm-d's router fundamentally Kubernetes-native, or is Kubernetes an incidental dependency?",
+  "side_a": {
+   "position": "Kubernetes-native at its core: founding post and maintainer talks call it k8s-native; datalayer events model Kubernetes object lifecycle; EndpointMetadata is documented as Kubernetes Pod state; identity is types.NamespacedName even in file discovery.",
+   "claims": [
+    "founding post: Kubernetes-native",
+    "EndpointMetadata = the relevant Kubernetes Pod state",
+    "FileDiscovery still keys endpoints by types.NamespacedName"
+   ],
+   "sources": [
+    "announcing-the-llm-d-community-llm-d",
+    "serving-pytorch-llms-at-scale-disaggregated",
+    "datalayer-package-sigsk8siogateway-api-inference-extensionpkgeppframeworkinterfa",
+    "file-discovery-34-add-filediscovery-plugin-with-yamljson-file-loading-and-fsnoti"
+   ]
+  },
+  "side_b": {
+   "position": "Incidental: routing intelligence never needed an API server; maintainers want K8s, file, Slurm and Ray discovery all as plugins; polling data sources and metrics scraping are address-agnostic; KV index identity is opaque.",
+   "claims": [
+    "blog: the dependency on Kubernetes was incidental",
+    "PR #908: we want K8s, file, Slurm, and Ray discovery all as plugins",
+    "PollingDataSource requires only an Endpoint"
+   ],
+   "sources": [
+    "no-kubernetes-no-problem-llm-d-now-runs-anywhere-llm-d",
+    "feat-add-pluggable-discoveryplugin-interface-by-ezrasilvera-pull-request-908-llm",
+    "datalayer-package-sigsk8siogateway-api-inference-extensionpkgeppdatalayer-go-pac",
+    "gateway-api-inference-extensionsite-srcguidesepp-configurationconfig-textmd-at-9"
+   ]
+  },
+  "evidence_quality_delta": "Both empirical; side A reflects historical design and residual types, side B the current direction.",
+  "scope_overlap": "Temporal: k8s-native by origin, decoupling in progress; residual k8s-shaped identity types (NamespacedName, pool namespace) remain and must be synthesized by non-pod integrations.",
+  "decision_relevance": "medium"
+ },
+ {
+  "cluster_id": "proxy-honoring-epp-destination",
+  "fight": "Which data-plane mechanism should honor an EPP-selected ip:port that is not a Kubernetes pod?",
+  "side_a": {
+   "position": "Envoy ORIGINAL_DST cluster with use_http_header on x-gateway-destination-endpoint \u2014 what llm-d's no-Kubernetes guide ships.",
+   "claims": [
+    "envoy.yaml: ORIGINAL_DST + CLUSTER_PROVIDED + http_header_name x-gateway-destination-endpoint",
+    "discovery.md: Envoy ORIGINAL_DST reads the header set by the EPP"
+   ],
+   "sources": [
+    "envoyyaml",
+    "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github",
+    "llm-ddocsinfrastructureno-kubernetes-deploymentmd-at-main-llm-dllm-d-github"
+   ]
+  },
+  "side_b": {
+   "position": "Alternatives: agentgateway standalone passthrough (trust EPP destination directly); Envoy override-host / dynamic_forwarding LB policy for multi-host fallback; kgateway left Envoy entirely for agentgateway.",
+   "claims": [
+    "agentgateway PR #1658 destinationMode: passthrough",
+    "Envoy PR #38757 dynamic_forwarding vs setUpstreamOverrideHost debate",
+    "kgateway #11824 abandoned Envoy data plane for AI"
+   ],
+   "sources": [
+    "trust-standalone-epp-selected-destinations-by-danehans-pull-request-1658-agentga",
+    "dynamic-forwarding-load-balancing-policy-by-yanavlasov-pull-request-38757-envoyp",
+    "inference-refactor-plugin-to-use-override_host-lb-issue-11824-kgateway-devkgatew",
+    "add-initial-gateway-api-inference-extension-support-issue-10411-kgateway-devkgat"
+   ]
+  },
+  "evidence_quality_delta": "Both empirical; the Envoy upstream ORIGINAL_DST README documents only the connection-level variant (documentation gap).",
+  "scope_overlap": "Multiple valid mechanisms; ORIGINAL_DST+header is simplest and supported by llm-d's guide; passthrough and dynamic_forwarding differ on retry/fallback semantics.",
+  "decision_relevance": "medium"
+ },
+ {
+  "cluster_id": "llm-d-vs-alternative-routers",
+  "fight": "Is it worth staying on llm-d's router for non-pod backends, versus routers that are static-URL-first?",
+  "side_a": {
+   "position": "Alternatives are simpler and possibly faster off-Kubernetes: vLLM Router claims +25% throughput and 1.2-2 s faster TTFT than llm-d; vLLM Router, production-stack and Dynamo ship static/file discovery natively with discovery decoupled from policy.",
+   "claims": [
+    "vLLM Router: 25% higher throughput, 1200 ms faster TTFT vs llm-d",
+    "vLLM Router docs are static-worker-URL-first",
+    "Dynamo file-based discovery backend"
+   ],
+   "sources": [
+    "vllm-router-a-high-performance-and-prefilldecode-aware-load-balancer-for-large-s",
+    "github-vllm-projectrouter-a-high-performance-and-light-weight-router-for-vllm-la",
+    "github-ai-dynamodynamo-a-datacenter-scale-distributed-inference-serving-framewor",
+    "router-configuration-vllm-projectproduction-stack-deepwiki"
+   ]
+  },
+  "side_b": {
+   "position": "llm-d's plugin depth is the asset: large measured gains over round-robin, precise prefix / predicted latency / flow control / P/D profiles, and even NVIDIA Dynamo reuses the EPP for vanilla vLLM fleets; the vLLM Router comparison is vendor-internal with llm-d engineers assisting.",
+   "claims": [
+    "cache-aware routing 57x faster TTFT vs round-robin (llm-d-reported)",
+    "Dynamo 'GAIE with vanilla vLLM' topology uses the EPP",
+    "vLLM Router benchmark unpublished harness"
+   ],
+   "sources": [
+    "llm-d-intelligent-inference-at-scale-beyond-what-more-gpus-can-deliver-by-yakov",
+    "intelligent-inference-scheduling-with-llm-d-on-red-hat-ai-red-hat-developer",
+    "kv-aware-routing-on-kubernetes-nvidia-dynamo-documentation",
+    "best-of-both-worlds-cloud-native-ai-inference-at-scale-using-kserve-and-llm-d-ks"
+   ]
+  },
+  "evidence_quality_delta": "Both sides are vendor-reported benchmarks without independent reproduction \u2014 evidence is weak on both sides.",
+  "scope_overlap": "Genuine but low-resolution disagreement; the user's stated constraint (maximize llm-d reuse) makes this a check on the premise rather than the decision.",
+  "decision_relevance": "medium"
+ },
+ {
+  "cluster_id": "external-providers-in-router",
+  "fight": "Should managed/external model APIs (OpenAI, Azure OpenAI, Bedrock) be routed through the llm-d EPP as another kind of non-pod backend?",
+  "side_a": {
+   "position": "Gateways can front both classes in one entry point: agentgateway fronts Azure OpenAI and a KAITO/EPP pool; Agent Router routes 16+ providers and InferencePools from one AIGatewayRoute.",
+   "claims": [
+    "AKS: agentgateway fronts both an external managed provider and a self-hosted EPP pool",
+    "Agent Router abstracts 16+ providers"
+   ],
+   "sources": [
+    "routing-agent-traffic-is-really-three-decisions-aks-engineering-blog",
+    "project-proposal-agent-router-previously-envoy-ai-gateway-issue-18-aaifproject-p",
+    "api-reference-agent-router"
+   ]
+  },
+  "side_b": {
+   "position": "Not inside the EPP/InferencePool: GIE and Azure put managed providers out of scope and at a higher AI-gateway tier; AIGatewayRoute backendRefs are InferencePool OR AIServiceBackend, never mixed; plain k8s Service backends were disabled in Agent Router.",
+   "claims": [
+    "Azure AGC: routing to managed provider endpoints is outside the scope",
+    "GIE api-overview: model-as-a-service integration at a higher AI Gateway layer",
+    "Agent Router #902: plain Service support deliberately disabled"
+   ],
+   "sources": [
+    "application-gateway-for-containers-inference-gateway-microsoft-learn",
+    "api-overview-kubernetes-gateway-api-inference-extension",
+    "bring-back-kubernetes-service-support-in-aiservicebackends-ref-issue-902-theagen",
+    "api-reference-agent-router"
+   ]
+  },
+  "evidence_quality_delta": "Side B is spec-level and consistent across vendors; side A actually supports the same layered conclusion.",
+  "scope_overlap": "Not a genuine disagreement: both describe a two-tier design where the gateway picks the provider class and the EPP picks within self-hosted pools.",
+  "decision_relevance": "medium"
+ },
+ {
+  "cluster_id": "metrics-endpoint-coupling",
+  "fight": "Must a non-pod backend expose metrics on the same address:port it serves inference on?",
+  "side_a": {
+   "position": "Yes with file discovery: metrics are scraped from the same address:port; no separate metrics endpoint per backend.",
+   "claims": [
+    "FileDiscovery: metrics scraped from the same address:port that serves inference"
+   ],
+   "sources": [
+    "llm-d-routerpkgeppframeworkpluginsdatalayerdiscoveryfile-at-main-llm-dllm-d-rout",
+    "file-discovery-34-add-filediscovery-plugin-with-yamljson-file-loading-and-fsnoti",
+    "plugingo"
+   ]
+  },
+  "side_b": {
+   "position": "No at the data-model level: EndpointMetadata.MetricsHost can differ from the inference address; metrics-data-source scrapes any address string over HTTP(S).",
+   "claims": [
+    "discovery.md: MetricsHost defaults to address:port only if left empty",
+    "metrics-data-source is address-agnostic"
+   ],
+   "sources": [
+    "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github",
+    "gateway-api-inference-extensionsite-srcguidesepp-configurationconfig-textmd-at-9"
+   ]
+  },
+  "evidence_quality_delta": "Both empirical.",
+  "scope_overlap": "Scoped: a limitation of the file plugin's schema, not of the EPP; a custom discovery plugin can set MetricsHost.",
+  "decision_relevance": "medium"
+ },
+ {
+  "cluster_id": "file-discovery-addressing",
+  "fight": "Can discovered endpoints be addressed by hostname or IPv6?",
+  "side_a": {
+   "position": "IPv4 literals only: file discovery rejects hostnames and IPv6 ('matching the pod discovery contract').",
+   "claims": [
+    "file plugin validateIPv4Address; IPv6 not supported"
+   ],
+   "sources": [
+    "plugingo",
+    "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github",
+    "file-discovery-34-add-filediscovery-plugin-with-yamljson-file-loading-and-fsnoti"
+   ]
+  },
+  "side_b": {
+   "position": "Hostnames are allowed in the multicluster-file-discovery variant, and the address validator is injected so variants can loosen it.",
+   "claims": [
+    "multicluster-file-discovery config: address may be a hostname",
+    "validator injected so a variant can loosen it"
+   ],
+   "sources": [
+    "llm-d-routerpkgeppframeworkpluginsreadmemd-at-main-llm-dllm-d-router-github",
+    "plugingo"
+   ]
+  },
+  "evidence_quality_delta": "Both empirical code.",
+  "scope_overlap": "Scoped: pod-level file discovery is IPv4-only; a custom plugin (or the multicluster variant's pattern) can resolve names itself before Upsert.",
+  "decision_relevance": "low"
+ },
+ {
+  "cluster_id": "discovery-config-path",
+  "fight": "What is the EndpointPickerConfig key that selects the discovery plugin?",
+  "side_a": {
+   "position": "dataLayer.discovery.pluginRef (blog, shipped no-Kubernetes guide config) or EndpointPickerConfig.discovery.pluginRef (discovery.go comment).",
+   "claims": [
+    "no-k8s guide config.yaml uses dataLayer.discovery.pluginRef"
+   ],
+   "sources": [
+    "configyaml",
+    "no-kubernetes-no-problem-llm-d-now-runs-anywhere-llm-d",
+    "llm-d-routerpkgeppframeworkinterfacedatalayerdiscoverygo-at-main-llm-dllm-d-rout"
+   ]
+  },
+  "side_b": {
+   "position": "dataLayer.discovery.endpoints.pluginRef, per PR #2434 (merged 2026-08-25) and docs/discovery.md; a migration shim still accepts the legacy form.",
+   "claims": [
+    "PR #2434 consolidates discovery config under dataLayer.discovery.endpoints; migrateDiscoveryConfig honors the legacy key",
+    "runner.resolveDiscovery reads DataLayer.Discovery.Endpoints.PluginRef"
+   ],
+   "sources": [
+    "config-consolidate-discovery-plugins-under-a-single-discovery-sectio-llm-dllm-d",
+    "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github",
+    "runnergo"
+   ]
+  },
+  "evidence_quality_delta": "Side B is newer code; side A is legacy-but-accepted.",
+  "scope_overlap": "Resolved: use dataLayer.discovery.endpoints.pluginRef on router builds after 2026-08-25; legacy key works via shim.",
+  "decision_relevance": "low"
+ },
+ {
+  "cluster_id": "rl-controller-vs-epp",
+  "fight": "Should non-Kubernetes RL rollout routing use a bespoke control plane (rl-controller) or the EPP?",
+  "side_a": {
+   "position": "A bespoke framework-agnostic control plane (rl-controller / RolloutControl API) owning weight sync, lifecycle and routing.",
+   "claims": [
+    "rl-rollout north-star proposal"
+   ],
+   "sources": [
+    "llm-d-rllegacyrl-controllerdocsproposalsrl-rollout-northstarmd-at-main-llm-d-inc"
+   ]
+  },
+  "side_b": {
+   "position": "The EPP with file/custom discovery is the recommended path; rl-controller moved to legacy with no active development.",
+   "claims": [
+    "legacy/rl-controller: not the recommended starting point for new work"
+   ],
+   "sources": [
+    "github-llm-d-incubationllm-d-rl-github",
+    "no-kubernetes-no-problem-llm-d-now-runs-anywhere-llm-d"
+   ]
+  },
+  "evidence_quality_delta": "Side B is the project's own current statement.",
+  "scope_overlap": "Resolved in favor of EPP-based routing.",
+  "decision_relevance": "low"
+ }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "agentgateway's initial standalone inference-routing implementation was deliberately fail-closed: if EPP routing fails, the request is rejected rather than falling back to a default endpoint.",
+    "stance": "supports",
+    "stance_target": "maintainers weighed fail-open vs fail-closed for standalone EPP routing and started conservative",
+    "evidence_type": "empirical",
+    "scope_conditions": "agentgateway, pre-passthrough-mode (April 2026)",
+    "quoted_support": "Keep standalone inference routing fail-closed (for now).",
+    "numbers": [],
+    "entities": ["agentgateway", "danehans"],
+    "time_period": "April 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "add-standalone-inference-routing-local-config-by-danehans-pull-request-1429-agen"
+  },
+  {
+    "claim": "A maintainer explicitly rejected adding a stricter type guard that would prevent inference routing from being configured on non-Service backend types, on the grounds that agentgateway already permits this elsewhere and the guard would add ~190 LOC to protect an edge case.",
+    "stance": "refutes",
+    "stance_target": "agentgateway should restrict InferenceRouting configuration to Kubernetes Service-backed targets only",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "agentgateway local config type system, code review discussion",
+    "quoted_support": "I don't know this split is worth doing. I assume the goal is to avoid Inference routing on non-Service types, but we already allow that in other places (like LocalRouteBackend) so adding ~190 LOC to avoid it in one place (that is used by 0.01% of people) doesn't seem great.",
+    "numbers": ["~190 LOC", "0.01%"],
+    "entities": ["howardjohn", "agentgateway", "LocalRouteBackend"],
+    "time_period": "April 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "add-standalone-inference-routing-local-config-by-danehans-pull-request-1429-agen"
+  },
+  {
+    "claim": "Even in the standalone/local-config EPP path, the author's stated open work item was to document that model workloads require a Kubernetes Service object, indicating a k8s Service is still assumed as the addressing/discovery anchor even when pods themselves are not required.",
+    "stance": "neutral",
+    "stance_target": "degree to which standalone EPP routing removes Kubernetes dependencies entirely",
+    "evidence_type": "empirical",
+    "scope_conditions": "agentgateway standalone-epp example, April 2026",
+    "quoted_support": "Document the required Kubernetes deps, e.g. model workloads require a k8s Service.",
+    "numbers": [],
+    "entities": ["agentgateway", "danehans", "GIE"],
+    "time_period": "April 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "add-standalone-inference-routing-local-config-by-danehans-pull-request-1429-agen"
+  }
+]

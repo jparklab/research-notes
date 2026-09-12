@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "GIE's EPP defines OutputInjectionHeaders including the destination-endpoint key (x-gateway-destination-endpoint) as a system-owned header that is stripped from any client-supplied value before headers are forwarded to Envoy.",
+    "stance": "refutes",
+    "stance_target": "a malicious/untrusted client can set x-gateway-destination-endpoint themselves to redirect Envoy's ORIGINAL_DST routing",
+    "evidence_type": "empirical",
+    "scope_conditions": "kubernetes-sigs/gateway-api-inference-extension pkg/epp/util/request/headers.go, post-PR#2025 (merged Dec 19, 2025)",
+    "quoted_support": "OutputInjectionHeaders = map[string]bool{ strings.ToLower(metadata.DestinationEndpointKey): true, strings.ToLower(metadata.DestinationEndpointServedKey): true, }",
+    "numbers": [],
+    "entities": ["OutputInjectionHeaders", "metadata.DestinationEndpointKey", "EPP"],
+    "time_period": "Dec 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "2025diff"
+  },
+  {
+    "claim": "generateHeaders() (request path to backend/Envoy) and generateResponseHeaders() (response path) both skip any header key for which IsSystemOwnedHeader() returns true, so a client-injected destination-endpoint header is dropped from the passthrough loop and only EPP's explicitly-set real target endpoint header reaches Envoy.",
+    "stance": "refutes",
+    "stance_target": "malicious clients can override EPP's routing decision via header injection",
+    "evidence_type": "empirical",
+    "scope_conditions": "pkg/epp/handlers/request.go and response.go, post-PR#2025",
+    "quoted_support": "// Include any non-system-owned headers.\\nfor key, value := range reqCtx.Request.Headers {\\n\\tif request.IsSystemOwnedHeader(key) {\\n\\t\\tcontinue\\n\\t}",
+    "numbers": [],
+    "entities": ["generateHeaders", "generateResponseHeaders", "IsSystemOwnedHeader"],
+    "time_period": "Dec 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "2025diff"
+  },
+  {
+    "claim": "A unit test added in PR #2025 directly demonstrates the fix defeats a spoofed destination-endpoint header: an inbound request map sets the destination-endpoint key to an attacker IP:port, but after generateHeaders() runs, the output header carries EPP's own computed TargetEndpoint value instead.",
+    "stance": "refutes",
+    "stance_target": "clients can set x-gateway-destination-endpoint to redirect routing after the fix",
+    "evidence_type": "empirical",
+    "scope_conditions": "pkg/epp/handlers/request_test.go TestGenerateHeaders_Sanitization, post-PR#2025",
+    "quoted_support": "metadata.DestinationEndpointKey: \"1.1.1.1:666\", // should be stripped ... assert.Equal(t, \"1.2.3.4:8080\", gotHeaders[metadata.DestinationEndpointKey])",
+    "numbers": ["1.1.1.1:666 (malicious value)", "1.2.3.4:8080 (real TargetEndpoint)"],
+    "entities": ["TestGenerateHeaders_Sanitization", "metadata.DestinationEndpointKey"],
+    "time_period": "Dec 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "2025diff"
+  },
+  {
+    "claim": "The same sanitization is mirrored on the response path: a corresponding test proves a client/backend-supplied destination-endpoint or content-length value in response headers is also stripped before being surfaced.",
+    "stance": "refutes",
+    "stance_target": "response-path header spoofing of routing metadata is possible after the fix",
+    "evidence_type": "empirical",
+    "scope_conditions": "pkg/epp/handlers/response_test.go TestGenerateResponseHeaders_Sanitization, post-PR#2025",
+    "quoted_support": "assert.NotContains(t, gotHeaders, metadata.ObjectiveKey)\\nassert.NotContains(t, gotHeaders, metadata.DestinationEndpointKey)\\nassert.NotContains(t, gotHeaders, \"content-length\")",
+    "numbers": [],
+    "entities": ["TestGenerateResponseHeaders_Sanitization"],
+    "time_period": "Dec 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "2025diff"
+  },
+  {
+    "claim": "Prior to the fix, EPP also failed to strip client-set flow-control headers like the fairness-ID and objective headers before forwarding, requiring a broader InputControlHeaders blocklist beyond just destination-endpoint.",
+    "stance": "supports",
+    "stance_target": "the header-trust problem in EPP was systemic across multiple header categories, not limited to destination-endpoint",
+    "evidence_type": "empirical",
+    "scope_conditions": "pkg/epp/util/request/headers.go",
+    "quoted_support": "InputControlHeaders = map[string]bool{ strings.ToLower(metadata.FlowFairnessIDKey): true, strings.ToLower(metadata.ObjectiveKey): true, strings.ToLower(metadata.ModelNameRewriteKey): true, strings.ToLower(metadata.SubsetFilterKey): true, }",
+    "numbers": [],
+    "entities": ["InputControlHeaders"],
+    "time_period": "Dec 2025",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "2025diff"
+  }
+]

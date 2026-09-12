@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "kgateway's Inference (GIE) plugin implemented EPP-fail-open support using a 'static cluster + subset LB' workaround before Envoy's override_host LB feature was available in its pinned Envoy version.",
+    "stance": "neutral",
+    "stance_target": "concrete implementation technique used in production for EPP fail-open before override_host LB existed",
+    "evidence_type": "empirical",
+    "scope_conditions": "kgateway, PR #11810, mid-2025",
+    "quoted_support": "When #11810 merges, the Inference plugin will support the EppUnAvailableFailOpen conformance test. This PR uses a static cluster + subset LB to support EPP fail-open.",
+    "numbers": ["PR #11810", "PR #11784"],
+    "entities": ["kgateway", "EPP", "fail-open", "subset LB"],
+    "time_period": "July 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "inference-refactor-plugin-to-use-override_host-lb-issue-11824-kgateway-devkgatew"
+  },
+  {
+    "claim": "kgateway maintainers closed the planned refactor to Envoy's override_host LB in September 2025 because the community decided to deprecate the entire Envoy-based data plane in favor of agentgateway for AI-related features, not because override_host was rejected on technical merits.",
+    "stance": "supports",
+    "stance_target": "agentgateway (not Envoy's native LB mechanisms) is the production direction for GIE-integrated non-pod destination routing in at least one major gateway implementation",
+    "evidence_type": "empirical",
+    "scope_conditions": "kgateway-dev/kgateway, issue #11824, closed Sep 30 2025",
+    "quoted_support": "Closing since the community decided to deprecate the Envoy-based data plane in favor of agentgateway for AI-related features.",
+    "numbers": ["issue #11824"],
+    "entities": ["kgateway", "danehans", "agentgateway", "Envoy"],
+    "time_period": "September 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "inference-refactor-plugin-to-use-override_host-lb-issue-11824-kgateway-devkgatew"
+  },
+  {
+    "claim": "The override_host LB need for EPP-style routing was also tracked independently in Istio (istio/istio#56230) and discussed in Envoy Gateway (envoyproxy/gateway#6458), indicating the same Override-Host-vs-custom-LB-policy question recurred across multiple GIE-integrated gateway implementations.",
+    "stance": "neutral",
+    "stance_target": "breadth of cross-project relevance of the override_host LB mechanism for EPP-based routing",
+    "evidence_type": "empirical",
+    "scope_conditions": "cross-project references cited in kgateway issue #11824",
+    "quoted_support": "Refs: Istio: istio/istio#56230, EG: envoyproxy/gateway#6458 (comment)",
+    "numbers": ["istio/istio#56230", "envoyproxy/gateway#6458"],
+    "entities": ["Istio", "Envoy Gateway", "override_host LB"],
+    "time_period": "2025",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "inference-refactor-plugin-to-use-override_host-lb-issue-11824-kgateway-devkgatew"
+  }
+]

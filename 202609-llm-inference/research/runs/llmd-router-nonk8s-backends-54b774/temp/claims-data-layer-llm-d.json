@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "The Data Layer defines three distinct extension-point interface pairs: PollingDataSource+Extractor, NotificationSource+NotificationExtractor, and EndpointSource+EndpointExtractor -- these are the exact Go interfaces a custom, non-Kubernetes backend implementation would need to satisfy.",
+    "stance": "supports",
+    "stance_target": "enumerating the concrete plugin interfaces for data sources/collectors, per the research focus",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d dev docs, EPP Data Layer design page",
+    "quoted_support": "The Data Layer is built around three primary source types, each paired with a corresponding extractor interface",
+    "numbers": [],
+    "entities": ["PollingDataSource", "NotificationSource", "EndpointSource", "Extractor", "NotificationExtractor", "EndpointExtractor"],
+    "time_period": "llm-d dev branch, Sep 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "data-layer-llm-d"
+  },
+  {
+    "claim": "Only the NotificationSource interface (concretely k8s-notification-source) is intrinsically Kubernetes-coupled -- it binds to the controller-runtime manager and watches a specific Kubernetes GVK (CRD or core API object); PollingDataSource (metrics-data-source) and EndpointSource (endpoint-notification-source) are backend-agnostic by construction, operating on whatever Endpoint objects already exist in the EPP's datastore.",
+    "stance": "supports",
+    "stance_target": "precisely isolating which Data Layer interface carries the Kubernetes/pod assumption versus which do not",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d dev docs, EPP Data Layer design page",
+    "quoted_support": "k8s-notification-source ... can be configured to watch a single Kubernetes GVK (either a CRD or a k8s core API) and dispatches NotificationEvents to registered NotificationExtractors when objects are created, updated, or deleted.",
+    "numbers": [],
+    "entities": ["k8s-notification-source", "controller-runtime", "GVK"],
+    "time_period": "llm-d dev branch, Sep 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "data-layer-llm-d"
+  },
+  {
+    "claim": "As of this documentation snapshot, there are no upstream Extractors that consume the NotificationSource interface at all -- meaning the one interface that IS Kubernetes-bound (k8s-notification-source) is not currently load-bearing for any shipped scoring/filtering functionality, only theoretically available.",
+    "stance": "supports",
+    "stance_target": "practical scope of what actually needs replacing versus what is dormant/unused for a non-k8s backend",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d dev docs, EPP Data Layer design page, as of Sep 2026 snapshot",
+    "quoted_support": "There are currently no upstream extractors that require this source.",
+    "numbers": [],
+    "entities": ["k8s-notification-source", "NotificationExtractor"],
+    "time_period": "llm-d dev branch, Sep 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "data-layer-llm-d"
+  },
+  {
+    "claim": "The runtime starts one Collector per endpoint for PollingDataSource plugins, which polls the source at a configured interval and passes results to associated Extractors -- confirming per-endpoint polling is the primary mechanism for metrics pulling, independent of how the endpoint's address was discovered.",
+    "stance": "neutral",
+    "stance_target": "mechanics of the metrics-polling extension point relevant to reusing it for non-pod endpoints",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d dev docs, EPP Data Layer design page",
+    "quoted_support": "The runtime starts a Collector for every new endpoint. The collector polls the source at a configured interval and passes the result to associated extractors.",
+    "numbers": [],
+    "entities": ["Collector", "PollingDataSource", "metrics-data-source"],
+    "time_period": "llm-d dev branch, Sep 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "data-layer-llm-d"
+  },
+  {
+    "claim": "Endpoint Attributes are stored in a thread-safe, type-safe map on each Endpoint object and are the primary channel by which the Data Layer shares information with the rest of the EPP (scheduling, flow control) -- this Endpoint/Attribute abstraction, not the Kubernetes Pod type, is the actual unit the scheduler and scorers operate on.",
+    "stance": "supports",
+    "stance_target": "identifying the EPP's internal data model as already Pod-agnostic at the scheduling-plugin boundary",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d dev docs, EPP Data Layer design page",
+    "quoted_support": "Endpoint Attributes: A thread-safe, type-safe map stored on each Endpoint. Attributes are the primary way information is shared between the Data Layer and other EPP components.",
+    "numbers": [],
+    "entities": ["Endpoint", "Endpoint Attributes", "Data Layer"],
+    "time_period": "llm-d dev branch, Sep 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "data-layer-llm-d"
+  }
+]

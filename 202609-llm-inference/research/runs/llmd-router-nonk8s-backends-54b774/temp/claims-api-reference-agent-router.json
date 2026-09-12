@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "In Envoy AI Gateway's AIGatewayRoute CRD, a BackendRef can reference either an AIServiceBackend or an InferencePool, but not both in the same rule, and only one InferencePool is allowed per rule.",
+    "stance": "supports",
+    "stance_target": "which backends belong behind the EPP vs beside it -- InferencePool and generic AIServiceBackend are mutually exclusive routing targets at the rule level",
+    "evidence_type": "empirical",
+    "scope_conditions": "Envoy AI Gateway (Agent Router) v1.1 API, aigateway.envoyproxy.io/v1alpha1",
+    "quoted_support": "BackendRefs can reference either AIServiceBackend resources (default) or InferencePool resources from the Gateway API Inference Extension. When referencing InferencePool resources: - Only one InferencePool backend is allowed per rule - Cannot mix InferencePool with AIServiceBackend references in the same rule",
+    "numbers": [],
+    "entities": ["AIGatewayRoute", "AIServiceBackend", "InferencePool", "Envoy AI Gateway"],
+    "time_period": "2026 (v1.1 docs)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "api-reference-agent-router"
+  },
+  {
+    "claim": "When an AIGatewayRoute rule references an InferencePool, fallback behavior is entirely delegated to the InferencePool's own endpoint picker; the gateway's own backend-level priority and fallback fields are explicitly ignored for InferencePool backends.",
+    "stance": "supports",
+    "stance_target": "the EPP owns intra-pool failover logic; the gateway's own load-balancing controls do not apply inside an InferencePool-fronted pool",
+    "evidence_type": "empirical",
+    "scope_conditions": "Envoy AI Gateway v1.1 API reference",
+    "quoted_support": "Priority is the priority of the backend. This sets the priority on the underlying endpoints... Note: This will override the `faillback` property of the underlying Envoy Gateway Backend. This field is ignored when referencing InferencePool resources.",
+    "numbers": ["default priority 0"],
+    "entities": ["InferencePool", "AIGatewayRoute"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "api-reference-agent-router"
+  },
+  {
+    "claim": "For AIServiceBackend (non-InferencePool) references, fallback/failover across multiple backends is achieved by combining multiple AIServiceBackend entries with Envoy Gateway's BackendTrafficPolicy (failover and retry features), not via the InferencePool mechanism.",
+    "stance": "neutral",
+    "stance_target": "how external/managed-provider backend fallback is implemented outside the EPP path",
+    "evidence_type": "empirical",
+    "scope_conditions": "Envoy AI Gateway v1.1 API reference",
+    "quoted_support": "For AIServiceBackend references, you can achieve fallback behavior by configuring multiple backends combined with the BackendTrafficPolicy of Envoy Gateway.",
+    "numbers": [],
+    "entities": ["AIServiceBackend", "BackendTrafficPolicy", "Envoy Gateway"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "api-reference-agent-router"
+  },
+  {
+    "claim": "As of the current API version, an AIServiceBackend's BackendRef must point to an Envoy Gateway Backend resource, not a bare Kubernetes Service; native k8s Service support is planned future work tracked in envoyproxy/ai-gateway issue #902.",
+    "stance": "refutes",
+    "stance_target": "the claim that AIServiceBackend already supports arbitrary non-k8s or plain-Service backends today",
+    "evidence_type": "empirical",
+    "scope_conditions": "Envoy AI Gateway v1.1 API reference",
+    "quoted_support": "BackendRef is the reference to the Backend resource that this AIServiceBackend corresponds to. A backend must be a Backend resource of Envoy Gateway. Note that k8s Service will be supported as a backend in the future. See https://github.com/envoyproxy/ai-gateway/issues/902 for more details.",
+    "numbers": ["issue #902"],
+    "entities": ["AIServiceBackend", "Envoy Gateway Backend", "issue #902"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "api-reference-agent-router"
+  },
+  {
+    "claim": "BackendSecurityPolicy in Envoy AI Gateway supports authentication to external managed model providers via API key, AWS credentials (IAM/STS), Anthropic API key, Azure API key or Azure AD credentials (client secret or OIDC token exchange), GCP credentials, and generic OIDC.",
+    "stance": "neutral",
+    "stance_target": "external-provider auth surface exposed by the gateway CRDs",
+    "evidence_type": "empirical",
+    "scope_conditions": "Envoy AI Gateway v1.1 API reference",
+    "quoted_support": "BackendSecurityPolicy specifies configuration for authentication and authorization rules on the traffic exiting the gateway to the backend.",
+    "numbers": [],
+    "entities": ["BackendSecurityPolicy", "AWS", "Azure", "GCP", "Anthropic"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "api-reference-agent-router"
+  }
+]

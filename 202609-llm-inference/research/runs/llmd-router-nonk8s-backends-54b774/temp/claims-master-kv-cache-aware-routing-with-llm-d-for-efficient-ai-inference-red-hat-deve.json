@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "The KV cache indexer decomposes into six named components: kvcache.Indexer (orchestrator), kvevents.Pool (ZMQ event ingestion), kvblock.Index (in-memory two-level LRU block-hash-to-pod map), tokenization.PrefixStore (LRU tokenized-prefix cache), kvblock.TokenProcessor (token-to-block-key hashing matching vLLM), and kvblock.Scorer (longest-consecutive-prefix scoring).",
+    "stance": "neutral",
+    "stance_target": "KV-cache indexer internal architecture",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-kv-cache-manager, article dated Oct 7 2025",
+    "quoted_support": "kvblock.Index | Core data store mapping block hashes to pods | In-memory two-level LRU cache for sub-millisecond lookups",
+    "numbers": [],
+    "entities": ["kvcache.Indexer", "kvevents.Pool", "kvblock.Index", "tokenization.PrefixStore", "kvblock.TokenProcessor", "kvblock.Scorer"],
+    "time_period": "October 2025",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "master-kv-cache-aware-routing-with-llm-d-for-efficient-ai-inference-red-hat-deve"
+  },
+  {
+    "claim": "This Oct 2025 article describes the ZMQ topic format as 'kv@pod-id@model', which conflicts with the current (2026) llm-d GitHub guide's format of 'kv@$(POD_IP):$(POD_PORT)@<model>' keyed by literal IP:port rather than a pod identifier.",
+    "stance": "refutes",
+    "stance_target": "claim that KV-event topic is keyed by Kubernetes pod-id/name",
+    "evidence_type": "empirical",
+    "scope_conditions": "article dated Oct 7 2025; superseded by 2026 llm-d main-branch guide -- flagged discrepancy, not to be treated as current",
+    "quoted_support": "Message reception: Events parsed by topic format: kv@pod-id@model",
+    "numbers": [],
+    "entities": ["ZMQ topic", "kv-cache indexer"],
+    "time_period": "October 2025 (superseded)",
+    "region": null,
+    "confidence": "low",
+    "source_note_id": "master-kv-cache-aware-routing-with-llm-d-for-efficient-ai-inference-red-hat-deve"
+  },
+  {
+    "claim": "EPP endpoint discovery for KV-cache-aware routing in this deployment path is driven by a Kubernetes Service label (llm-d.ai/inferenceServing: \"true\"), which the EPP uses to automatically discover and manage decode-service endpoints via label selector.",
+    "stance": "supports",
+    "stance_target": "discovery of ZMQ endpoints via Kubernetes-native mechanisms (pod/service watch) vs static config",
+    "evidence_type": "empirical",
+    "scope_conditions": "official llm-d community Helm chart deployment, Oct 2025",
+    "quoted_support": "For automatic discovery, the decode service must have the following label: llm-d.ai/inferenceServing: \"true\"",
+    "numbers": [],
+    "entities": ["EPP", "InferencePool", "llm-d.ai/inferenceServing label"],
+    "time_period": "October 2025",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "master-kv-cache-aware-routing-with-llm-d-for-efficient-ai-inference-red-hat-deve"
+  },
+  {
+    "claim": "In a production Tekton-pipeline test, llm-d's KV cache aware routing achieved an 87.4% cache hit rate (4,176 of 4,776 queries) with 99.92% of traffic concentrated on a single warm pod, and cut TTFT from 2,850ms (cold) to 340ms (warm cache hit), an 88% reduction.",
+    "stance": "supports",
+    "stance_target": "real-world performance benefit of KV-cache-aware routing",
+    "evidence_type": "empirical",
+    "scope_conditions": "IBM/Red Hat OpenShift test deployment, Oct 2025",
+    "quoted_support": "Cache hit rate: 87.4% (improved from previous 86%)... Warm cache hit | 2,850 ms TTFT (worst case) | 340 ms TTFT | 88% faster",
+    "numbers": ["87.4%", "4776", "4176", "99.92%", "2850ms", "340ms", "88%"],
+    "entities": ["llm-d", "EPP", "Grafana"],
+    "time_period": "October 2025",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "master-kv-cache-aware-routing-with-llm-d-for-efficient-ai-inference-red-hat-deve"
+  }
+]

@@ -1,0 +1,18 @@
+{
+  "applied": [
+    {"category": "hygiene", "description": "verified no YAML frontmatter, no scaffold section headers, no prompt echoes, no pipeline vocabulary (locus/loci/tension/comparisons.md/width corpus/depth investigation/hyperresearch) and no [[interim-*]] or [I-n] workspace references; all 206 [[note-id]] wikilinks preserved untouched; all 10 double-quoted spans left character-for-character intact", "chars_removed": 0},
+    {"category": "meta_discourse", "description": "cut 'That decomposition is what makes the question answerable.' — pure transitional narration about the report's own question (section 1A)", "chars_removed": 58},
+    {"category": "meta_discourse", "description": "cut 'so state the inference explicitly' from 'That thinness is load-bearing, ...' — the following two sentences already do the stating (section 2A)", "chars_removed": 34},
+    {"category": "meta_discourse", "description": "cut the frame 'The synthesis to carry forward:' and let the substantive claim ('Upstream is committed to platform-neutral routing...') stand (section 4D)", "chars_removed": 31},
+    {"category": "meta_discourse", "description": "removed self-reference 'in the analysis' from 'the strongest affirmative finding in the analysis' (section 5C)", "chars_removed": 16},
+    {"category": "meta_discourse", "description": "removed self-reference 'in this report' -> 'here' in the version-facts closer (section 4E)", "chars_removed": 10},
+    {"category": "filler", "description": "cut 'and the distinction is worth stating precisely' from the virtual-kubelet paragraph — the next sentence states it (section 6B)", "chars_removed": 47},
+    {"category": "filler", "description": "cut 'before going further' from 'One expectation to correct before going further:' (section 1C)", "chars_removed": 20},
+    {"category": "hedge", "description": "advocate register: struck 'tends to' from the risk heading 'The custom surface tends to grow.' -> 'The custom surface grows.' — the paragraph enumerates four concrete additions that support the bare claim (section 8)", "chars_removed": 9},
+    {"category": "redundancy", "description": "cut the final sentence 'Two commits would change the arithmetic: a documented out-of-tree posture, and a pluggable coordination primitive.' — a compressed restatement of the first two of the four falsification conditions given two paragraphs earlier; report now closes on 'that justifies starting now.' (section 8)", "chars_removed": 152},
+    {"category": "readability", "description": "removed a stray mid-sentence ellipsis that read as a truncated quotation ('add a discovery layer... similar to scheduler pluggability') — no quotation marks were involved, no source wording altered (section 4A)", "chars_removed": 3},
+    {"category": "readability", "description": "split a 72-word run-on in section 1A at the v0.8 quote lead-in ('..., calling the change' -> '. It called the change'); the quoted span is byte-identical", "chars_removed": -3},
+    {"category": "readability", "description": "inserted five paragraph breaks in over-long (200-300 word) paragraphs at natural hinges: section 1A before 'The Endpoint Picker (EPP) is a gRPC service'; section 4A before 'The upstream debate that produced it' (this one also repaired two sentences that were fused into a single rendered paragraph by a missing blank line); section 5D before 'This is not hypothetical'; section 7A Rule 1 before 'The mechanism is visible in code'; section 8 forward-look before 'The protocol layer keeps hardening'", "chars_removed": -6}
+  ],
+  "escalations": []
+}

@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "llm-d's routing layer is built as an implementation of the Kubernetes Gateway API Inference Extension (GIE), which defines InferenceModel/InferencePool CRDs and the Endpoint Picker Protocol, with llm-d introducing its own scheduler implementing the EPP role on top of that contract.",
+    "stance": "supports",
+    "stance_target": "the EPP/GIE Endpoint Picker Protocol contract, not kgateway or Istio specifically, is the reusable abstraction boundary a non-k8s backend implementation must satisfy",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "kgateway.dev blog, May 20 2025, by Christian Posta (Solo.io)",
+    "quoted_support": "kgateway provides the perfect foundation for llm-d's intelligent routing through its implementation of the Inference Extension. This extension introduces InferenceModel and InferencePool resources that enable AI-specific routing patterns... llm-d introduces its own scheduler that implements the EPP and brings more powerful selection decisioning.",
+    "numbers": [],
+    "entities": ["kgateway", "Gateway API Inference Extension", "InferencePool", "InferenceModel", "Endpoint Picker Protocol"],
+    "time_period": "May 2025",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "llm-d-distributed-inference-serving-on-kubernetes-kgateway"
+  },
+  {
+    "claim": "llm-d's smart routing delivered up to 3x improvement in time-to-first-token and roughly doubled throughput under SLO constraints versus standard load balancing, per the project's own announcement benchmarks.",
+    "stance": "supports",
+    "stance_target": "the value proposition of intelligent/inference-aware routing that a customized router should preserve",
+    "evidence_type": "statistical",
+    "scope_conditions": "llm-d announcement benchmark, cited secondhand by kgateway.dev blog",
+    "quoted_support": "In benchmark tests, this smart routing delivered up to 3x improvements in time-to-first-token and doubled throughput under SLO constraints.",
+    "numbers": ["3x TTFT improvement", "2x throughput under SLO constraints"],
+    "entities": ["llm-d", "TTFT"],
+    "time_period": "May 2025",
+    "region": null,
+    "confidence": "low",
+    "source_note_id": "llm-d-distributed-inference-serving-on-kubernetes-kgateway"
+  }
+]

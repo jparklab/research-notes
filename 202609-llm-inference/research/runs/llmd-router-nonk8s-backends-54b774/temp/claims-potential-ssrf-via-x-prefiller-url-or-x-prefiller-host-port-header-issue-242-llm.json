@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "The routing sidecar's x-prefiller-host-port SSRF vulnerability was originally disclosed publicly on 2025-07-16 with a working exploit against an unmodified deployment, forwarding a prefill request to an arbitrary internal pod IP with a 200 OK.",
+    "stance": "supports",
+    "stance_target": "gap-3: existence and severity of the SSRF exposure absent mitigation",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router (then llm-d-routing-sidecar) issue #242, disclosed and fixed Jul 2025",
+    "quoted_support": "This allows a malicious external user to craft a request that forces the sidecar to forward the prefill stage of the request to an arbitrary URL or host:port. This bypasses the intended routing logic managed by the scheduler.",
+    "numbers": ["curl to http://10.244.0.51:8000 succeeded with 200 OK"],
+    "entities": ["pierDipi", "elevran", "x-prefiller-url", "x-prefiller-host-port"],
+    "time_period": "July 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "potential-ssrf-via-x-prefiller-url-or-x-prefiller-host-port-header-issue-242-llm"
+  },
+  {
+    "claim": "The maintainers' own threat model treats EPP/gateway-side header-stripping as the primary (MUST) mitigation and the sidecar's Kubernetes-coupled allowlist as a secondary 'additional safety net', not the primary control.",
+    "stance": "supports",
+    "stance_target": "gap-3: security posture -- which control is load-bearing",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "maintainer discussion on issue #242, July 2025",
+    "quoted_support": "envoy routing can be used to remove the header from the user and then set it by EPP ... I think the second is a must and would solve the original issue you raised. The first mitigation, in the sidecar, is an additional safety net.",
+    "numbers": [],
+    "entities": ["elevran", "EPP", "Envoy"],
+    "time_period": "July 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "potential-ssrf-via-x-prefiller-url-or-x-prefiller-host-port-header-issue-242-llm"
+  }
+]

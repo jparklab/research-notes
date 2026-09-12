@@ -1,0 +1,22 @@
+[
+ {
+  "claim": "The llm-d.ai blog's newest release announcement is for v0.9 (meta-repo), with no v0.10 blog post published as of 11 Sep 2026, even though the llm-d-router component itself is already at v0.10.0.",
+  "stance": "neutral",
+  "stance_target": "release-cadence mismatch between meta-repo and llm-d-router sub-component versioning",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d.ai/blog, 2026-09-11",
+  "quoted_support": "llm-d 0.9 is here! Hardened for scale with router HA, enhanced autoscaling, end-to-end observability and expanded hardware support.",
+  "numbers": [
+   "v0.9",
+   "v0.10.0"
+  ],
+  "entities": [
+   "llm-d meta-repo",
+   "llm-d-router"
+  ],
+  "time_period": "2026-09-11",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "blog-llm-d"
+ }
+]

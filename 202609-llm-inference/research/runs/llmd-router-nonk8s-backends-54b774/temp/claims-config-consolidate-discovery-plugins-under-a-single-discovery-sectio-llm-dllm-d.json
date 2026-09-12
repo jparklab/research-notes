@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "Commit 950c963644 (PR #2434, merged 2026-08-25T18:27:45Z) changed the EndpointPickerConfig discovery key from dataLayer.discovery.pluginRef to dataLayer.discovery.endpoints.pluginRef, and moved peer discovery from dataLayer.peerDiscovery.pluginRef to dataLayer.discovery.peers.pluginRef.",
+    "stance": "neutral",
+    "stance_target": "exact EndpointPickerConfig discovery key shape before vs. after the Aug 25 2026 consolidation",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router, commit 950c963644, merged Aug 25 2026",
+    "quoted_support": "Group endpoint discovery and peer discovery under dataLayer.discovery\nwith endpoints and peers sub-fields instead of two separate top-level\nfields (dataLayer.discovery and dataLayer.peerDiscovery).",
+    "numbers": ["2026-08-25T18:27:45Z", "PR #2434"],
+    "entities": ["DiscoveryConfig", "EndpointDiscoveryConfig", "PeerDiscoveryConfig"],
+    "time_period": "Aug 25, 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "config-consolidate-discovery-plugins-under-a-single-discovery-sectio-llm-dllm-d"
+  },
+  {
+    "claim": "A migration shim (migrateDiscoveryConfig in pkg/epp/config/loader/configloader.go) preserves backward compatibility: if the deprecated dataLayer.discovery.pluginRef is set and dataLayer.discovery.endpoints.pluginRef is not, the loader copies the value into Endpoints.PluginRef and logs a deprecation warning; if both are set, the new field wins.",
+    "stance": "neutral",
+    "stance_target": "whether pre-consolidation configs still work after the Aug 25 2026 change",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router, commit 950c963644, merged Aug 25 2026",
+    "quoted_support": "logger.Info(\"DEPRECATION: dataLayer.discovery.pluginRef is deprecated, use dataLayer.discovery.endpoints.pluginRef instead. If both are set, the new field is used.\")",
+    "numbers": [],
+    "entities": ["migrateDiscoveryConfig", "configloader.go"],
+    "time_period": "Aug 25, 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "config-consolidate-discovery-plugins-under-a-single-discovery-sectio-llm-dllm-d"
+  },
+  {
+    "claim": "The pre-release dataLayer.peerDiscovery field (introduced in PR #2341) was deleted outright with no migration shim because it had never shipped in a release, unlike the endpoint-discovery pluginRef migration which was preserved because it had shipped.",
+    "stance": "neutral",
+    "stance_target": "llm-d-router's deprecation/compatibility policy for unreleased vs. released config fields",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router, commit 950c963644, merged Aug 25 2026",
+    "quoted_support": "The dataLayer.peerDiscovery field was introduced in #2341 but never\nshipped in a release, so no users depend on it. Remove the field, its\nmigration shim, and its test instead of carrying unnecessary deprecation\nmachinery. The endpoint discovery pluginRef migration (which IS released)\nis preserved.",
+    "numbers": ["PR #2341"],
+    "entities": ["dataLayer.peerDiscovery", "PR #2341"],
+    "time_period": "Aug 25, 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "config-consolidate-discovery-plugins-under-a-single-discovery-sectio-llm-dllm-d"
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "The original (now-abandoned) llm-d RL rollout north-star proposal analyzed five RL frameworks (veRL, Slime, SkyRL, OpenRLHF, NeMo-RL) and found none are Kubernetes-native -- all use Ray as orchestrator -- and none leverage KV-cache locality or prefix reuse in their load routing (best is veRL's SGLang-router + hash-based routing).",
+    "stance": "supports",
+    "stance_target": "existing RL frameworks have primitive routing that llm-d's cache-aware scheduling could improve, independent of Kubernetes",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-incubation/llm-d-rl, legacy/rl-controller/docs/proposals/rl-rollout-northstar.md, analysis dated in-document ~early 2026",
+    "quoted_support": "All five frameworks use Ray as their orchestrator and manage inference engines as Ray actors. None are Kubernetes-native... Load routing ranges from basic to primitive - veRL integrates SGLang's router and has hash-based session routing, but no framework leverages KV-cache locality, prefix reuse, or predicted latency.",
+    "numbers": [],
+    "entities": ["veRL", "Slime", "SkyRL", "OpenRLHF", "NeMo-RL", "Ray"],
+    "time_period": "analysis as of the document, ~early-to-mid 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-rllegacyrl-controllerdocsproposalsrl-rollout-northstarmd-at-main-llm-d-inc"
+  },
+  {
+    "claim": "The original north-star proposal explicitly considered and rejected a 'Ray-native rollout service' design, arguing that llm-d should instead 'not take a dependency on Ray's versioning and runtime model' and remain 'consumable from any orchestrator (Ray, bare Python, Kubernetes Jobs) via HTTP/gRPC.'",
+    "stance": "neutral",
+    "stance_target": "design rationale for keeping the rollout/routing control plane orchestrator-agnostic via a network API rather than embedding into any single scheduler's native actor model",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "llm-d-incubation/llm-d-rl, legacy/rl-controller/docs/proposals/rl-rollout-northstar.md, superseded proposal",
+    "quoted_support": "Unlike a Ray-native approach, llm-d RL rollout: Does not take a dependency on Ray's versioning and runtime model; Leverages Kubernetes primitives (LWS, HPA, pod lifecycle) for operations; Is consumable from any orchestrator (Ray, bare Python, Kubernetes Jobs) via HTTP/gRPC.",
+    "numbers": [],
+    "entities": ["Ray", "Kubernetes", "LWS", "HPA"],
+    "time_period": "proposal document, ~early-to-mid 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "llm-d-rllegacyrl-controllerdocsproposalsrl-rollout-northstarmd-at-main-llm-d-inc"
+  },
+  {
+    "claim": "This entire north-star proposal -- including its full RolloutControl gRPC API (Generate/UpdateWeights/Sleep/WakeUp/GetPoolStatus) and its future RolloutEnginePool Kubernetes CRD sketch -- is superseded; the repo's own README states this direction 'had no active development or users for several months while work moved to the EPP-based routing' and is 'not the recommended starting point for new work.'",
+    "stance": "refutes",
+    "stance_target": "a bespoke RolloutControl service/CRD is the current recommended llm-d approach for RL rollout routing",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-incubation/llm-d-rl repo, as of Aug 19, 2026 rename commit and README current as of Aug 31, 2026",
+    "quoted_support": "It has had no active development or users for several months while work moved to the EPP-based routing above... it is not the recommended starting point for new work.",
+    "numbers": [],
+    "entities": ["RolloutControl", "RolloutEnginePool", "EPP"],
+    "time_period": "abandoned by ~Aug 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-rllegacyrl-controllerdocsproposalsrl-rollout-northstarmd-at-main-llm-d-inc"
+  },
+  {
+    "claim": "The proposal defines vLLM's native weight-transfer primitives that llm-d's rollout layer builds on: the WeightTransferEngine abstraction (NCCL backend with packed tensor transfer, layerwise reload with auto-requantization) and HTTP endpoints /init_weight_transfer_engine and /update_weights, gated behind VLLM_SERVER_DEV_MODE; and three vLLM sleep levels (0: pause scheduling, 1: offload weights to CPU, 2: discard all GPU memory) with tagged wake-up for weights vs kv_cache independently.",
+    "stance": "neutral",
+    "stance_target": "exact vLLM-side primitives available for building a custom weight-sync/lifecycle backend integration",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-incubation/llm-d-rl, legacy/rl-controller/docs/proposals/rl-rollout-northstar.md, referencing vLLM RLHF documentation",
+    "quoted_support": "vLLM already has native support for both via the `WeightTransferEngine` abstraction (NCCL backend with packed tensor transfer, layerwise reload with auto-requantization) and HTTP endpoints (`/init_weight_transfer_engine`, `/update_weights`) behind `VLLM_SERVER_DEV_MODE`... vLLM provides three sleep levels (0: pause scheduling, 1: offload weights to CPU, 2: discard all GPU memory) and tagged wake-up (weights, kv_cache independently).",
+    "numbers": ["0", "1", "2"],
+    "entities": ["vLLM", "WeightTransferEngine", "VLLM_SERVER_DEV_MODE", "NCCL", "NIXL"],
+    "time_period": "as of proposal document, ~2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-rllegacyrl-controllerdocsproposalsrl-rollout-northstarmd-at-main-llm-d-inc"
+  }
+]

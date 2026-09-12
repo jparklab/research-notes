@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "As of PR #1821 (Nov 2025), GIE's 'EPP standalone mode' still depends on the InferencePool CRD -- only the Gateway API dependency is removed, not the Kubernetes control-plane dependency.",
+    "stance": "supports",
+    "stance_target": "current standalone EPP is a partial decoupling (drops Gateway API) rather than a full decoupling from Kubernetes CRDs",
+    "evidence_type": "empirical",
+    "scope_conditions": "kubernetes-sigs/gateway-api-inference-extension Helm chart, Nov 2025",
+    "quoted_support": "For this stage, EPP standalone mode still uses InferencePool. That's why I didn't put it in a distinct chart. Later, if we decide to have a standalone EPP without any k8s crd, I will refactor it to a distinct helm chart. To clarify, this PR just removes gateway api dependency, inferencepool api is still there.",
+    "numbers": ["issue #1778", "PR #1821"],
+    "entities": ["capri-xiyue", "InferencePool", "GIE", "Helm"],
+    "time_period": "November 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "helm-support-for-sidecar-injection-in-epp-by-capri-xiyue-pull-request-1821-kuber"
+  },
+  {
+    "claim": "The PR was retitled from 'helm support for EPP standalone mode with Envoy Proxy' to 'helm support for sidecar injection in EPP', and its final scope is a generic, vendor-agnostic sidecar-proxy-injection hook in the EPP Helm chart rather than an Envoy-specific or standalone-specific chart.",
+    "stance": "neutral",
+    "stance_target": "GIE's Helm tooling approach to proxy deployment is generic/pluggable rather than tied to a single proxy vendor",
+    "evidence_type": "empirical",
+    "scope_conditions": "GIE Helm chart PR review, Nov 2025",
+    "quoted_support": "isn't all needed here to enable the above is to allow adding a sidecar proxy to the epp deployment? Yes. I've updated it to enable additional sidecar proxy injection.",
+    "numbers": [],
+    "entities": ["kfswain", "capri-xiyue", "Envoy"],
+    "time_period": "November 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "helm-support-for-sidecar-injection-in-epp-by-capri-xiyue-pull-request-1821-kuber"
+  }
+]

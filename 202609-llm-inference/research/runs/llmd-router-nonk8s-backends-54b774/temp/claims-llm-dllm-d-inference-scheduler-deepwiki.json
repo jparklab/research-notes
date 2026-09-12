@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Plugin registration in the EPP is compile-time Go code, not purely declarative config: a plugins.RegisterAllPlugins call populates an in-process Plugin Registry that implements the plugins.Scorer / plugins.Filter Go interfaces, and the EndpointPickerConfig YAML then instantiates plugins from that registry by matching a 'type' string.",
+    "stance": "supports",
+    "stance_target": "how plugins are registered -- compile-time Go registration vs. pure YAML config",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d-inference-scheduler repo as indexed 27 Apr 2026, commit 9fb04f4b (pre-rename to llm-d-router)",
+    "quoted_support": "plugins.RegisterAllPlugins ... Plugin Registry [Go] ... Instantiates ... plugins.Scorer Interface, plugins.Filter Interface",
+    "numbers": [],
+    "entities": ["plugins.RegisterAllPlugins", "Plugin Registry", "plugins.Scorer", "plugins.Filter", "EndpointPickerConfig"],
+    "time_period": "as indexed 27 Apr 2026 (commit 9fb04f4b)",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "llm-dllm-d-inference-scheduler-deepwiki"
+  },
+  {
+    "claim": "A documented custom-filter example ('ByLabels') selects pods based on Kubernetes labels, positioned as the canonical illustration of how to extend the EPP with new filtering logic -- i.e. the reference example for extension is itself Kubernetes-label-centric, which a non-k8s-backend implementation would need to generalize.",
+    "stance": "neutral",
+    "stance_target": "whether the project's own extension-authoring documentation is k8s-native by default",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d-inference-scheduler repo, docs/create_new_filter.md, as indexed 27 Apr 2026",
+    "quoted_support": "Custom Filters: Developers can implement custom logic, such as the ByLabels filter which selects pods based on Kubernetes labels",
+    "numbers": [],
+    "entities": ["ByLabels filter", "create_new_filter.md", "Kubernetes labels"],
+    "time_period": "as indexed 27 Apr 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "llm-dllm-d-inference-scheduler-deepwiki"
+  },
+  {
+    "claim": "Plugins hook into four lifecycle phases: Pre-call, Scoring, Post-choice, and After-response -- a fuller lifecycle enumeration than 'filter/score/pick' alone, relevant to enumerating all extension points a non-k8s backend plugin set would need to implement.",
+    "stance": "neutral",
+    "stance_target": "complete enumeration of EPP plugin lifecycle hooks",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d-inference-scheduler repo, as indexed 27 Apr 2026",
+    "quoted_support": "Lifecycle Hooks: Plugins can hook into Pre-call, Scoring, Post-choice, and After-response phases",
+    "numbers": [],
+    "entities": ["Pre-call", "Scoring", "Post-choice", "After-response"],
+    "time_period": "as indexed 27 Apr 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "llm-dllm-d-inference-scheduler-deepwiki"
+  },
+  {
+    "claim": "The system architecture diagram places Redis (external KV-cache storage) and a ZMQ event stream (for precise prefix-cache tracking) as first-class Data/State Layer inputs alongside Kubernetes Pod data, showing non-Kubernetes external services are already a normal part of the EPP's data plane, not a novel addition.",
+    "stance": "supports",
+    "stance_target": "precedent for non-Kubernetes external data sources already integrated into the EPP State Layer",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d-inference-scheduler repo, as indexed 27 Apr 2026 (predates rename and April-2026 GIE-merge consolidation described in other sources)",
+    "quoted_support": "Redis [KV-Cache Storage] ... ZMQ Event Stream ... Publishes Events ... Subscribed by ... State Layer",
+    "numbers": [],
+    "entities": ["Redis", "ZMQ", "State Layer", "kv-indexer"],
+    "time_period": "as indexed 27 Apr 2026",
+    "region": null,
+    "confidence": "low",
+    "source_note_id": "llm-dllm-d-inference-scheduler-deepwiki"
+  }
+]

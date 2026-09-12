@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "This RFC proposing Mooncake-Conductor was closed as 'not planned' -- it is an unmerged, rejected design, not shipped Mooncake functionality, and any downstream claim built on it must be flagged as speculative.",
+    "stance": "neutral",
+    "stance_target": "provenance status of the Mooncake-Conductor design",
+    "evidence_type": "historical",
+    "scope_conditions": "kvcache-ai/Mooncake issue #977, opened Oct 28 2025",
+    "quoted_support": "Closed as not planned",
+    "numbers": [],
+    "entities": ["Mooncake-Conductor", "kvcache-ai/Mooncake"],
+    "time_period": "October 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "rfc-mooncake-conductor-design-and-implementation-of-a-global-scheduler-module-fo"
+  },
+  {
+    "claim": "The proposed architecture is a three-layer 'sandwich': a Scheduling Layer (Conductor, a global scheduler doing no computation itself), a Compute Layer (inference engines like vLLM/SGLang that are agnostic to global resource distribution or the global location of KVCache), and a Storage/Data-Plane Layer (Mooncake Store + RDMA-based Transfer Engine).",
+    "stance": "supports",
+    "stance_target": "a KV-cache-aware global scheduler can be architected so the compute layer is opaque/agnostic, independent of whether those compute instances are Kubernetes pods",
+    "evidence_type": "theoretical",
+    "scope_conditions": "Mooncake-Conductor design proposal (unmerged)",
+    "quoted_support": "Inference frameworks such as vLLM and SGLang function as computational engines, 'sandwiched' in the middle. They focus on efficiently executing Prefill or Decode computation tasks on individual nodes. These frameworks are agnostic to the global resource distribution, such as the state of other nodes or the global location of the KVCache.",
+    "numbers": [],
+    "entities": ["Mooncake-Conductor", "vLLM", "SGLang", "Mooncake Store"],
+    "time_period": "October 2025",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "rfc-mooncake-conductor-design-and-implementation-of-a-global-scheduler-module-fo"
+  },
+  {
+    "claim": "The Cache-aware Prefill Scheduler's proposed cost function is cost = (cache_transfer_time + queue_wait_time + computation_time) - alpha*prefix_match_length, explicitly inspired by NVIDIA Dynamo's intelligent router cost function and SGLang Router's hybrid cache-first/load-first strategy.",
+    "stance": "neutral",
+    "stance_target": "concrete cost-function formulation for cache-aware prefill instance selection",
+    "evidence_type": "theoretical",
+    "scope_conditions": "Mooncake-Conductor design proposal (unmerged)",
+    "quoted_support": "total_estimated_ttft = cache_transfer_time + queue_wait_time + computation_time ... cost = total_estimated_ttft - cache_benefit ... Inspirations: Draws from the global cache state awareness and cost function of NVIDIA Dynamo's intelligent router, and the hybrid routing strategy of SGLang Router.",
+    "numbers": [],
+    "entities": ["NVIDIA Dynamo", "SGLang Router", "Mooncake-Conductor"],
+    "time_period": "October 2025",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "rfc-mooncake-conductor-design-and-implementation-of-a-global-scheduler-module-fo"
+  },
+  {
+    "claim": "The proposed external interface for the global scheduler is protocol-level (REST/gRPC) rather than a Kubernetes-API-level integration: request reception, resource discovery/status collection, scheduling-decision dispatch, and a management API.",
+    "stance": "supports",
+    "stance_target": "a KV-cache-aware global scheduler's integration surface can be a plain network protocol, independent of the Kubernetes API machinery",
+    "evidence_type": "theoretical",
+    "scope_conditions": "Mooncake-Conductor design proposal (unmerged)",
+    "quoted_support": "External Interface Design (Preliminary): Request Reception Interface (REST/gRPC)... Resource Discovery and Status Collection Interface... Scheduling Decision Dispatch Interface... Management API.",
+    "numbers": [],
+    "entities": ["Mooncake-Conductor", "REST", "gRPC"],
+    "time_period": "October 2025",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "rfc-mooncake-conductor-design-and-implementation-of-a-global-scheduler-module-fo"
+  },
+  {
+    "claim": "To avoid O(n^2) state-synchronization overhead in large clusters, the proposal recommends event-driven incremental index updates (triggered only when KVCache blocks are created, migrated, or evicted) over full polling, indexed via a global Block Radix Tree that records only KVCache block location per physical storage-pool node.",
+    "stance": "supports",
+    "stance_target": "event-driven KV-cache index updates scale better than polling for a global, backend-agnostic scheduler -- reinforcing the same design choice seen in the vllm-ascend sourced-KV-events RFC",
+    "evidence_type": "theoretical",
+    "scope_conditions": "Mooncake-Conductor design proposal (unmerged), large-scale cluster deployment",
+    "quoted_support": "Adopt incremental updates and an event-driven state push mechanism, rather than full polling... Design a global index based on a Block Radix Tree or similar structure, partitioning the global state by resource pool... the Conductor only records node location, not Segment details.",
+    "numbers": ["O(n^2)"],
+    "entities": ["Block Radix Tree", "Mooncake-Conductor", "MasterService"],
+    "time_period": "October 2025",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "rfc-mooncake-conductor-design-and-implementation-of-a-global-scheduler-module-fo"
+  }
+]

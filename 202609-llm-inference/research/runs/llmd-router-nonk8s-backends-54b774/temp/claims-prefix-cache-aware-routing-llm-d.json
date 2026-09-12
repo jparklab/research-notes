@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "llm-d's approximate prefix-cache routing implementation requires no ZMQ network connectivity to model servers at all, since it does not expect servers to emit KV-cache events.",
+    "stance": "supports",
+    "stance_target": "feasibility of non-Kubernetes backends for llm-d router",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d v0.9, EPP Router approximate prefix-cache-scorer path",
+    "quoted_support": "Pros: Extremely lightweight; no need for a tokenizer sidecar; no network connectivity required to model servers (ZMQ); does not require explicit model server integration as it doesn't expect the model servers to communicate KV-cache events.",
+    "numbers": [],
+    "entities": ["llm-d", "EPP", "approx-prefix-cache-producer", "prefix-cache-scorer"],
+    "time_period": "llm-d v0.9 (2026)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "prefix-cache-aware-routing-llm-d"
+  },
+  {
+    "claim": "llm-d's precise prefix-cache routing requires the model server to emit KVEvents over ZMQ and requires network connectivity from the KV-Cache Indexer to those ZMQ endpoints.",
+    "stance": "neutral",
+    "stance_target": "network reachability requirements for non-k8s backends",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d v0.9, precise prefix-cache-scorer path",
+    "quoted_support": "Cons: Requires additional infrastructure (vLLM render endpoint, ZMQ connectivity); slightly higher resource overhead; requires model server support for emitting KV-cache events.",
+    "numbers": [],
+    "entities": ["llm-d", "KV-Cache Indexer", "precise-prefix-cache-producer"],
+    "time_period": "llm-d v0.9 (2026)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "prefix-cache-aware-routing-llm-d"
+  },
+  {
+    "claim": "Exact tokenization for precise prefix-cache routing is done via an HTTP call to vLLM's /v1/completions/render endpoint, not via the deprecated gRPC-over-UDS tokenizer backend.",
+    "stance": "neutral",
+    "stance_target": "router architecture for tokenization",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d v0.9",
+    "quoted_support": "The token-producer plugin sends the prompt to vLLM's HTTP render endpoint (/v1/completions/render)... (The legacy gRPC-over-UDS tokenizer backend is deprecated.)",
+    "numbers": [],
+    "entities": ["token-producer", "vLLM", "/v1/completions/render"],
+    "time_period": "llm-d v0.9 (2026)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "prefix-cache-aware-routing-llm-d"
+  },
+  {
+    "claim": "The precise implementation uses speculative indexing to close the blind spot between a routing decision and the arrival of the corresponding KVEvent.",
+    "stance": "neutral",
+    "stance_target": "KV-cache indexer consistency model",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d v0.9 precise-prefix-cache-producer",
+    "quoted_support": "To close the \"blind spot\" between a routing decision and the arrival of the subsequent KVEvent, the producer can proactively add \"speculative\" entries to the index immediately after routing.",
+    "numbers": [],
+    "entities": ["precise-prefix-cache-producer", "KV-Cache Indexer"],
+    "time_period": "llm-d v0.9 (2026)",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "prefix-cache-aware-routing-llm-d"
+  }
+]

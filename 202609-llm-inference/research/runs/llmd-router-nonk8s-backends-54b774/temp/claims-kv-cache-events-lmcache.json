@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "LMCache generates KV-cache lifecycle events (BlockStored/BlockRemoved) but does not publish them itself — it hands them to vLLM or SGLang's existing ZMQ messaging system to publish, meaning the event transport is backend-native, not an LMCache-specific service.",
+    "stance": "neutral",
+    "stance_target": "architecture of KV-event-based router discovery",
+    "evidence_type": "empirical",
+    "scope_conditions": "LMCache in-process mode (deprecated), vLLM v0.13.0+/LMCache v0.3.11+ or SGLang",
+    "quoted_support": "LMCache passes the events to SGLang or vLLM to publish them using their messaging system.",
+    "numbers": [],
+    "entities": ["LMCache", "vLLM", "SGLang", "ZMQ"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "kv-cache-events-lmcache"
+  },
+  {
+    "claim": "Multi-worker vLLM+LMCache deployments must set a non-default pre_caching_hash_algorithm per worker, or hash collisions produce duplicate/incorrect KV events across workers sharing the same event topic.",
+    "stance": "neutral",
+    "stance_target": "operational constraint on event-driven routing at multi-worker scale",
+    "evidence_type": "empirical",
+    "scope_conditions": "vLLM + LMCache, more than 1 worker",
+    "quoted_support": "If running more than 1 worker in vLLM, you need to use a non-default hashing algorithm (set pre_caching_hash_algorithm in LMCache) so that hashes generated per worker are the same. If not then you will have duplicate events for the same operation.",
+    "numbers": [],
+    "entities": ["pre_caching_hash_algorithm", "LMCache"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "kv-cache-events-lmcache"
+  },
+  {
+    "claim": "The vLLM and SGLang BlockStored event payloads differ: vLLM's includes 'medium' and 'lora_name'/'lora_id' fields that SGLang's payload omits, so a consumer must branch by backend.",
+    "stance": "neutral",
+    "stance_target": "portability of a single event-consuming router across different inference-engine backends",
+    "evidence_type": "empirical",
+    "scope_conditions": "LMCache-generated events published via vLLM vs SGLang",
+    "quoted_support": "you need to remove the properties medium and lora_name from the BlockStored class definition and medium from BlockRemoved class definition [for SGLang]",
+    "numbers": [],
+    "entities": ["BlockStored", "BlockRemoved", "vLLM", "SGLang", "medium field"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "kv-cache-events-lmcache"
+  }
+]

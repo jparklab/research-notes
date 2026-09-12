@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "The v0.10.0 utilization-detector saturation-detector plugin's implementation lives at a specific, citable Go source path: pkg/epp/framework/plugins/flowcontrol/saturationdetector/utilization/detector.go, lines 119-164, which fuses per-replica queue depth and KV-cache pressure into one pool-saturation signal.",
+    "stance": "neutral",
+    "stance_target": "exact Go source location of a load-bearing flow-control plugin for chasing the plugin interface definition",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d/llm-d-router repo, git tag v0.10.0",
+    "quoted_support": "The utilization detector combines per-replica queue and key-value (KV) cache pressure into one pool-saturation signal.",
+    "numbers": ["lines 119-164"],
+    "entities": ["utilization detector", "saturationdetector", "v0.10.0", "detector.go"],
+    "time_period": "llm-d-router v0.10.0",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-flow-control-priority-queuing-for-shared-gpu-inference-red-hat-developer"
+  },
+  {
+    "claim": "Admission (Flow Control, deciding WHEN a request advances) and Scheduling (deciding WHERE it runs) are architecturally separate decisions inside the EPP: Flow Control fully completes -- evaluating priority bands high to low, applying a fairness policy then an ordering policy -- before backend Scheduling ever selects the highest-scored vLLM pod.",
+    "stance": "supports",
+    "stance_target": "clean separation of concerns between admission control and backend placement, relevant to isolating which layer needs changing for non-k8s backends",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d EPP, v0.10.0-era flow control design",
+    "quoted_support": "Admission and scheduling answer different questions. Admission determines when a request can advance. Scheduling determines where that admitted request should run.",
+    "numbers": [],
+    "entities": ["Flow Control", "Scheduling", "Endpoint Picker"],
+    "time_period": "llm-d-router v0.10.0",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-flow-control-priority-queuing-for-shared-gpu-inference-red-hat-developer"
+  },
+  {
+    "claim": "Priority is sourced from an InferenceObjective CRD that maps a workload to an integer (higher = higher priority); requests sharing a priority integer share a band and are arbitrated purely by the configured tenant fairness policy -- meaning the priority signal itself is a Kubernetes custom resource, another k8s-coupling point distinct from pod/metrics scraping.",
+    "stance": "supports",
+    "stance_target": "identifying InferenceObjective (a CRD) as a second, separate Kubernetes coupling point beyond pod-based endpoint discovery",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d EPP flow control, v0.10.0-era",
+    "quoted_support": "An InferenceObjective maps a workload to an integer priority. Traffic is evaluated by an integer value; a higher value indicates higher-priority traffic.",
+    "numbers": [],
+    "entities": ["InferenceObjective", "priority band", "fairness policy"],
+    "time_period": "llm-d-router v0.10.0",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "llm-d-flow-control-priority-queuing-for-shared-gpu-inference-red-hat-developer"
+  }
+]

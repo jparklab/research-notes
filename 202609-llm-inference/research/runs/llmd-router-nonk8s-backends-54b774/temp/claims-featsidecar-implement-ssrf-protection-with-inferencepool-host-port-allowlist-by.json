@@ -1,0 +1,16 @@
+[
+  {
+    "claim": "Enabling SSRF protection requires not just an InferencePool object but cluster RBAC grants (ClusterRole/ClusterRoleBinding for InferencePool and Pod watch) for the sidecar's service account -- a further Kubernetes-native dependency beyond the CRD itself.",
+    "stance": "supports",
+    "stance_target": "gap-3: full scope of the Kubernetes coupling",
+    "evidence_type": "empirical",
+    "scope_conditions": "PR #1647 review discussion, merged ~June 2026, llm-d-router",
+    "quoted_support": "// Apply SSRF RBAC (ClusterRole + ClusterRoleBinding for InferencePool/Pod watch).",
+    "numbers": [],
+    "entities": ["weizhoublue", "RBAC", "InferencePool"],
+    "time_period": "June 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "featsidecar-implement-ssrf-protection-with-inferencepool-host-port-allowlist-by"
+  }
+]

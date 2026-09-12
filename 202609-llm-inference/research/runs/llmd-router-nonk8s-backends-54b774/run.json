@@ -1,0 +1,130 @@
+{
+  "manifest_version": 1,
+  "vault_tag": "llmd-router-nonk8s-backends-54b774",
+  "profile": "full",
+  "profile_steps": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16"
+  ],
+  "status": "done",
+  "started_at": "2026-09-11T19:35:39.874159+00:00",
+  "updated_at": "2026-09-12T03:37:19.451886+00:00",
+  "budget_usd": null,
+  "blocked_on": null,
+  "steps": {
+    "1": {
+      "status": "done",
+      "started_at": "2026-09-11T19:35:57.299068+00:00",
+      "finished_at": "2026-09-11T19:37:17.206678+00:00"
+    },
+    "2": {
+      "status": "done",
+      "started_at": "2026-09-11T19:37:17.342350+00:00",
+      "finished_at": "2026-09-11T21:08:43.017117+00:00"
+    },
+    "3": {
+      "status": "done",
+      "started_at": "2026-09-11T21:08:43.137021+00:00",
+      "finished_at": "2026-09-11T21:12:51.688862+00:00"
+    },
+    "4": {
+      "status": "done",
+      "started_at": "2026-09-11T21:12:51.812869+00:00",
+      "finished_at": "2026-09-11T21:18:52.177611+00:00"
+    },
+    "5": {
+      "status": "done",
+      "started_at": "2026-09-11T21:18:52.298360+00:00",
+      "finished_at": "2026-09-11T21:33:26.544334+00:00"
+    },
+    "6": {
+      "status": "done",
+      "started_at": "2026-09-11T21:33:26.674696+00:00",
+      "finished_at": "2026-09-11T21:35:03.191347+00:00"
+    },
+    "7": {
+      "status": "done",
+      "started_at": "2026-09-11T21:35:03.342815+00:00",
+      "finished_at": "2026-09-11T21:38:01.407156+00:00"
+    },
+    "8": {
+      "status": "done",
+      "started_at": "2026-09-11T21:38:01.544296+00:00",
+      "finished_at": "2026-09-11T22:01:44.572521+00:00"
+    },
+    "9": {
+      "status": "done",
+      "started_at": "2026-09-11T22:01:44.709049+00:00",
+      "finished_at": "2026-09-11T22:04:16.439344+00:00"
+    },
+    "10": {
+      "status": "done",
+      "started_at": "2026-09-11T22:04:16.571518+00:00",
+      "finished_at": "2026-09-12T02:26:44.793911+00:00"
+    },
+    "11": {
+      "status": "done",
+      "started_at": "2026-09-12T02:26:44.902689+00:00",
+      "finished_at": "2026-09-12T02:43:14.487266+00:00"
+    },
+    "12": {
+      "status": "done",
+      "started_at": "2026-09-12T02:43:14.595243+00:00",
+      "finished_at": "2026-09-12T02:50:47.800952+00:00"
+    },
+    "13": {
+      "status": "done",
+      "started_at": "2026-09-12T02:50:47.908995+00:00",
+      "finished_at": "2026-09-12T02:52:11.879661+00:00"
+    },
+    "14": {
+      "status": "done",
+      "started_at": "2026-09-12T02:52:11.986273+00:00",
+      "finished_at": "2026-09-12T03:09:39.834031+00:00"
+    },
+    "14.5": {
+      "status": "done",
+      "finished_at": "2026-09-12T03:24:31.040797+00:00"
+    },
+    "15": {
+      "status": "done",
+      "finished_at": "2026-09-12T03:27:47.021740+00:00"
+    },
+    "16": {
+      "status": "done",
+      "started_at": "2026-09-12T03:27:47.129383+00:00",
+      "finished_at": "2026-09-12T03:35:10.662572+00:00"
+    }
+  },
+  "chapters": {},
+  "spend": {
+    "estimated_usd": 0.0,
+    "sources_fetched": 0,
+    "notes_written": 0,
+    "agents_spawned": 0
+  },
+  "levers": {
+    "register": "advocate",
+    "inference_depth": "deep",
+    "domain_notes": "Sourcing: primary sources are the GitHub repos and docs of llm-d (llm-d/llm-d, llm-d-inference-scheduler, llm-d-kv-cache-manager, routing sidecar) and kubernetes-sigs/gateway-api-inference-extension \u2014 source code, design proposals under docs/proposals, issues, merged PRs, and release notes; academic literature is thin and secondary. Evidence norms: code at HEAD and merged PRs outrank design docs, which outrank vendor blogs and conference talks; flag any claim that depends on an unmerged proposal. Recency window: last 12-18 months \u2014 llm-d and GIE APIs changed quickly (InferencePool v1 GA, EPP plugin/data-layer refactors), so prefer the newest release and date every API-shape claim."
+  },
+  "verify": {
+    "passed": true,
+    "at": "2026-09-12T03:37:19.451265+00:00",
+    "failed_checks": []
+  }
+}

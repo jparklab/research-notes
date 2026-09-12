@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "The llm-d-router plugin registry is a package-level exported global variable, var Registry = map[string]FactoryFunc{}, mutated by the exported function Register(pluginType, stability, factory) in pkg/epp/framework/interface/plugin/registry.go.",
+    "stance": "supports",
+    "stance_target": "a custom discovery plugin can be added without forking llm-d-router",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router main branch, HEAD as of Sep 2026",
+    "quoted_support": "// Registry is a mapping from plugin type to Factory function.\nvar Registry = map[string]FactoryFunc{}",
+    "numbers": [],
+    "entities": ["Registry", "Register", "FactoryFunc"],
+    "time_period": "2026 (HEAD)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "registrygo"
+  },
+  {
+    "claim": "Because Registry is exported and package-level (not a private field on Runner), any external Go package that imports the plugin package can call Register() itself, typically from its own init() function, and Go guarantees all package init() functions run before main() executes -- so an out-of-tree plugin registered this way is present in Registry before runner.NewRunner().Run(ctx) parses configuration and instantiates plugins.",
+    "stance": "supports",
+    "stance_target": "a custom discovery plugin can be added without forking llm-d-router by building a separate main() that imports the router as a library",
+    "evidence_type": "theoretical",
+    "scope_conditions": "Go language init()-ordering guarantee applied to llm-d-router's registry design as of Sep 2026",
+    "quoted_support": "func Register(pluginType string, stability StabilityLevel, factory FactoryFunc) {\n\tRegistry[pluginType] = factory\n\tRegistryMetadata[pluginType] = PluginMetadata{...}\n}",
+    "numbers": [],
+    "entities": ["Register", "init()", "Registry"],
+    "time_period": "2026 (HEAD)",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "registrygo"
+  },
+  {
+    "claim": "Registration helper variants (RegisterAsDefaultProducer, RegisterWithPluginDependencies, RegisterDeprecated) all funnel through the same exported Register() and mutate the same global maps (Registry, RegistryMetadata, DefaultProducerRegistry, PluginsWithPluginDependencies), so an out-of-tree plugin author has access to the full registration feature set, not just a subset.",
+    "stance": "supports",
+    "stance_target": "the out-of-tree registration mechanism is functionally complete, not a crippled subset",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router main branch, HEAD as of Sep 2026",
+    "quoted_support": "func RegisterWithPluginDependencies(pluginType string, stability StabilityLevel, factory FactoryFunc, parser ConfigParserFunc) {\n\tRegister(pluginType, stability, factory)\n\tPluginsWithPluginDependencies[pluginType] = parser\n}",
+    "numbers": [],
+    "entities": ["RegisterAsDefaultProducer", "RegisterWithPluginDependencies", "RegisterDeprecated"],
+    "time_period": "2026 (HEAD)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "registrygo"
+  },
+  {
+    "claim": "The registry has no duplicate-key guard: Register() unconditionally overwrites Registry[pluginType], so an out-of-tree plugin sharing a type name with an in-tree plugin would silently clobber it depending on init() ordering, which is not fully specified across separate Go modules.",
+    "stance": "refutes",
+    "stance_target": "out-of-tree registration is a fully safe, collision-proof mechanism",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d-router main branch, HEAD as of Sep 2026",
+    "quoted_support": "func Register(pluginType string, stability StabilityLevel, factory FactoryFunc) {\n\tRegistry[pluginType] = factory\n\t...\n}",
+    "numbers": [],
+    "entities": ["Register", "Registry"],
+    "time_period": "2026 (HEAD)",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "registrygo"
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "PR #2341 (peer discovery infrastructure) merged into main on 16 Aug 2026, one day before the v0.10.0 tag, so the pre-consolidation dataLayer.peerDiscovery.pluginRef field IS present in the shipped v0.10.0 release.",
+    "stance": "neutral",
+    "stance_target": "which discovery-related config keys are actually present in v0.10.0",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d/llm-d-router PR #2341",
+    "quoted_support": "[elevran] merged commit 620045bb19a95b088dc53f046c78a2d712b90a76 into llm-d:main [Aug 16, 2026]",
+    "numbers": ["PR #2341", "2026-08-16", "2026-08-17"],
+    "entities": ["evacchi", "elevran", "llm-d-router"],
+    "time_period": "2026-08-16",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "feat-epp-peer-discovery-infrastructure-by-evacchi-pull-request-2341-llm-dllm-d-r"
+  },
+  {
+    "claim": "PR #2341 deliberately ships no concrete discovery mechanism; a Kubernetes-based implementation (EndpointSlice reconciler, RBAC, Helm/kustomize) was explicitly deferred to a later PR pending unresolved enablement/transport design questions.",
+    "stance": "neutral",
+    "stance_target": "maturity of peer-discovery plugin ecosystem",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router PR #2341",
+    "quoted_support": "No concrete discovery mechanism is included; a Kubernetes-based implementation (EndpointSlice reconciler, RBAC, Helm/kustomize) will follow in a separate PR once the enablement and transport design questions from #1892 are settled.",
+    "numbers": ["PR #2341", "issue #1892"],
+    "entities": ["EndpointSlice", "PeerDiscovery"],
+    "time_period": "2026-08-10",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "feat-epp-peer-discovery-infrastructure-by-evacchi-pull-request-2341-llm-dllm-d-r"
+  }
+]

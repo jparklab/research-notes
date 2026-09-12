@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "The prefill target is taken directly from the client-supplied x-prefiller-host-port HTTP header on the inbound request, with the allowlist check as the only gate before the sidecar reverse-proxies to that address.",
+    "stance": "supports",
+    "stance_target": "gap-3: who can set x-prefiller-host-port and what stops arbitrary hosts",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router@main, pkg/sidecar/proxy/chat_completions.go, disaggregatedPrefillHandler",
+    "quoted_support": "prefillHostPorts := r.Header.Values(routing.PrefillEndpointHeader) ... if !s.allowlistValidator.IsAllowed(prefillHostPort) { ... http.Error(w, \"Forbidden: prefill target not allowed by SSRF protection\", http.StatusForbidden); return }",
+    "numbers": [],
+    "entities": ["x-prefiller-host-port", "disaggregatedPrefillHandler", "AllowlistValidator"],
+    "time_period": "2026 (current HEAD)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "chat_completionsgo"
+  },
+  {
+    "claim": "Because IsAllowed() always returns true when SSRF protection is off (the required posture outside Kubernetes), any caller that can reach the sidecar's listening port can set x-prefiller-host-port to an arbitrary host:port and the sidecar will proxy the request there unchecked; the same applies to x-encoder-hosts-ports and x-kv-cache-source-host-port.",
+    "stance": "supports",
+    "stance_target": "gap-3: security posture with SSRF protection necessarily disabled off-Kubernetes",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router@main, pkg/sidecar/proxy/chat_completions.go",
+    "quoted_support": "encoderHost = strings.TrimSpace(encoderHost)\n\t\t\t\t\tif s.allowlistValidator.IsAllowed(encoderHost) { allowedEncoders = append(allowedEncoders, encoderHost) ... }",
+    "numbers": [],
+    "entities": ["x-prefiller-host-port", "x-encoder-hosts-ports", "x-kv-cache-source-host-port"],
+    "time_period": "2026 (current HEAD)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "chat_completionsgo"
+  }
+]

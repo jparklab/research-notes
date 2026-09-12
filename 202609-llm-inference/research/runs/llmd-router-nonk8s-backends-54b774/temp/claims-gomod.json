@@ -1,0 +1,24 @@
+[
+ {
+  "claim": "llm-d-router's go.mod floors the toolchain at go 1.26.6 and pulls in the full k8s.io client-go/apimachinery/controller-runtime stack as unconditional module dependencies, even though EndpointDiscovery lets the EPP skip the k8s API server at runtime.",
+  "stance": "neutral",
+  "stance_target": "cost of embedding llm-d-router's EPP runner in a downstream binary for non-k8s backends",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d/llm-d-router go.mod at main branch HEAD",
+  "quoted_support": "module github.com/llm-d/llm-d-router\\n\\ngo 1.26.6",
+  "numbers": [
+   "go 1.26.6",
+   "k8s.io/client-go v0.36.4",
+   "sigs.k8s.io/controller-runtime v0.24.1"
+  ],
+  "entities": [
+   "go.mod",
+   "controller-runtime",
+   "k8s.io/client-go"
+  ],
+  "time_period": "Sep 2026",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "gomod"
+ }
+]

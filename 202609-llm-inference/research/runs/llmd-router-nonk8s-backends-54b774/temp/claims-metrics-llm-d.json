@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "llm-d's model-server and EPP metrics scraping is built entirely on Kubernetes-native Prometheus-Operator CRDs (PodMonitor for model servers, ServiceMonitor for the EPP), so a non-Kubernetes backend loses this auto-discovery/scrape-configuration mechanism and must supply its own static Prometheus scrape_configs.",
+    "stance": "supports",
+    "stance_target": "gap (c): EPP-to-model-server metrics scraping outside Kubernetes requires custom scrape configuration, not just a network-reachable /metrics endpoint",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d docs v0.9 (current, as of fetch)",
+    "quoted_support": "The monitoring component creates PodMonitors that scrape model server metrics... EPP (Endpoint Picker) metrics are enabled by default. To verify or enable manually, see the Monitoring & Tracing Configuration section in the llm-d-router Helm chart docs. Verify the ServiceMonitor exists.",
+    "numbers": [],
+    "entities": ["PodMonitor", "ServiceMonitor", "Prometheus Operator", "EPP"],
+    "time_period": "v0.9, 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "metrics-llm-d"
+  },
+  {
+    "claim": "The reference troubleshooting workflow verifies model-server metrics endpoints over plain HTTP by default (curl against port 8000), and TLS between Prometheus and its scrape targets is an explicit opt-in configuration, not a default -- indicating EPP/Prometheus-to-model-server metrics scraping is unencrypted absent deliberate operator action.",
+    "stance": "supports",
+    "stance_target": "gap (c): absence of default TLS/mTLS on the metrics-scraping path between EPP/Prometheus and model servers",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d docs v0.9 troubleshooting section, install-prometheus-grafana.sh script",
+    "quoted_support": "The autoscaler is configured for HTTPS but Prometheus is serving HTTP. Enable TLS: ./guides/recipes/observability/install-prometheus-grafana.sh --enable-tls",
+    "numbers": [],
+    "entities": ["Prometheus", "autoscaler", "TLS", "install-prometheus-grafana.sh"],
+    "time_period": "v0.9, 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "metrics-llm-d"
+  },
+  {
+    "claim": "llm-d exposes a large, specific EPP metric surface (llm_d_epp_request_ttft_seconds, llm_d_epp_scheduler_e2e_duration_seconds, llm_d_epp_plugin_duration_seconds, flow-control queue/saturation metrics, etc.) that a custom router implementation should preserve or replicate to remain compatible with existing llm-d Grafana dashboards and alerting.",
+    "stance": "neutral",
+    "stance_target": "observability-parity requirement for a customized router",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d docs v0.9 EPP metrics reference",
+    "quoted_support": "llm_d_epp_request_duration_seconds | Response latency distribution per flow ID and priority | The SLO metric. Tracks full round-trip time from request to response",
+    "numbers": [],
+    "entities": ["llm_d_epp_request_duration_seconds", "llm_d_epp_scheduler_e2e_duration_seconds", "llm_d_epp_flow_control_pool_saturation"],
+    "time_period": "v0.9, 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "metrics-llm-d"
+  }
+]

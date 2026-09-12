@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "llm-d v0.8 introduced the FileDiscovery plugin, enabling the routing layer to discover inference endpoints through filesystem-based service discovery rather than the Kubernetes API, unlocking deployment on Slurm clusters and bare-metal research labs.",
+    "stance": "supports",
+    "stance_target": "llm-d router already has a documented non-Kubernetes discovery mechanism as of a specific release",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d v0.8 release, dated ~mid-2026 (v0.9 milestone described as targeting 'early August')",
+    "quoted_support": "The FileDiscovery plugin enables llm-d's routing layer to discover inference endpoints through filesystem-based service discovery rather than the Kubernetes API. Operators write endpoint addresses to a file; the router watches it.",
+    "numbers": ["v0.8"],
+    "entities": ["FileDiscovery", "Slurm", "Kubernetes"],
+    "time_period": "v0.8 release, ~mid-2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-v08-from-platform-to-control-plane-llm-d"
+  },
+  {
+    "claim": "Component renames at v0.8: llm-d-inference-scheduler became llm-d-router-endpoint-picker, and llm-d-routing-sidecar became llm-d-router-disagg-sidecar, reflecting that both are components of the llm-d Router rather than standalone systems.",
+    "stance": "neutral",
+    "stance_target": "naming/identity of the components a fork/customization effort would need to target",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d v0.8 release, ~mid-2026",
+    "quoted_support": "The component renames in this release reflect the same thinking. `llm-d-inference-scheduler` becomes `llm-d-router-endpoint-picker`. `llm-d-routing-sidecar` becomes `llm-d-router-disagg-sidecar`.",
+    "numbers": [],
+    "entities": ["llm-d-inference-scheduler", "llm-d-router-endpoint-picker", "llm-d-routing-sidecar", "llm-d-router-disagg-sidecar"],
+    "time_period": "v0.8 release, ~mid-2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-v08-from-platform-to-control-plane-llm-d"
+  },
+  {
+    "claim": "As of v0.8, llm-d dropped custom-built vLLM images for most platforms, defaulting to unmodified upstream vllm/vllm-openai:v0.23.0 (GPU), vllm/vllm-openai-rocm (AMD), and prebuilt upstream vLLM XPU image (Intel), removing llm-d-cuda-gb200, llm-d-xpu, and llm-d-rocm images; llm-d-cuda remains for custom wheel builds (DeepGEMM, DeepEP). Intel Gaudi (HPU) support was removed entirely because upstream vLLM does not maintain Gaudi images.",
+    "stance": "neutral",
+    "stance_target": "llm-d's positioning as a control plane atop unmodified inference engines rather than a forked distribution",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d v0.8 release, ~mid-2026",
+    "quoted_support": "The default GPU image is now `vllm/vllm-openai:v0.23.0` - the upstream release, unmodified... This is not just a packaging simplification - it is a statement about what llm-d is. The project is a control plane that wraps inference engines, not a distribution that replaces them.",
+    "numbers": ["v0.23.0"],
+    "entities": ["vLLM", "vllm-openai", "ROCm", "XPU", "Gaudi", "DeepGEMM", "DeepEP"],
+    "time_period": "v0.8 release, ~mid-2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-v08-from-platform-to-control-plane-llm-d"
+  },
+  {
+    "claim": "SGLang became a first-class second inference backend alongside vLLM at v0.8, supported across optimized-baseline, precise-prefix-cache-routing, tiered-prefix-cache, and P/D disaggregation well-lit paths (wide expert parallelism not yet covered); TensorRT-LLM was added as a third backend via trtllm-serve with a full recipe and optimized-baseline guide.",
+    "stance": "supports",
+    "stance_target": "llm-d's routing/scoring layer (prefix-cache scorer specifically) already generalizes across multiple inference engine backends, evidence that the architecture separates routing logic from backend specifics",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d v0.8 release, ~mid-2026",
+    "quoted_support": "SGLang joins vLLM as a supported inference backend across the optimized baseline, precise prefix cache routing, tiered prefix cache, and P/D disaggregation well-lit paths... The prefix cache scorer, previously vLLM-only, now works with SGLang backends with optimal configuration and benchmark numbers.",
+    "numbers": [],
+    "entities": ["SGLang", "vLLM", "TensorRT-LLM", "trtllm-serve", "prefix cache scorer"],
+    "time_period": "v0.8 release, ~mid-2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-v08-from-platform-to-control-plane-llm-d"
+  },
+  {
+    "claim": "At v0.8, llm-d's infrastructure dependencies pinned Gateway API Inference Extension (GAIE) to v1.5.0, with GAIE Helm charts published from the llm-d-router OCI registry; the Workload Variant Autoscaler (WVA) CRD migrated to the llm-d.ai API group as a breaking change.",
+    "stance": "neutral",
+    "stance_target": "exact dependency/API versions to target when building against this era of llm-d",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d v0.8 release, ~mid-2026",
+    "quoted_support": "Infrastructure dependencies update to Istio 1.29.4, kgateway/agentgateway v2.3.3, and Gateway API Inference Extension v1.5.0, with the GAIE Helm charts now published from the llm-d-router OCI registry.",
+    "numbers": ["v1.5.0", "Istio 1.29.4", "kgateway/agentgateway v2.3.3"],
+    "entities": ["Gateway API Inference Extension", "GAIE", "Workload Variant Autoscaler", "WVA", "llm-d.ai"],
+    "time_period": "v0.8 release, ~mid-2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-v08-from-platform-to-control-plane-llm-d"
+  }
+]

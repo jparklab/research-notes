@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "InferencePool functions like a Service with a selector: it selects a group of Pods directly by label selector and target port, not by referencing a Service or EndpointSlice object.",
+    "stance": "supports",
+    "stance_target": "InferencePool selects Pods, not Services/EndpointSlices",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Gateway API Inference Extension v1.1.x, Alpha stage, as of Nov 2025",
+    "quoted_support": "InferencePool is the core resource introduced by the Inference Extension, used to describe a group of inference Pods and routing plugin configurations. It is similar to a Service with a selector, responsible for selecting a group of model service Pods.",
+    "numbers": [],
+    "entities": ["InferencePool", "Endpoint Picker"],
+    "time_period": "November 2025",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "beyond-gateway-inference-traffic-control-practice-with"
+  },
+  {
+    "claim": "InferencePoolImport is the API mechanism for importing InferencePools defined in remote clusters into a local cluster, intended for consistent governance of multi-cluster and multi-region inference services.",
+    "stance": "neutral",
+    "stance_target": "multi-cluster InferencePool import as a way to reach backends in other clusters",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "OSS Gateway API Inference Extension, Alpha, v1.1.x",
+    "quoted_support": "InferencePoolImport supports importing InferencePools defined in remote clusters into the local cluster, facilitating consistent governance of multi-cluster, multi-region inference services.",
+    "numbers": [],
+    "entities": ["InferencePoolImport"],
+    "time_period": "November 2025",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "beyond-gateway-inference-traffic-control-practice-with"
+  },
+  {
+    "claim": "As of November 2025, Gateway API Inference Extension is at v1.1.x and officially in Alpha stage; official guidance is not to use it directly in production and to prefer managed implementations like GKE Inference Gateway or commercial gateway vendors instead.",
+    "stance": "neutral",
+    "stance_target": "production-readiness of the OSS Gateway API Inference Extension stack this project would customize",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "as of Nov 14, 2025",
+    "quoted_support": "The current project version is v1.1.x, overall in the Alpha stage. Official recommendation is not to use it directly in production yet; it's more suitable for platform teams to experiment with the technology stack.",
+    "numbers": ["v1.1.x"],
+    "entities": ["Gateway API Inference Extension"],
+    "time_period": "November 2025",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "beyond-gateway-inference-traffic-control-practice-with"
+  },
+  {
+    "claim": "The Gateway API Inference Extension terminology has shifted from an earlier InferenceModel + InferencePool combination to the current InferenceObjective + InferencePool (with optional InferencePoolImport) naming.",
+    "stance": "neutral",
+    "stance_target": "API-shape recency for InferencePool-family objects",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "as of Nov 2025",
+    "quoted_support": "Early documentation often mentioned the InferenceModel + InferencePool CRD combination; the latest specification has evolved to InferenceObjective + InferencePool (with optional InferencePoolImport).",
+    "numbers": [],
+    "entities": ["InferenceModel", "InferenceObjective", "InferencePool", "InferencePoolImport"],
+    "time_period": "November 2025",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "beyond-gateway-inference-traffic-control-practice-with"
+  }
+]

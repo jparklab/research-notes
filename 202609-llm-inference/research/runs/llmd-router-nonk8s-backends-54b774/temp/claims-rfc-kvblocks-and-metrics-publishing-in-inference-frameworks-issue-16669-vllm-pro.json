@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "vLLM's KV-event publishing mechanism was deliberately designed as a separate, decoupled pub/sub 'fire and forget' sink alongside the Scheduler, not merged into the existing KV Connector API used for actual KV-tensor transfer (which requires retry/ack semantics at ~100MB/s).",
+    "stance": "neutral",
+    "stance_target": "why vLLM KV events are a distinct low-bandwidth channel from the KV-transfer Connector API",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "vLLM RFC discussion, Apr 2025, resolved Nov 2025",
+    "quoted_support": "KV-Transfer handles 100MB/s tensor w/ retry and ack, and CPU -> GPU transfer. KV Event publishing is low bandwidth publishing, pub/sub w/ fire and forget (we can add a simple ack)",
+    "numbers": ["100MB/s"],
+    "entities": ["KV Connector API", "kv_event_sink", "alec-flowers"],
+    "time_period": "April-November 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "rfc-kvblocks-and-metrics-publishing-in-inference-frameworks-issue-16669-vllm-pro"
+  },
+  {
+    "claim": "NVIDIA Dynamo's own kv_router (publisher.rs / indexer.rs in github.com/ai-dynamo/dynamo) predates and closely parallels vLLM's native KVEvents design, using the same publisher/global-prefix-tree-indexer split.",
+    "stance": "neutral",
+    "stance_target": "prior art for KV-event-based distributed cache indexing",
+    "evidence_type": "empirical",
+    "scope_conditions": "vLLM RFC discussion, Apr 2025",
+    "quoted_support": "Here is our publisher (this has python bindings): https://github.com/ai-dynamo/dynamo/blob/main/lib/llm/src/kv_router/publisher.rs / Here is our consumer (also has python bindings): https://github.com/ai-dynamo/dynamo/blob/main/lib/llm/src/kv_router/indexer.rs",
+    "numbers": [],
+    "entities": ["NVIDIA Dynamo", "kv_router", "alec-flowers"],
+    "time_period": "April 2025",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "rfc-kvblocks-and-metrics-publishing-in-inference-frameworks-issue-16669-vllm-pro"
+  },
+  {
+    "claim": "IBM Research explicitly frames KVEvents (internal engine-state visibility) as complementary to, not a replacement for, the KV Connector API's external-storage-locality visibility, with a stated roadmap to combine both for fine-grained KV-aware routing.",
+    "stance": "neutral",
+    "stance_target": "relationship between KVEvents and KV Connector API in a combined routing architecture",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "vLLM RFC discussion, Apr 2025, IBM Research perspective (vMaroon, later author of the Red Hat llm-d KV-cache-routing blog)",
+    "quoted_support": "It makes sense to start with the two pieces decoupled, but streamlining the API is probably a necessary followup... combining vLLM-internal insights with node-local indexing is key to enabling fine-grained, KV-aware request routing.",
+    "numbers": [],
+    "entities": ["IBM Research", "vMaroon", "KV Connector API", "KVEvents"],
+    "time_period": "April 2025",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "rfc-kvblocks-and-metrics-publishing-in-inference-frameworks-issue-16669-vllm-pro"
+  },
+  {
+    "claim": "Storage/medium generalization of KV-block events (e.g., a block backed by remote storage like Redis/S3) was explicitly raised in the original design discussion and later materialized as the medium field (GPU/CPU/STORAGE) in the shipped BlockStored event.",
+    "stance": "supports",
+    "stance_target": "extensibility of KV events to non-standard storage backends",
+    "evidence_type": "historical",
+    "scope_conditions": "vLLM RFC discussion, Apr 2025, tracked forward to shipped kv_events.py",
+    "quoted_support": "how does this design handle the case where the KV cache is stored in a remote storage, like Reddis? ... We could just treat the storage as extra KVCache and emit the same BlockStored event.",
+    "numbers": [],
+    "entities": ["BlockStored", "KuntaiDu", "medium field"],
+    "time_period": "April 2025 to 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "rfc-kvblocks-and-metrics-publishing-in-inference-frameworks-issue-16669-vllm-pro"
+  }
+]

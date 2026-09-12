@@ -1,0 +1,58 @@
+{
+  "sub_questions": [
+    "What are llm-d's components (inference scheduler / Endpoint Picker (EPP), Gateway API Inference Extension integration, proxy/gateway layer such as Envoy/kgateway/Istio/agentgateway, KV-cache manager/indexer, prefix-cache and load-aware scorers, P/D disaggregation routing sidecar, model-service Helm charts, vLLM integration), and which of them are coupled to Kubernetes pods vs. reusable independently?",
+    "How does the llm-d router discover, represent, and track backends today (InferencePool selector over pod labels, EPP datastore/pod reconciler, metrics scraping, endpoint identity, ext-proc protocol with the proxy, destination-endpoint header), and where exactly is the Kubernetes-pod assumption baked in?",
+    "What extension seams exist in the router for customization (scheduling framework plugins: filters, scorers, pickers, profile handlers, pre-request/post-response hooks; pluggable data layer / data sources / endpoint discovery; configuration via EndpointPickerConfig), and do any of them already allow non-pod endpoints?",
+    "What upstream work, proposals, issues, or releases in llm-d and the Kubernetes Gateway API Inference Extension address non-pod or external backends (standalone EPP mode, static/file endpoint lists, endpoint discovery abstraction, multi-cluster InferencePool, non-k8s deployments)?",
+    "What kinds of 'backends other than k8s pods' are realistic targets (VMs and bare-metal vLLM/SGLang hosts, containers under Docker/Podman/Nomad, Slurm/HPC jobs, remote clusters, external or managed OpenAI-compatible endpoints, serverless GPU providers) and what does each require from the router (metrics endpoint, KV-cache events, health, auth, network reachability)?",
+    "What candidate strategies exist for supporting non-pod backends while maximizing llm-d reuse — e.g. (a) model non-pod backends as Kubernetes objects (selectorless Service + manual EndpointSlice, virtual-kubelet/virtual pods, placeholder pods), (b) implement a custom endpoint-discovery/datastore source inside EPP via plugin or thin fork, (c) run EPP in standalone mode with its own endpoint source, (d) use an Envoy ext-proc + ORIGINAL_DST setup directly with EPP, (e) build a custom router that imports llm-d libraries (scheduling framework, kv-cache indexer) as Go modules, (f) contribute a discovery abstraction upstream?",
+    "How do these strategies compare on reuse of llm-d components, fork/maintenance burden and upstream divergence, feature parity (prefix-aware routing, KV-cache-aware routing, load-aware scoring, P/D disaggregation, flow control/fairness), operational complexity, latency, and failure handling?",
+    "Which strategy should be recommended, with what implementation roadmap, and what risks and open questions remain given llm-d's and GIE's upstream trajectory?"
+  ],
+  "entities": [
+    {"name": "llm-d", "type": "project", "required_fields": ["component inventory", "k8s coupling per component", "reusability"]},
+    {"name": "llm-d router (inference scheduler / Endpoint Picker, with its gateway/proxy)", "type": "component", "required_fields": ["backend discovery mechanism", "extension points", "k8s-pod assumptions", "customization strategy"]},
+    {"name": "Kubernetes pods (current backend model)", "type": "concept", "required_fields": ["how pods are selected/tracked", "what the router reads from them"]},
+    {"name": "backends other than k8s pods", "type": "category", "required_fields": ["backend types", "per-type requirements", "how each maps into the router"]},
+    {"name": "Gateway API Inference Extension (InferencePool / EPP protocol)", "type": "upstream-dependency", "required_fields": ["relationship to llm-d router", "non-pod support status"]},
+    {"name": "Candidate customization strategies", "type": "category", "required_fields": ["mechanism", "reuse level", "maintenance cost", "feature parity", "recommendation"]}
+  ],
+  "required_formats": [
+    "strategy recommendation (committed, actionable)",
+    "comparison table of candidate strategies across reuse / maintenance / feature-parity / ops-complexity dimensions",
+    "component inventory mapping llm-d components to k8s coupling and reusability",
+    "implementation roadmap (phased steps)"
+  ],
+  "required_sections": [],
+  "required_section_headings": [
+    "## 1. llm-d Component Inventory and Kubernetes Coupling",
+    "## 2. How the llm-d Router Discovers and Tracks Backends Today",
+    "## 3. Extension Seams in the Router for Non-Pod Backends",
+    "## 4. Upstream State: Proposals and Work on Non-Pod and External Endpoints",
+    "## 5. Non-Pod Backend Types and What Each Requires from the Router",
+    "## 6. Candidate Strategies Compared",
+    "## 7. Recommended Strategy and Implementation Roadmap",
+    "## 8. Risks, Trade-offs, and Open Questions"
+  ],
+  "time_horizons": ["current state as of 2026", "near-term upstream roadmap (next 6-12 months) for llm-d and Gateway API Inference Extension"],
+  "time_periods": [],
+  "scope_conditions": [
+    "maximize reuse of llm-d components; customization should be concentrated in the router layer and minimize divergence from upstream",
+    "'router' covers the llm-d inference scheduler / Endpoint Picker and the proxy/gateway data plane it drives",
+    "'backends other than k8s pods' is broad: VMs, bare metal, non-k8s container runtimes, HPC/Slurm, remote clusters, external/managed OpenAI-compatible endpoints",
+    "cover both deployment readings: router running inside Kubernetes targeting external backends, AND router running outside Kubernetes entirely"
+  ],
+  "pipeline_tier": "full",
+  "response_format": "argumentative",
+  "citation_style": "wikilink",
+  "levers": {
+    "register": "advocate",
+    "register_confidence": "high",
+    "domain_notes": "Sourcing: primary sources are the GitHub repos and docs of llm-d (llm-d/llm-d, llm-d-inference-scheduler, llm-d-kv-cache-manager, routing sidecar) and kubernetes-sigs/gateway-api-inference-extension — source code, design proposals under docs/proposals, issues, merged PRs, and release notes; academic literature is thin and secondary. Evidence norms: code at HEAD and merged PRs outrank design docs, which outrank vendor blogs and conference talks; flag any claim that depends on an unmerged proposal. Recency window: last 12-18 months — llm-d and GIE APIs changed quickly (InferencePool v1 GA, EPP plugin/data-layer refactors), so prefer the newest release and date every API-shape claim.",
+    "inference_depth": "deep",
+    "rationale": {
+      "register": "user asks for 'the strategy' to follow toward an already-chosen goal — a recommended course of action",
+      "inference_depth": "answer lives in source code, issues, and design proposals rather than the clear web; requires inferring coupling points from code"
+    }
+  }
+}

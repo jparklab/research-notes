@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "PR #2501, the newest discovery-plugin PR in the repo (opened 21 Aug 2026), is a Kubernetes-native Pod-watch peer-discovery plugin (k8s-peer-discovery, Alpha) and remains unmerged/open as of 11 Sep 2026.",
+    "stance": "supports",
+    "stance_target": "report's non-k8s-discovery-backend effort estimate (no precedent non-k8s plugin exists to fork/adapt)",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d/llm-d-router PR #2501, as of 2026-09-11",
+    "quoted_support": "We add a controller-runtime reconciler that watches this EPP deployment's own Pods directly. k8s-peer-discovery plugin (pkg/epp/framework/plugins/datalayer/discovery/k8speer), Alpha stability, with selector, port, and namespace parameters, selected via dataLayer.peerDiscovery.pluginRef.",
+    "numbers": ["PR #2501", "2026-08-21"],
+    "entities": ["evacchi", "k8s-peer-discovery", "EPPPeerReconciler"],
+    "time_period": "2026-08-21",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "feat-pod-watch-peer-discovery-plugin-by-evacchi-pull-request-2501-llm-dllm-d-rou"
+  },
+  {
+    "claim": "During review of the peer-discovery infrastructure, an EndpointSlice-watching approach (heavier RBAC) and a DNS/headless-service approach were both proposed and passed over in favor of direct Pod watching -- indicating the llm-d-router maintainers' peer-discovery design has stayed Kubernetes-primitive-centric across all three iterations considered.",
+    "stance": "supports",
+    "stance_target": "report's finding that no non-k8s discovery plugin exists or is under active design discussion",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router PR #2341 review discussion, referenced in PR #2501",
+    "quoted_support": "we also explored watching EndpointSlices to populate the peer list (requiring RBAC changes), but it was suggested to reconsider during review. Alternative approaches were proposed, including DNS queries (requiring a headless service); we propose an alternative that does not require changes in RBAC or Service config.",
+    "numbers": ["PR #2501", "PR #2341"],
+    "entities": ["EndpointSlice", "DNS", "k8s-peer-discovery"],
+    "time_period": "2026-08-21",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "feat-pod-watch-peer-discovery-plugin-by-evacchi-pull-request-2501-llm-dllm-d-rou"
+  }
+]

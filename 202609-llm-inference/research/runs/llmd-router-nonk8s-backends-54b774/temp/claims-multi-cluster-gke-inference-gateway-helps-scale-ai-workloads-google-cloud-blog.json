@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "GKE's multi-cluster InferencePool import mechanism does not modify InferencePool itself; it adds a new, GCP-proprietary GCPInferencePoolImport CRD in a separate 'config cluster' that mirrors an InferencePool defined in a remote 'target cluster'.",
+    "stance": "neutral",
+    "stance_target": "whether multi-cluster InferencePool import generalizes to a portable non-k8s-backend strategy",
+    "evidence_type": "empirical",
+    "scope_conditions": "GKE only, Preview status as of March 2026",
+    "quoted_support": "These backends are exported and become visible as GCPInferencePoolImport resources in the \"config cluster.\" Standard Gateway and HTTPRoute resources in the config cluster define the entry point and routing rules, directing traffic to these imported pools.",
+    "numbers": [],
+    "entities": ["GKE Inference Gateway", "InferencePool", "GCPInferencePoolImport", "GCPBackendPolicy"],
+    "time_period": "March 17, 2026 (preview announcement)",
+    "region": "Google Cloud (GKE)",
+    "confidence": "high",
+    "source_note_id": "multi-cluster-gke-inference-gateway-helps-scale-ai-workloads-google-cloud-blog"
+  },
+  {
+    "claim": "InferencePool in each target cluster still only groups Pods that share the same compute hardware and model config; cross-cluster reach is achieved entirely by the import/config-cluster layer, not by relaxing InferencePool's own backend type.",
+    "stance": "supports",
+    "stance_target": "InferencePool selects Pods, not Services/EndpointSlices, even in the multi-cluster case",
+    "evidence_type": "empirical",
+    "scope_conditions": "GKE Inference Gateway architecture",
+    "quoted_support": "An InferencePool acts as a resource group for pods that share the same compute hardware (like GPUs or TPUs) and model configuration, helping to ensure scalable and high-availability serving.",
+    "numbers": [],
+    "entities": ["InferencePool", "InferenceObjective"],
+    "time_period": "2026",
+    "region": "Google Cloud (GKE)",
+    "confidence": "high",
+    "source_note_id": "multi-cluster-gke-inference-gateway-helps-scale-ai-workloads-google-cloud-blog"
+  },
+  {
+    "claim": "Fine-grained multi-cluster load-balancing behaviors (custom metrics, in-flight request limits) are configured via a GCPBackendPolicy attached to GCPInferencePoolImport, meaning the cross-cluster routing intelligence lives in a GCP-specific policy object, not in the portable llm-d EPP.",
+    "stance": "neutral",
+    "stance_target": "portability of GKE's multi-cluster inference routing approach to non-GKE environments",
+    "evidence_type": "empirical",
+    "scope_conditions": "GKE only",
+    "quoted_support": "Fine-grained load-balancing behaviors, such as using CUSTOM_METRICS or IN_FLIGHT requests, are configured using the GCPBackendPolicy resource attached to GCPInferencePoolImport.",
+    "numbers": [],
+    "entities": ["GCPBackendPolicy", "GCPInferencePoolImport"],
+    "time_period": "2026",
+    "region": "Google Cloud (GKE)",
+    "confidence": "high",
+    "source_note_id": "multi-cluster-gke-inference-gateway-helps-scale-ai-workloads-google-cloud-blog"
+  }
+]

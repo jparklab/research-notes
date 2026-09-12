@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "The fwkdl.EndpointDiscovery interface requires exactly two methods that any custom discovery plugin (K8s or non-K8s) must implement: Start(ctx context.Context, notifier DiscoveryNotifier) error, and (since PR #1218) Ready() <-chan struct{}.",
+    "stance": "neutral",
+    "stance_target": "the interface contract a custom EndpointDiscovery plugin must satisfy",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router, pkg/epp/framework/interface/datalayer/discovery.go, since PR #1218 (merged ~2026)",
+    "quoted_support": "// Ready returns a channel that is closed once after the plugin has completed\n// its initial reconciliation with the underlying source, regardless of how\n// many endpoints that produced.",
+    "numbers": [],
+    "entities": ["EndpointDiscovery", "Ready()", "Start()"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "filediscovery-plugin-44-wiring-into-the-runner-by-ezrasilvera-pull-request-1218"
+  },
+  {
+    "claim": "Ready()'s channel must be closed exactly once, only after a successful initial sync (e.g. first file load or first Kubernetes list+watch reconcile); if Start returns an error before that point, the channel must remain open and callers should also watch for context cancellation.",
+    "stance": "neutral",
+    "stance_target": "precise Ready() contract a custom discovery plugin implementation must honor",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router, PR #1218",
+    "quoted_support": "Contract:\n  - The channel is closed at most once per Start invocation.\n  - It is closed only after a successful initial sync. If Start returns\n    an error before that point, the channel remains open and callers\n    waiting on it should also observe ctx cancellation.",
+    "numbers": [],
+    "entities": ["Ready()", "DiscoveryNotifier"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "filediscovery-plugin-44-wiring-into-the-runner-by-ezrasilvera-pull-request-1218"
+  },
+  {
+    "claim": "When dataLayer.discovery(.endpoints).pluginRef is set, the EPP runner skips Kubernetes controller-manager setup entirely and runs discovery plus the ext_proc/health servers together under a RunnableGroup, gating request-serving (epp-server, health) but not /metrics on the discovery plugin's Ready() channel closing.",
+    "stance": "supports",
+    "stance_target": "llm-d-router EPP can run against non-Kubernetes backends when a custom/alternate EndpointDiscovery plugin is wired in",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router, PR #1218",
+    "quoted_support": "Wire the file-discovery plugin (#1135) into the runner so the EPP can run without a Kubernetes cluster. When dataLayer.discovery.pluginRef is set, the runner skips controller-manager setup, runs discovery + servers under a RunnableGroup, gates request-serving on EndpointDiscovery.Ready(), and warns about K8s-only features that are inactive in this mode.",
+    "numbers": [],
+    "entities": ["RunnableGroup", "controller-manager", "ext_proc server"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "filediscovery-plugin-44-wiring-into-the-runner-by-ezrasilvera-pull-request-1218"
+  },
+  {
+    "claim": "The reference FileDiscovery plugin satisfies the Ready() contract with a sync.Once-guarded channel closed immediately after its first successful file load, providing a concrete template a custom non-K8s discovery plugin can follow.",
+    "stance": "neutral",
+    "stance_target": "reference implementation pattern for a custom EndpointDiscovery plugin's Ready() method",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router, pkg/epp/framework/plugins/datalayer/discovery/file/plugin.go, PR #1218",
+    "quoted_support": "func (f *FileDiscovery) Start(ctx context.Context, notifier fwkdl.DiscoveryNotifier) error {\n\t...\n\tif err := f.load(notifier); err != nil {\n\t\treturn fmt.Errorf(\"file-discovery: initial load failed: %w\", err)\n\t}\n\tf.readyOnce.Do(func() { close(f.ready) })",
+    "numbers": [],
+    "entities": ["FileDiscovery", "sync.Once", "Ready()"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "filediscovery-plugin-44-wiring-into-the-runner-by-ezrasilvera-pull-request-1218"
+  }
+]

@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "As of April/May 2026, core Endpoint Picker (EPP) code and the InferenceObjective and InferenceModelRewrite APIs were merged FROM Gateway API Inference Extension (GIE) INTO the llm-d-router repository; GIE now hosts only the InferencePool API (a Kubernetes Gateway API extension) and defines the Endpoint Picker Protocol.",
+    "stance": "supports",
+    "stance_target": "current repository/ownership boundary between llm-d-router and kubernetes-sigs/gateway-api-inference-extension",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d/llm-d-router repository, README as fetched Sep 2026",
+    "quoted_support": "Core Endpoint Picker (EPP) code and the InferenceObjective and InferenceModelRewrite APIs have been merged into this repository from Gateway API Inference Extension (GIE). The GIE repository now exclusively hosts the InferencePool API",
+    "numbers": [],
+    "entities": ["llm-d-router", "Gateway API Inference Extension", "InferencePool", "InferenceObjective", "InferenceModelRewrite"],
+    "time_period": "merger completed by ~mid-2026, as of Sep 2026 fetch",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-llm-dllm-d-router-llm-d-router-the-intelligent-entry-point-for-inferenc-2"
+  },
+  {
+    "claim": "A merged PR (#2476, 'feat(metrics): add ATOM as a built-in engine', merged Sep 11 2026) demonstrates the canonical process for adding a new inference-engine backend to the metrics extractor: the engine exposes queue depth/running count/KV-cache utilization/cache geometry under its own metric-name prefix (atom:), and is selected purely by labeling the Pod llm-d.ai/engine-type: atom, with no code change needed beyond registering the built-in spec strings.",
+    "stance": "supports",
+    "stance_target": "documented, working precedent for adding a new backend engine type to the EPP's metrics extraction layer",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router repo, PR #2476, merged Sep 11 2026",
+    "quoted_support": "Registering it here means a deployment only has to label its pods with llm-d.ai/engine-type: atom, rather than carrying an engineConfigs block that restates metric names the engine already fixes.",
+    "numbers": ["8xMI355X", "1319-sample GSM8K", "651/668 split"],
+    "entities": ["ATOM", "AMD GPU", "AITER", "llm-d.ai/engine-type", "core-metrics-extractor"],
+    "time_period": "merged Sep 11, 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-llm-dllm-d-router-llm-d-router-the-intelligent-entry-point-for-inferenc-2"
+  },
+  {
+    "claim": "A dev-environment bugfix PR (#2426) confirms the token-producer / render-server data source can be pointed at a standalone Kubernetes Service address (vllm-render:8082) via a URL parameter (VLLM_RENDER_URL) rather than assuming a pod-local sidecar on localhost, showing at least one Data Layer producer is already addressed by URL, not hard-coded pod IP.",
+    "stance": "supports",
+    "stance_target": "evidence that some EPP data producers are already URL-addressable rather than pod-IP-bound",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router repo, PR #2426, merged Sep 7 2026",
+    "quoted_support": "the kind dev env runs the vLLM render server as a separate Service (vllm-render:8082), not a sidecar ... Use VLLM_RENDER_URL (already exported, defaults to http://vllm-render:8082)",
+    "numbers": ["http://vllm-render:8082"],
+    "entities": ["token-producer", "vllm-render", "VLLM_RENDER_URL"],
+    "time_period": "merged Sep 7, 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "github-llm-dllm-d-router-llm-d-router-the-intelligent-entry-point-for-inferenc-2"
+  },
+  {
+    "claim": "llm-d Router supports two deployment topologies: Sidecar mode (proxy runs in the EPP pod, default, suited to basic testing) and Gateway mode (EPP is a backend for an InferencePool referenced by an HTTPRoute on a shared Gateway, recommended for production, enabling multi-cluster load balancing and shared infra).",
+    "stance": "neutral",
+    "stance_target": "deployment-topology options that constrain how a customized router would be wired into a cluster",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d-router README, Sep 2026",
+    "quoted_support": "Sidecar mode (default): The proxy runs in the EPP pod. ... The recommended mode for production environments ... the EPP acts as a backend for an InferencePool, which is referenced by an HTTPRoute on a shared Gateway.",
+    "numbers": [],
+    "entities": ["Sidecar mode", "Gateway mode", "InferencePool", "HTTPRoute"],
+    "time_period": "as of Sep 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-llm-dllm-d-router-llm-d-router-the-intelligent-entry-point-for-inferenc-2"
+  },
+  {
+    "claim": "A merged PR (#2620, 'feat(helm): support structured plugin config', merged Sep 11 2026) adds native Helm-chart-level structured configuration for EPP plugins, indicating the project is actively investing in more ergonomic, non-raw-YAML config surfaces for plugin wiring.",
+    "stance": "neutral",
+    "stance_target": "recency/maturity of plugin-configuration tooling as of the query's stated recency window",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router repo, PR #2620, merged Sep 11 2026",
+    "quoted_support": "feat(helm): support structured plugin config (#2620)",
+    "numbers": ["#2620"],
+    "entities": ["Helm chart", "structured plugin config"],
+    "time_period": "merged Sep 11, 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "github-llm-dllm-d-router-llm-d-router-the-intelligent-entry-point-for-inferenc-2"
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "The site-src/guides directory at HEAD (2026-09-11) contains only conformance-tests.md and implementers.md; the standalone-mode guide and the EPP flags-configuration guide were both deleted in a June 2026 documentation cleanup and have no replacement page.",
+    "stance": "supports",
+    "stance_target": "documented absence: standalone-mode and EPP-flags documentation no longer exist on the live docs site",
+    "evidence_type": "empirical",
+    "scope_conditions": "GitHub contents API for site-src/guides at main, checked 2026-09-11; deletion commit ebbb148c dated 2026-06-30",
+    "quoted_support": "conformance-tests.md, implementers.md (only two files returned by GitHub contents API for site-src/guides at ref=main)",
+    "numbers": ["2026-06-30"],
+    "entities": ["site-src/guides", "standalone.md", "epp-configuration/flags.md"],
+    "time_period": "as of 2026-09-11, deletion on 2026-06-30",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "gateway-api-inference-extensionsite-srcguides-at-main-kubernetes-sigsgateway-api"
+  },
+  {
+    "claim": "The documentation cleanup commit that removed the standalone and flags guides also removed 124 files total, including benchmarking tools, config manifests, and several other guide pages, as part of a general pre-migration cleanup rather than a standalone-mode-specific decision.",
+    "stance": "neutral",
+    "stance_target": "reason for the standalone-guide removal",
+    "evidence_type": "empirical",
+    "scope_conditions": "commit ebbb148c87d7d4b91567a4a741e54bd96a3010af, PR #2978, 2026-06-30",
+    "quoted_support": "Cleanup Documentation and Miscellaneous Tools / Manifests (#2978) -- remove latency predictor docs; cleanup guides and unused tools",
+    "numbers": ["124", "#2978"],
+    "entities": ["PR #2978"],
+    "time_period": "2026-06-30",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "gateway-api-inference-extensionsite-srcguides-at-main-kubernetes-sigsgateway-api"
+  }
+]

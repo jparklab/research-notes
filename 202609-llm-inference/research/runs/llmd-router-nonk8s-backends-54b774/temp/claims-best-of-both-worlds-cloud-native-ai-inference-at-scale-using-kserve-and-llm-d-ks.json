@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "KServe and llm-d divide responsibilities cleanly: KServe handles model lifecycle/scaling/governance, LLMInferenceService supplies the generative API abstraction, vLLM executes inside the runtime, llm-d provides cross-runtime routing and cache awareness, and Kubernetes provides resource orchestration.",
+    "stance": "supports",
+    "stance_target": "llm-d's router role is architecturally scoped strictly to cross-instance scheduling, distinct from lifecycle/API/orchestration concerns -- which bounds what a non-k8s router replacement must reproduce",
+    "evidence_type": "theoretical",
+    "scope_conditions": "KServe post-v0.16, KServe+llm-d integration architecture",
+    "quoted_support": "KServe acts as the control plane and LLMInferenceService delivers the generative API abstraction, while llm-d provides the cluster-wide optimization.",
+    "numbers": [],
+    "entities": ["KServe", "LLMInferenceService", "vLLM", "llm-d", "Kubernetes"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "best-of-both-worlds-cloud-native-ai-inference-at-scale-using-kserve-and-llm-d-ks"
+  },
+  {
+    "claim": "llm-d benchmarks reported by the llm-d project (not independently reproduced by KServe) show up to ~57x faster P90 TTFT, throughput improving from ~4,400 to ~8,730 tokens/sec (~2x), sustained 4.5k-11k tokens/sec at scale, and ~50% P95/P99 tail latency reduction versus round-robin.",
+    "stance": "supports",
+    "stance_target": "KV-cache-aware routing materially outperforms naive round-robin load balancing at scale",
+    "evidence_type": "empirical",
+    "scope_conditions": "benchmarks published by the llm-d project, cited secondhand by KServe blog",
+    "quoted_support": "Time to First Token (P90): Up to ~57× faster P90 TTFT in benchmark | Token Throughput: ~4,400 tokens/sec (baseline test cluster) -> ~8,730 tokens/sec (~2× improvement) | Tail Latency (P95/P99): ~50% tail latency reduction (reported tests)",
+    "numbers": ["57x", "4,400 tokens/sec", "8,730 tokens/sec", "4.5k-11k tokens/sec", "50%"],
+    "entities": ["llm-d", "KServe"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "best-of-both-worlds-cloud-native-ai-inference-at-scale-using-kserve-and-llm-d-ks"
+  },
+  {
+    "claim": "Naive round-robin load balancing for LLM serving produces five specific inefficiencies: cache locality loss, GPU imbalance, redundant prefill processing, high tail latency, and overprovisioned GPUs.",
+    "stance": "refutes",
+    "stance_target": "round-robin/naive load balancing is adequate for LLM serving at scale",
+    "evidence_type": "theoretical",
+    "scope_conditions": "KServe+llm-d architecture rationale",
+    "quoted_support": "Naive Problems: Cache locality loss, GPU imbalance, Redundant prefill processing, High tail latency, Overprovisioned GPUs.",
+    "numbers": [],
+    "entities": ["round-robin", "KServe", "llm-d"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "best-of-both-worlds-cloud-native-ai-inference-at-scale-using-kserve-and-llm-d-ks"
+  }
+]

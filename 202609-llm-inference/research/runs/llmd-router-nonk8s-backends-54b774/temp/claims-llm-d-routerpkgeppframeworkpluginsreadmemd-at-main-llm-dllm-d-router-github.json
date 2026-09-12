@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "llm-d-router ships a documented, working 'multi-cluster variant' plugin family (multicluster-file-discovery, multicluster-metrics-data-source, multicluster-metrics-extractor, multicluster-kv-cache-utilization-scorer, multicluster-queue-scorer, multicluster-session-affinity-filter, multicluster-prefix-cache-scorer, multicluster-approx-prefix-cache-producer) for a cluster-scoped EPP whose 'candidate endpoints are clusters' instead of pods -- a direct, shipping precedent for non-pod-backend routing.",
+    "stance": "supports",
+    "stance_target": "existence of an already-implemented non-pod-backend routing pattern in llm-d-router",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router repo, pkg/epp/framework/plugins/README.md, commit 950c9636 (Aug 25 2026)",
+    "quoted_support": "A few plugins ship a multi-cluster variant beside the stock plugin, for a cluster-scoped EPP whose candidate endpoints are clusters.",
+    "numbers": [],
+    "entities": ["multicluster-file-discovery", "multicluster-metrics-data-source", "multicluster-metrics-extractor", "multicluster-kv-cache-utilization-scorer"],
+    "time_period": "as of commit 950c9636 (Aug 25, 2026)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerpkgeppframeworkpluginsreadmemd-at-main-llm-dllm-d-router-github"
+  },
+  {
+    "claim": "The multicluster-file-discovery plugin's config file (clusters.yaml) 'follows the same format as the pod file discovery, except an address may be a hostname' -- i.e. the EPP's own endpoint-discovery abstraction already supports hostname-based (non-pod-IP) addressing as an alternative input, configured purely via YAML (dataLayer.discovery.endpoints.pluginRef), with no core-code change required to point the EPP at non-Kubernetes-pod endpoints.",
+    "stance": "supports",
+    "stance_target": "the central research question: can the EPP's discovery/backend model support non-k8s-pod addressed endpoints",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router repo, pkg/epp/framework/plugins/README.md, commit 950c9636",
+    "quoted_support": "clusters.yaml follows the same format as the pod file discovery, except an address may be a hostname.",
+    "numbers": [],
+    "entities": ["multicluster-file-discovery", "clusters.yaml", "pod file discovery", "dataLayer.discovery"],
+    "time_period": "as of commit 950c9636 (Aug 25, 2026)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerpkgeppframeworkpluginsreadmemd-at-main-llm-dllm-d-router-github"
+  },
+  {
+    "claim": "The multicluster scorers are not standalone -- multicluster-kv-cache-utilization-scorer and multicluster-queue-scorer depend on pool-aggregate metrics written by multicluster-metrics-extractor from data scraped by multicluster-metrics-data-source, and a config with the scorers but without the matching source+extractor fails to load, revealing an implicit plugin-dependency contract enforced at config-load time rather than via typed interfaces.",
+    "stance": "neutral",
+    "stance_target": "operational constraint: plugin combinations must be internally consistent or the EPP refuses to start",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router repo, pkg/epp/framework/plugins/README.md",
+    "quoted_support": "The metric scorers are not standalone. ... Configure all three together in dataLayer. A config with the scorers but without the source and extractor fails to load.",
+    "numbers": [],
+    "entities": ["multicluster-kv-cache-utilization-scorer", "multicluster-queue-scorer", "multicluster-metrics-extractor", "multicluster-metrics-data-source"],
+    "time_period": "as of commit 950c9636 (Aug 25, 2026)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerpkgeppframeworkpluginsreadmemd-at-main-llm-dllm-d-router-github"
+  },
+  {
+    "claim": "Every plugin is assigned a Stability Level (Alpha/Beta/Stable) at registration, and cmd/epp/runner/runner.go is 'the single source of truth for in-tree plugin stability' -- confirming plugin registration happens in Go source at a specific, named file, not via a config-driven registry.",
+    "stance": "supports",
+    "stance_target": "how plugins are registered -- pinpointing the exact compile-time registration location",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router repo, pkg/epp/framework/plugins/README.md",
+    "quoted_support": "Every plugin in llm-d-router is assigned a Stability Level upon registration (cmd/epp/runner/runner.go is the single source of truth for in-tree plugin stability)",
+    "numbers": [],
+    "entities": ["cmd/epp/runner/runner.go", "Stability Level", "Alpha", "Beta", "Stable"],
+    "time_period": "as of commit 950c9636 (Aug 25, 2026)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerpkgeppframeworkpluginsreadmemd-at-main-llm-dllm-d-router-github"
+  },
+  {
+    "claim": "Alpha-stability plugins require the EPP process to be launched with --allow-experimental-plugins or the EPP fails initialization with an explicit error if an Alpha plugin appears in the config -- currently ALL in-tree plugins are Alpha or Beta, none are Stable, since the project is pre-1.0.",
+    "stance": "neutral",
+    "stance_target": "operational risk/stability caveat for building on any current llm-d-router plugin, including the multicluster ones cited as non-k8s precedent",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router repo, pkg/epp/framework/plugins/README.md",
+    "quoted_support": "Currently, all in-tree plugins are classified as Alpha or Beta. Plugins will be promoted to Stable as the project approaches its 1.0 release.",
+    "numbers": [],
+    "entities": ["--allow-experimental-plugins", "Alpha", "Beta", "Stable"],
+    "time_period": "as of commit 950c9636 (Aug 25, 2026)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerpkgeppframeworkpluginsreadmemd-at-main-llm-dllm-d-router-github"
+  }
+]

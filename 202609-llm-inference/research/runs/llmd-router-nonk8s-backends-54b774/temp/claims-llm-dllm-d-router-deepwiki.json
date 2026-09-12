@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "llm-d-router's Standalone Mode runs a self-managed Envoy proxy alongside the EPP in the same pod/process, and is explicitly described as ideal for environments without full Gateway API infrastructure -- distinct from Gateway Mode, which requires an InferencePool referenced by an HTTPRoute on a shared Kubernetes Gateway.",
+    "stance": "supports",
+    "stance_target": "Standalone Mode is the lower-friction integration point for a customized, non-k8s-aware router deployment since it doesn't require the Gateway API CRD machinery",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router repo indexed at commit 99298ae8 (27 Jul 2026); LOW-AUTHORITY AI-generated wiki, used only for source-path navigation",
+    "quoted_support": "Standalone Mode: A lightweight deployment where a self-managed Envoy proxy runs alongside the EPP in the same pod. This is ideal for environments without full Gateway API infrastructure.",
+    "numbers": [],
+    "entities": ["Standalone Mode", "Gateway Mode", "InferencePool", "HTTPRoute"],
+    "time_period": "Jul 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "llm-dllm-d-router-deepwiki"
+  },
+  {
+    "claim": "The EPP-Envoy contract uses gRPC ext_proc with FULL_DUPLEX_STREAMED as the only supported communication mode.",
+    "stance": "neutral",
+    "stance_target": "protocol constraint any Envoy-facing custom router integration must satisfy",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router README.md47-50",
+    "quoted_support": "The only supported communication mode for the ext_proc filter is FULL_DUPLEX_STREAMED.",
+    "numbers": [],
+    "entities": ["ext_proc", "FULL_DUPLEX_STREAMED", "Envoy"],
+    "time_period": "Jul 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "llm-dllm-d-router-deepwiki"
+  },
+  {
+    "claim": "llm-d-router's four architectural pillars (Endpoint Picker/EPP, Disaggregation Sidecar/pd-sidecar, Coordinator for multimodal E/P/D, and Request Management CRDs) map to concrete code paths including pkg/epp/datastore/datastore.go and pkg/epp/framework/runtime/scheduler.go, which are the datastore/scheduler internals a custom discovery plugin would interact with.",
+    "stance": "neutral",
+    "stance_target": "source-path map for locating the datastore and discovery integration points",
+    "evidence_type": "empirical",
+    "scope_conditions": "LOW-AUTHORITY AI-generated wiki, navigation value only",
+    "quoted_support": "Endpoint Picker (EPP) | The intelligent routing engine. A gRPC server implementing the ext_proc protocol to make placement decisions based on real-time cluster state | StreamingServer, Director, InferencePoolReconciler",
+    "numbers": [],
+    "entities": ["StreamingServer", "Director", "InferencePoolReconciler", "pkg/epp/datastore/datastore.go", "pkg/epp/framework/runtime/scheduler.go"],
+    "time_period": "Jul 2026",
+    "region": null,
+    "confidence": "low",
+    "source_note_id": "llm-dllm-d-router-deepwiki"
+  }
+]

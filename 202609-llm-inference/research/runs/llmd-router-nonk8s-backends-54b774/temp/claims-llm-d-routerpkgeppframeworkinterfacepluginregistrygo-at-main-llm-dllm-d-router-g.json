@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "The plugin registration primitives (Registry map, Register(), RegisterAsDefaultProducer, etc.) in llm-d-router's pkg/epp/framework/interface/plugin/registry.go are ordinary exported Go identifiers with no internal-use-only or not-a-public-API disclaimer.",
+    "stance": "supports",
+    "stance_target": "technical feasibility of an out-of-tree Go module calling plugin.Register() directly",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router repository, pkg/epp/framework/interface/plugin/registry.go as of commit 61350aa (PR #2509, Aug 25 2026)",
+    "quoted_support": "func Register(pluginType string, stability StabilityLevel, factory FactoryFunc) { Registry[pluginType] = factory ... } var Registry = map[string]FactoryFunc{}",
+    "numbers": ["121 lines", "5.15 KB"],
+    "entities": ["registry.go", "plugin.Register", "Registry", "pkg/epp/framework/interface/plugin"],
+    "time_period": "as of Aug 25 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerpkgeppframeworkinterfacepluginregistrygo-at-main-llm-dllm-d-router-g"
+  },
+  {
+    "claim": "registry.go lives under pkg/ rather than internal/, meaning Go's compiler-enforced visibility rules do not block an external module from importing it.",
+    "stance": "supports",
+    "stance_target": "technical feasibility of out-of-tree plugin registration",
+    "evidence_type": "empirical",
+    "scope_conditions": "Go package visibility semantics; llm-d-router repo layout",
+    "quoted_support": "package plugin ... this file lives under pkg/ (not internal/), carries no package-level doc comment",
+    "numbers": [],
+    "entities": ["pkg/epp/framework/interface/plugin", "internal/"],
+    "time_period": "as of fetch, Sep 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "llm-d-routerpkgeppframeworkinterfacepluginregistrygo-at-main-llm-dllm-d-router-g"
+  },
+  {
+    "claim": "ValidatePluginStability enforces that any plugin registered with Alpha stability requires the --allow-experimental-plugins CLI flag, regardless of whether the plugin was registered in-tree or by an out-of-tree caller.",
+    "stance": "neutral",
+    "stance_target": "plugin stability gating applies uniformly to all registered plugins",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router EPP runtime initialization",
+    "quoted_support": "if stability == StabilityAlpha && !allowExperimentalPlugins { return fmt.Errorf(\"plugin '%s' (type: '%s') has Alpha stability level, but command line flag --allow-experimental-plugins is not set\"...)",
+    "numbers": [],
+    "entities": ["ValidatePluginStability", "StabilityAlpha", "--allow-experimental-plugins"],
+    "time_period": "as of Aug 25 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerpkgeppframeworkinterfacepluginregistrygo-at-main-llm-dllm-d-router-g"
+  }
+]

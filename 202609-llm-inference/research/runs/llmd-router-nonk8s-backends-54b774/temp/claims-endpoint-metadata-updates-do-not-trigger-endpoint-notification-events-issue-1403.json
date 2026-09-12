@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "The llm-d-router datastore dispatches an EventAddOrUpdate notification through endpoint-notification-source only when an endpoint is first added via Runtime.NewEndpoint(), not when an existing endpoint's metadata subsequently changes.",
+    "stance": "supports",
+    "stance_target": "a custom EndpointDiscovery/datastore implementation must independently guarantee update notifications on metadata mutation, not rely on datastore defaults",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router prior to PR #1404 (merged Jun 1 2026, released v0.9.0)",
+    "quoted_support": "Today, when an endpoint is first added, the datastore calls Runtime.NewEndpoint(), and the runtime dispatches EventAddOrUpdate through endpoint-notification-source. However, when the same endpoint already exists and only its metadata changes, the datastore only calls Endpoint.UpdateMetadata(meta) and returns without dispatching an event.",
+    "numbers": ["Issue #1403", "PR #1404", "v0.9.0"],
+    "entities": ["llm-d-router", "Runtime.NewEndpoint", "endpoint-notification-source", "Endpoint.UpdateMetadata"],
+    "time_period": "opened May 30 2026, closed Jun 1 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "endpoint-metadata-updates-do-not-trigger-endpoint-notification-events-issue-1403"
+  },
+  {
+    "claim": "Plugins that subscribe to endpoint-notification-source, specifically precise-prefix-cache components that install or refresh per-endpoint KV-events (ZMQ) subscribers, can hold stale state when an endpoint's address/labels/rank/ports change without a dispatched notification.",
+    "stance": "supports",
+    "stance_target": "a non-k8s EndpointDiscovery plugin must fire update events on metadata change to avoid stale KV-cache-event subscriptions",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router datastore/runtime notification path",
+    "quoted_support": "Plugins that rely on endpoint-notification-source can miss endpoint updates. For example, precise prefix cache components use endpoint add/update events to install or refresh per-endpoint KV-events subscribers. If endpoint metadata such as address, labels, rank, or ports changes without a notification, plugin state can remain stale.",
+    "numbers": [],
+    "entities": ["precise prefix cache", "KV-events subscriber", "endpoint metadata"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "endpoint-metadata-updates-do-not-trigger-endpoint-notification-events-issue-1403"
+  },
+  {
+    "claim": "The upstream fix for issue #1403 requires the datastore to dispatch EventAddOrUpdate on existing-endpoint metadata changes too, while explicitly skipping dispatch when the new metadata is identical to avoid redundant notification storms.",
+    "stance": "neutral",
+    "stance_target": "correct behavior contract for any datastore/notification-source implementation, including a custom non-k8s one",
+    "evidence_type": "empirical",
+    "scope_conditions": "merged fix, llm-d-router v0.9.0",
+    "quoted_support": "Existing endpoint metadata changes should dispatch EventAddOrUpdate, just like endpoint additions, so endpoint-aware plugins can refresh their per-endpoint state.",
+    "numbers": ["v0.9.0"],
+    "entities": ["EventAddOrUpdate", "datastore"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "endpoint-metadata-updates-do-not-trigger-endpoint-notification-events-issue-1403"
+  }
+]

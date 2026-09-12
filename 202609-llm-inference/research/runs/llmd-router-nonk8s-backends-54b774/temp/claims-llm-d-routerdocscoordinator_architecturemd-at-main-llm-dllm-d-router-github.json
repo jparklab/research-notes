@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "The llm-d-router coordinator service is fully stateless and requires zero inter-replica coordination, i.e. no leader election is needed at that layer at all.",
+    "stance": "supports",
+    "stance_target": "existence of a Kubernetes-independent (or coordination-free) HA path in llm-d-router",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d-router coordinator service (distinct from the EPP)",
+    "quoted_support": "The coordinator is stateless: all per-request state lives on a RequestContext that exists only for the lifetime of that request, and nothing is shared or persisted across requests. Any instance can serve any request, so the service scales horizontally by running more replicas behind a load balancer with no coordination between them.",
+    "numbers": [],
+    "entities": ["coordinator", "RequestContext"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerdocscoordinator_architecturemd-at-main-llm-dllm-d-router-github"
+  },
+  {
+    "claim": "The coordinator model removes the vLLM sidecar orchestrator and instead drives per-phase (encode/prefill/decode) calls through the Gateway/EPP, tagging each with an EPP-Profile header.",
+    "stance": "neutral",
+    "stance_target": "coordinator vs sidecar architecture",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d-router coordinator model",
+    "quoted_support": "The coordinator removes the sidecar entirely and pulls orchestration out to a standalone service in front of the Inference Gateway... makes one EPP-mediated call per phase to the gateway, tagging each with the EPP-Profile header.",
+    "numbers": [],
+    "entities": ["coordinator", "EPP-Profile", "Inference Gateway", "sidecar"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerdocscoordinator_architecturemd-at-main-llm-dllm-d-router-github"
+  },
+  {
+    "claim": "KV and EC transfer between disaggregated encode/prefill/decode pods is handled by pluggable connectors (kv-nixl, kv-sglang, kv-shared-storage; ec-nixl, ec-shared-storage), none of which involve a Kubernetes API.",
+    "stance": "neutral",
+    "stance_target": "non-Kubernetes coordination mechanisms in llm-d-router",
+    "evidence_type": "theoretical",
+    "scope_conditions": "llm-d-router coordinator connectors",
+    "quoted_support": "kv-shared-storage | shared-storage | Shared filesystem / object store: prefill writes KV, decode reads it; no transfer descriptor on the wire.",
+    "numbers": [],
+    "entities": ["kv-nixl", "kv-sglang", "kv-shared-storage", "ec-nixl", "ec-shared-storage"],
+    "time_period": null,
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "llm-d-routerdocscoordinator_architecturemd-at-main-llm-dllm-d-router-github"
+  },
+  {
+    "claim": "The coordinator_architecture.md document contains no mention of Kubernetes Lease, coordination.k8s.io, or leader election anywhere in its text.",
+    "stance": "refutes",
+    "stance_target": "the premise that coordinator_architecture.md documents EPP leader election",
+    "evidence_type": "theoretical",
+    "scope_conditions": "docs/coordinator_architecture.md as fetched",
+    "quoted_support": "The coordinator is stateless... nothing is shared or persisted across requests.",
+    "numbers": [],
+    "entities": ["coordinator_architecture.md"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerdocscoordinator_architecturemd-at-main-llm-dllm-d-router-github"
+  }
+]

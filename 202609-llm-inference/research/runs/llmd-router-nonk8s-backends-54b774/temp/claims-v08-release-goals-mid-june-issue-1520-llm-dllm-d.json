@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "llm-d's v0.8 release (target Jun 21 2026, closed Jun 23 2026) shipped a first-party non-Kubernetes deployment mode for the router, built as a pluggable DiscoveryPlugin interface in llm-d-router with a concrete FileDiscovery plugin that loads backend definitions from YAML/JSON and watches for changes via fsnotify.",
+    "stance": "supports",
+    "stance_target": "llm-d already has an official, merged mechanism for routing to non-Kubernetes-discovered backends, directly relevant to the user's customization goal",
+    "evidence_type": "empirical",
+    "scope_conditions": "v0.8.0 release, sig-rl workstream, owner @ezrasilvera",
+    "quoted_support": "Non-Kubernetes deployment mode - https://github.com/llm-d/llm-d/blob/main/docs/proposals/non-kubernetes-mode.md ... feat: Add pluggable DiscoveryPlugin interface - llm-d-router#908 ... file-discovery (3/4): add FileDiscovery plugin with YAML/JSON file loading and fsnotify watch - llm-d-router#1135",
+    "numbers": ["#908", "#1080", "#1081", "#1135", "#1154", "#1218", "#1338", "#1362", "#1368", "#1404"],
+    "entities": ["DiscoveryPlugin", "FileDiscovery", "llm-d-router", "fsnotify"],
+    "time_period": "v0.8.0, merged by Jun 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "v08-release-goals-mid-june-issue-1520-llm-dllm-d"
+  },
+  {
+    "claim": "The FileDiscovery implementation was built as a four-part PR sequence: (1) DiscoveryBackendStore interface with BackendUpsert/Delete methods and NewDiscoveryNotifier (llm-d-router#1080, #1081), (2) the FileDiscovery plugin itself with YAML/JSON loading and fsnotify watching (llm-d-router#1135), (3) a naming cleanup renaming BackendUpsert/Delete and DiscoveryBackendStore (llm-d-router#1154), and (4) wiring the FileDiscovery plugin into the router's runner/binary entrypoint (llm-d-router#1218), followed by fixes for gRPC size parameters, Flow Control integration, and datalayer notification dispatch.",
+    "stance": "neutral",
+    "stance_target": "concrete implementation sequence a router-customization project would replicate or extend",
+    "evidence_type": "empirical",
+    "scope_conditions": null,
+    "quoted_support": "file-discovery-1: add BackendUpsert/Delete interface methods and extract upertEndpoint helper - llm-d-router#1080 ... filediscovery-2: add DiscoveryBackendStore interface, NewDiscoveryNotifier - llm-d-router#1081 ... FileDiscovery plugin (4/4) - wiring into the runner - llm-d-router#1218 ... epp: wire FlowControl into file-discovery mode - llm-d-router#1368 ... fix(datalayer): dispatch endpoint update notifications - llm-d-router#1404",
+    "numbers": [],
+    "entities": ["llm-d-router#1080", "llm-d-router#1081", "llm-d-router#1154", "llm-d-router#1218", "llm-d-router#1368", "llm-d-router#1404"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "v08-release-goals-mid-june-issue-1520-llm-dllm-d"
+  },
+  {
+    "claim": "A contributor (chcost) summarized the sig-rl non-Kubernetes goal explicitly as enabling 'llm-d in Slurm/research labs without Kubernetes (file-based discovery)', confirming Slurm/HPC research-lab environments as the target non-k8s deployment context, distinct from generic cloud VM or bare-metal backends.",
+    "stance": "supports",
+    "stance_target": "the primary non-k8s use case llm-d designed for is Slurm/HPC research labs via file-based discovery, not arbitrary custom backends",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "May 19 2026 comment on issue #1520",
+    "quoted_support": "Non-K8s mode - Enables llm-d in Slurm/research labs without Kubernetes (file-based discovery)",
+    "numbers": [],
+    "entities": ["Slurm", "file-based discovery"],
+    "time_period": "May 19, 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "v08-release-goals-mid-june-issue-1520-llm-dllm-d"
+  },
+  {
+    "claim": "A non-Kubernetes deployment guide was merged as llm-d/llm-d PR #1618 ('Add no-kubernetes-deployment guide'), with a companion RL-training-loop guide tracked as issue #1659, both under the sig-rl v0.8 goals.",
+    "stance": "neutral",
+    "stance_target": "documentation artifacts for non-k8s deployment",
+    "evidence_type": "empirical",
+    "scope_conditions": "v0.8.0",
+    "quoted_support": "Non-Kubernetes deployment guide - Add no-kubernetes-deployment guide #1618 ... Guide: RL training loop with llm-d serving (no Kubernetes) #1659",
+    "numbers": ["#1618", "#1659"],
+    "entities": ["no-kubernetes-deployment guide"],
+    "time_period": "v0.8.0",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "v08-release-goals-mid-june-issue-1520-llm-dllm-d"
+  },
+  {
+    "claim": "v0.8 also planned NIXL TTL-based cache eviction (#1522), NIXL request draining (#1523), a Mooncake connector (#1524), and DP-aware WideEP scheduling graduation to production (#1521), all under sig-disaggregation, alongside sig-router work finalizing the GAIE migration (#1528) and graduating Flow Control to production (#1530).",
+    "stance": "neutral",
+    "stance_target": "concurrent v0.8 roadmap items for disaggregation and router maturity",
+    "evidence_type": "empirical",
+    "scope_conditions": "v0.8.0 milestone",
+    "quoted_support": "NIXL TTL - Improve Operational Flows with NIXL TTL #1522 ... NIXL Request Draining - Improve Operational Flows with Request Draining #1523 ... Mooncake connector - Support Mooncake Connector #1524 ... finalize gaie migration - Finalize GAIE Migration #1528 ... flow control guide graduation - Graduate Flow Control to Production #1530",
+    "numbers": ["#1521", "#1522", "#1523", "#1524", "#1528", "#1530"],
+    "entities": ["NIXL", "Mooncake", "GAIE", "Flow Control", "WideEP"],
+    "time_period": "v0.8.0",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "v08-release-goals-mid-june-issue-1520-llm-dllm-d"
+  }
+]

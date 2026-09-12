@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "The Gateway API Inference Extension design allows offloading model and endpoint selection to a remote ext_proc service so operators can implement proprietary business logic for selecting both models and individual endpoints.",
+    "stance": "supports",
+    "stance_target": "customizing the router beyond built-in k8s-pod endpoint picking is an explicitly designed extension seam",
+    "evidence_type": "theoretical",
+    "scope_conditions": "Envoy AI Gateway design discussion, Feb-Jul 2025",
+    "quoted_support": "The inference extension spec allows offloading of model and endpoint selection to a remote service that implements ext_proc protocol. This is so operators can implement implement their proprietary business logic for selecting both models and then individual endpoints for serving the request.",
+    "numbers": [],
+    "entities": ["Envoy AI Gateway", "Gateway API Inference Extension", "ext_proc"],
+    "time_period": "2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "support-k8s-gateway-api-inference-extensions-issue-423-theagentrouteragent-route"
+  },
+  {
+    "claim": "In the generic case, request processing requires two separate ext_proc callouts: one to select the model/InferencePool, and a second to select the endpoint within that pool.",
+    "stance": "neutral",
+    "stance_target": "architecture of the EPP customization seam",
+    "evidence_type": "theoretical",
+    "scope_conditions": "Envoy AI Gateway / Gateway API Inference Extension design",
+    "quoted_support": "In the most generic case request processing requires two ext_proc callouts. first callout to select the model and as such inference pool for this model based on contents of the body and other requirements (i.e. cost, priority, etc). second callout to select endpoint from the inference pool - this is to optimize resource utilization for serving requests.",
+    "numbers": ["2 callouts"],
+    "entities": ["ext_proc", "InferencePool"],
+    "time_period": "2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "support-k8s-gateway-api-inference-extensions-issue-423-theagentrouteragent-route"
+  },
+  {
+    "claim": "InferencePool uses pod labels and a port number to select member pods for the pool; the spec's mention of a service selector alternative was unclear even to the implementers at design time.",
+    "stance": "neutral",
+    "stance_target": "how InferencePool binds to backend pods",
+    "evidence_type": "theoretical",
+    "scope_conditions": "Gateway API Inference Extension spec, 2025",
+    "quoted_support": "Inference pool uses labels to select pods for the pool and the port number to use. There is a note that says a service selector can be used, but not sure how it might work (a well known label?).",
+    "numbers": [],
+    "entities": ["InferencePool"],
+    "time_period": "2025",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "support-k8s-gateway-api-inference-extensions-issue-423-theagentrouteragent-route"
+  },
+  {
+    "claim": "Envoy AI Gateway's endpoint-picker support work culminated in PR #823 'feat: add support for endpoint picker', merged July 22, 2025, closing the design issue as part of the v0.3.0 milestone.",
+    "stance": "neutral",
+    "stance_target": "timeline of EPP integration into Envoy AI Gateway",
+    "evidence_type": "empirical",
+    "scope_conditions": "envoyproxy/ai-gateway (now theagentrouter/agent-router) repository",
+    "quoted_support": "Xunzhuo closed this as completed in #823 on Jul 22, 2025 ... feat: add support for endpoint picker (#823)",
+    "numbers": ["PR #823", "v0.3.0"],
+    "entities": ["Envoy AI Gateway", "Xunzhuo"],
+    "time_period": "July 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "support-k8s-gateway-api-inference-extensions-issue-423-theagentrouteragent-route"
+  }
+]

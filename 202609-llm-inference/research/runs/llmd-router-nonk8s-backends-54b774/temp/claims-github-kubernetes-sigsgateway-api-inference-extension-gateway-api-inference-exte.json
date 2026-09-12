@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "The GIE README states in an IMPORTANT notice that EPP, InferenceObjective, InferenceModelRewrite APIs, and BBR have moved to new repositories and will no longer accept new code in kubernetes-sigs/gateway-api-inference-extension, with EPP moving specifically to llm-d/llm-d-router.",
+    "stance": "supports",
+    "stance_target": "EPP development has moved to the llm-d-router repository, which is the correct target repo for customization work",
+    "evidence_type": "empirical",
+    "scope_conditions": "GIE README, current as of commit ebbb148c (2026-06-30), originally announced 2026-05-02",
+    "quoted_support": "The Endpoint Picker (EPP), InferenceObjective and InferenceModelRewrite APIs, and Body Based Router (BBR) packages have moved to new repositories: EPP and associated APIs: llm-d/llm-d-router. No new code will be accepted to these packages in this repository, and they will be archived soon.",
+    "numbers": [],
+    "entities": ["llm-d-router", "EPP", "InferenceObjective", "BBR", "issue #2430"],
+    "time_period": "2026-05-02 (original), 2026-06-30 (rename to llm-d-router)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-kubernetes-sigsgateway-api-inference-extension-gateway-api-inference-exte"
+  },
+  {
+    "claim": "The repository originally announced the EPP move on 2026-05-02 naming the destination as llm-d/llm-d-inference-scheduler; the link was renamed to llm-d/llm-d-router on 2026-06-30, indicating the destination repo itself was renamed from llm-d-inference-scheduler to llm-d-router between those dates.",
+    "stance": "supports",
+    "stance_target": "exact timeline of the EPP-to-llm-d-router migration",
+    "evidence_type": "empirical",
+    "scope_conditions": "commit c489161c (2026-05-02, PR #2906) vs commit ebbb148c (2026-06-30, PR #2978)",
+    "quoted_support": "EPP and associated APIs: [llm-d/llm-d-inference-scheduler](https://github.com/llm-d/llm-d-inference-scheduler) [changed to] EPP and associated APIs: [llm-d/llm-d-router](https://github.com/llm-d/llm-d-router)",
+    "numbers": ["2026-05-02", "2026-06-30", "#2906", "#2978"],
+    "entities": ["llm-d-inference-scheduler", "llm-d-router"],
+    "time_period": "2026-05-02 to 2026-06-30",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-kubernetes-sigsgateway-api-inference-extension-gateway-api-inference-exte"
+  },
+  {
+    "claim": "The kubernetes-sigs repository will continue to host the lightweight EPP (LWEPP), the InferencePool API, and conformance tests, rather than being fully archived.",
+    "stance": "neutral",
+    "stance_target": "what remains in the upstream GIE repo after the EPP migration",
+    "evidence_type": "empirical",
+    "scope_conditions": "GIE README",
+    "quoted_support": "This repository will continue to host the lightweight EPP (LWEPP) and the InferencePool API, and will remain the primary location for the development and maintenance of conformance tests.",
+    "numbers": [],
+    "entities": ["LWEPP", "InferencePool"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-kubernetes-sigsgateway-api-inference-extension-gateway-api-inference-exte"
+  },
+  {
+    "claim": "A dead-code-cleanup PR was explicitly reverted in part to preserve exported Go API surfaces because llm-d depends on them as a framework SDK contract, showing llm-d consumes GIE's EPP framework as a library rather than a fully separate codebase.",
+    "stance": "supports",
+    "stance_target": "llm-d-router remains dependent on / derived from GIE's EPP framework internals, not a clean-room reimplementation",
+    "evidence_type": "empirical",
+    "scope_conditions": "commit 57058491 (2026-03-29), PR #2707",
+    "quoted_support": "Downstream projects (like llm-d) rely on these exported symbols as a framework SDK contract. Restored APIs: PluginByType in pkg/epp/framework/interface/plugin/handle.go, ReadCycleStateKey in pkg/epp/framework/interface/scheduling/cycle_state.go, With* configuration options for Runner in cmd/epp/runner/runner.go.",
+    "numbers": ["2026-03-29", "#2707"],
+    "entities": ["llm-d", "PluginByType", "ReadCycleStateKey", "Runner"],
+    "time_period": "2026-03-29",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-kubernetes-sigsgateway-api-inference-extension-gateway-api-inference-exte"
+  },
+  {
+    "claim": "The README's glossary redefines the EPP as a data-plane component acting as 'the Router' communicating via the Envoy ext-proc protocol, replacing the earlier framing of the EPP as merely an 'Inference Scheduler' -- language aligned with rebranding it toward the llm-d Router.",
+    "stance": "neutral",
+    "stance_target": "terminology shift accompanying the llm-d-router migration",
+    "evidence_type": "empirical",
+    "scope_conditions": "GIE README, commit ebbb148c (2026-06-30)",
+    "quoted_support": "Endpoint Picker (EPP): A data-plane component that communicates via the Envoy external processing protocol, and acts as the Router. It intercepts incoming inference requests and routes each request to the optimal model server replica.",
+    "numbers": [],
+    "entities": ["EPP", "Router"],
+    "time_period": "2026-06-30",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "github-kubernetes-sigsgateway-api-inference-extension-gateway-api-inference-exte"
+  }
+]

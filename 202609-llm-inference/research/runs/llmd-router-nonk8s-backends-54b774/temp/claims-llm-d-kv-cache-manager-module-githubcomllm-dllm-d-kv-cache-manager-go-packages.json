@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "The llm-d-kv-cache-manager library ships a Valkey (Redis-compatible) backend example for KV-block indexing, including RDMA support, demonstrating the block index can be backed by an external key-value store rather than only in-process memory.",
+    "stance": "supports",
+    "stance_target": "feasibility of decoupling KV-cache indexer state from Kubernetes-native storage",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-kv-cache-manager v0.4.0",
+    "quoted_support": "Valkey Backend: Shows how to configure and use Valkey as the backend for KV-block indexing, including RDMA support for high-performance scenarios.",
+    "numbers": [],
+    "entities": ["llm-d-kv-cache-manager", "Valkey", "RDMA"],
+    "time_period": "v0.4.0, 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-kv-cache-manager-module-githubcomllm-dllm-d-kv-cache-manager-go-packages"
+  },
+  {
+    "claim": "The llm-d-kv-cache-manager repository ships an offline example that ingests KV events from a dummy ZMQ publisher, demonstrating the event-consumer side works against any process that speaks the same ZMQ pub/sub + msgpack wire format, independent of a real vLLM pod or Kubernetes.",
+    "stance": "supports",
+    "stance_target": "feasibility of non-Kubernetes/non-vLLM backends emitting compatible KV events",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-kv-cache-manager v0.4.0 examples/kv_events",
+    "quoted_support": "KV-Events: Demonstrates how the KV-Cache Manager handles KV-Events through both an offline example with a dummy ZMQ publisher and an online example using a vLLM Helm chart.",
+    "numbers": [],
+    "entities": ["llm-d-kv-cache-manager", "kv_events example", "ZMQ"],
+    "time_period": "v0.4.0, 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "llm-d-kv-cache-manager-module-githubcomllm-dllm-d-kv-cache-manager-go-packages"
+  },
+  {
+    "claim": "The KV-Cache Indexer read path is a synchronous Score(prompt, pods) call from the scheduler to the Indexer, which queries the in-memory kvblock.Index and returns per-pod cache-hit scores.",
+    "stance": "neutral",
+    "stance_target": "KV-cache indexer read-path architecture",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-kv-cache-manager v0.4.0",
+    "quoted_support": "1: Scoring Request: A scheduler asks the KVCache Indexer to score a set of pods for a given prompt / 2: Index Query: The indexer calculates the necessary KV-block keys from the prompt and queries the KV-Block Index",
+    "numbers": [],
+    "entities": ["kvcache.Indexer", "kvblock.Index", "scheduler"],
+    "time_period": "v0.4.0, 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-kv-cache-manager-module-githubcomllm-dllm-d-kv-cache-manager-go-packages"
+  }
+]

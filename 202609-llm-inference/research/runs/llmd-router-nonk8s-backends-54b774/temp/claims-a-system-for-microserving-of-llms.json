@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "LLM microserving exposes fine-grained sub-request-level REST primitives (prep_recv, remote_send, start_generate) so a programmable router can implement disaggregation strategies as plain async Python against a list of abstract engine objects, rather than being hard-coded to a specific orchestration substrate.",
+    "stance": "supports",
+    "stance_target": "router logic can be written against a backend abstraction fully decoupled from how backend instances are deployed (K8s or otherwise)",
+    "evidence_type": "theoretical",
+    "scope_conditions": "LLM microserving reference implementation, arXiv:2412.12488",
+    "quoted_support": "A programmable router transforms user requests into sub-request calls, enabling the dynamic reconfiguration of serving patterns.",
+    "numbers": [],
+    "entities": ["LLM microserving", "programmable router", "prep_recv", "remote_send", "start_generate"],
+    "time_period": "December 2024",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "a-system-for-microserving-of-llms"
+  },
+  {
+    "claim": "A novel 1P1D-balance disaggregation strategy, expressible in the microserving router in a few lines of code, reduces job completion time by up to 47% compared to existing static disaggregation strategies.",
+    "stance": "supports",
+    "stance_target": "fine-grained router-level programmability yields measurable performance gains over fixed-strategy routers",
+    "evidence_type": "empirical",
+    "scope_conditions": "Llama 3.1 8B, single NVIDIA A100 SXM 40GB per engine, ShareGPT and synthetic long-context workloads, vLLM v0.6.3.post1 baseline",
+    "quoted_support": "Additionally, it allows us to explore new strategy variants that reduce up to 47% of job completion time compared to the existing strategies.",
+    "numbers": ["47%"],
+    "entities": ["1P1D-balance", "vLLM v0.6.3.post1", "Llama 3.1 8B", "A100"],
+    "time_period": "December 2024",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "a-system-for-microserving-of-llms"
+  },
+  {
+    "claim": "The evaluation used a Poisson-sampled request arrival process at different per-GPU rates specifically to fairly compare disaggregation patterns that use different total GPU counts (1P1D vs 1P2D), and reported TTFT, TPOT, and JCT as the metrics.",
+    "stance": "neutral",
+    "stance_target": "benchmark methodology transparency",
+    "evidence_type": "empirical",
+    "scope_conditions": "LLM microserving evaluation, Section 4.1",
+    "quoted_support": "The request arrival follows the arrival time sampled from the Poisson distribution of different per-GPU request rates, in order to fairly compare disaggregation patterns that use different numbers of GPUs.",
+    "numbers": [],
+    "entities": ["TTFT", "TPOT", "JCT", "Poisson distribution"],
+    "time_period": "December 2024",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "a-system-for-microserving-of-llms"
+  },
+  {
+    "claim": "Most production LLM inference services expose only a coarse-grained request-level REST API with a fixed, pre-configured coordination strategy baked in at startup, so changing the coordination strategy requires reconfiguring and restarting the underlying system, disrupting production.",
+    "stance": "neutral",
+    "stance_target": "motivation for building a router against a fine-grained backend abstraction instead of a coarse request-level API",
+    "evidence_type": "theoretical",
+    "scope_conditions": "general critique of pre-2024 LLM serving system design",
+    "quoted_support": "Changing the strategy usually involves reconfiguring the underlying system and restarting the service, causing disruptions to the production environment.",
+    "numbers": [],
+    "entities": [],
+    "time_period": "2024",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "a-system-for-microserving-of-llms"
+  }
+]

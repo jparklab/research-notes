@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Dynamo does not require etcd or NATS for either local development or Kubernetes deployments; those external services are only needed for Slurm or other non-K8s distributed deployments.",
+    "stance": "supports",
+    "stance_target": "non-K8s routers can discover workers without heavyweight external coordination services",
+    "evidence_type": "empirical",
+    "scope_conditions": "ai-dynamo/dynamo repo, as of Sept 2026 / v1.4.2",
+    "quoted_support": "Local Development: Not required (etcd/NATS). Pass --discovery-backend file. Kubernetes: Not required (etcd/NATS). K8s-native discovery; TCP request plane. For Slurm or other distributed deployments that choose etcd or NATS JetStream-backed modes.",
+    "numbers": [],
+    "entities": ["Dynamo", "etcd", "NATS", "Slurm", "Kubernetes"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-ai-dynamodynamo-a-datacenter-scale-distributed-inference-serving-framewor"
+  },
+  {
+    "claim": "Dynamo exposes two distinct request-routing topologies: a Dynamo-native path where its own integrated Router makes worker-selection decisions with no external gateway, and a Gateway API path where a K8s Gateway API Inference Extension (GAIE) gateway calls the Dynamo Endpoint Picker Plugin (EPP) before forwarding to a worker.",
+    "stance": "neutral",
+    "stance_target": "architectural pattern for decoupling router logic from gateway/orchestration layer",
+    "evidence_type": "empirical",
+    "scope_conditions": "ai-dynamo/dynamo repo, 2026",
+    "quoted_support": "Dynamo-native Frontend routing: The Dynamo Frontend serves HTTP and the integrated Dynamo Router makes worker-selection decisions. No external gateway is required. ... Gateway API routing with GAIE: A Kubernetes Gateway API Inference Extension gateway calls the Dynamo Endpoint Picker Plugin (EPP) before forwarding to the selected worker's Frontend sidecar in --router-mode direct.",
+    "numbers": [],
+    "entities": ["Dynamo Router", "Dynamo Frontend", "GAIE", "Endpoint Picker Plugin", "gateway-api-inference-extension"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-ai-dynamodynamo-a-datacenter-scale-distributed-inference-serving-framewor"
+  },
+  {
+    "claim": "Dynamo can be started with a file-based discovery backend that requires neither Kubernetes nor an external coordination service, via '--discovery-backend file'.",
+    "stance": "supports",
+    "stance_target": "simple non-K8s worker discovery mechanisms exist in production inference routers",
+    "evidence_type": "empirical",
+    "scope_conditions": "local/single-node Dynamo deployment",
+    "quoted_support": "python3 -m dynamo.frontend --http-port 8000 --discovery-backend file",
+    "numbers": [],
+    "entities": ["Dynamo", "discovery-backend file"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-ai-dynamodynamo-a-datacenter-scale-distributed-inference-serving-framewor"
+  },
+  {
+    "claim": "Dynamo claims 2x faster time to first token via KV-aware routing on Qwen3-Coder 480B, per an external Baseten benchmark blog, not Dynamo's own controlled benchmark.",
+    "stance": "neutral",
+    "stance_target": "third-party validated benchmark claims for Dynamo's KV-aware routing",
+    "evidence_type": "empirical",
+    "scope_conditions": "Baseten production benchmark, cited in Dynamo README",
+    "quoted_support": "2x faster time to first token | KV-aware routing, Qwen3-Coder 480B (Baseten benchmark)",
+    "numbers": ["2x", "480B"],
+    "entities": ["Dynamo", "Baseten", "Qwen3-Coder 480B"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "github-ai-dynamodynamo-a-datacenter-scale-distributed-inference-serving-framewor"
+  }
+]

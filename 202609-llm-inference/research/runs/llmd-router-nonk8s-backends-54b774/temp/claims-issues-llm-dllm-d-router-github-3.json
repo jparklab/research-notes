@@ -1,0 +1,21 @@
+[
+ {
+  "claim": "A GitHub issue search for 'dataLayer.discovery' on llm-d-router returns zero open issues and only two closed issues, indicating no pending proposal for a further ('fourth') reshaping of the discovery config surface as of 11 Sep 2026.",
+  "stance": "refutes",
+  "stance_target": "investigator's unresolved question about a fourth reshaping of dataLayer.discovery.*",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d/llm-d-router issue search, 2026-09-11",
+  "quoted_support": "Open 0 (0) ... Closed 2 (2) ... No results",
+  "numbers": [
+   "0 open",
+   "2 closed"
+  ],
+  "entities": [
+   "dataLayer.discovery"
+  ],
+  "time_period": "2026-09-11",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "issues-llm-dllm-d-router-github-3"
+ }
+]

@@ -1,0 +1,174 @@
+[
+ {
+  "claim": "The llm-d-router Helm chart documentation (config/charts/README.md) contains no mention of 'discovery', 'dataLayer', or EndpointDiscovery/FileDiscovery configuration anywhere; router.modelServers.matchLabels (a Kubernetes pod label selector) is REQUIRED when router.inferencePool.create is true, meaning the standard Helm install path exposes no values.yaml option to switch to file-based or other non-Kubernetes discovery.",
+  "stance": "refutes",
+  "stance_target": "the officially supported Helm chart deployment path already supports non-Kubernetes backend discovery out of the box",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d/llm-d-router config/charts/README.md, main branch, fetched Sep 11, 2026 -- an audited absence: searched the full document text for 'discovery' and 'dataLayer' and found zero occurrences",
+  "quoted_support": "router.modelServers.matchLabels - REQUIRED (when create=true). Label selector to match model server pods.",
+  "numbers": [],
+  "entities": [
+   "router.modelServers.matchLabels",
+   "Helm chart",
+   "EndpointDiscovery"
+  ],
+  "time_period": "as fetched Sep 11, 2026 (main branch)",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "llm-d-routerconfigchartsreadmemd-at-main-llm-dllm-d-router-github"
+ },
+ {
+  "claim": "router.modelServers.type in the Helm chart accepts exactly [vllm, sglang, triton-tensorrt-llm, trtllm-serve, triton] as backend model-server types, defaulting to vllm; router.modelServers.protocol accepts [http, grpc].",
+  "stance": "neutral",
+  "stance_target": "exact enumerated list of backend engine types the Helm-templated EPP config natively recognizes",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d/llm-d-router config/charts/README.md, main branch, fetched Sep 11, 2026",
+  "quoted_support": "router.modelServers.type - Type of model servers in the pool. Options: [vllm, sglang, triton-tensorrt-llm, trtllm-serve, triton]. Default: vllm",
+  "numbers": [],
+  "entities": [
+   "vllm",
+   "sglang",
+   "triton-tensorrt-llm",
+   "trtllm-serve",
+   "triton"
+  ],
+  "time_period": "as fetched Sep 11, 2026",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "llm-d-routerconfigchartsreadmemd-at-main-llm-dllm-d-router-github"
+ },
+ {
+  "claim": "The EPP plugin configuration is set via router.epp.pluginsConfig (a structured YAML rendered into pluginsConfigFile, mergeable across Helm values files) using the schema apiVersion/kind: EndpointPickerConfig, plugins: [{type, parameters}], schedulingProfiles: [{name, plugins: [{pluginRef}]}]; router.epp.pluginsCustomConfig supplies additional raw ConfigMap file contents, and defining the same filename via both is a chart validation error.",
+  "stance": "neutral",
+  "stance_target": "exact mechanism for injecting custom plugin configuration (including a hypothetical custom discovery plugin) via Helm",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d/llm-d-router config/charts/README.md, main branch, fetched Sep 11, 2026",
+  "quoted_support": "Use `router.epp.pluginsConfig` to share an EPP configuration across Helm values files. It provides the complete contents of `pluginsConfigFile`; it does not inherit plugins from the chart's built-in configurations.",
+  "numbers": [],
+  "entities": [
+   "pluginsConfig",
+   "pluginsCustomConfig",
+   "EndpointPickerConfig"
+  ],
+  "time_period": "as fetched Sep 11, 2026",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "llm-d-routerconfigchartsreadmemd-at-main-llm-dllm-d-router-github"
+ },
+ {
+  "claim": "In Active-Active EPP HA mode (multiple replicas processing traffic concurrently with leader election disabled), operators must only use plugins that pull real-time metrics/state dynamically from backend model servers (e.g. precise prefix cache, queue, and KV-cache utilization scorers); plugins relying on local in-memory routing state are unsafe because that state is not synchronized across replicas.",
+  "stance": "neutral",
+  "stance_target": "constraint that applies to any custom discovery/scoring plugin if deployed in multi-replica active-active mode",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d/llm-d-router config/charts/README.md, main branch, fetched Sep 11, 2026",
+  "quoted_support": "In active-active mode, you must only use active-active compatible plugins - specifically plugins that pull real-time metrics/state dynamically from the backend model servers... Avoid plugins that rely on local in-memory routing state, as this state is not synchronized across replicas.",
+  "numbers": [],
+  "entities": [
+   "Active-Active mode",
+   "ha-enable-leader-election",
+   "precise prefix cache",
+   "queue scorer",
+   "KV-cache utilization scorer"
+  ],
+  "time_period": "as fetched Sep 11, 2026",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "llm-d-routerconfigchartsreadmemd-at-main-llm-dllm-d-router-github"
+ },
+ {
+  "claim": "Standalone Mode supports running without any InferencePool resource (router.inferencePool.create=false) with either an Envoy sidecar, a separately scaled Envoy/Agentgateway proxy Service, or Agentgateway routing directly to model servers -- but router.modelServers.matchLabels (a Kubernetes label selector) is still the mechanism used to find backend pods in all of these documented Helm-based standalone configurations.",
+  "stance": "neutral",
+  "stance_target": "even the most Kubernetes-independent-looking Helm deployment mode (standalone, no InferencePool) still discovers backends via k8s pod labels, not via file/service-registry discovery",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d/llm-d-router config/charts/README.md, main branch, fetched Sep 11, 2026",
+  "quoted_support": "helm install my-standalone-router ./config/charts/llm-d-router-standalone --set router.inferencePool.create=false --set router.proxy.proxyType=agentgateway --set router.modelServers.matchLabels.app=my-model-service",
+  "numbers": [],
+  "entities": [
+   "Standalone Mode",
+   "Agentgateway",
+   "router.modelServers.matchLabels"
+  ],
+  "time_period": "as fetched Sep 11, 2026",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "llm-d-routerconfigchartsreadmemd-at-main-llm-dllm-d-router-github"
+ },
+ {
+  "claim": "llm-d-router's default HA mode when EPP is scaled to multiple replicas is Active-Passive, automatically enabling the --ha-enable-leader-election flag, under which only the elected leader routes traffic and others are warm standbys.",
+  "stance": "supports",
+  "stance_target": "whether --ha-enable-leader-election implements a leader/standby scheme requiring cluster-wide coordination",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d/llm-d-router Helm charts, config/charts/README.md, main branch as of Sep 2026",
+  "quoted_support": "Active-Passive Mode (Default): The chart automatically enables the --ha-enable-leader-election flag. Only one leader replica active-routes traffic, coordinates lease status, and maintains absolute routing state, while other replicas act as warm standbys.",
+  "numbers": [
+   "router.epp.replicas > 1"
+  ],
+  "entities": [
+   "llm-d-router",
+   "EPP",
+   "ha-enable-leader-election"
+  ],
+  "time_period": "2026",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "llm-d-routerconfigchartsreadmemd-at-main-llm-dllm-d-router-github"
+ },
+ {
+  "claim": "The router's Active-Passive HA mechanism explicitly uses 'lease' semantics -- the leader 'coordinates lease status' and, during rollouts, 'the old leader holds the lease until it is terminated, so a new replica cannot become ready until the lease expires' -- language consistent with client-go's leaderelection package, which backs leader state with a coordination.k8s.io Lease object watched/updated through the Kubernetes API server.",
+  "stance": "supports",
+  "stance_target": "the leader-election mechanism depends on a Kubernetes Lease/coordination.k8s.io object and therefore a live Kubernetes API server",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d/llm-d-router Helm charts documentation; does not itself cite the Go import path for client-go leaderelection",
+  "quoted_support": "Moving off Recreate also changes upgrade behaviour: during a rollout the old leader holds the lease until it is terminated, so a new replica cannot become ready until the lease expires.",
+  "numbers": [],
+  "entities": [
+   "Lease",
+   "leader-election"
+  ],
+  "time_period": "2026",
+  "region": null,
+  "confidence": "medium",
+  "source_note_id": "llm-d-routerconfigchartsreadmemd-at-main-llm-dllm-d-router-github"
+ },
+ {
+  "claim": "The leader/standby distinction in llm-d-router's Active-Passive mode is surfaced through Kubernetes-native primitives: standby replicas deliberately answer the gRPC readiness probe with NOT_SERVING so they never become Kubernetes Service endpoints, and operators are told to gate readiness on 'kubectl wait' against the Kubernetes Endpoints object.",
+  "stance": "supports",
+  "stance_target": "the HA mechanism is architecturally coupled to Kubernetes constructs (Deployment readiness probes, Service, Endpoints) rather than being backend-agnostic",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d/llm-d-router Helm chart README, EPP readiness/liveness wiring",
+  "quoted_support": "In active-passive mode only the elected leader passes its readiness probe; standby replicas answer the readiness gRPC service with NOT_SERVING on purpose, so they never become Service endpoints.",
+  "numbers": [],
+  "entities": [
+   "readiness probe",
+   "Kubernetes Service",
+   "Deployment"
+  ],
+  "time_period": "2026",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "llm-d-routerconfigchartsreadmemd-at-main-llm-dllm-d-router-github"
+ },
+ {
+  "claim": "Because a multi-replica EPP Deployment only ever reports readyReplicas=1 in Active-Passive mode, Helm's --wait and Flux's HelmRelease reconciliation loop stall or report Available=False, requiring workarounds -- evidence that the leader-election design assumes and is tightly integrated with a Kubernetes control plane's Deployment/HelmRelease reconciliation semantics, not a generic non-Kubernetes deployment target.",
+  "stance": "supports",
+  "stance_target": "the HA mechanism as documented presumes a Kubernetes API server and its Deployment/Service/Endpoints machinery",
+  "evidence_type": "empirical",
+  "scope_conditions": "Helm 3 vs Helm 4 (kstatus) vs Flux HelmRelease behavior with multi-replica EPP",
+  "quoted_support": "$ helm install my-release . --set router.epp.replicas=2 --wait --timeout 4m\\nError: INSTALLATION FAILED: resource Deployment/.../my-release-epp not ready.\\nstatus: InProgress, message: Available: 1/2",
+  "numbers": [
+   "replicas=2",
+   "timeout 4m",
+   "Available: 1/2"
+  ],
+  "entities": [
+   "Helm",
+   "Flux",
+   "HelmRelease",
+   "Deployment"
+  ],
+  "time_period": "2026",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "llm-d-routerconfigchartsreadmemd-at-main-llm-dllm-d-router-github"
+ }
+]

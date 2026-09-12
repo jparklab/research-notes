@@ -1,0 +1,989 @@
+{
+  "report": "/Users/jpark/workspace/claude/hyperresearch/research/notes/final_report_llmd-router-nonk8s-backends-54b774.md",
+  "summary": {
+    "total": 204,
+    "supported_mechanical": 43,
+    "dangling": 0,
+    "needs_llm": 161
+  },
+  "sampled_for_llm": [
+    {
+      "sentence": "The project is a control plane that wraps inference engines, not a distribution that replaces them\" [[llm-d-v08-from-platform-to-control-plane-llm-d]].",
+      "note_id": "llm-d-v08-from-platform-to-control-plane-llm-d",
+      "numbers": [
+        "08"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Since v0.7 the routing tier is called the **llm-d Router**, \"the functional combination of a Proxy and an Endpoint Picker (EPP)\" — renamed because the old inference-scheduler name \"conflicted with Kubernetes scheduling concepts and was too narrowly tied to the Gateway API\" [[llm-d-v07-from-feature-introduction-to-production-hardening-llm-d]].",
+      "note_id": "llm-d-v07-from-feature-introduction-to-production-hardening-llm-d",
+      "numbers": [
+        "0.7",
+        "07"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "| EPP scheduling framework (filters, scorers, pickers, profile handlers) | Scores and selects an endpoint per request | None — operates on endpoint metadata from the datastore | **Yes, unchanged** [[llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github]] |",
+      "note_id": "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "| Precise prefix-cache producer and KV index | Subscribes to engine KV events over ZeroMQ, indexes cache blocks, scores cache locality | None — driven by generic endpoint events, keyed on `Address:Port` | **Yes**, single-rank engines [[llm-d-routerpkgeppframeworkpluginsrequestcontroldataproducerpreciseprefixcacheex]] |",
+      "note_id": "llm-d-routerpkgeppframeworkpluginsrequestcontroldataproducerpreciseprefixcacheex",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "| ext_proc wire protocol | Returns the choice to the proxy | Endpoints are `<ip:port>` strings, never object references | **Yes** [[gateway-api-inference-extensiondocsproposals004-endpoint-picker-protocol-at-main]] |",
+      "note_id": "gateway-api-inference-extensiondocsproposals004-endpoint-picker-protocol-at-main",
+      "numbers": [
+        "004"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "| Latency predictor | Gradient-boosted prediction of time-to-first-token | Plain HTTP services on fixed ports, no API-server dependency | **Yes** [[github-llm-dllm-d-latency-predictor-latency-prediction-service-for-ml-model-base]] |",
+      "note_id": "github-llm-dllm-d-latency-predictor-latency-prediction-service-for-ml-model-base",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "| Coordinator (optional) | Drives a request through a configurable pipeline as an alternative to the sidecar orchestrator; the async-broker step bridges OpenAI clients to a Redis-backed broker | None inherent — a service beside the picker | **Yes** [[llm-d-routerdocscoordinator_architecturemd-at-main-llm-dllm-d-router-github]] [[llm-d-routerdocscoordinator_async_brokermd-at-main-llm-dllm-d-router-github]] |",
+      "note_id": "llm-d-routerdocscoordinator_async_brokermd-at-main-llm-dllm-d-router-github",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "| EPP high availability | Leader election across router replicas | A `coordination.k8s.io/Lease` object | **No** — substitute Active-Active [[llm-d-routerdocsoperationsmd-at-main-llm-dllm-d-router-github]] |",
+      "note_id": "llm-d-routerdocsoperationsmd-at-main-llm-dllm-d-router-github",
+      "numbers": [
+        "8"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "| Helm charts | Packaging | A pod-label selector is required when a pool is created; no discovery key exists | **Partially**, via raw-config escape hatches [[llm-d-routerconfigchartsreadmemd-at-main-llm-dllm-d-router-github]] |",
+      "note_id": "llm-d-routerconfigchartsreadmemd-at-main-llm-dllm-d-router-github",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "| Gateway-mode proxies (Istio, kgateway, NGINX, GKE) | Ingress with `InferencePool` integration | Fully custom-resource driven | **No** — use standalone Envoy [[istio-kubernetes-gateway-api-inference-extension]] |",
+      "note_id": "istio-kubernetes-gateway-api-inference-extension",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "| Observability | Exposes Prometheus metrics | Exposition is plain; scrape-target discovery is PodMonitor, an operator resource | **Yes, with rework** [[metrics-llm-d]] |",
+      "note_id": "metrics-llm-d",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "| vLLM / SGLang engines | Serve tokens | None — unmodified upstream images since v0.8 | **Yes** [[llm-d-v08-from-platform-to-control-plane-llm-d]] |",
+      "note_id": "llm-d-v08-from-platform-to-control-plane-llm-d",
+      "numbers": [
+        "0.8",
+        "08"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Two entries are routinely underweighted, and both are operations rather than routing: high availability binds a Kubernetes primitive in every documented shape — a Lease object for leader election, or a StatefulSet with a headless Service for the priority-routing variant [[llm-d-routerdocsoperationsmd-at-main-llm-dllm-d-router-github]] — and the disaggregation sidecar's anti-SSRF allowlist takes input exclusively from an `InferencePool` [[allowlistgo]].",
+      "note_id": "allowlistgo",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Downstream, `pod.Status.PodIP` is consumed verbatim with no emptiness or format validation, and there is no check on node name or pod phase [[pod_reconcilergo]].",
+      "note_id": "pod_reconcilergo",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Sources establish that the admission path checks only label match plus aggregate readiness [[pod_reconcilergo]], and that the datastore entry any discovery source produces is an endpoint-metadata record carrying an identifier, address, port, metrics host and free-form labels [[llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github]].",
+      "note_id": "pod_reconcilergo",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "It also kills an entire family of shims before they start. `InferencePool` selects pods by label and target port — it is similar to a Service with a selector but is not one [[inferencepool-kubernetes-gateway-api-inference-extension]] [[beyond-gateway-inference-traffic-control-practice-with]].",
+      "note_id": "inferencepool-kubernetes-gateway-api-inference-extension",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "It also fails invisibly when attempted: a documented Kubernetes issue shows a hand-authored EndpointSlice with a named port against an unnamed Service port producing a silent kube-proxy reject while the object listed correctly in tooling [[both-endpoints-and-endpointslices-not-working-with-service-abstraction-for-exter]].",
+      "note_id": "both-endpoints-and-endpointslices-not-working-with-service-abstraction-for-exter",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "1. **Runner startup.** On the default path the runner fetches a cluster configuration and stands up a controller-runtime manager; the discovery-plugin path is a separate branch that skips `ctrl.GetConfig()` and manager setup entirely [[filediscovery-plugin-44-wiring-into-the-runner-by-ezrasilvera-pull-request-1218]].",
+      "note_id": "filediscovery-plugin-44-wiring-into-the-runner-by-ezrasilvera-pull-request-1218",
+      "numbers": [
+        "1.",
+        "44",
+        "1218"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "3. **Health gating.** Aggregate pod readiness, including custom readiness gates, is what keeps unready workers out of the pool — a mechanism a custom source must replicate itself [[llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github]].",
+      "note_id": "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github",
+      "numbers": [
+        "3."
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "4. **Custom-resource policy.** The `InferenceObjective` and `InferenceModelRewrite` reconcilers, and any Kubernetes notification source in the data layer, simply do not bind [[readmemd]].",
+      "note_id": "readmemd",
+      "numbers": [
+        "4."
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Endpoint identity is a namespaced-name value, and the godoc still describes the metadata struct in terms of pod state [[datalayer-package-sigsk8siogateway-api-inference-extensionpkgeppframeworkinterfa]].",
+      "note_id": "datalayer-package-sigsk8siogateway-api-inference-extensionpkgeppframeworkinterfa",
+      "numbers": [
+        "8"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The Endpoint Picker Protocol, versioned v1.0.0 and marked implemented as of 2025-07-29, specifies that the EPP returns its choice in a destination-endpoint header and matching dynamic metadata, and that the value of the header or metadata entry MUST contain at least one endpoint in `<ip:port>` format or multiple endpoints in `<ip:port>,<ip:port>,...` format [[gateway-api-inference-extensiondocsproposals004-endpoint-picker-protocol-at-main]].",
+      "note_id": "gateway-api-inference-extensiondocsproposals004-endpoint-picker-protocol-at-main",
+      "numbers": [
+        "1.0",
+        "0",
+        "2025",
+        "07",
+        "29,",
+        "004"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Off Kubernetes the flow is identical and wired statically: client to an Envoy listener, ext_proc over gRPC to the EPP, then an `ORIGINAL_DST` cluster — an Envoy cluster type that forwards to whatever address the request supplies rather than to a configured member list — reading the header and dialling the chosen worker [[llm-ddocsinfrastructureno-kubernetes-deploymentmd-at-main-llm-dllm-d-github]] [[distributed-llm-inference-with-llm-d-moncef-abboud]].",
+      "note_id": "llm-ddocsinfrastructureno-kubernetes-deploymentmd-at-main-llm-dllm-d-github",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The discovery interface carries no liveness field and the framework applies no health gate; a plugin is solely responsible for upserting only endpoints it believes healthy, and the readiness channel that gates request serving says nothing about any individual endpoint [[filediscovery-plugin-44-wiring-into-the-runner-by-ezrasilvera-pull-request-1218]].",
+      "note_id": "filediscovery-plugin-44-wiring-into-the-runner-by-ezrasilvera-pull-request-1218",
+      "numbers": [
+        "44",
+        "1218"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "File reload failures make it worse: they are logged non-fatally and leave the previous datastore state in place, so the failure mode is stale-but-present endpoints rather than evicted ones [[llm-d-routerpkgeppframeworkpluginsdatalayerdiscoveryfile-at-main-llm-dllm-d-rout]].",
+      "note_id": "llm-d-routerpkgeppframeworkpluginsdatalayerdiscoveryfile-at-main-llm-dllm-d-rout",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "No source states that outright; it follows from the extractor's add-and-delete lifecycle combined with the documented statement that removal is the surrounding orchestrator's job off-cluster [[llm-ddocsinfrastructureno-kubernetes-deploymentmd-at-main-llm-dllm-d-github]].",
+      "note_id": "llm-ddocsinfrastructureno-kubernetes-deploymentmd-at-main-llm-dllm-d-github",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "1. **Enumerate before watching.** Implementations SHOULD enumerate all currently known endpoints via `notifier.Upsert` before entering the watch loop, to avoid serving an empty datastore at startup, with a carve-out only for watch mechanisms that guarantee no missed events [[llm-d-routerpkgeppframeworkinterfacedatalayerdiscoverygo-at-main-llm-dllm-d-rout]].",
+      "note_id": "llm-d-routerpkgeppframeworkinterfacedatalayerdiscoverygo-at-main-llm-dllm-d-rout",
+      "numbers": [
+        "1."
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The runner gates the ext_proc server and the health service on that channel but deliberately leaves `/metrics` ungated, so a slow startup stays observable [[filediscovery-plugin-44-wiring-into-the-runner-by-ezrasilvera-pull-request-1218]].",
+      "note_id": "filediscovery-plugin-44-wiring-into-the-runner-by-ezrasilvera-pull-request-1218",
+      "numbers": [
+        "44",
+        "1218"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "3. **Drive the notifier from one goroutine.** It is explicitly not goroutine-safe: an `Upsert` followed by a `Delete` for the same endpoint must arrive in that order or the endpoint will be incorrectly left in the datastore [[llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github]].",
+      "note_id": "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github",
+      "numbers": [
+        "3."
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "It reads a YAML or JSON file, validates each entry, upserts it, and with file watching enabled reattaches its filesystem watcher after an atomic rename or a ConfigMap-style symlink swap, deleting endpoints absent from the new load [[llm-d-routerpkgeppframeworkpluginsdatalayerdiscoveryfile-at-main-llm-dllm-d-rout]] [[plugingo]].",
+      "note_id": "llm-d-routerpkgeppframeworkpluginsdatalayerdiscoveryfile-at-main-llm-dllm-d-rout",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Its limits are the thresholds against which your estate must be measured: the file is capped at 1 MiB; `address` must be a literal IPv4 value, with hostnames unresolved and IPv6 rejected outright; metrics are scraped from the same address and port that serves inference; a single bad entry is skipped but an unparseable file aborts startup [[readmemd]] [[file-discovery-34-add-filediscovery-plugin-with-yamljson-file-loading-and-fsnoti]].",
+      "note_id": "readmemd",
+      "numbers": [
+        "1",
+        "4",
+        "6",
+        "34"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Its limits are the thresholds against which your estate must be measured: the file is capped at 1 MiB; `address` must be a literal IPv4 value, with hostnames unresolved and IPv6 rejected outright; metrics are scraped from the same address and port that serves inference; a single bad entry is skipped but an unparseable file aborts startup [[readmemd]] [[file-discovery-34-add-filediscovery-plugin-with-yamljson-file-loading-and-fsnoti]].",
+      "note_id": "file-discovery-34-add-filediscovery-plugin-with-yamljson-file-loading-and-fsnoti",
+      "numbers": [
+        "1",
+        "4",
+        "6",
+        "34"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "A custom plugin escapes all three addressing limits, because it populates endpoint metadata directly and the metrics host is a first-class field that defaults to the serving address only when left empty [[llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github]].",
+      "note_id": "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "It is a plain exported package-level map mutated through exported registration functions, with no internal-use disclaimer and no duplicate-key guard [[registrygo]].",
+      "note_id": "registrygo",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Because Go runs every package's initializer before `main`, a blank import of your plugin package lands your factory in that map before the runner registers its own in-tree plugins [[runnergo]]. `cmd/epp/main.go` is a thin wrapper over `runner.NewRunner().Run(ctx)` [[maingo]], and a recursive listing of the repository confirms the structural precondition: the runner and both framework interface packages sit outside any `internal/` path, and the module carries no replace directives [[main]] [[gomod]].",
+      "note_id": "maingo",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Because Go runs every package's initializer before `main`, a blank import of your plugin package lands your factory in that map before the runner registers its own in-tree plugins [[runnergo]]. `cmd/epp/main.go` is a thin wrapper over `runner.NewRunner().Run(ctx)` [[maingo]], and a recursive listing of the repository confirms the structural precondition: the runner and both framework interface packages sit outside any `internal/` path, and the module carries no replace directives [[main]] [[gomod]].",
+      "note_id": "gomod",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The contributing guide mentions third-party plugins nowhere [[llm-d-routercontributingmd-at-main-llm-dllm-d-router-github]].",
+      "note_id": "llm-d-routercontributingmd-at-main-llm-dllm-d-router-github",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "A seven-query sweep of issues, discussions and code search for out-of-tree plugins returns two hits, one an unrelated text match [[issues-llm-dllm-d-router-github]], and the single substantive hit — opened 2026-07-21, still needs-triage with zero comments — proposes as one of three options that in-tree plugins be declared the supported surface and that out-of-tree plugins which panic take the process down [[framework-define-a-panic-isolation-posture-for-plugin-extension-points-issue-210]].",
+      "note_id": "issues-llm-dllm-d-router-github",
+      "numbers": [
+        "2026",
+        "07",
+        "21,",
+        "210"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "A seven-query sweep of issues, discussions and code search for out-of-tree plugins returns two hits, one an unrelated text match [[issues-llm-dllm-d-router-github]], and the single substantive hit — opened 2026-07-21, still needs-triage with zero comments — proposes as one of three options that in-tree plugins be declared the supported surface and that out-of-tree plugins which panic take the process down [[framework-define-a-panic-isolation-posture-for-plugin-extension-points-issue-210]].",
+      "note_id": "framework-define-a-panic-isolation-posture-for-plugin-extension-points-issue-210",
+      "numbers": [
+        "2026",
+        "07",
+        "21,",
+        "210"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Two different documents were being conflated: the in-tree instruction lives in the *scheduling filter* tutorial, while `docs/discovery.md` teaches the register-before-run pattern for *discovery* plugins without saying where that call must live [[llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github]] [[llm-d-routerdocscreate_new_filtermd-at-main-llm-dllm-d-router-github]].",
+      "note_id": "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "One gate to remember: every plugin carries a stability level assigned at registration, and Alpha plugins require `--allow-experimental-plugins` or the EPP refuses to start, with all in-tree plugins currently classified Alpha or Beta [[llm-d-routerpkgeppframeworkpluginsreadmemd-at-main-llm-dllm-d-router-github]].",
+      "note_id": "llm-d-routerpkgeppframeworkpluginsreadmemd-at-main-llm-dllm-d-router-github",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Peer discovery is a structurally identical plugin interface for the router's own replicas, whose documentation names file-based discovery as a first-class feeder but whose cross-replica syncer is still described as future work [[peergo]] [[llm-d-routerdocspeer-discoverymd-at-main-llm-dllm-d-router-github]].",
+      "note_id": "peergo",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "That syncer is an opt-in surface aggregating a plugin's per-endpoint attribute across replicas — and the precise prefix producer pointedly does not implement it, which turns out to matter for the availability decision [[cross_replica_syncergo]].",
+      "note_id": "cross_replica_syncergo",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The v0.8 goals issue lists it under the reinforcement-learning working group with a named owner and a design proposal, followed by the merged sequence: the pluggable discovery interface (#908), the store plumbing (#1080 and #1081), the FileDiscovery plugin (#1135), a rename (#1154), runner wiring (#1218), documentation corrections (#1338), a gRPC-parameter fix (#1362), flow control wired into file-discovery mode (#1368), and the endpoint-notification fix (#1404) [[v08-release-goals-mid-june-issue-1520-llm-dllm-d]].",
+      "note_id": "v08-release-goals-mid-june-issue-1520-llm-dllm-d",
+      "numbers": [
+        "0.8",
+        "908",
+        "1080",
+        "1081",
+        "1135",
+        "1154",
+        "1218",
+        "1338",
+        "1362",
+        "1368",
+        "1404",
+        "08",
+        "1520"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The release record confirms delivery — FileDiscovery shipped as a key feature of llm-d-router v0.9.0 on 2026-06-23, and the umbrella project's capability table lists non-Kubernetes mode as new [[releases-llm-dllm-d-router]] [[releases-llm-dllm-d]].",
+      "note_id": "releases-llm-dllm-d-router",
+      "numbers": [
+        "0.9",
+        "0",
+        "2026",
+        "06",
+        "23,"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The release record confirms delivery — FileDiscovery shipped as a key feature of llm-d-router v0.9.0 on 2026-06-23, and the umbrella project's capability table lists non-Kubernetes mode as new [[releases-llm-dllm-d-router]] [[releases-llm-dllm-d]].",
+      "note_id": "releases-llm-dllm-d",
+      "numbers": [
+        "0.9",
+        "0",
+        "2026",
+        "06",
+        "23,"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The Gateway API Inference Extension issue proposing a zero-Kubernetes mode was motivated by batch and reinforcement-learning customers, and the winning counter-proposal was precisely to add a discovery layer... similar to scheduler pluggability — literally what shipped [[standalone-epp-issue-1838-kubernetes-sigsgateway-api-inference-extension]].",
+      "note_id": "standalone-epp-issue-1838-kubernetes-sigsgateway-api-inference-extension",
+      "numbers": [
+        "1838"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "In the parallel agentgateway thread a maintainer's initial dismissal was withdrawn once the batch rationale landed, the decisive point being that the picker protocol does not change between modes [[inference-support-agentgateway-as-a-standalone-provider-issue-620-agentgatewayag]].",
+      "note_id": "inference-support-agentgateway-as-a-standalone-provider-issue-620-agentgatewayag",
+      "numbers": [
+        "620"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "No Kubernetes discovery-plugin directory exists at HEAD; only the file one does, and the module's published package index at v0.10.0 lists exactly one exported discovery backend [[main]] [[llm-d-router-module-githubcomllm-dllm-d-router-go-packages]].",
+      "note_id": "main",
+      "numbers": [
+        "0.10",
+        "0"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Every conformant gateway data plane reaches backends only through an `InferencePool` that selects pods by label: Istio requires the extension resources plus a pod-label selector [[istio-kubernetes-gateway-api-inference-extension]], NGINX Gateway Fabric selects from a pool of ready pods designated by the assigned InferencePool's Selector field [[gateway-api-inference-extension-nginx-documentation]], and kgateway's support auto-enables only when those resources exist in-cluster [[add-initial-gateway-api-inference-extension-support-issue-10411-kgateway-devkgat]].",
+      "note_id": "istio-kubernetes-gateway-api-inference-extension",
+      "numbers": [
+        "10411"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Every conformant gateway data plane reaches backends only through an `InferencePool` that selects pods by label: Istio requires the extension resources plus a pod-label selector [[istio-kubernetes-gateway-api-inference-extension]], NGINX Gateway Fabric selects from a pool of ready pods designated by the assigned InferencePool's Selector field [[gateway-api-inference-extension-nginx-documentation]], and kgateway's support auto-enables only when those resources exist in-cluster [[add-initial-gateway-api-inference-extension-support-issue-10411-kgateway-devkgat]].",
+      "note_id": "gateway-api-inference-extension-nginx-documentation",
+      "numbers": [
+        "10411"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Standalone mode is not non-Kubernetes mode either: the chart work that delivered it was retitled during review, its author scoping a picker without any custom resource as a later refactor [[helm-support-for-sidecar-injection-in-epp-by-capri-xiyue-pull-request-1821-kuber]], and the agentgateway standalone path still generates a Kubernetes Service as its addressing anchor [[add-standalone-agentgateway-proxy-support-by-danehans-pull-request-2882-kubernet]].",
+      "note_id": "helm-support-for-sidecar-injection-in-epp-by-capri-xiyue-pull-request-1821-kuber",
+      "numbers": [
+        "1821",
+        "2882"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Standalone mode is not non-Kubernetes mode either: the chart work that delivered it was retitled during review, its author scoping a picker without any custom resource as a later refactor [[helm-support-for-sidecar-injection-in-epp-by-capri-xiyue-pull-request-1821-kuber]], and the agentgateway standalone path still generates a Kubernetes Service as its addressing anchor [[add-standalone-agentgateway-proxy-support-by-danehans-pull-request-2882-kubernet]].",
+      "note_id": "add-standalone-agentgateway-proxy-support-by-danehans-pull-request-2882-kubernet",
+      "numbers": [
+        "1821",
+        "2882"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Meanwhile kgateway abandoned an Envoy load-balancer refactor not on technical merit but because the community decided to deprecate its Envoy data plane for AI features [[inference-refactor-plugin-to-use-override_host-lb-issue-11824-kgateway-devkgatew]], and llm-d followed by deprecating kgateway in favour of agentgateway [[refresh-support-for-kgateway-agentgateway-gie-and-gw-api-by-danehans-pull-reques]].",
+      "note_id": "refresh-support-for-kgateway-agentgateway-gie-and-gw-api-by-danehans-pull-reques",
+      "numbers": [
+        "11824"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "| llm-d-router v0.9.0 (2026-06-23) | FileDiscovery shipped here, as did the endpoint-metadata notification fix (#1403/#1404) every per-endpoint subscriber depends on [[releases-llm-dllm-d-router]] [[endpoint-metadata-updates-do-not-trigger-endpoint-notification-events-issue-1403]] | Treat v0.9.0 as a hard floor |",
+      "note_id": "releases-llm-dllm-d-router",
+      "numbers": [
+        "0.9",
+        "0",
+        "2026",
+        "06",
+        "23",
+        "1403",
+        "1404",
+        "1403",
+        "0.9",
+        "0"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "| llm-d-router v0.9.0 (2026-06-23) | FileDiscovery shipped here, as did the endpoint-metadata notification fix (#1403/#1404) every per-endpoint subscriber depends on [[releases-llm-dllm-d-router]] [[endpoint-metadata-updates-do-not-trigger-endpoint-notification-events-issue-1403]] | Treat v0.9.0 as a hard floor |",
+      "note_id": "endpoint-metadata-updates-do-not-trigger-endpoint-notification-events-issue-1403",
+      "numbers": [
+        "0.9",
+        "0",
+        "2026",
+        "06",
+        "23",
+        "1403",
+        "1404",
+        "1403",
+        "0.9",
+        "0"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "| llm-d-router v0.10.0 (2026-08-17) | Still the newest tag [[releases-llm-dllm-d-router]] | Pin it |",
+      "note_id": "releases-llm-dllm-d-router",
+      "numbers": [
+        "0.10",
+        "0",
+        "2026",
+        "08",
+        "17"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "| `dataLayer.discovery.endpoints.pluginRef` | Merged 2026-08-25, eight days after the v0.10.0 tag; ships in no release [[config-consolidate-discovery-plugins-under-a-single-discovery-sectio-llm-dllm-d]] | Use only on `main` builds |",
+      "note_id": "config-consolidate-discovery-plugins-under-a-single-discovery-sectio-llm-dllm-d",
+      "numbers": [
+        "2026",
+        "08",
+        "25,",
+        "0.10",
+        "0"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Whatever the backend is, it must satisfy four things, all protocol-level rather than platform-level: an OpenAI-compatible HTTP endpoint at a routable address and port; a Prometheus metrics endpoint the router can scrape for queue depth, running requests and KV-cache utilisation, with engine-specific metric names selected by a label [[gateway-api-inference-extensionsite-srcguidesepp-configurationconfig-textmd-at-9]]; something that tells the router when it appears and disappears; and network reachability from the proxy for traffic and from the router for metrics and, optionally, KV events.",
+      "note_id": "gateway-api-inference-extensionsite-srcguidesepp-configurationconfig-textmd-at-9",
+      "numbers": [
+        "9"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Scrape-target discovery is the cheapest of the substitutions and should not be counted as a loss: llm-d's own no-Kubernetes guide ships a plain static scrape configuration pointed at the router's metrics port and each worker's metrics endpoint, and PodMonitor is an operator convenience, not a routing input [[llm-dguidesno-kubernetes-deployment-at-main-llm-dllm-d-github]] [[metrics-llm-d]].",
+      "note_id": "llm-dguidesno-kubernetes-deployment-at-main-llm-dllm-d-github",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Every credible pattern in the field puts external providers at a gateway tier above or beside the inference gateway, whether as a separate backend block or a proxy with a static model list [[routing-agent-traffic-is-really-three-decisions-aks-engineering-blog]] [[centralized-routing-for-external-and-self-hosted-llms-on-openshift-ai-red-hat-de]].",
+      "note_id": "routing-agent-traffic-is-really-three-decisions-aks-engineering-blog",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Inside, the dial target is built arithmetically — `PodDiscoveryConfig.SocketPort` plus the endpoint's rank index — while the index key is a separate literal formed from `Address` and `Port`; the same construction appears on delete, clearing index entries, and again in the scoring path [[llm-d-routerpkgeppframeworkpluginsrequestcontroldataproducerpreciseprefixcachepr]].",
+      "note_id": "llm-d-routerpkgeppframeworkpluginsrequestcontroldataproducerpreciseprefixcachepr",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Upstream-reported benchmarks on eight vLLM replicas across sixteen H100 GPUs put P90 time-to-first-token falling from roughly 35 seconds to roughly 120 milliseconds with throughput up 151 percent [[intelligent-inference-scheduling-with-llm-d-on-red-hat-ai-red-hat-developer]], and a companion write-up reports precise scheduling at 8,730 output tokens per second against 4,429 for cache-blind routing [[kv-cache-wins-you-can-see-from-prefix-caching-in-vllm-to-distributed-scheduling]].",
+      "note_id": "intelligent-inference-scheduling-with-llm-d-on-red-hat-ai-red-hat-developer",
+      "numbers": [
+        "100",
+        "90",
+        "35",
+        "120",
+        "151",
+        "8,730",
+        "4,429"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Upstream-reported benchmarks on eight vLLM replicas across sixteen H100 GPUs put P90 time-to-first-token falling from roughly 35 seconds to roughly 120 milliseconds with throughput up 151 percent [[intelligent-inference-scheduling-with-llm-d-on-red-hat-ai-red-hat-developer]], and a companion write-up reports precise scheduling at 8,730 output tokens per second against 4,429 for cache-blind routing [[kv-cache-wins-you-can-see-from-prefix-caching-in-vllm-to-distributed-scheduling]].",
+      "note_id": "kv-cache-wins-you-can-see-from-prefix-caching-in-vllm-to-distributed-scheduling",
+      "numbers": [
+        "100",
+        "90",
+        "35",
+        "120",
+        "151",
+        "8,730",
+        "4,429"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "And the one genuine gap is data-parallel multi-rank engines: the dial port is the base socket port plus a rank index, and the file schema carries no rank field, so every file-discovered endpoint stays at rank zero [[readmemd]].",
+      "note_id": "readmemd",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Pairing itself is decentralised by design — the first time a decoder sees an unknown prefiller it performs a background handshake, with no centralised service-discovery plane required — and role selection is just labels that file discovery sets natively [[networking-for-distributed-inference-in-llm-d-llm-d]] [[pd-disaggregation-llm-d]].",
+      "note_id": "networking-for-distributed-inference-in-llm-d-llm-d",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Its protection against server-side request forgery (SSRF — coercing a server into making requests to addresses the attacker chooses) is off by default (`--enable-ssrf-protection`); when enabled it watches a specific InferencePool resource and maintains an allowlist of valid prefill targets based on pods matching the InferencePool selectors, returning 403 to anything else [[github-llm-dllm-d-routing-sidecar-incubating-pd-sidecar-for-llm-d-github]] [[allowlistgo]].",
+      "note_id": "allowlistgo",
+      "numbers": [
+        "403"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "There is no static, CIDR, or flag-based alternative, and enabling it additionally requires cluster role bindings for pool and pod watches [[featsidecar-implement-ssrf-protection-with-inferencepool-host-port-allowlist-by]] — so off Kubernetes the allowlist is not merely off by default but unavailable, and network isolation is the entire control rather than a supplement.",
+      "note_id": "featsidecar-implement-ssrf-protection-with-inferencepool-host-port-allowlist-by",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "With protection off the allowlist check returns true unconditionally and the reverse proxy dials whatever it is handed [[proxygo]] [[chat_completionsgo]].",
+      "note_id": "chat_completionsgo",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "This is not hypothetical: the original disclosure in July 2025 demonstrated an external caller forcing the sidecar to forward a prefill body to an arbitrary internal address [[potential-ssrf-via-x-prefiller-url-or-x-prefiller-host-port-header-issue-242-llm]].",
+      "note_id": "potential-ssrf-via-x-prefiller-url-or-x-prefiller-host-port-header-issue-242-llm",
+      "numbers": [
+        "2025",
+        "242"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "And the allowlist is a weaker net than it appears even when enabled — an open issue shows with a captured reproduction that it stores bare addresses without ports while the check strips the port from its input, so an allowlisted host with an attacker-chosen port passes [[pd-sidecar-allowlist-stores-only-pod-ip-not-hostport-issue-979-llm-dllm-d-router]].",
+      "note_id": "pd-sidecar-allowlist-stores-only-pod-ip-not-hostport-issue-979-llm-dllm-d-router",
+      "numbers": [
+        "979"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The upstream threat model already puts the primary control elsewhere, and that control is portable: the picker clears any client-supplied prefill header before setting its own, a fix whose author noted the extension protocol supports only set-header mutations so clearing was the best available [[clear-prefill-target-header-if-set-in-incoming-request-by-elevran-pull-request-2]].",
+      "note_id": "clear-prefill-target-header-if-set-in-incoming-request-by-elevran-pull-request-2",
+      "numbers": [
+        "2"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "**The off-Kubernetes obligation is therefore a network-isolation requirement plus transport security, not a Kubernetes requirement.** Make the sidecar's port reachable only from the trusted gateway path by firewall, security group, or mesh policy, and enable prefill TLS (`--enable-tls=prefill`), which is ordinary Go TLS configuration with no cluster certificate-authority dependency [[tlsgo]] [[optionsgo]].",
+      "note_id": "optionsgo",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The objective header, `x-llm-d-inference-objective`, names a Kubernetes resource; off-cluster the reconciler never starts and lookups return nil, so every request lands in the default band [[llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github]] [[epp-http-headers-reference-llm-d]].",
+      "note_id": "epp-http-headers-reference-llm-d",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Tenant fairness, `x-llm-d-inference-fairness-id`, is a bare header string defaulting to `default-flow`, and missing objectives default to priority zero while only sub-zero priorities are sheddable [[llm-d-flow-control-priority-queuing-for-shared-gpu-inference-red-hat-developer]].",
+      "note_id": "llm-d-flow-control-priority-queuing-for-shared-gpu-inference-red-hat-developer",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "It produces genuine pod objects, and since admission is only label match plus aggregate readiness with the pod IP consumed unvalidated, a correctly-labelled virtual pod would be admitted [[pod_reconcilergo]] [[github-virtual-kubeletvirtual-kubelet-virtual-kubelet-is-an-open-source-kubernet]].",
+      "note_id": "pod_reconcilergo",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The blocker is networking. interLink, the production HPC provider in this space, states in its own documentation that long-running services are not a target — it is \"optimized for tasks that have a defined start and end, rather than persistent services exposing intra-cluster communication endpoints\" [[introduction-interlink]] — and its Slurm plugin's networking is an SSH-tunnelled egress proxy to a login node, outward-facing by construction [[github-interlink-hqinterlink-slurm-plugin-github]].",
+      "note_id": "github-interlink-hqinterlink-slurm-plugin-github",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "NVIDIA and SchedMD's Slinky operator represents each Slurm daemon as a custom resource and manages them as pods, surfacing Slurm node states as native pod conditions, supporting scale-to-zero and drain-before-terminate, and running in production at NVIDIA on clusters exceeding 1,000 worker nodes and 8,000 GPUs with collective-communication performance matching non-containerised Slurm [[running-large-scale-gpu-workloads-on-kubernetes-with-slurm-nvidia-technical-blog]] [[github-slinkyprojectslurm-operator-run-slurm-on-kubernetes-a-slinky-project-gith]].",
+      "note_id": "github-slinkyprojectslurm-operator-run-slurm-on-kubernetes-a-slinky-project-gith",
+      "numbers": [
+        "1,000",
+        "8,000"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "NVIDIA Dynamo makes the discovery backend a first-class configuration choice, with etcd or NATS required specifically for Slurm-class distributed deployments and a plain file backend otherwise, and its discovery consumer separates a full instance listing from the incremental event stream — the same list-then-watch shape you would be writing by hand [[github-ai-dynamodynamo-a-datacenter-scale-distributed-inference-serving-framewor]] [[watcherrs]].",
+      "note_id": "watcherrs",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "It even ships a standalone endpoint picker explicitly designed to add KV-aware routing to a fleet of upstream vLLM pods without migrating them [[kv-aware-routing-on-kubernetes-nvidia-dynamo-documentation]]. vLLM production-stack's discovery abstraction requires one method and ships a static implementation with a background health-check thread — precisely the health gate llm-d asks you to write [[service_discoverypy]]. vLLM Router ships static worker URLs by default [[github-vllm-projectrouter-a-high-performance-and-light-weight-router-for-vllm-la]].",
+      "note_id": "github-vllm-projectrouter-a-high-performance-and-light-weight-router-for-vllm-la",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Because every proxy reaches every picker through the same ext_proc protocol, and NVIDIA's own stack ships a different picker behind that same protocol [[gateway-api-inference-extensiondocsproposals004-endpoint-picker-protocol-at-main]] [[kv-aware-routing-on-kubernetes-nvidia-dynamo-documentation]], choosing llm-d is reversible at the architecture level and irreversible only at the plugin level.",
+      "note_id": "gateway-api-inference-extensiondocsproposals004-endpoint-picker-protocol-at-main",
+      "numbers": [
+        "004"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Because every proxy reaches every picker through the same ext_proc protocol, and NVIDIA's own stack ships a different picker behind that same protocol [[gateway-api-inference-extensiondocsproposals004-endpoint-picker-protocol-at-main]] [[kv-aware-routing-on-kubernetes-nvidia-dynamo-documentation]], choosing llm-d is reversible at the architecture level and irreversible only at the plugin level.",
+      "note_id": "kv-aware-routing-on-kubernetes-nvidia-dynamo-documentation",
+      "numbers": [
+        "004"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "*Rule 0 — settle the conversion question in writing before anything else.* If your compute can become Kubernetes pods and your organisation will accept Kubernetes as the fleet's primary scheduler, Slinky is the maximum-reuse answer — stock router, stock charts, leader-elected availability, the policy resources, a working sidecar allowlist, and no custom Go at all [[running-large-scale-gpu-workloads-on-kubernetes-with-slurm-nvidia-technical-blog]].",
+      "note_id": "running-large-scale-gpu-workloads-on-kubernetes-with-slurm-nvidia-technical-blog",
+      "numbers": [
+        "0"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "If a single router instance is acceptable — job-scoped serving, reinforcement-learning rollouts, batch, development, an HPC allocation whose lifetime equals the job's — run the router entirely outside Kubernetes: the picker binary plus Envoy as host processes or containers, using the published flag set [[llm-dguidesno-kubernetes-deployment-at-main-llm-dllm-d-github]].",
+      "note_id": "llm-dguidesno-kubernetes-deployment-at-main-llm-dllm-d-github",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "If it is, run the picker in-cluster under the Helm chart — leader election over a Lease works normally — while the backend inventory points off-cluster, using the chart's `pluginsCustomConfig` and `volumes`/`volumeMounts` escape hatches [[llm-d-routerdocsoperationsmd-at-main-llm-dllm-d-router-github]] [[llm-d-routerconfigchartsreadmemd-at-main-llm-dllm-d-router-github]].",
+      "note_id": "llm-d-routerconfigchartsreadmemd-at-main-llm-dllm-d-router-github",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The mechanism is visible in code: the precise extractor implements only the endpoint-extractor interface and pointedly not the cross-replica contributor interface, so each replica converges independently by subscribing to every endpoint's event stream rather than by synchronising with peers [[cross_replica_syncergo]] [[llm-d-routerpkgeppframeworkpluginsrequestcontroldataproducerpreciseprefixcacheex]].",
+      "note_id": "llm-d-routerpkgeppframeworkpluginsrequestcontroldataproducerpreciseprefixcacheex",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "That second rung is the documented Slurm and Ray pattern and requires zero Go [[no-kubernetes-no-problem-llm-d-now-runs-anywhere-llm-d]].",
+      "note_id": "no-kubernetes-no-problem-llm-d-now-runs-anywhere-llm-d",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Only once that is settled does the polling question matter, and it resolves toward the cheap answer: default to an interval poll plus snapshot diff, a near-mechanical transliteration of the file plugin's load loop [[plugingo]]; use a long-poll primitive where the registry offers one, such as a blocking query carrying the last-seen index with server-side health filtering [[blocking-queries-consul-hashicorp-developer]] [[health-http-api-consul-hashicorp-developer]]; and reserve a persistent watch for cases where staleness has a named, measured cost.",
+      "note_id": "plugingo",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Only once that is settled does the polling question matter, and it resolves toward the cheap answer: default to an interval poll plus snapshot diff, a near-mechanical transliteration of the file plugin's load loop [[plugingo]]; use a long-poll primitive where the registry offers one, such as a blocking query carrying the last-seen index with server-side health filtering [[blocking-queries-consul-hashicorp-developer]] [[health-http-api-consul-hashicorp-developer]]; and reserve a persistent watch for cases where staleness has a named, measured cost.",
+      "note_id": "health-http-api-consul-hashicorp-developer",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "It is the documented path and the one where you can deliberately add a fallback cluster and set the ext_proc failure mode [[external-processing-envoy-1400-dev-13b0a8-documentation]].",
+      "note_id": "external-processing-envoy-1400-dev-13b0a8-documentation",
+      "numbers": [
+        "1400",
+        "13",
+        "0",
+        "8"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Agentgateway's standalone passthrough is fail-closed by design, with fail-open still an open issue, because in passthrough there is no configured backend set to fail open to [[support-fail-open-fallback-for-standalone-epp-inference-routing-issue-1661-agent]] [[trust-standalone-epp-selected-destinations-by-danehans-pull-request-1658-agentga]].",
+      "note_id": "trust-standalone-epp-selected-destinations-by-danehans-pull-request-1658-agentga",
+      "numbers": [
+        "1661",
+        "1658"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "**Phase 0 — prove the stack on your hardware with zero Go (days).** Stand up the shipped no-Kubernetes reference on two workers: file discovery, the optimised baseline plugin mix, Envoy with an `ORIGINAL_DST` cluster, and static Prometheus scrape targets [[llm-dguidesno-kubernetes-deployment-at-main-llm-dllm-d-github]].",
+      "note_id": "llm-dguidesno-kubernetes-deployment-at-main-llm-dllm-d-github",
+      "numbers": [
+        "0"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Set `--pool-namespace` explicitly — it resolves flag, then the `NAMESPACE` environment variable, then a `default` fallback that is a Kubernetes-flavoured label meaningless in a Slurm or Ray context [[llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github]].",
+      "note_id": "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "**Phase 2 — automate the inventory (days).** Write the generator that regenerates the endpoints file from your orchestrator and rewrites it by atomic rename; the watcher reattaches after atomic renames and symlink swaps [[llm-d-routerpkgeppframeworkpluginsdatalayerdiscoveryfile-at-main-llm-dllm-d-rout]].",
+      "note_id": "llm-d-routerpkgeppframeworkpluginsdatalayerdiscoveryfile-at-main-llm-dllm-d-rout",
+      "numbers": [
+        "2"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "**Phase 3 — the plugin, out of tree (1-3 weeks end to end, only if a Rule-2 gate tripped).** The core loop is cheap, on calibrated estimates rather than measured figures — no team has published effort spent against this interface: an interval poll plus snapshot diff is roughly 2-4 days of work, anchored on transliterating about 200 lines of already-reviewed reference code, a long-poll variant adds 1-2 days, and a genuine persistent watch is 1-2 weeks with no in-repo precedent to copy — the repository's only attempt at one was abandoned as too large to review [[discovery-plugins-k8s-and-file-based-endpoint-discovery-by-ezrasilvera-pull-requ]].",
+      "note_id": "discovery-plugins-k8s-and-file-based-endpoint-discovery-by-ezrasilvera-pull-requ",
+      "numbers": [
+        "3",
+        "1",
+        "3",
+        "2",
+        "2",
+        "4",
+        "200",
+        "1",
+        "2",
+        "1",
+        "2",
+        "8"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Structure: one package implementing the three interface methods, with an initializer registering the factory under a namespaced type string; one `main.go` that blank-imports it and calls the runner [[registrygo]] [[maingo]].",
+      "note_id": "registrygo",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Budget the full controller-runtime dependency tree, which the runner imports unconditionally alongside the entire in-tree plugin catalogue even when you never touch a cluster [[runnergo]] [[gomod]].",
+      "note_id": "runnergo",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "**Phase 4 — harden and contribute (continuous).** Isolate the prefill hop at the network layer and turn on prefill TLS [[optionsgo]].",
+      "note_id": "optionsgo",
+      "numbers": [
+        "4"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Open an upstream issue describing your discovery backend, referencing the maintainer's stated intent to support Slurm- and Ray-class plugins [[feat-add-pluggable-discoveryplugin-interface-by-ezrasilvera-pull-request-908-llm]], and follow the file-discovery chain's shape — interface change, plumbing, plugin, wiring, as four small pull requests rather than one large one [[v08-release-goals-mid-june-issue-1520-llm-dllm-d]].",
+      "note_id": "feat-add-pluggable-discoveryplugin-interface-by-ezrasilvera-pull-request-908-llm",
+      "numbers": [
+        "908",
+        "08",
+        "1520"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Open an upstream issue describing your discovery backend, referencing the maintainer's stated intent to support Slurm- and Ray-class plugins [[feat-add-pluggable-discoveryplugin-interface-by-ezrasilvera-pull-request-908-llm]], and follow the file-discovery chain's shape — interface change, plumbing, plugin, wiring, as four small pull requests rather than one large one [[v08-release-goals-mid-june-issue-1520-llm-dllm-d]].",
+      "note_id": "v08-release-goals-mid-june-issue-1520-llm-dllm-d",
+      "numbers": [
+        "908",
+        "08",
+        "1520"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "**The extension pattern is sound but unratified.** The mechanism is verified in source: an exported registry map, exported registration, initializer-before-main ordering, no internal barrier, no replace directives [[registrygo]] [[main]].",
+      "note_id": "registrygo",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "**Interface churn is the real maintenance line item.** Discovery's configuration shape changed three times in roughly four months — the interface was renamed and moved packages during review, the key moved under the data-layer section, then nested again — and the data layer's typed-attribute machinery was still being reworked on 2026-09-11 [[config-consolidate-discovery-plugins-under-a-single-discovery-sectio-llm-dllm-d]] [[llm-d-routerpkgeppframeworkinterfacedatalayer-at-main-llm-dllm-d-router-github]].",
+      "note_id": "config-consolidate-discovery-plugins-under-a-single-discovery-sectio-llm-dllm-d",
+      "numbers": [
+        "2026",
+        "09",
+        "11"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "**Interface churn is the real maintenance line item.** Discovery's configuration shape changed three times in roughly four months — the interface was renamed and moved packages during review, the key moved under the data-layer section, then nested again — and the data layer's typed-attribute machinery was still being reworked on 2026-09-11 [[config-consolidate-discovery-plugins-under-a-single-discovery-sectio-llm-dllm-d]] [[llm-d-routerpkgeppframeworkinterfacedatalayer-at-main-llm-dllm-d-router-github]].",
+      "note_id": "llm-d-routerpkgeppframeworkinterfacedatalayer-at-main-llm-dllm-d-router-github",
+      "numbers": [
+        "2026",
+        "09",
+        "11"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Priority tiers add an admitter, registered at Alpha and therefore requiring `--allow-experimental-plugins` [[llm-d-routerpkgeppframeworkpluginsreadmemd-at-main-llm-dllm-d-router-github]].",
+      "note_id": "llm-d-routerpkgeppframeworkpluginsreadmemd-at-main-llm-dllm-d-router-github",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "Capacity planning is also yours off-cluster: the picker's idle CPU grows with the number of model servers it scrapes, and on Kubernetes those numbers arrive as a resource block the chart writes for you [[llm-d-routerdocsoperationsmd-at-main-llm-dllm-d-router-github]].",
+      "note_id": "llm-d-routerdocsoperationsmd-at-main-llm-dllm-d-router-github",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "And repeated-upsert idempotency on file reload is untested, which bears directly on whether a regenerating endpoint file churns KV-event subscribers [[file-discovery-34-add-filediscovery-plugin-with-yamljson-file-loading-and-fsnoti]].",
+      "note_id": "file-discovery-34-add-filediscovery-plugin-with-yamljson-file-loading-and-fsnoti",
+      "numbers": [
+        "34"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "The router's own roadmap names a standardised model-server interface independent of whether the engine underneath is vLLM, SGLang, or TensorRT-LLM [[llm-d-v09-hardened-for-scale-llm-d]], decoupling the router further from any particular backend shape.",
+      "note_id": "llm-d-v09-hardened-for-scale-llm-d",
+      "numbers": [
+        "09"
+      ],
+      "strong": true,
+      "verdict": "needs-llm"
+    },
+    {
+      "sentence": "And the protocol layer keeps hardening as the industry seam: a competing vendor ships its own picker behind it, the protocol has grown ordered fallback endpoint lists, and design work across the field converges on backend-agnostic schedulers addressed over ordinary transports with opaque instance identity rather than orchestrator objects [[kv-aware-routing-on-kubernetes-nvidia-dynamo-documentation]] [[rfc-mooncake-conductor-design-and-implementation-of-a-global-scheduler-module-fo]].",
+      "note_id": "kv-aware-routing-on-kubernetes-nvidia-dynamo-documentation",
+      "numbers": [],
+      "strong": false,
+      "verdict": "needs-llm"
+    }
+  ],
+  "dangling": []
+}

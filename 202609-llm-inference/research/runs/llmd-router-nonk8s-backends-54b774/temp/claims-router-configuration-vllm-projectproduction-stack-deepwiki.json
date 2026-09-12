@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "The production-stack router's ServiceDiscovery abstraction has exactly two implementations, K8sServiceDiscovery and StaticServiceDiscovery, and the latter is explicitly documented as the path 'for non-Kubernetes deployments or testing.'",
+    "stance": "supports",
+    "stance_target": "existing production routers already implement a pluggable, non-K8s worker-discovery backend",
+    "evidence_type": "empirical",
+    "scope_conditions": "vllm-project/production-stack, indexed at commit 99ab33ab (12 Mar 2026)",
+    "quoted_support": "For non-Kubernetes deployments or testing, configure static backends: routerSpec: serviceDiscovery: \"static\", staticBackends: \"http://model1:8000,http://model2:8000\"",
+    "numbers": [],
+    "entities": ["production-stack", "StaticServiceDiscovery", "K8sServiceDiscovery"],
+    "time_period": "March 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "router-configuration-vllm-projectproduction-stack-deepwiki"
+  },
+  {
+    "claim": "In production-stack's router architecture, ServiceDiscovery and RoutingLogic are separate, independently pluggable components wired together by app.py's initialize_all(), so routing algorithms (roundrobin, session, kvaware, prefixaware, disaggregated_prefill) are decoupled from how workers are discovered.",
+    "stance": "supports",
+    "stance_target": "the router's routing-policy layer can in principle be reused unchanged when swapping the discovery layer for a non-K8s implementation",
+    "evidence_type": "empirical",
+    "scope_conditions": "vllm-project/production-stack source at commit 99ab33ab",
+    "quoted_support": "Router Pod app.py initialize_all() -> ServiceDiscovery (K8s or Static), RoutingLogic (roundrobin/session/kvaware/etc), EngineStatsScraper, RequestStatsMonitor",
+    "numbers": [],
+    "entities": ["app.py", "initialize_all", "ServiceDiscovery", "RoutingLogic"],
+    "time_period": "March 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "router-configuration-vllm-projectproduction-stack-deepwiki"
+  },
+  {
+    "claim": "kvaware routing logic in production-stack requires an LMCache controller integration (lmcacheControllerPort) and serving engines configured with lmcacheConfig.enableController: true, coupling that specific routing policy (though not the discovery layer) to an LMCache deployment.",
+    "stance": "neutral",
+    "stance_target": "not every routing policy is fully substrate-agnostic even when discovery is decoupled",
+    "evidence_type": "empirical",
+    "scope_conditions": "production-stack kvaware routingLogic",
+    "quoted_support": "routingLogic: \"kvaware\", sessionKey: \"x-session-id\", lmcacheControllerPort: 9000 ... Requires LMCache controller integration and serving engines configured with lmcacheConfig.enableController: true.",
+    "numbers": ["9000"],
+    "entities": ["kvaware", "LMCache controller"],
+    "time_period": "March 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "router-configuration-vllm-projectproduction-stack-deepwiki"
+  }
+]

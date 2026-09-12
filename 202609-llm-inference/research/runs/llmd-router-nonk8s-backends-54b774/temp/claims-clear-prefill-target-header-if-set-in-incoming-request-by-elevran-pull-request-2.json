@@ -1,0 +1,16 @@
+[
+  {
+    "claim": "The primary SSRF defense is implemented in the EPP/scheduler, not the sidecar: PR #244 clears any client-supplied prefill-target header to empty on ingress before the EPP sets its own value post-scheduling, because the Gateway API Inference Extension's ext_proc integration (GIE) only supports set_headers mutations, not remove_headers.",
+    "stance": "supports",
+    "stance_target": "gap-3: where the real security boundary lives and its portability to non-k8s deployments",
+    "evidence_type": "empirical",
+    "scope_conditions": "PR #244, merged 2025-07-16, llm-d-router (EPP-adjacent code, not the sidecar)",
+    "quoted_support": "This sets the prefill target header to an empty string value ... A possibly better fix would have been to respond to the gateway (Envoy) with remove_headers mutation but GIE currently supports only set_headers mutations, so clearing the user provided values seems like the best option given the available functionality.",
+    "numbers": [],
+    "entities": ["elevran", "GIE", "Envoy", "EPP"],
+    "time_period": "July 2025",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "clear-prefill-target-header-if-set-in-incoming-request-by-elevran-pull-request-2"
+  }
+]

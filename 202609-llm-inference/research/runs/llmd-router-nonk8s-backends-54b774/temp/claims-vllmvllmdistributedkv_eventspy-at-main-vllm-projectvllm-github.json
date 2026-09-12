@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "vLLM's ZmqEventPublisher applies a bind-vs-connect heuristic on its configured endpoint: it binds (acts as ZMQ server) if the endpoint contains a wildcard '*' or '::' or uses ipc://\\ or inproc://\\, and otherwise connects outward as a ZMQ client to a fixed remote address.",
+    "stance": "neutral",
+    "stance_target": "push vs pull KV-event subscription model / non-k8s network topology flexibility",
+    "evidence_type": "empirical",
+    "scope_conditions": "vLLM main branch, vllm/distributed/kv_events.py, commit d9e2b52 (Sep 2026)",
+    "quoted_support": "Heuristic: bind if wildcard / * present, else connect. # bind stable, connect volatile convention",
+    "numbers": [],
+    "entities": ["ZmqEventPublisher", "vLLM", "ZMQ PUB socket"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "vllmvllmdistributedkv_eventspy-at-main-vllm-projectvllm-github"
+  },
+  {
+    "claim": "The default ZMQ PUB endpoint for vLLM's KV-event publisher is tcp://*:5557 (binding), and the port is offset by data_parallel_rank so each DP rank publishes on its own port.",
+    "stance": "neutral",
+    "stance_target": "KV-event publisher default configuration",
+    "evidence_type": "empirical",
+    "scope_conditions": "vLLM main branch, kv_events.py (2026)",
+    "quoted_support": "endpoint: PUB address. Use tcp://*:5557 to bind or tcp://host:5557 to connect.",
+    "numbers": ["5557"],
+    "entities": ["ZmqEventPublisher", "data_parallel_rank"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "vllmvllmdistributedkv_eventspy-at-main-vllm-projectvllm-github"
+  },
+  {
+    "claim": "vLLM's KV-event publisher supports at-least-once delivery via a replay mechanism: an optional ROUTER socket lets a subscriber request missed batches starting from a given sequence number, replayed from an in-memory deque of up to buffer_steps (default 10,000) past events.",
+    "stance": "neutral",
+    "stance_target": "KV index recovery/consistency after disconnect or restart",
+    "evidence_type": "empirical",
+    "scope_conditions": "vLLM main branch, kv_events.py (2026)",
+    "quoted_support": "replay_endpoint: Optional ROUTER address for replay requests. When given, subscribers can request missed batches by sending the starting sequence number as an 8-byte big-endian integer. buffer_steps: Number of past batches to keep for replay.",
+    "numbers": ["10000"],
+    "entities": ["ZmqEventPublisher", "ROUTER socket", "replay buffer"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "vllmvllmdistributedkv_eventspy-at-main-vllm-projectvllm-github"
+  },
+  {
+    "claim": "KVCacheEvent's BlockStored dataclass carries a 'medium' field with values GPU, CPU, or STORAGE, plus a 'locality' field (LOCAL or REMOTE relative to the publisher) and an 'ownership' field for secondary offloading tiers -- fields that generalize the event schema beyond a single in-cluster GPU pod model.",
+    "stance": "neutral",
+    "stance_target": "extensibility of the KV event schema to non-standard/non-k8s backends",
+    "evidence_type": "empirical",
+    "scope_conditions": "vLLM main branch, kv_events.py (2026)",
+    "quoted_support": "MEDIUM_GPU = \"GPU\" / MEDIUM_CPU = \"CPU\" / MEDIUM_STORAGE = \"STORAGE\" ... \"LOCAL or REMOTE relative to the publisher; None means unspecified.\"",
+    "numbers": [],
+    "entities": ["BlockStored", "KVCacheEvent", "medium", "locality"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "vllmvllmdistributedkv_eventspy-at-main-vllm-projectvllm-github"
+  },
+  {
+    "claim": "The ZMQ topic string used for KV events is an arbitrary caller-supplied string with no format enforced by vLLM itself -- the 'kv@<ip>:<port>@<model>' convention is imposed by llm-d's deployment config, not by vLLM's publisher code.",
+    "stance": "neutral",
+    "stance_target": "flexibility of endpoint identity encoding for non-k8s backends",
+    "evidence_type": "empirical",
+    "scope_conditions": "vLLM main branch, kv_events.py (2026)",
+    "quoted_support": "topic: Topic to publish events to.' (topic: str = \"\")",
+    "numbers": [],
+    "entities": ["ZMQ topic", "ZmqEventPublisher"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "vllmvllmdistributedkv_eventspy-at-main-vllm-projectvllm-github"
+  }
+]

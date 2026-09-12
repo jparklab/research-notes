@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "The llm-d-rl repo integrates llm-d's Endpoint Picker Plugin (EPP) into RL post-training frameworks (veRL, vime, slime) as a drop-in replacement for round-robin replica selection, scoring candidate vLLM replicas on prefix-cache hit rate, queue depth, and KV utilization.",
+    "stance": "supports",
+    "stance_target": "llm-d's routing intelligence is already being reused outside a pure Kubernetes-InferencePool context by wiring frameworks directly to EPP",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-incubation/llm-d-rl repo README, fetched Sep 11, 2026",
+    "quoted_support": "This repo integrates llm-d's Endpoint Picker Plugin (EPP) into that pool as a drop-in replacement for round-robin replica selection. EPP scores each candidate vLLM replica on prefix-cache hit rate, queue depth, and KV utilization, and steers each request to the replica most likely to already have a warm cache.",
+    "numbers": [],
+    "entities": ["EPP", "veRL", "vime", "slime", "prefix-cache"],
+    "time_period": "as of Aug 31, 2026 (latest merged PR)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-llm-d-incubationllm-d-rl-github"
+  },
+  {
+    "claim": "Two integration modes exist for wiring an RL framework to llm-d, both requiring no framework source changes: (1) 'EPP as the endpoint picker' -- the framework calls EPP directly over gRPC to get a scored replica, then dispatches itself (fewer moving parts, recommended starting point); (2) 'llm-d serving' -- the framework sends all generation to a single Envoy endpoint that consults EPP and forwards (closest to a production llm-d deployment). Both support prefill/decode disaggregation.",
+    "stance": "neutral",
+    "stance_target": "architectural options for wiring a non-Kubernetes-native training framework directly to EPP without going through Envoy/InferencePool",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-incubation/llm-d-rl repo README, fetched Sep 11, 2026",
+    "quoted_support": "EPP as the endpoint picker - the framework calls EPP directly over gRPC to score replicas, gets back the chosen replica, and dispatches to it itself. Fewer moving parts and lower latency; the place to start.",
+    "numbers": [],
+    "entities": ["EPP", "gRPC", "Envoy", "ext_proc"],
+    "time_period": "as of Aug 31, 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-llm-d-incubationllm-d-rl-github"
+  },
+  {
+    "claim": "The repo's original 'experimental/rl-controller' -- a framework-agnostic Go/Python control plane with no Kubernetes dependency that owned weight sync, engine lifecycle, and generation routing over plain HTTP -- was renamed to 'legacy/rl-controller' on Aug 19, 2026 and is explicitly documented as having had 'no active development or users for several months' and as 'not the recommended starting point for new work,' because work moved to EPP-based routing instead.",
+    "stance": "refutes",
+    "stance_target": "the standalone (non-EPP-based) rl-controller control-plane approach to non-Kubernetes backend routing is the current recommended path in the llm-d ecosystem",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-incubation/llm-d-rl repo, commit 54f4c8ddeb32a7b9438a827a8bfbc7dd9805d4ed, Aug 19, 2026",
+    "quoted_support": "legacy/rl-controller/ is an earlier exploration of a different architectural direction: a framework-agnostic Go/Python control plane that owns weight sync, engine lifecycle, and generation routing over plain HTTP, with no Kubernetes dependency. It has had no active development or users for several months while work moved to the EPP-based routing above... it is not the recommended starting point for new work.",
+    "numbers": [],
+    "entities": ["rl-controller", "legacy/", "experimental/"],
+    "time_period": "renamed Aug 19, 2026; abandoned 'several months' prior",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-llm-d-incubationllm-d-rl-github"
+  }
+]

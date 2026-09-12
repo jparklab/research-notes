@@ -1,0 +1,253 @@
+[
+ {
+  "claim": "The authoritative, resolved config field path for selecting a discovery plugin is dataLayer.discovery.endpoints.pluginRef inside EndpointPickerConfig, confirmed by two full worked YAML examples in the canonical docs/discovery.md, resolving discrepancies with two other llm-d-authored sources that stated shorter paths (dataLayer.discovery.pluginRef in the blog; EndpointPickerConfig.discovery.pluginRef in a source code comment).",
+  "stance": "neutral",
+  "stance_target": "the exact, final, authoritative EndpointPickerConfig field path for selecting any discovery plugin, including a custom one",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d/llm-d-router, docs/discovery.md, main branch, fetched Sep 11, 2026 -- delivered by merged PR #1007",
+  "quoted_support": "dataLayer:\\n  discovery:\\n    endpoints:\\n      pluginRef: my-endpoints   # must match a name in plugins above\\n\\nWhen dataLayer.discovery.endpoints is present the EPP skips the Kubernetes setup entirely.",
+  "numbers": [],
+  "entities": [
+   "dataLayer.discovery.endpoints.pluginRef",
+   "EndpointPickerConfig"
+  ],
+  "time_period": "as fetched Sep 11, 2026",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github"
+ },
+ {
+  "claim": "A complete working code skeleton for a custom EndpointDiscovery plugin is documented: define a PluginType constant, implement fwkdl.EndpointDiscovery on a struct with a TypedName() accessor, implement Factory(name string, params *json.Decoder, _ fwkplugin.Handle) (fwkplugin.Plugin, error), implement Start(ctx, notifier) that calls notifier.Upsert for known endpoints then watches for changes and blocks on <-ctx.Done(), then register via fwkplugin.Register(myplugin.PluginType, myplugin.Factory) before calling Run().",
+  "stance": "supports",
+  "stance_target": "llm-d-router provides a documented, minimal, complete extension point for adding an arbitrary custom (non-Kubernetes, non-file) backend discovery mechanism without forking the router",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d/llm-d-router, docs/discovery.md, 'Writing a custom discovery plugin' section, main branch, fetched Sep 11, 2026",
+  "quoted_support": "Implement fwkdl.EndpointDiscovery and register the factory with the runner's plugin registry... Register the factory in the runner before calling Run(): fwkplugin.Register(myplugin.PluginType, myplugin.Factory)",
+  "numbers": [],
+  "entities": [
+   "fwkdl.EndpointDiscovery",
+   "fwkplugin.Register",
+   "Factory",
+   "TypedName"
+  ],
+  "time_period": "as fetched Sep 11, 2026",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github"
+ },
+ {
+  "claim": "The EndpointMetadata struct fields a discovery plugin populates are: ID (types.NamespacedName, unique identity), Name (string), Address (string), Port (string), MetricsHost (string, host:port for metrics scraping, defaults to address:port if empty), and Labels (map[string]string).",
+  "stance": "neutral",
+  "stance_target": "exact data shape a custom discovery plugin must construct per endpoint",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d/llm-d-router, docs/discovery.md, main branch, fetched Sep 11, 2026",
+  "quoted_support": "EndpointMetadata fields relevant to discovery: types.NamespacedName - Unique identity... Name string... Address string... Port string... MetricsHost string - host:port for metrics scraping. Defaults to address:port if empty... Labels map[string]string - Arbitrary labels available to scheduler plugins.",
+  "numbers": [],
+  "entities": [
+   "EndpointMetadata",
+   "MetricsHost",
+   "NamespacedName",
+   "Labels"
+  ],
+  "time_period": "as fetched Sep 11, 2026",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github"
+ },
+ {
+  "claim": "The EndpointMetadata struct's MetricsHost field lets a discovery plugin report a metrics-scraping address that differs from the inference address, defaulting to address:port only if left empty -- meaning a custom (non-file) discovery plugin CAN support per-endpoint separate metrics endpoints at the data-model level, even though the base file-discovery plugin's YAML schema does not expose a metricsHost key for hand-authored files.",
+  "stance": "refutes",
+  "stance_target": "no llm-d discovery mechanism can support endpoints whose metrics are scraped from a different address/port than the inference traffic",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d/llm-d-router, docs/discovery.md vs. the file-discovery plugin's own README (which states metrics-endpoint separation is unsupported for the file plugin specifically)",
+  "quoted_support": "MetricsHost string host:port for metrics scraping. Defaults to address:port if empty.",
+  "numbers": [],
+  "entities": [
+   "MetricsHost",
+   "EndpointMetadata"
+  ],
+  "time_period": "as fetched Sep 11, 2026",
+  "region": null,
+  "confidence": "medium",
+  "source_note_id": "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github"
+ },
+ {
+  "claim": "In default Kubernetes discovery mode, a pod is admitted to the routing pool only when its aggregate Ready condition (ContainersReady AND every condition in spec.readinessGates) is True; a False/Unknown Ready condition or a deletion timestamp removes it from the datastore. This K8s-specific admission gate has no automatic equivalent in file/custom discovery -- a custom plugin author must implement their own health gating before calling Upsert.",
+  "stance": "neutral",
+  "stance_target": "a specific K8s-only safety mechanism (readiness gating) that a custom non-Kubernetes discovery backend must deliberately reimplement, since it does not come for free",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d/llm-d-router, docs/discovery.md, 'Pod readiness in Kubernetes discovery' section, main branch, fetched Sep 11, 2026",
+  "quoted_support": "In the default Kubernetes mode the EPP admits a pod into the routing pool only when the pod's aggregate Ready condition is True... A pod whose Ready condition is False or Unknown, or that has a deletion timestamp, is removed from the datastore and receives no traffic.",
+  "numbers": [],
+  "entities": [
+   "Ready condition",
+   "readinessGates",
+   "pod.go"
+  ],
+  "time_period": "as fetched Sep 11, 2026",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github"
+ },
+ {
+  "claim": "When a discovery plugin is configured, the EPP does not call ctrl.GetConfig() or start a controller manager, does not require an InferencePool CRD or any Kubernetes RBAC, and all scheduling/request-control/metrics-collection behavior is unchanged.",
+  "stance": "supports",
+  "stance_target": "confirms the discovery abstraction cleanly isolates all Kubernetes-specific bootstrapping so a custom backend plugin incurs zero Kubernetes client dependency",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d/llm-d-router, docs/discovery.md, 'Overview' section, main branch, fetched Sep 11, 2026",
+  "quoted_support": "The EPP does not call ctrl.GetConfig() or start a controller manager. The EPP does not require an InferencePool CRD or any K8s RBAC. The discovery plugin is solely responsible for populating the endpoint datastore via DiscoveryNotifier. All scheduling, request control, and metrics collection behaviour is unchanged.",
+  "numbers": [],
+  "entities": [
+   "ctrl.GetConfig",
+   "controller manager",
+   "InferencePool",
+   "RBAC"
+  ],
+  "time_period": "as fetched Sep 11, 2026",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github"
+ },
+ {
+  "claim": "Three Kubernetes-only features are explicitly inactive in file discovery mode: InferenceModelRewrite (model-name rewriting; reconciler not started, ds.ModelRewriteGet returns nil for every request, 'no file-mode equivalent today'); InferenceObjective (per-request SLO objectives; reconciler not started, objective lookups return nil); and any k8s-notification-source data-layer plugin (loads from config but never binds to a manager, produces no events -- must be removed from dataLayer.sources). The runner emits a one-time startup log naming these.",
+  "stance": "refutes",
+  "stance_target": "file-discovery-mode llm-d deployments have full feature parity with Kubernetes deployments",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d/llm-d-router, docs/discovery.md, 'Kubernetes-only features that do not run in file discovery mode' section, main branch, fetched Sep 11, 2026",
+  "quoted_support": "InferenceModelRewrite (model name rewriting for traffic split or canary). The reconciler is not started; ds.ModelRewriteGet returns nil for every request. There is no file-mode equivalent today.",
+  "numbers": [],
+  "entities": [
+   "InferenceModelRewrite",
+   "InferenceObjective",
+   "k8s-notification-source",
+   "ds.ModelRewriteGet"
+  ],
+  "time_period": "as fetched Sep 11, 2026",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github"
+ },
+ {
+  "claim": "This canonical doc's list of inactive Kubernetes-only features (InferenceModelRewrite, InferenceObjective, k8s-notification-source) does not mention FlowControl as affected, in apparent tension with llm-d/llm-d's docs/infrastructure/no-kubernetes-deployment.md, which names 'InferenceObjective-driven FlowControl' as out of scope without Kubernetes.",
+  "stance": "neutral",
+  "stance_target": "whether FlowControl itself is disabled in file-discovery mode, or only the InferenceObjective-based per-request SLO input to it -- a genuine cross-repo documentation discrepancy worth flagging rather than resolving silently",
+  "evidence_type": "empirical",
+  "scope_conditions": "cross-comparison of llm-d/llm-d-router docs/discovery.md vs. llm-d/llm-d docs/infrastructure/no-kubernetes-deployment.md, both as of ~2026",
+  "quoted_support": "InferenceObjective (per-request SLO objectives). The reconciler is not started; objective lookups return nil. Plugins that depend on per-request SLO data will see no objectives configured. [vs., in the other repo's doc:] InferenceObjective-driven FlowControl... [is] out of scope.",
+  "numbers": [],
+  "entities": [
+   "FlowControl",
+   "InferenceObjective"
+  ],
+  "time_period": "as of ~2026, exact relative dates not confirmed",
+  "region": null,
+  "confidence": "medium",
+  "source_note_id": "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github"
+ },
+ {
+  "claim": "The --pool-namespace value is resolved in order: (1) the --pool-namespace CLI flag, (2) the NAMESPACE environment variable (populated automatically by Kubernetes' Downward API), (3) the literal fallback string 'default'; outside Kubernetes neither of the first two is normally set, so operators should pass --pool-namespace explicitly or the pool is labeled with the Kubernetes-flavored but meaningless string 'default'. The runner emits a startup warning when it falls back.",
+  "stance": "neutral",
+  "stance_target": "concrete operational guidance for correctly labeling metrics/logs in a non-Kubernetes deployment",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d/llm-d-router, docs/discovery.md, 'Pool namespace' section, main branch, fetched Sep 11, 2026",
+  "quoted_support": "On bare metal, in Slurm, in Ray, or in any container without the Downward API, neither source is set and the pool is labeled default - a Kubernetes-flavored string that is meaningless outside K8s. Pass --pool-namespace explicitly so labels reflect your environment.",
+  "numbers": [],
+  "entities": [
+   "--pool-namespace",
+   "NAMESPACE",
+   "Downward API"
+  ],
+  "time_period": "as fetched Sep 11, 2026",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github"
+ },
+ {
+  "claim": "In file discovery mode, --pool-name is optional and defaults to 'epp' if unset; its value is arbitrary and does not need to correspond to any Kubernetes object.",
+  "stance": "supports",
+  "stance_target": "the router's CLI/config surface is genuinely decoupled from Kubernetes naming concepts in file-discovery mode, not merely tolerant of their absence",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d/llm-d-router, docs/discovery.md, 'Running EPP with file discovery' section, main branch, fetched Sep 11, 2026",
+  "quoted_support": "--pool-name is optional in file discovery mode and defaults to epp if unset. It is used as the internal pool identifier in the scheduler and metrics. The value is arbitrary - it does not need to match any Kubernetes object.",
+  "numbers": [],
+  "entities": [
+   "--pool-name",
+   "epp"
+  ],
+  "time_period": "as fetched Sep 11, 2026",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github"
+ },
+ {
+  "claim": "Within the endpoints file, duplicate endpoint names in the same namespace are resolved with the last Upsert winning, because the file is processed top-to-bottom.",
+  "stance": "neutral",
+  "stance_target": "a small but load-bearing validation/processing-order detail for anyone generating the endpoints file programmatically",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d/llm-d-router, docs/discovery.md, 'Constraints' under File Discovery plugin, main branch, fetched Sep 11, 2026",
+  "quoted_support": "Duplicate names within the same namespace result in the last Upsert winning (the file is processed top-to-bottom).",
+  "numbers": [],
+  "entities": [
+   "file-discovery",
+   "Upsert"
+  ],
+  "time_period": "as fetched Sep 11, 2026",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github"
+ },
+ {
+  "claim": "The EPP communicates its routing decision to Envoy via the x-gateway-destination-endpoint response header from the ext_proc gRPC call; Envoy's ORIGINAL_DST cluster is configured with original_dst_lb_config.use_http_header: true and http_header_name: x-gateway-destination-endpoint to read it, and the ext_proc filter must set all four body/trailer processing modes to FULL_DUPLEX_STREAMED / SEND as shown in the reference Envoy config.",
+  "stance": "neutral",
+  "stance_target": "exact, complete wire-protocol and Envoy configuration needed to integrate any backend (Kubernetes or custom) with the EPP via ext_proc",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d/llm-d-router, docs/discovery.md, 'Envoy config' section, main branch, fetched Sep 11, 2026",
+  "quoted_support": "original_dst_lb_config:\\n  use_http_header: true\\n  http_header_name: x-gateway-destination-endpoint ... processing_mode:\\n  request_header_mode: SEND\\n  response_header_mode: SEND\\n  request_body_mode: FULL_DUPLEX_STREAMED\\n  response_body_mode: FULL_DUPLEX_STREAMED",
+  "numbers": [],
+  "entities": [
+   "x-gateway-destination-endpoint",
+   "ORIGINAL_DST",
+   "ext_proc",
+   "FULL_DUPLEX_STREAMED"
+  ],
+  "time_period": "as fetched Sep 11, 2026",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github"
+ },
+ {
+  "claim": "When dataLayer.discovery.endpoints is absent from the EndpointPickerConfig, the EPP falls back to the default Kubernetes-based discovery -- confirmed as a deliberate backward-compatibility contract, not merely an implementation detail.",
+  "stance": "supports",
+  "stance_target": "the discovery-plugin refactor was designed to be strictly additive and non-breaking for existing Kubernetes deployments",
+  "evidence_type": "empirical",
+  "scope_conditions": "llm-d/llm-d-router, docs/discovery.md, main branch, fetched Sep 11, 2026",
+  "quoted_support": "When dataLayer.discovery.endpoints is present the EPP skips the Kubernetes setup entirely. When it is absent the EPP uses the default Kubernetes-based discovery (backwards compatible).",
+  "numbers": [],
+  "entities": [
+   "dataLayer.discovery.endpoints",
+   "backward compatibility"
+  ],
+  "time_period": "as fetched Sep 11, 2026",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github"
+ },
+ {
+  "claim": "llm-d-router's own official documentation (docs/discovery.md, merged) includes a complete worked code example titled 'Writing a custom discovery plugin' that implements fwkdl.EndpointDiscovery and registers it via fwkplugin.Register(myplugin.PluginType, myplugin.Factory) before Run() -- i.e. the out-of-tree registration mechanism the target position describes is not merely tolerated but explicitly documented by the project itself as the intended extension path for non-k8s backends.",
+  "stance": "refutes",
+  "stance_target": "an out-of-tree EndpointDiscovery plugin is unsupported (as opposed to explicitly documented) by the project",
+  "evidence_type": "empirical",
+  "scope_conditions": "docs/discovery.md, llm-d/llm-d-router main branch, merged documentation (not a proposal)",
+  "quoted_support": "Register the factory in the runner before calling Run: fwkplugin.Register(myplugin.PluginType, myplugin.Factory)",
+  "numbers": [],
+  "entities": [
+   "docs/discovery.md",
+   "fwkplugin.Register",
+   "EndpointDiscovery"
+  ],
+  "time_period": "Sep 2026",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github"
+ }
+]

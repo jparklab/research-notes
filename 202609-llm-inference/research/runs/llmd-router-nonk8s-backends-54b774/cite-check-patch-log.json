@@ -1,0 +1,80 @@
+{
+  "total_findings": 9,
+  "applied": [
+    {
+      "severity": "critical",
+      "verdict": "wrong-source",
+      "section": "5C. The KV-event path, where the thesis is won",
+      "move": "swap-note-id",
+      "issue": "Dial-target arithmetic (SocketPort + rank index) cited to producer.go, which only covers the request-time Produce() path and never mentions SocketPort, dial, or rank.",
+      "fix": "Swapped [[llm-d-routerpkgeppframeworkpluginsrequestcontroldataproducerpreciseprefixcachepr]] to [[llm-d-routerpkgeppframeworkpluginsrequestcontroldataproducerpreciseprefixcacheex]] (extractor.go), which documents PodDiscoveryConfig.SocketPort + meta.GetRankIndex() and the address:port index key."
+    },
+    {
+      "severity": "critical",
+      "verdict": "wrong-source",
+      "section": "2D. What discovery does not supply",
+      "move": "swap-note-id",
+      "issue": "Claim that file-reload failures are logged non-fatally and leave prior datastore state in place cited to the file-discovery package README, which only covers per-entry validation during a successful reload.",
+      "fix": "Swapped [[llm-d-routerpkgeppframeworkpluginsdatalayerdiscoveryfile-at-main-llm-dllm-d-rout]] to [[llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github]], whose Live Reload section states the claim directly."
+    },
+    {
+      "severity": "major",
+      "verdict": "partially-supported",
+      "section": "2A. The default path, at code level",
+      "move": "soften-claim",
+      "issue": "pod_reconcilergo does not itself read or validate pod.Status.PodIP, so 'consumed verbatim downstream' was an inference presented as observation.",
+      "fix": "Rescoped the sentence to what the reconciler itself does: validates nothing about pod.Status.PodIP, checks neither node name nor pod phase, hands the whole Pod object to the datastore."
+    },
+    {
+      "severity": "major",
+      "verdict": "partially-supported",
+      "section": "2D. What discovery does not supply",
+      "move": "split-citation",
+      "issue": "PR #1218 supports only the readiness-channel clause; the liveness-field / no-health-gate / plugin-responsibility clauses come from docs/discovery.md.",
+      "fix": "Split the citation: docs/discovery.md now carries the plugin-responsibility clause, PR #1218 retains the readiness-channel clause."
+    },
+    {
+      "severity": "major",
+      "verdict": "partially-supported",
+      "section": "3D. The seams you should not need",
+      "move": "split-citation",
+      "issue": "peergo supports the mirrored-interface and shared-sink points but contains no 'future work' framing for the cross-replica syncer.",
+      "fix": "Re-attributed: peergo now carries the shared-sink clause (Kubernetes reconciler and file-based discovery feed the same sink); the future-work framing is attributed to the peer-discovery.md doc note alone."
+    },
+    {
+      "severity": "major",
+      "verdict": "partially-supported",
+      "section": "5C. The KV-event path, where the thesis is won",
+      "move": "drop-unsupported-qualifier",
+      "issue": "Source states 35 seconds to 120 milliseconds TTFT and +151 percent throughput but applies no percentile qualifier anywhere.",
+      "fix": "Deleted the 'P90' label; magnitudes and the vendor-reported caveat are unchanged."
+    },
+    {
+      "severity": "major",
+      "verdict": "partially-supported",
+      "section": "5C. The KV-event path, where the thesis is won",
+      "move": "add-second-citation",
+      "issue": "readmemd supports the missing-rank-field half of the sentence but says nothing about how the dial port is computed.",
+      "fix": "Added [[llm-d-routerpkgeppframeworkpluginsrequestcontroldataproducerpreciseprefixcacheex]] to the dial-port-arithmetic clause; readmemd retained for the schema clause."
+    },
+    {
+      "severity": "major",
+      "verdict": "partially-supported",
+      "section": "7A. The decision rules (Rule 4)",
+      "move": "soften-claim",
+      "issue": "Cited Envoy note documents session affinity, statistics and access logs; it never documents configuring an ext_proc failure mode or adding a fallback cluster.",
+      "fix": "Reduced the clause to what the note shows — Envoy exports a failure_mode_allowed counter for the ext_proc filter, so fail-open behaviour is at least observable. Dropped the fallback-cluster claim, which also sat in tension with the paragraph's later ORIGINAL_DST point."
+    },
+    {
+      "severity": "major",
+      "verdict": "partially-supported",
+      "section": "8. Risks, Trade-offs, and Open Questions",
+      "move": "soften-claim",
+      "issue": "Plugin-catalogue README confirms Alpha / --allow-experimental-plugins gating generically but never names a priority-tier admitter or its stability level.",
+      "fix": "Rephrased to the generically supported claim: any plugin registered at Alpha requires the flag before the EPP will start."
+    }
+  ],
+  "skipped": [],
+  "conflicts": [],
+  "orchestrator_escalated": []
+}

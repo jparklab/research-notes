@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "Agentgateway's standalone EPP inference routing (PR #1658) is deliberately fail-closed: if the EPP is unavailable or omits the x-gateway-destination-endpoint header, the gateway errors instead of routing to service endpoints.",
+    "stance": "supports",
+    "stance_target": "fail-open vs fail-closed behavior when trusting an EPP-returned destination",
+    "evidence_type": "empirical",
+    "scope_conditions": "agentgateway standalone EPP passthrough routing as of PR #1658",
+    "quoted_support": "That PR intentionally keeps standalone inference routing fail-closed. If EPP fails or does not return x-gateway-destination-endpoint, agentgateway returns an error instead of routing directly to service endpoints.",
+    "numbers": ["#1658", "#1661"],
+    "entities": ["agentgateway", "EPP", "x-gateway-destination-endpoint"],
+    "time_period": "Apr 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "support-fail-open-fallback-for-standalone-epp-inference-routing-issue-1661-agent"
+  },
+  {
+    "claim": "As of the issue's last update (Jun 22 2026), agentgateway has no merged design for fail-open fallback in standalone EPP mode; maintainers are undecided between configured fallback endpoints, a non-passthrough discovery mode, or separate virtual-model failover.",
+    "stance": "supports",
+    "stance_target": "maturity/completeness of agentgateway's fail-open design for non-k8s backends",
+    "evidence_type": "empirical",
+    "scope_conditions": "agentgateway issue #1661, open as of fetch date",
+    "quoted_support": "A real FailOpen design would need one of these: Fallback service endpoints configured and tracked. A non-passthrough mode that includes service endpoint discovery. Separate backend failover, like virtual model failover (not the same as EPP fail-open).",
+    "numbers": [],
+    "entities": ["agentgateway", "danehans", "howardjohn", "steverogersX"],
+    "time_period": "Apr-Jun 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "support-fail-open-fallback-for-standalone-epp-inference-routing-issue-1661-agent"
+  },
+  {
+    "claim": "A maintainer-proposed fail-open design ties fallback behavior to an explicitly configured fallback pool: EPP down with no fallback pool still errors (same as fail-closed), while EPP down with a fallback pool routes through normal service load-balancing.",
+    "stance": "neutral",
+    "stance_target": "possible fail-open design for non-k8s backend routing",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "unmerged proposal in agentgateway issue #1661",
+    "quoted_support": "EPP down + no fallback pool → error (same as failClosed) EPP down + fallback pool → route through fallback pool",
+    "numbers": [],
+    "entities": ["steverogersX", "agentgateway"],
+    "time_period": "Jun 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "support-fail-open-fallback-for-standalone-epp-inference-routing-issue-1661-agent"
+  }
+]

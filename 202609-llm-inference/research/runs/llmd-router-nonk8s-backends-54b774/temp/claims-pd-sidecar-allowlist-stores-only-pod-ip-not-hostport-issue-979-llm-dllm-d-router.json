@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "Even with SSRF protection fully enabled and correctly configured (InferencePool + RBAC), the current allowlist enforces only the host/IP component of x-prefiller-host-port, not the port -- an attacker with any network path to the sidecar can direct it to an arbitrary port on an already-allowlisted pod IP.",
+    "stance": "supports",
+    "stance_target": "gap-3: residual SSRF-adjacent exposure even when the Kubernetes-coupled protection is on, reinforcing that network isolation is required regardless of allowlist state",
+    "evidence_type": "empirical",
+    "scope_conditions": "issue #979 (open as of research date), reproduced end-to-end on a kind cluster; cross-verified against llm-d-router@main allowlist.go fetched same session, which still inserts only podIP/podName with no port",
+    "quoted_support": "an attacker with direct sidecar pod-network reach can send X-Prefiller-Host-Port: <allowlisted-pod-ip>:<arbitrary-port> and the sidecar will dial that arbitrary port on the allowlisted IP.",
+    "numbers": ["79 insertions / 35 deletions in the proposed unmerged patch"],
+    "entities": ["allowlist.go", "IsAllowed", "extractHost"],
+    "time_period": "reported May 2026, still open as of Sep 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "pd-sidecar-allowlist-stores-only-pod-ip-not-hostport-issue-979-llm-dllm-d-router"
+  },
+  {
+    "claim": "A separate bug (fixed by PR #1647, matching current HEAD code) caused the pool-selector to be parsed incorrectly for the GA InferencePool API (flat spec.selector instead of spec.selector.matchLabels), which silently left the allowlist permanently empty and made every P/D request return 403 -- secure but completely non-functional.",
+    "stance": "neutral",
+    "stance_target": "operational fragility of the InferencePool-coupled allowlist mechanism",
+    "evidence_type": "empirical",
+    "scope_conditions": "reproduced May 2026 on kind-llm-d-inference-scheduler-dev; fix present at HEAD as of Sep 2026",
+    "quoted_support": "unable to parse requirement: values[0][matchLabels]: Invalid value: \"map[app:tinyllama-1-1b-chat-v1-0-inference-pool]\" ... Net effect: with --enable-ssrf-protection=true the allowlist never populates and every request returns 403",
+    "numbers": [],
+    "entities": ["updatePodsForPool", "InferencePool GA API"],
+    "time_period": "May-June 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "pd-sidecar-allowlist-stores-only-pod-ip-not-hostport-issue-979-llm-dllm-d-router"
+  }
+]

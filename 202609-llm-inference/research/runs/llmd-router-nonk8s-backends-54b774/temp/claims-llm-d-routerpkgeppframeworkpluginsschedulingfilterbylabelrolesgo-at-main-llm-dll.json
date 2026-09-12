@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "The exact Go constant defining the P/D role label is RoleLabel = \"llm-d.ai/role\", with six defined role values: decode, prefill, encode, prefill-decode, encode-prefill, encode-prefill-decode.",
+    "stance": "neutral",
+    "stance_target": "exact label key and full enumerated value set a custom backend must emit to participate in P/D role filtering",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d/llm-d-router, pkg/epp/framework/plugins/scheduling/filter/bylabel/roles.go, main branch, fetched Sep 11, 2026",
+    "quoted_support": "RoleLabel = \"llm-d.ai/role\" ... RoleDecode = \"decode\" ... RolePrefill = \"prefill\" ... RoleEncode = \"encode\" ... RolePrefillDecode = \"prefill-decode\" ... RoleEncodePrefill = \"encode-prefill\" ... RoleEncodePrefillDecode = \"encode-prefill-decode\"",
+    "numbers": [],
+    "entities": ["llm-d.ai/role", "RoleLabel", "decode", "prefill", "encode", "prefill-decode", "encode-prefill", "encode-prefill-decode"],
+    "time_period": "as fetched Sep 11, 2026, main branch",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerpkgeppframeworkpluginsschedulingfilterbylabelrolesgo-at-main-llm-dll"
+  },
+  {
+    "claim": "NewDecodeRole() accepts endpoints labeled decode, prefill-decode, or encode-prefill-decode; NewPrefillRole() accepts prefill, encode-prefill, or prefill-decode; NewEncodeRole() accepts encode, encode-prefill, or encode-prefill-decode. The documented pipeline order is Encode -> Prefill -> Decode.",
+    "stance": "neutral",
+    "stance_target": "exact role-value sets each of the three built-in P/D/E filters matches against",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d/llm-d-router, pkg/epp/framework/plugins/scheduling/filter/bylabel/roles.go, main branch, fetched Sep 11, 2026",
+    "quoted_support": "func NewDecodeRole() *ByLabel { return NewByLabel(DecodeRoleType, RoleLabel, true, RoleDecode, RolePrefillDecode, RoleEncodePrefillDecode) } ... func NewPrefillRole() *ByLabel { return NewByLabel(PrefillRoleType, RoleLabel, false, RolePrefill, RoleEncodePrefill, RolePrefillDecode, RoleEncodePrefillDecode) } ... Encode is the first stage in the pipeline: Encode -> Prefill -> Decode.",
+    "numbers": [],
+    "entities": ["NewDecodeRole", "NewPrefillRole", "NewEncodeRole", "ByLabel"],
+    "time_period": "as fetched Sep 11, 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerpkgeppframeworkpluginsschedulingfilterbylabelrolesgo-at-main-llm-dll"
+  },
+  {
+    "claim": "The three role filters are registered under distinct plugin type strings: decode-filter, prefill-filter, encode-filter (Go constants DecodeRoleType, PrefillRoleType, EncodeRoleType), each constructed via a factory function taking (name string, *json.Decoder, plugin.Handle) and returning (plugin.Plugin, error) -- the standard llm-d-router plugin-factory signature.",
+    "stance": "neutral",
+    "stance_target": "exact plugin-type strings and factory function signature needed to reference or extend these filters in an EndpointPickerConfig",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d/llm-d-router, pkg/epp/framework/plugins/scheduling/filter/bylabel/roles.go, main branch, fetched Sep 11, 2026",
+    "quoted_support": "DecodeRoleType is the type of the DecodeFilter ... func DecodeRoleFactory(name string, _ *json.Decoder, _ plugin.Handle) (plugin.Plugin, error) { return NewDecodeRole().WithName(name), nil }",
+    "numbers": [],
+    "entities": ["decode-filter", "prefill-filter", "encode-filter", "plugin.Handle"],
+    "time_period": "as fetched Sep 11, 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "llm-d-routerpkgeppframeworkpluginsschedulingfilterbylabelrolesgo-at-main-llm-dll"
+  },
+  {
+    "claim": "The bylabel filter package reads role information purely from a generic label map on endpoint metadata (via the ByLabel filter constructed with RoleLabel as a plain string key), with no Kubernetes-specific type or API dependency visible in this file -- consistent with the file-discovery YAML schema's 'labels' field being sufficient to drive P/D role filtering without Kubernetes.",
+    "stance": "supports",
+    "stance_target": "the router's P/D role-filtering logic is backend-agnostic and works identically whether labels come from Kubernetes pod metadata or a hand-authored FileDiscovery YAML entry",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d/llm-d-router, pkg/epp/framework/plugins/scheduling/filter/bylabel/roles.go, main branch, fetched Sep 11, 2026",
+    "quoted_support": "package bylabel import ( \"encoding/json\"; \"github.com/llm-d/llm-d-router/pkg/epp/framework/interface/plugin\" ) const ( RoleLabel = \"llm-d.ai/role\" ...",
+    "numbers": [],
+    "entities": ["bylabel", "ByLabel", "RoleLabel"],
+    "time_period": "as fetched Sep 11, 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "llm-d-routerpkgeppframeworkpluginsschedulingfilterbylabelrolesgo-at-main-llm-dll"
+  }
+]

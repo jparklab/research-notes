@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "KAITO's EPP is provided by the llm-d Router project, which builds on the base GWIE EPP with advanced scheduling plugins including KV-cache-aware routing, P/D disaggregation, and pluggable filters/scorers -- KAITO does not implement its own scheduling logic.",
+    "stance": "supports",
+    "stance_target": "downstream products reuse llm-d's router as-is rather than reimplementing scheduling logic",
+    "evidence_type": "empirical",
+    "scope_conditions": "KAITO v0.12.x official documentation",
+    "quoted_support": "In KAITO, the EPP is provided by the llm-d Router project, which builds on the GWIE EPP with advanced scheduling plugins including KV cache-aware routing, prefill/decode (P/D) disaggregation, and pluggable filters/scorers.",
+    "numbers": [],
+    "entities": ["KAITO", "llm-d Router", "GWIE", "EPP"],
+    "time_period": "as of KAITO v0.12.x, 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "gateway-api-inference-extension-with-llm-d-router-kaito"
+  },
+  {
+    "claim": "KAITO deploys the upstream llm-d-router-gateway Helm chart from oci://ghcr.io/llm-d/charts/llm-d-router-gateway pinned to v0.9.0, with the EPP container image pinned to mcr.microsoft.com/oss/v2/llm-d/llm-d-router-endpoint-picker:v0.9.0, via a Flux OCIRepository + HelmRelease managed by the InferenceSet controller.",
+    "stance": "supports",
+    "stance_target": "exact reuse mechanism: version-pinned upstream artifact consumption rather than forking",
+    "evidence_type": "empirical",
+    "scope_conditions": "KAITO v0.11.0+, llm-d-router-gateway chart v0.9.0",
+    "quoted_support": "OCIRepository: points to the llm-d-router-gateway Helm chart URL: oci://ghcr.io/llm-d/charts/llm-d-router-gateway Version: v0.9.0 (pinned by KAITO)... The EPP image is pinned to mcr.microsoft.com/oss/v2/llm-d/llm-d-router-endpoint-picker:v0.9.0 to match the chart version.",
+    "numbers": ["v0.9.0"],
+    "entities": ["KAITO", "llm-d-router-gateway", "Flux", "OCIRepository", "HelmRelease"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "gateway-api-inference-extension-with-llm-d-router-kaito"
+  },
+  {
+    "claim": "KAITO configures the EPP to listen on plaintext gRPC (router.epp.flags.secure-serving=false), requiring an Istio DestinationRule with tls.mode: DISABLE on the Gateway-to-EPP ext_proc connection.",
+    "stance": "neutral",
+    "stance_target": "operational detail of the EPP's ext_proc transport security configuration in KAITO's deployment",
+    "evidence_type": "empirical",
+    "scope_conditions": "KAITO Istio-based quickstart deployment",
+    "quoted_support": "In KAITO, the EPP is explicitly configured to listen on plaintext gRPC (router.epp.flags.secure-serving=false), so the DestinationRule sets tls.mode: DISABLE for the Istio Gateway → EPP ext_proc connection.",
+    "numbers": [],
+    "entities": ["EPP", "Istio", "DestinationRule", "ext_proc"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "gateway-api-inference-extension-with-llm-d-router-kaito"
+  },
+  {
+    "claim": "KAITO's HTTPRoute targets the InferenceSet's InferencePool via a spec.endpointPickerRef field, the mechanism by which the Gateway API wiring points at the pluggable EPP backend.",
+    "stance": "neutral",
+    "stance_target": "InferencePool/EPP wiring mechanism at the Gateway API layer",
+    "evidence_type": "empirical",
+    "scope_conditions": "Gateway API Inference Extension as consumed by KAITO",
+    "quoted_support": "Create the HTTPRoute that targets the InferenceSet's InferencePool (via .spec.endpointPickerRef) and defines the routing matchers used by the Gateway.",
+    "numbers": [],
+    "entities": ["HTTPRoute", "InferencePool", "endpointPickerRef"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "gateway-api-inference-extension-with-llm-d-router-kaito"
+  },
+  {
+    "claim": "Optional Body-Based Routing (BBR), from the upstream kubernetes-sigs/gateway-api-inference-extension repo, extracts the model name from OpenAI-style JSON request bodies and injects an X-Gateway-Model-Name header, enabling multi-model routing without client-side changes.",
+    "stance": "neutral",
+    "stance_target": "model-aware routing mechanism independent of client behavior",
+    "evidence_type": "empirical",
+    "scope_conditions": "KAITO optional BBR deployment, chart registry.k8s.io/gateway-api-inference-extension/charts/body-based-routing v1.3.0",
+    "quoted_support": "BBR automatically extracts model names from OpenAI-style API requests and injects an X-Gateway-Model-Name header to the inference request, enabling model routing without modifying client code.",
+    "numbers": ["v1.3.0"],
+    "entities": ["Body-Based Routing", "BBR", "X-Gateway-Model-Name"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "gateway-api-inference-extension-with-llm-d-router-kaito"
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "GIE's InferencePool is described as similar to a Service but specialized for AI/ML serving needs, aware of the model-serving protocol.",
+    "stance": "supports",
+    "stance_target": "InferencePool is architecturally a Service-replacement scoped specifically to Pod-based model serving",
+    "evidence_type": "empirical",
+    "scope_conditions": "kubernetes.io blog, June 5 2025, pre-GA description",
+    "quoted_support": "An InferencePool is similar to a Service but specialized for AI/ML serving needs and aware of the model-serving protocol.",
+    "numbers": [],
+    "entities": ["InferencePool", "Service"],
+    "time_period": "June 2025",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "introducing-gateway-api-inference-extension-kubernetes"
+  },
+  {
+    "claim": "In benchmark testing (H100 GPU pods, vLLM v1, 10 Llama2 replicas, ShareGPT dataset, 100-1000 QPS), the Endpoint Selection Extension delivered throughput roughly on par with a standard Kubernetes Service but showed significantly lower p90 per-output-token and end-to-end latency at QPS beyond 400-500.",
+    "stance": "supports",
+    "stance_target": "GIE's metrics-aware endpoint selection materially improves tail latency over plain Kubernetes Service load balancing under high load",
+    "evidence_type": "empirical",
+    "scope_conditions": "GIE project benchmark, H100 80GB GPU pods, vLLM v1, Llama2 model, ShareGPT dataset, 100-1000 QPS via Latency Profile Generator tool",
+    "quoted_support": "Comparable Throughput: Throughout the tested QPS range, the ESE delivered throughput roughly on par with a standard Kubernetes Service. Per-Output-Token Latency: The ESE showed significantly lower p90 latency at higher QPS (500+)... Overall p90 Latency: ...particularly as traffic increased beyond 400-500 QPS.",
+    "numbers": ["100 QPS", "1000 QPS", "H100 80GB", "10 replicas"],
+    "entities": ["Endpoint Selection Extension", "vLLM", "Llama2", "ShareGPT", "Latency Profile Generator"],
+    "time_period": "as of June 2025 blog post",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "introducing-gateway-api-inference-extension-kubernetes"
+  },
+  {
+    "claim": "At the time of the June 2025 announcement, GIE's roadmap toward GA included disaggregated serving for independently scaling prefill/decode pools and support for heterogeneous accelerators with latency- and cost-aware load balancing.",
+    "stance": "neutral",
+    "stance_target": "planned future capabilities of GIE beyond the initial pod-selector model",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "kubernetes.io blog, June 2025, stated as roadmap items pre-GA",
+    "quoted_support": "Heterogeneous accelerators (serving on multiple accelerator types with latency- and cost-aware load balancing); Disaggregated serving for independently scaling pools",
+    "numbers": [],
+    "entities": ["disaggregated serving", "heterogeneous accelerators"],
+    "time_period": "roadmap as of June 2025",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "introducing-gateway-api-inference-extension-kubernetes"
+  }
+]

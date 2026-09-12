@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "llm-d-router ships a first-party, built-in 'file-discovery' EndpointDiscovery plugin (type file-discovery, disabled by default) explicitly designed as 'an alternative to Kubernetes-based endpoint discovery for deployments that run the EPP without a controller manager (bare metal, Slurm, Ray, local development).'",
+    "stance": "supports",
+    "stance_target": "feasibility of running llm-d-router EPP against non-Kubernetes backends without writing a discovery plugin from scratch",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router pkg/epp/framework/plugins/datalayer/discovery/file, HEAD Sep 2026",
+    "quoted_support": "Provides an alternative to Kubernetes-based endpoint discovery for deployments that run the EPP without a controller manager (bare metal, Slurm, Ray, local development).",
+    "numbers": [],
+    "entities": ["file-discovery", "EndpointDiscovery", "bare metal", "Slurm", "Ray"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "readmemd"
+  },
+  {
+    "claim": "Audited absence for gap-5: the built-in file-discovery plugin's endpoint entry schema (name, namespace, address, port, labels) has no rankIndex or DP-rank field, and no label key (e.g. 'llm-d.ai/rank', 'dp-rank') is read anywhere in plugin.go to populate EndpointMetadata.RankIndex -- every endpoint discovered this way gets RankIndex left at its Go zero-value (0), so multi-DP-rank vLLM backends are unsupported by this plugin without custom modification.",
+    "stance": "refutes",
+    "stance_target": "any assumption that RankIndex/data-parallel-rank has an existing label or config carrier a non-k8s discovery author can rely on",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router file-discovery plugin schema and implementation, searched plugin.go full text for 'rank'",
+    "quoted_support": "endpoints:\n  - name: <string>              # required -- unique within the file\n    namespace: <string>         # optional -- defaults to \"default\"\n    address: <IPv4>             # required -- must be a valid IPv4 address\n    port: <string>              # required -- integer 1-65535 as a string\n    labels:                     # optional -- arbitrary key/value labels",
+    "numbers": [],
+    "entities": ["file-discovery", "EndpointMetadata", "RankIndex"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "readmemd"
+  },
+  {
+    "claim": "Running EPP in file-discovery mode (no Kubernetes controller manager) explicitly disables the InferenceModelRewrite and InferenceObjective reconcilers and prevents any k8s-notification-source plugin from binding, with the runner emitting a startup log naming the inactive features.",
+    "stance": "neutral",
+    "stance_target": "feature parity gap between Kubernetes-backed and file-discovery-backed EPP deployments",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router file-discovery mode",
+    "quoted_support": "File-discovery mode runs the EPP without a Kubernetes controller manager, so several K8s-only features are inactive: the InferenceModelRewrite and InferenceObjective reconcilers do not run, and any k8s-notification-source plugin in the data layer config will not bind.",
+    "numbers": [],
+    "entities": ["InferenceModelRewrite", "InferenceObjective", "k8s-notification-source"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "readmemd"
+  },
+  {
+    "claim": "A distinct 'multicluster-file-discovery' plugin variant discovers whole peer clusters as endpoints (reached by gateway host), permitting RFC-1123 hostnames rather than only IPv4 literals, and supports out-of-band metrics scraping via metricsAddress/metricsPort entry labels.",
+    "stance": "neutral",
+    "stance_target": "range of non-k8s discovery topologies llm-d-router already anticipates",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router multicluster-file-discovery variant",
+    "quoted_support": "multicluster-file-discovery is the cluster-scoped variant: it discovers peer clusters as endpoints, differing from the pod file discovery only in address validation. A cluster is reached by its gateway host, so an address may be an RFC-1123 hostname or an IP, not only an IPv4 pod address.",
+    "numbers": [],
+    "entities": ["multicluster-file-discovery", "metricsAddress", "metricsPort"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "readmemd"
+  }
+]

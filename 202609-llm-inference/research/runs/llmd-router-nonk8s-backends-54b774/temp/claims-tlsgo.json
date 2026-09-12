@@ -1,0 +1,16 @@
+[
+  {
+    "claim": "TLS for the outbound prefill hop is standard crypto/tls with certificate verification against the target's cert (system trust store), not a Kubernetes-issued or CA-bundle-dependent mechanism; verification can be explicitly disabled per-stage via --tls-insecure-skip-verify for self-signed non-k8s backends.",
+    "stance": "refutes",
+    "stance_target": "concern that no TLS option exists for a non-Kubernetes prefill backend",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router@main, pkg/sidecar/proxy/proxy.go newProxyTransport + tls.go",
+    "quoted_support": "t.TLSClientConfig = &tls.Config{ InsecureSkipVerify: insecureSkipVerify, MinVersion: tls.VersionTLS12, CipherSuites: [...] }",
+    "numbers": ["TLS 1.2 minimum", "6 named cipher suites"],
+    "entities": ["newProxyTransport", "tls.Config"],
+    "time_period": "2026 (current HEAD)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "tlsgo"
+  }
+]

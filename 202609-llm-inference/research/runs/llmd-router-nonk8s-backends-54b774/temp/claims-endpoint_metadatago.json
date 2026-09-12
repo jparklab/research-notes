@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "EndpointMetadata.RankIndex is not populated from any Kubernetes label convention (no 'llm-d.ai/rank' or 'dp-rank' label field exists); it is defined structurally as the endpoint's positional index within the discovery source's configured EndpointPool.TargetPorts list.",
+    "stance": "neutral",
+    "stance_target": "whether RankIndex has a label-based carrier that a non-k8s discovery plugin must replicate",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router pkg/epp/framework/interface/datalayer, HEAD as of Sep 2026",
+    "quoted_support": "RankIndex is this endpoint's position in the pool's TargetPorts, identifying the pod-local rank in multi-port deployments.",
+    "numbers": [],
+    "entities": ["EndpointMetadata", "RankIndex", "TargetPorts"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "endpoint_metadatago"
+  },
+  {
+    "claim": "llm-d-router's own EndpointMetadata struct explicitly documents NodeAddress as empty for non-Kubernetes discovery sources, naming 'file discovery' by example, confirming file-based discovery is a first-party recognized concept in the framework's own source comments, not merely a hypothetical extension point.",
+    "stance": "supports",
+    "stance_target": "feasibility of a non-k8s / file-based EndpointDiscovery plugin",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router pkg/epp/framework/interface/datalayer/endpoint_metadata.go",
+    "quoted_support": "NodeAddress is the node IP hosting this pod (pod.Status.HostIP). Empty for non-Kubernetes discovery sources (e.g. file discovery).",
+    "numbers": [],
+    "entities": ["EndpointMetadata", "NodeAddress", "file discovery"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "endpoint_metadatago"
+  },
+  {
+    "claim": "EndpointMetadata.ID aliases Kubernetes' types.NamespacedName specifically so that endpoint identity can later be decoupled from the Kubernetes-specific type without changing datastore keys, and every discovery source (including custom/non-k8s ones) must set ID uniquely.",
+    "stance": "neutral",
+    "stance_target": "how portable the endpoint identity type is for non-k8s backends",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router pkg/epp/framework/interface/datalayer/endpoint_metadata.go",
+    "quoted_support": "ID uniquely identifies an endpoint. It aliases types.NamespacedName so the identity can later move off the Kubernetes-specific type without churning datastore keys. Every discovery source must set it uniquely.",
+    "numbers": [],
+    "entities": ["EndpointMetadata", "types.NamespacedName"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "endpoint_metadatago"
+  }
+]

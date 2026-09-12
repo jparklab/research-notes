@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "GIE v1.4.0 introduced a FailOpen concept along with appProtocol and ALPN h2 support at the InferencePool/Helm layer.",
+    "stance": "neutral",
+    "stance_target": "existence and origin of FailOpen semantics in the GIE stack",
+    "evidence_type": "empirical",
+    "scope_conditions": "GIE v1.4.0 release, per agentgateway vendor blog",
+    "quoted_support": "The v1.4.0 release added standalone Endpoint Picker (EPP) support, split conformance into its own Go module, and included InferencePool, Helm, and gRPC improvements such as appProtocol, FailOpen, and ALPN h2.",
+    "numbers": ["v1.4.0"],
+    "entities": ["Gateway API Inference Extension", "InferencePool", "FailOpen"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "inference-serving-with-superpowers-agentgateway-agent-connectivity-solved"
+  },
+  {
+    "claim": "agentgateway is the first gateway to achieve GIE v1.4.0 conformance and supports both standalone and Kubernetes deployment modes.",
+    "stance": "supports",
+    "stance_target": "agentgateway's suitability as a customizable router for non-k8s backends",
+    "evidence_type": "empirical",
+    "scope_conditions": "agentgateway v1.0.0 GA, per vendor blog",
+    "quoted_support": "It is a high-performance, Rust-based AI gateway that supports both standalone and Kubernetes deployment modes, recently achieved GA, and is the first GIE v1.4.0 conformant gateway.",
+    "numbers": ["v1.0.0", "v1.4.0"],
+    "entities": ["agentgateway", "GIE conformance"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "inference-serving-with-superpowers-agentgateway-agent-connectivity-solved"
+  }
+]

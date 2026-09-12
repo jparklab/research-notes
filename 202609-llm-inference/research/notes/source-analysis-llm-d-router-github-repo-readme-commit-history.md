@@ -1,0 +1,108 @@
+---
+title: Source Analysis — llm-d Router GitHub repo (README + commit history)
+id: source-analysis-llm-d-router-github-repo-readme-commit-history
+tags:
+- llmd-router-nonk8s-backends-54b774
+- source-analysis
+created: '2026-09-11T20:57:27.912642Z'
+updated: '2026-09-12T03:37:37.830022Z'
+status: review
+type: source-analysis
+deprecated: false
+summary: 'Digest of the llm-d-router GitHub repo (README + commit history through
+  Sep 11 2026, tag v0.10.0): confirms the Inference-Scheduler-to-Router rename and
+  the May 2026 EPP/CRD consolidation from GIE, but finds zero mentions of discovery/EndpointDiscovery/non-k8s
+  standalone operation; the only documented backend-extension seam (ATOM engine metrics,
+  PR #2476) is pod-label-keyed, InferencePool/HTTPRoute/Gateway/RBAC remain hard Kubernetes
+  dependencies, and the freshly-merged ''structured plugin config'' PR (#2620, same-day
+  HEAD) is undescribed in this capture and flagged as a priority follow-up fetch.'
+---
+
+# Source Analysis — GitHub - llm-d/llm-d-router: llm-d Router: The intelligent entry point for inference requests · GitHub
+
+**Original source:** [[github-llm-dllm-d-router-llm-d-router-the-intelligent-entry-point-for-inferenc-2]]
+**Source type:** other (GitHub repo landing page: rendered README + commit-history table, fetched at HEAD)
+**Source word count:** 12,842
+**Your judgment:** Primary-source anchor for the router's current shape and API-stability history — this is the canonical README plus the live commit log (through Sep 11, 2026, tag v0.10.0 Aug 17, 2026), so it is the best single record of (a) what merged vs. what is still just a PR title, and (b) where the code still hard-assumes Kubernetes pods.
+
+*Suggested by [[github-llm-dllm-d-router-llm-d-router-the-intelligent-entry-point-for-inferenc-2]] — source analyst's digest of the full source body*
+
+## Thesis / Central claim
+llm-d Router (the renamed llm-d-inference-scheduler / Inference Scheduler) is a Kubernetes-Gateway-API-native intelligent proxy front-end: an Endpoint Picker (EPP) that scores/selects endpoints via the `ext-proc` protocol and is driven by two Kubernetes CRDs it now owns itself (`InferenceObjective`, `InferenceModelRewrite`), while the upstream Gateway API Inference Extension (GIE) repo was stripped down in the same consolidation to host only the `InferencePool` CRD and the Endpoint Picker Protocol definition. The repo's own commit history — not just its README — is the evidence trail for whether third parties can extend it (new inference-engine backends, new plugin config, non-pod data sources) without forking.
+
+## Methodology / Basis of claims
+This is a GitHub repository landing-page capture: the rendered README.md (lines ~2175–2248 of the fetched body) plus GitHub's auto-generated "Folders and files" commit-history table (lines ~14–2174), which lists the most recent commit touching each top-level path along with the linked PR's full squashed commit message. This is NOT a narrative document — it is raw primary evidence (merged commits, dated, with PR numbers and DCO-signed authorship) interleaved with README prose. Load-bearing assumption for this analysis: GitHub's history table shows the single latest commit per path, sampled from HEAD backward — it is not exhaustive of the repo's full history, and repeated rows in the fetched capture (many commits appear duplicated verbatim, e.g. PR #2620, #2778, #7de00e5, #2203, #2649) reflect that same commit being the "latest" for multiple sibling directories, not new information. No dataset, no survey — the evidentiary unit here is "did this PR merge, and what does its message say."
+
+## Key findings / Claims (with specific numbers where present)
+
+1. **Rename is complete and repo-level, dated May 14, 2026.** PR #1105, "update: change after rename git repo to 'llm-d-router'": *"update PROJECT_NAME to reflect new value... introduce a new env variable in Makefile for epp image name... update migration script to point to new repo name... update docs"* (Wen Zhou, redhat.com). The README states the terminology change explicitly: *"The Inference Scheduler has been renamed to llm-d Router."* This is a rename of the same codebase/history (2,953 commits, first commit "first commit of pipeline stuff" dated May 5, 2025), not a fork — continuity of engineering assumptions is preserved across the rename.
+
+2. **API & Code Consolidation moved EPP code and two CRDs from GIE into this repo, and GIE now hosts only `InferencePool` + the protocol spec.** Verbatim from the README banner: *"Core Endpoint Picker (EPP) code and the `InferenceObjective` and `InferenceModelRewrite` APIs have been merged into this repository from Gateway API Inference Extension (GIE). The GIE repository now exclusively hosts the `InferencePool` API—an extension of the Kubernetes Gateway API—and defines the Endpoint Picker Protocol."* Corroborating commits cluster in May 2026: PR #1169 (May 21, 2026) "migrate v1alpha2 objective/rewrite defaults to llm-d.ai," and PR #1043 (May 25, 2026) "pull GIE CRD from upstream instead of locally" — this pair shows the CRD group ownership was still being untangled after the consolidation, with test/e2e fixtures repeatedly reworked to fetch InferencePool CRDs from upstream GIE release artifacts while the router's own two CRDs became local (`config/crd`). One commit message literally documents the split: *"fix(test): update rbac.yaml after CRDs only comes from llm-d.ai not upstream GIE"* — i.e., as of PR #1043, RBAC and CRD manifests are still split across two Kubernetes API groups the router depends on.
+
+3. **No mention anywhere in this ~12.8k-word capture of "discovery," "EndpointDiscovery," file-based discovery, or "standalone" as a non-Kubernetes runtime mode.** Grep across the full body returns zero hits for "discovery" and "EndpointDiscovery." "Standalone Mode" appears exactly twice in the README and both times is defined as a Kubernetes-adjacent mode — *"A deployment with a self-managed Envoy proxy that does not require Gateway API infrastructure"* — i.e., it removes the dependency on Gateway/HTTPRoute/InferencePool but still deploys as a Helm chart with Kubernetes-shaped topologies (Sidecar mode: proxy in the EPP pod; Service mode: proxy as its own Deployment+Service). Nothing in this source describes endpoint enumeration by any mechanism other than the Kubernetes API (pod labels, EPP's InferencePool watch). This is a load-bearing absence for the research query: the source gives no evidence of a config-file- or static-list-based endpoint source anywhere in the current codebase.
+
+4. **Multi-cluster is mentioned exactly once, as a Gateway-mode capability, with zero elaboration.** README: *"This enables advanced traffic management, multi-cluster load balancing, and shared infrastructure for both inference and traditional workloads."* No commit, doc link, or code path in this capture explains the mechanism (likely delegated to the Gateway API implementation, e.g. Istio/AgentGateway/GCLB, not to the EPP itself). Treat as an unelaborated marketing-level claim, not evidence of an EPP-side multi-cluster endpoint source.
+
+5. **The metrics-extractor pattern is the one clearly documented "add a backend without forking core logic" seam, and it is pod-label-driven, not config-driven.** PR #2476 (merged Sep 11, 2026), "feat(metrics): add ATOM as a built-in engine": *"Registering it here means a deployment only has to label its pods with `llm-d.ai/engine-type: atom`, rather than carrying an engineConfigs block that restates metric names the engine already fixes."* ATOM exposes `atom:requests_waiting`, `atom:requests_running`, `atom:kv_cache_usage_ratio` under an `atom:` prefix, "following the same convention as `sglang:` and `trtllm_`." Validated against a live 8×MI355X deployment: *"A full 1319-sample GSM8K run split 651/668 across the two engines with no scheduling errors."* This confirms (a) new engine backends require a merged PR registering a new metric-name mapping — this is a compiled-in registry, not a runtime plugin, so a third party cannot add a new engine's metrics without a PR into this repo (or a fork); and (b) the selection key for which extractor applies is a Kubernetes pod label (`llm-d.ai/engine-type`), reinforcing that endpoint identity is pod-shaped even where the metric-scraping logic itself is engine-agnostic.
+
+6. **The one clear "endpoint reachable at any URL, not just a pod IP" precedent in this capture is the token-producer/render sidecar, and it is a dev-environment fix, not a documented production pattern.** PR #2426 (merged Sep 7, 2026), "fix: point sim-epp token-producer at the render Service": *"The sim-epp-kvcache EPP config set `token-producer.url` to http://localhost:8000, but the kind dev env runs the vLLM render server as a separate Service (vllm-render:8082), not a sidecar... Use `VLLM_RENDER_URL` (already exported, defaults to http://vllm-render:8082)."* This demonstrates the EPP's tokenizer/render dependency is already configured via a plain URL (`token-producer.url` / `VLLM_RENDER_URL` env var) rather than a hardcoded pod-local address — i.e., at least this one data-plane dependency is reachable by any HTTP endpoint. But this is scoped to the `kind-dev-env.sh` local test harness, not a general "backend discovery" mechanism, and should not be over-read as evidence the EPP's primary model-server endpoint source is similarly URL-configurable.
+
+7. **"Structured plugin config" merged same day as this capture (Sep 11, 2026, PR #2620), but the capture contains no description of the mechanism beyond the commit title.** *"feat(helm): support structured plugin config (#2620)"* — the entire commit body in this capture is a single `Signed-off-by:` line (hugosmoreira). This is the single most relevant-looking commit for the research query's plugin-registration question, and this source cannot answer HOW it works: whether it's a new Helm `values.yaml` schema for existing compiled-in plugins, or something that changes how plugins are wired at runtime. **Flag: chase the actual PR #2620 diff/description on GitHub — this source only proves the feature landed on 2026-09-11, nothing about its shape.**
+
+8. **The coordinator subsystem shows a genuine Go-interface plugin surface, but it is for auxiliary HTTP routes, not for endpoint/backend selection.** PR #2325 (merged Sep 10, 2026), "feat(coordinator): async-broker step serving OpenAI compatible enqueue, wait, and passthrough modes": *"Steps that implement RegisterRoutes(chi.Router) get it called once at server construction, after the built-in inference routes. This gives a step with its own HTTP surface... a home on the coordinator listener without the server learning step specifics."* The async-broker step itself was refactored out of a flat `steps` package into `pkg/coordinator/steps/asyncbroker` (still an in-tree Go package, added via merged PR, not a loadable external plugin). This shows the coordinator's step pipeline is interface-based and extensible in principle, but every example in this capture of "adding a step" is a first-party PR into this repo, not a third-party runtime plugin load.
+
+9. **CRDs, RBAC, and controller-style manifests remain load-bearing dependencies throughout the capture.** Beyond finding 2, references recur to `config/crd`, `crds-gie`, `rbac.yaml`, InferencePool CRD installation in hermetic e2e tests (PR #1169: *"Fix e2e llm-d.ai CRD installation," "fix: install inferencepool crd in hermetic tests"*), and Gateway-mode's core loop — *"the EPP acts as a backend for an `InferencePool`, which is referenced by an `HTTPRoute` on a shared `Gateway`"* — is inseparable from the Kubernetes Gateway API object model. There is no code path or doc reference in this capture describing an InferencePool-equivalent object that isn't a Kubernetes CRD.
+
+10. **Release/versioning: latest tag v0.10.0 (Aug 17, 2026); repo has 13 branches and 2,953 commits at fetch time; HEAD commit (structured plugin config, #2620) is Sep 11, 2026** — i.e., ~3.5 weeks of unreleased `main` commits sit ahead of the last tagged release as of this capture. Any API-shape claim sourced from `main`-branch commit messages (findings 5, 6, 7, 8 above) should be understood as pre-release / not yet in a tagged v0.10.x artifact, and should be re-verified against whatever tag is current when implementation begins.
+
+## Load-bearing citations / sources this source depends on
+- **kubernetes-sigs/gateway-api-inference-extension (GIE)** — named repeatedly as the CRD/protocol counterpart; the InferencePool API and Endpoint Picker Protocol now live there exclusively. A depth investigator should fetch GIE's own README/proposals to see the other half of the consolidation (what GIE's docs say it kept and why).
+- **kubernetes-sigs/gateway-api** — InferencePool is described as "an extension of the Kubernetes Gateway API"; HTTPRoute/Gateway objects are the Gateway-mode wiring.
+- **envoyproxy/envoy** — the reference L7 proxy, integrated via the `ext-proc` filter; README flags that self-managed Envoy setups must use `FULL_DUPLEX_STREAMED` for `request_body_mode`/`response_body_mode` or risk being unsupported.
+- **llm-d-async** (referenced, not analyzed here) — the async-broker coordinator step "bridg[es] llm-d-async," implying a sibling repo/library not covered by this capture.
+- **PR #2620** ("structured plugin config") — unmerged-detail gap flagged in finding 7; the PR IS merged (appears as the repo's Latest commit), but this capture carries no description of its content. Treat any inference about its mechanism as unverified until the PR itself is fetched.
+- Dataset used for ATOM validation: a live 8×MI355X AMD GPU cluster running "two GLM-5.2-MXFP4 TP4 instances," 1319-sample GSM8K benchmark split 651/668 — this is vendor-submitted validation evidence (PR author affiliated with AMD, `yajizhan@amd.com`), not independently replicated.
+
+## Caveats, limitations, contradictions
+- This is a GitHub UI capture, not the repository's actual file tree — the "Folders and files" table shows one representative commit per top-level path (the one GitHub judged "last commit" for that path at fetch time), which produces heavy duplication in the raw body (the same PR body appears 2-4 times verbatim for sibling paths). This inflates the raw word count without adding information; the analysis above already collapses those duplicates.
+- The capture shows an "Uh oh! There was an error while loading" GitHub UI glitch banner near the top and a truncated "13 Branches" / partial commit-history render — normal artifacts of scraping a JS-heavy GitHub page, not a content signal.
+- No architecture doc content is present in this capture — `docs/architecture.md`, `docs/disaggregation.md`, `docs/operations.md`, and the Helm chart README are all *linked* from the rendered README but their content was not fetched here. Any claim about plugin stability tiers, compile-time plugin registration mechanics, or ATOM-engine-config in Helm values.yaml requires fetching those docs directly — this source only establishes that they exist and are linked.
+- Several commits (structured plugin config #2620, several dependabot bumps, `check-all-tools` target) carry minimal or boilerplate commit messages, so this source cannot substitute for reading the actual diffs on anything but the two well-documented commits (ATOM engine #2476, token-producer fix #2426, async-broker #2325).
+- The "Terminology Change" and "API & Code Consolidation" banners are dated by proxy (surrounding commits cluster in May 2026) but the banners themselves carry no explicit date — the May 14/21/25, 2026 PR dates are the best available anchor, consistent with the note's own summary of an "April/May 2026" consolidation.
+
+## Relevance to research_query
+Highly relevant and load-bearing, but mostly as evidence of absence. The research query asks for a strategy to keep llm-d Router while extending it to non-Kubernetes-pod backends. This source is the primary README + commit-history record and it establishes: (a) the router's core object model — InferencePool, HTTPRoute, Gateway, CRDs, RBAC — is inextricably Kubernetes-Gateway-API-shaped, with zero mention of any pluggable "backend discovery" abstraction, "EndpointDiscovery" interface, or non-Kubernetes endpoint source; (b) the one clearly-documented "backend-agnostic" extension seam that exists today, the per-engine metrics extractor (finding 5), is selected by Kubernetes pod labels and requires a merged PR to add a new engine, meaning it doesn't yet solve "backends other than k8s pods" — it only generalizes metric parsing across engines that are still pods; (c) the token-producer/render URL config (finding 6) is the strongest concrete precedent that at least one EPP-adjacent data dependency is already just an HTTP URL rather than a pod IP, which is encouraging for a custom-backend strategy but is currently scoped to a dev/test harness, not a first-class production feature; (d) the freshly-merged "structured plugin config" (finding 7) is the single most promising unexplored lead for this query — it landed the same day as this fetch and its content is unknown from this source, so the parent agent should prioritize fetching PR #2620's actual diff/description as a follow-up, since it may be exactly the seam (Helm-native plugin wiring) that could be extended to register a non-pod-backend plugin without forking. Net verdict: this source demonstrates the router is deeply Kubernetes-native at the API-object level (CRDs/RBAC/Gateway), while leaving open — undocumented in this capture — whether the EPP's internal Go plugin interfaces (filters/scorers referenced in the README's "Architecture Documentation" link, not fetched here) are decoupled enough from `client-go`/pod-watch types to support a custom, non-Kubernetes endpoint source without a fork. That remains the single most important unresolved question for the research query and this source could not resolve it — the docs/architecture.md and actual EPP plugin interface code are the necessary next fetch.
+
+## Extracted quotes
+
+> "**Terminology Change**: The _Inference Scheduler_ has been renamed to **llm-d Router**; see [Terminology]."
+
+Confirms the rename is a project-wide terminology change, not a new project.
+
+> "**API & Code Consolidation**: Core Endpoint Picker (EPP) code and the `InferenceObjective` and `InferenceModelRewrite` APIs have been merged into this repository from Gateway API Inference Extension (GIE). The GIE repository now exclusively hosts the `InferencePool` API—an extension of the Kubernetes Gateway API—and defines the Endpoint Picker Protocol."
+
+The exact division of API ownership after the consolidation.
+
+> "It supports a flexible deployment model: it can run in **Standalone Mode**, where a self-managed Envoy proxy runs either alongside the EPP or as a separate service, or integrate with L7 load balancers... via the Kubernetes Gateway API."
+
+Shows even "Standalone Mode" is proxy-topology flexibility, not backend-source flexibility.
+
+> "In this mode, the EPP acts as a backend for an `InferencePool`, which is referenced by an `HTTPRoute` on a shared `Gateway`. This enables advanced traffic management, multi-cluster load balancing, and shared infrastructure for both inference and traditional workloads."
+
+The only multi-cluster mention in the source, unelaborated.
+
+> "Registering it here means a deployment only has to label its pods with `llm-d.ai/engine-type: atom`, rather than carrying an engineConfigs block that restates metric names the engine already fixes."
+
+The clearest documented "add a backend type" mechanism, and it is pod-label-keyed.
+
+> "The sim-epp-kvcache EPP config set `token-producer.url` to http://localhost:8000, but the kind dev env runs the vLLM render server as a separate Service (vllm-render:8082), not a sidecar. The EPP pod has no listener on localhost:8000, so every request failed tokenization before the scorer ran and cache-aware routing never engaged."
+
+Strongest existing precedent that an EPP data dependency is URL-configurable rather than pod-IP-hardcoded — but only in a dev harness.
+
+> "Steps that implement RegisterRoutes(chi.Router) get it called once at server construction, after the built-in inference routes. This gives a step with its own HTTP surface... a home on the coordinator listener without the server learning step specifics."
+
+Shows a genuine Go-interface extension point in the coordinator pipeline — for HTTP routes, not for backend/endpoint selection.
+
+> "fix(test): update rbac.yaml after CRDs only comes from llm-d.ai not upstream GIE"
+
+One-line proof that RBAC/CRD manifests are still actively being reconciled across the two post-consolidation API groups.

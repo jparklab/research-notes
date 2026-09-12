@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "The WRP framework treats 'Pool' (where inference runs: homogeneous/heterogeneous GPU, disaggregated P/D, KV-cache topology) as a dimension orthogonal to 'Router' (how requests are dispatched), implying router dispatch policy and backend/pool topology are conceptually and practically separable design axes.",
+    "stance": "supports",
+    "stance_target": "decoupling routing logic from backend/pool substrate is an established architectural pattern in the inference-serving research community",
+    "evidence_type": "theoretical",
+    "scope_conditions": "vLLM Semantic Router project's own research agenda, position/vision paper, March 2026",
+    "quoted_support": "Pool defines where inference runs (homogeneous vs. heterogeneous GPU, disaggregated prefill/decode, KV-cache topology).",
+    "numbers": [],
+    "entities": ["Workload-Router-Pool", "vLLM Semantic Router"],
+    "time_period": "March 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "the-workloadrouterpool-architecture"
+  },
+  {
+    "claim": "Token-budget-aware pool routing reduced GPU instance counts by 17-39% on production traces by dispatching requests to short-context vs. long-context pools based on estimated total token budget.",
+    "stance": "neutral",
+    "stance_target": "cost impact of pool-aware routing decisions, independent of K8s vs non-K8s substrate",
+    "evidence_type": "empirical",
+    "scope_conditions": "vLLM Semantic Router project's PoolRouting work, production traces",
+    "quoted_support": "Token-budget pool routing [12] was the starting point: dispatching to short-context or long-context pools based on estimated total token budget, reducing GPU instances by 17–39% on production traces",
+    "numbers": ["17%", "39%"],
+    "entities": ["PoolRouting", "token-budget-aware routing"],
+    "time_period": "2025-2026",
+    "region": null,
+    "confidence": "low",
+    "source_note_id": "the-workloadrouterpool-architecture"
+  },
+  {
+    "claim": "This paper's only connection to llm-d is a single bibliographic citation of the llm-d team's 'KV-Cache wins you can see' blog post, with no discussion of llm-d's architecture, router, or discovery mechanism.",
+    "stance": "neutral",
+    "stance_target": "absence of substantive llm-d engagement in this source",
+    "evidence_type": "empirical",
+    "scope_conditions": "reference list, arXiv:2603.21354",
+    "quoted_support": "[42] llm-d Team. KV-Cache wins you can see: From prefix caching in vLLM to distributed scheduling with llm-d. https://llm-d.ai/blog/kvcache-wins-you-can-see, 2026.",
+    "numbers": [],
+    "entities": ["llm-d"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "the-workloadrouterpool-architecture"
+  }
+]

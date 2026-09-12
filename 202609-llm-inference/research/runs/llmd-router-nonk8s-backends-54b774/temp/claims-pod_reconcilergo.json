@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "There is no 'inference-pool-discovery' plugin (no k8s discovery plugin at all) in llm-d/llm-d-router's plugin architecture as of the main branch on 2026-09-11; the default Kubernetes pod-discovery path is a plain controller-runtime PodReconciler, and the only pluggable EndpointDiscovery implementation shipped is file-discovery, which is used to bypass Kubernetes entirely (not to replace the built-in Pod watch with a k8s-flavored plugin).",
+    "stance": "refutes",
+    "stance_target": "existence of a distinct 'inference-pool-discovery' k8s plugin.go that replaced pod-selector-based discovery",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d/llm-d-router repository, main branch, as fetched 2026-09-11",
+    "quoted_support": "By default the EPP discovers inference endpoints by watching a Kubernetes InferencePool object and the pods it selects. The discovery plugin interface replaces that mechanism with a pluggable alternative so the EPP can run in environments where Kubernetes is not available.",
+    "numbers": [],
+    "entities": ["llm-d-router", "InferencePool", "EndpointDiscovery", "file-discovery", "PodReconciler"],
+    "time_period": "2026-09-11 (repo snapshot)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "pod_reconcilergo"
+  },
+  {
+    "claim": "The default Kubernetes Pod-discovery event filter admits a Pod create/update/delete/generic event into reconciliation only if the Pod's labels match the InferencePool's selector, via Datastore.PoolLabelsMatch(pod.GetLabels()).",
+    "stance": "supports",
+    "stance_target": "label-selector-match is a gating condition for Pod discovery",
+    "evidence_type": "empirical",
+    "scope_conditions": "pkg/epp/controller/pod_reconciler.go, SetupWithManager event predicate",
+    "quoted_support": "CreateFunc: func(ce event.CreateEvent) bool {\n\t\t\tpod := ce.Object.(*corev1.Pod)\n\t\t\treturn c.Datastore.PoolLabelsMatch(pod.GetLabels())\n\t\t},",
+    "numbers": [],
+    "entities": ["PodReconciler", "Datastore.PoolLabelsMatch", "InferencePool.spec.selector"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "pod_reconcilergo"
+  },
+  {
+    "claim": "The reconcile-time datastore admission gate for a Pod is the logical AND of two conditions: podutil.IsPodReady(pod) and Datastore.PoolLabelsMatch(pod.Labels); failing either causes deletion from the datastore, and no other Kubernetes-specific field is checked at this step.",
+    "stance": "supports",
+    "stance_target": "the only filters on candidate Pods beyond label-selector-match are the aggregate Ready condition (no PodIP/NodeName/Phase checks)",
+    "evidence_type": "empirical",
+    "scope_conditions": "pkg/epp/controller/pod_reconciler.go, function updateDatastore",
+    "quoted_support": "func (c *PodReconciler) updateDatastore(ctx context.Context, pod *corev1.Pod) error {\n\tlogger := log.FromContext(ctx)\n\tif !podutil.IsPodReady(pod) || !c.Datastore.PoolLabelsMatch(pod.Labels) {\n\t\tlogger.V(logutil.DEBUG).Info(\"Pod removed or not added\")\n\t\tc.Datastore.PodDelete(pod.Name)\n\t\treturn nil\n\t}\n\treturn c.Datastore.PodUpdateOrAddIfNotExist(ctx, pod)\n}",
+    "numbers": [],
+    "entities": ["PodReconciler.updateDatastore", "podutil.IsPodReady", "Datastore.PodUpdateOrAddIfNotExist"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "pod_reconcilergo"
+  },
+  {
+    "claim": "IsPodReady (pkg/epp/util/pod/pod.go, confirmed via direct fetch of the repository) checks only pod.DeletionTimestamp.IsZero() and the aggregate corev1.PodReady condition status; it does not inspect pod.Status.PodIP, pod.Spec.NodeName, or pod.Status.Phase, meaning a virtual-kubelet-backed Pod object that matches the selector and reports Ready=True would not be excluded by this readiness check regardless of which kubelet or provider set that condition.",
+    "stance": "supports",
+    "stance_target": "virtual-kubelet Pods matching selector + Ready=True are not excluded by any node/scheduling field check",
+    "evidence_type": "empirical",
+    "scope_conditions": "pkg/epp/util/pod/pod.go, function IsPodReady; cross-checked against docs/discovery.md prose in the same repository",
+    "quoted_support": "func IsPodReady(pod *corev1.Pod) bool {\n\tif !pod.DeletionTimestamp.IsZero() {\n\t\treturn false\n\t}\n\tfor _, condition := range pod.Status.Conditions {\n\t\tif condition.Type == corev1.PodReady {\n\t\t\tif condition.Status == corev1.ConditionTrue {\n\t\t\t\treturn true\n\t\t\t}\n\t\t\tbreak\n\t\t}\n\t}\n\treturn false\n}",
+    "numbers": [],
+    "entities": ["podutil.IsPodReady", "corev1.PodReady", "virtual-kubelet"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "pod_reconcilergo"
+  },
+  {
+    "claim": "Even after a Pod passes the label-selector and Ready-condition gates, the datastore layer (podUpdateOrAddIfNotExist / extractActivePorts) builds one EndpointMetadata per matching pool.TargetPort using pod.Status.PodIP verbatim as Address with no emptiness or format validation; an empty or invalid PodIP is not itself a rejection condition at this layer, it would simply propagate into a broken endpoint address.",
+    "stance": "supports",
+    "stance_target": "no explicit PodIP validity check exists in the Kubernetes discovery path",
+    "evidence_type": "empirical",
+    "scope_conditions": "pkg/epp/datastore/datastore.go, function podUpdateOrAddIfNotExist (cross-checked via direct repository fetch, not the assigned URL)",
+    "quoted_support": "Address:     pod.Status.PodIP,\n\t\t\t\tNodeAddress: pod.Status.HostIP,\n\t\t\t\tPort:        strconv.Itoa(port),\n\t\t\t\tMetricsHost: net.JoinHostPort(pod.Status.PodIP, strconv.Itoa(port)),",
+    "numbers": [],
+    "entities": ["datastore.podUpdateOrAddIfNotExist", "EndpointMetadata", "pod.Status.PodIP"],
+    "time_period": null,
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "pod_reconcilergo"
+  }
+]

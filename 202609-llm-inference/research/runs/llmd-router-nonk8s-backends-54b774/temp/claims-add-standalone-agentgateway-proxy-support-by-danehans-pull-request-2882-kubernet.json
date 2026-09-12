@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "GIE's standalone Helm chart officially supports running agentgateway as the EPP sidecar proxy via inferenceExtension.sidecar.proxyType=agentgateway, making it a first-class alternative to the default Envoy-based sidecar.",
+    "stance": "supports",
+    "stance_target": "agentgateway is an officially supported, chart-configurable proxy option for standalone EPP deployments, not just an experimental fork",
+    "evidence_type": "empirical",
+    "scope_conditions": "kubernetes-sigs/gateway-api-inference-extension, standalone Helm chart, merged PR #2882, April 2026",
+    "quoted_support": "The standalone Helm chart can now run agentgateway as the sidecar proxy by setting inferenceExtension.sidecar.proxyType=agentgateway.",
+    "numbers": ["issue #2883"],
+    "entities": ["GIE", "agentgateway", "danehans", "Helm"],
+    "time_period": "April 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "add-standalone-agentgateway-proxy-support-by-danehans-pull-request-2882-kubernet"
+  },
+  {
+    "claim": "The standalone agentgateway Helm chart path was validated via a live kind e2e cluster with the vLLM simulator and a patched agentgateway image built directly from the agentgateway passthrough-destinationMode PR (#1658), tying the two PRs together as co-developed and co-tested.",
+    "stance": "neutral",
+    "stance_target": "cross-repo coordination between agentgateway's destination-trust work and GIE's standalone chart support",
+    "evidence_type": "empirical",
+    "scope_conditions": "GIE PR #2882 testing section, April 2026",
+    "quoted_support": "Live kind e2e with the vLLM simulator and a patched agentgateway image (agentgateway/agentgateway#1658)",
+    "numbers": ["PR #1658"],
+    "entities": ["agentgateway", "GIE", "kind", "vLLM simulator"],
+    "time_period": "April 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "add-standalone-agentgateway-proxy-support-by-danehans-pull-request-2882-kubernet"
+  },
+  {
+    "claim": "Even the agentgateway-based standalone EPP Helm chart still generates a Kubernetes Service object for the model backend group, indicating a k8s Service remains the addressing anchor in this configuration despite it being labeled 'standalone'.",
+    "stance": "refutes",
+    "stance_target": "the officially supported standalone-agentgateway chart path fully eliminates Kubernetes dependencies for backend addressing",
+    "evidence_type": "empirical",
+    "scope_conditions": "GIE PR #2882, standalone Helm chart with agentgateway sidecar",
+    "quoted_support": "This includes proxy preset selection, agentgateway validation, generated service-backed agentgateway local config, a generated model Service, release-tooling tag replacement, and standalone guide updates.",
+    "numbers": [],
+    "entities": ["GIE", "agentgateway", "Kubernetes Service"],
+    "time_period": "April 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "add-standalone-agentgateway-proxy-support-by-danehans-pull-request-2882-kubernet"
+  }
+]

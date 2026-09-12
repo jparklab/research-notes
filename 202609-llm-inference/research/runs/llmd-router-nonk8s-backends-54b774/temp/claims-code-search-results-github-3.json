@@ -1,0 +1,18 @@
+[
+ {
+  "claim": "GitHub's code-search UI requires an authenticated session for every query, so it categorically cannot be used unauthenticated to confirm or rule out downstream code importing llm-d-router's runner or plugin packages.",
+  "stance": "neutral",
+  "stance_target": "audited absence of precedent for out-of-tree llm-d-router plugin imports",
+  "evidence_type": "empirical",
+  "scope_conditions": "github.com/search?type=code, unauthenticated session",
+  "quoted_support": "Sign in to search code on GitHub. Before you can access our code search functionality please sign in or create a free account.",
+  "numbers": [],
+  "entities": [
+   "GitHub code search"
+  ],
+  "time_period": "Sep 11, 2026",
+  "region": null,
+  "confidence": "high",
+  "source_note_id": "code-search-results-github-3"
+ }
+]

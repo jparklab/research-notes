@@ -1,0 +1,38 @@
+[
+  {
+    "verdict": "partially-supported",
+    "severity": "major",
+    "sentence": "Downstream, `pod.Status.PodIP` is consumed verbatim with no emptiness or format validation, and there is no check on node name or pod phase [[pod_reconcilergo]].",
+    "cited_note_id": "pod_reconcilergo",
+    "correct_note_id": null,
+    "evidence": "pod_reconciler.go's own gating logic only checks podutil.IsPodReady(pod) and Datastore.PoolLabelsMatch(pod.Labels) before calling Datastore.PodUpdateOrAddIfNotExist(ctx, pod); the file never itself reads or validates pod.Status.PodIP, so the specific claim that PodIP is 'consumed verbatim' downstream is not shown in this note (that logic would live in the Datastore implementation, which this note does not include).",
+    "suggested_fix": "Cite the datastore/backend code that actually extracts pod.Status.PodIP (if captured in the vault), or soften the sentence to state this is inferred from the reconciler passing the whole Pod object onward rather than directly observed."
+  },
+  {
+    "verdict": "partially-supported",
+    "severity": "major",
+    "sentence": "The discovery interface carries no liveness field and the framework applies no health gate; a plugin is solely responsible for upserting only endpoints it believes healthy, and the readiness channel that gates request serving says nothing about any individual endpoint [[filediscovery-plugin-44-wiring-into-the-runner-by-ezrasilvera-pull-request-1218]].",
+    "cited_note_id": "filediscovery-plugin-44-wiring-into-the-runner-by-ezrasilvera-pull-request-1218",
+    "correct_note_id": "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github",
+    "evidence": "PR #1218 documents only the Ready() channel gating epp-server/health at startup, which supports the final clause about the readiness channel; it says nothing about the EndpointMetadata schema lacking a liveness field, nor does it state that a plugin is solely responsible for upserting only endpoints it believes healthy -- those points are established in docs/discovery.md's field table and interface commentary, not in this PR discussion.",
+    "suggested_fix": "Split the citation: keep PR-1218 for the readiness-channel clause and cite docs/discovery.md (or discovery.go) for the liveness-field/health-gate/plugin-responsibility clauses."
+  },
+  {
+    "verdict": "wrong-source",
+    "severity": "critical",
+    "sentence": "File reload failures make it worse: they are logged non-fatally and leave the previous datastore state in place, so the failure mode is stale-but-present endpoints rather than evicted ones [[llm-d-routerpkgeppframeworkpluginsdatalayerdiscoveryfile-at-main-llm-dllm-d-rout]].",
+    "cited_note_id": "llm-d-routerpkgeppframeworkpluginsdatalayerdiscoveryfile-at-main-llm-dllm-d-rout",
+    "correct_note_id": "llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github",
+    "evidence": "The cited note (the file-discovery plugin's package README) only describes per-entry validation during a successful reload ('invalid entries are logged and skipped, valid entries are applied'); it never states what happens when the reload itself fails at the file level (open/parse/size-limit). The exact claim being cited -- 'reload errors are logged but do not terminate the plugin; the datastore retains its previous state' -- is verbatim in docs/discovery.md's Live Reload section, and is also independently confirmed by plugin.go's load() function, which returns early on file-level errors before swapping the endpoint set (so nothing gets deleted).",
+    "suggested_fix": "Swap the citation to llm-d-routerdocsdiscoverymd-at-main-llm-dllm-d-router-github (or the plugin.go source note, 'plugingo'), both of which directly support this claim."
+  },
+  {
+    "verdict": "partially-supported",
+    "severity": "major",
+    "sentence": "Peer discovery is a structurally identical plugin interface for the router's own replicas, whose documentation names file-based discovery as a first-class feeder but whose cross-replica syncer is still described as future work [[peergo]] [[llm-d-routerdocspeer-discoverymd-at-main-llm-dllm-d-router-github]].",
+    "cited_note_id": "peergo",
+    "correct_note_id": "llm-d-routerdocspeer-discoverymd-at-main-llm-dllm-d-router-github",
+    "evidence": "peergo (the Go interface source) confirms the PeerDiscovery/PeerNotifier interface mirrors EndpointDiscovery and that 'the k8s reconciler and any file-based discovery feed the same sink,' supporting the first two clauses, but it contains no statement characterizing any cross-replica syncer as future work -- that framing appears only in the sibling peer-discovery.md doc, the second (unassigned) citation on this sentence.",
+    "suggested_fix": "Attribute the 'cross-replica syncer is still described as future work' clause specifically to the peer-discovery.md citation rather than to peergo."
+  }
+]

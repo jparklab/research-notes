@@ -1,0 +1,16 @@
+[
+  {
+    "claim": "The exact SSRF-relevant header name is x-prefiller-host-port (constant PrefillEndpointHeader), shared verbatim between EPP/inference-scheduler and the pd-sidecar; sibling headers x-encoder-hosts-ports and x-kv-cache-source-host-port carry the same trust model.",
+    "stance": "neutral",
+    "stance_target": "gap-3: exact header identity confirmation",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d-router@main, pkg/common/routing/common.go",
+    "quoted_support": "PrefillEndpointHeader = \"x-prefiller-host-port\" ... EncoderEndpointsHeader = \"x-encoder-hosts-ports\" ... KVCacheSourceHeader = \"x-kv-cache-source-host-port\"",
+    "numbers": [],
+    "entities": ["PrefillEndpointHeader", "EncoderEndpointsHeader", "KVCacheSourceHeader"],
+    "time_period": "2026 (current HEAD)",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "commongo"
+  }
+]

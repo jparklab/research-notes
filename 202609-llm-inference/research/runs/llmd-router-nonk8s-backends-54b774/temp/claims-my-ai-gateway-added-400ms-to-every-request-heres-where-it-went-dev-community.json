@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "Generic AI-gateway latency overhead is commonly attributable to synchronous authentication lookups, serial (non-parallelized) policy checks, synchronous audit logging on the response path, connection setup (repeated DNS/TCP/TLS negotiation without pooling), retries, and streaming buffering -- not the proxy layer itself.",
+    "stance": "neutral",
+    "stance_target": "diagnostic checklist transferable to evaluating overhead added by a custom llm-d router/EPP extension for non-k8s backends",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "LOW-AUTHORITY, generic LLM-API-gateway commentary, NOT llm-d-specific; article provenance uncertain (SEO-style blog with repetitive bot-like comment threads)",
+    "quoted_support": "In practice, the delay can come from connection setup, DNS or TLS negotiation, authentication lookups, synchronous logging, policy checks, retries, buffering, provider selection, or simply measuring time incorrectly.",
+    "numbers": ["300-500ms typical reported slowdown", "10 checks at 20ms = 80ms serial policy-check tax cited by one commenter", "commenter reports cutting overhead from ~280ms to ~60ms by parallelizing 4 serial auth/rate-limit checks"],
+    "entities": ["AI gateway", "TTFT", "p50/p95/p99"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "low",
+    "source_note_id": "my-ai-gateway-added-400ms-to-every-request-heres-where-it-went-dev-community"
+  },
+  {
+    "claim": "Gateway overhead should be measured by comparing direct-to-provider latency against gateway-to-same-provider latency under identical conditions, and by tracking p50/p95/p99 rather than averages, since connection-setup and retry costs concentrate in the tail.",
+    "stance": "neutral",
+    "stance_target": "methodology for benchmarking a customized router's added overhead vs. the stock llm-d router",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "LOW-AUTHORITY, generic, not llm-d-specific",
+    "quoted_support": "Gateway overhead = gateway request latency - direct provider latency ... I prefer comparing p50, p95, and p99, because a gateway can look perfectly healthy at the median while connection setup, overloaded workers, or retries create painful tail latency.",
+    "numbers": [],
+    "entities": ["p50", "p95", "p99", "TTFT"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "low",
+    "source_note_id": "my-ai-gateway-added-400ms-to-every-request-heres-where-it-went-dev-community"
+  },
+  {
+    "claim": "Benchmarking a gateway against a mock upstream provider understates real overhead, because real requests carry network distance, provider queueing, and variability that a mock does not reproduce.",
+    "stance": "neutral",
+    "stance_target": "methodology caution applicable to benchmarking a custom EPP against non-k8s backends",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "LOW-AUTHORITY, generic, not llm-d-specific",
+    "quoted_support": "Another mistake is testing the gateway against a mock provider and treating the resulting latency as production latency... The fair comparison is: Direct provider request vs gateway -> same provider, under the same concurrency and workload.",
+    "numbers": [],
+    "entities": [],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "low",
+    "source_note_id": "my-ai-gateway-added-400ms-to-every-request-heres-where-it-went-dev-community"
+  }
+]

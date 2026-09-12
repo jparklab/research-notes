@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "In Red Hat OpenShift AI's KServe-based LLMInferenceService CRD, EPP scheduler config can be embedded two mutually-exclusive ways: inline under router.scheduler.config.inline, or by reference to a Kubernetes ConfigMap under router.scheduler.config.ref.{name,key} -- both are still a thin wrapper around the same raw EndpointPickerConfig YAML.",
+    "stance": "neutral",
+    "stance_target": "how a downstream platform (OpenShift AI/KServe) exposes EPP config, one layer above raw llm-d-router",
+    "evidence_type": "theoretical",
+    "scope_conditions": "Red Hat OpenShift AI Self-Managed 3.4, LLMInferenceService CRD",
+    "quoted_support": "The two configuration methods are mutually exclusive. You cannot use both inline and ConfigMap-based configuration in the same LLMInferenceService resource.",
+    "numbers": [],
+    "entities": ["LLMInferenceService", "router.scheduler.config.inline", "ConfigMap", "KServe"],
+    "time_period": "OpenShift AI 3.4, 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "chapter-7-configuring-scheduler-settings-for-llm-inference-services-deploy-model"
+  },
+  {
+    "claim": "The EPP request path is described as two sequential layers: Flow Control (governs WHEN/order requests dispatch: priority queuing, saturation detection, load shedding) followed by Scheduling (governs WHERE requests route: prefill/decode capacity, prefix cache affinity, load). Scheduling is always enabled; Flow Control is optional and gated by the flowControl feature gate.",
+    "stance": "supports",
+    "stance_target": "the admission-vs-placement separation inside the EPP relevant to designing a non-k8s scheduling plugin",
+    "evidence_type": "theoretical",
+    "scope_conditions": "Red Hat OpenShift AI 3.4 docs describing llm-d EPP",
+    "quoted_support": "The Scheduling layer is always enabled. Flow Control is optional and can be enabled through the flowControl feature gate for priority-based queuing and saturation detection.",
+    "numbers": [],
+    "entities": ["Flow Control layer", "Scheduling layer", "flowControl feature gate"],
+    "time_period": "OpenShift AI 3.4, 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "chapter-7-configuring-scheduler-settings-for-llm-inference-services-deploy-model"
+  },
+  {
+    "claim": "The OpenShift AI default scheduling profile combines queue-scorer (weight 2) and prefix-cache-scorer (weight 3), explicitly prioritizing KV-cache reuse over even load distribution -- a concrete numeric default a custom router must decide whether to preserve for non-pod backends lacking a directly-analogous KV cache concept.",
+    "stance": "neutral",
+    "stance_target": "default scoring weights that assume vLLM-style KV cache semantics",
+    "evidence_type": "empirical",
+    "scope_conditions": "Red Hat OpenShift AI 3.4 default EndpointPickerConfig",
+    "quoted_support": "the system uses a default profile that balances requests across replicas by combining queue depth, for example with a weight value of 2, and a prefix cache hit scoring, for example with a weight value of 3, then selects the highest-scoring replica.",
+    "numbers": ["weight 2", "weight 3"],
+    "entities": ["queue-scorer", "prefix-cache-scorer"],
+    "time_period": "OpenShift AI 3.4, 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "chapter-7-configuring-scheduler-settings-for-llm-inference-services-deploy-model"
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "Predicted-latency-based scheduling deploys the EPP together with predicted-latency sidecar containers -- a Training Server and Prediction Servers -- colocated with the EPP rather than with the model server, confirming this add-on couples to the router deployment, not the backend.",
+    "stance": "refutes",
+    "stance_target": "concern that adding predicted-latency scheduling would require k8s-coupled changes to backend/model-server pods",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d docs v0.9, predicted-latency-based scheduling architecture",
+    "quoted_support": "The setup deploys an EPP with the predicted latency sidecar containers: Training Server - trains the XGBoost model to predict TPOT and TTFT based on observed traffic; Prediction Servers - predict TPOT and TTFT of the request based on current server state.",
+    "numbers": [],
+    "entities": ["Training Server", "Prediction Server", "XGBoost", "EPP", "latency-scorer"],
+    "time_period": "v0.9, 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "predicted-latency-based-scheduling-llm-d"
+  },
+  {
+    "claim": "Predicted-latency scheduling assumes a homogeneous pool and is explicitly unsuitable for a heterogeneous pool (mixed GPU types, model variants, or serving configurations), because the predictor assumes a single pod shape.",
+    "stance": "neutral",
+    "stance_target": "applicability limit relevant to a non-k8s backend that may mix heterogeneous compute",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d docs v0.9",
+    "quoted_support": "Predicted latency is not a fit when the pool is heterogeneous -- mixed GPU types, model variants (e.g. prefill vs decode), or serving configurations in the same pool will produce inaccurate predictions, because the predictor assumes a single pod shape.",
+    "numbers": [],
+    "entities": ["predicted latency", "heterogeneous pool"],
+    "time_period": "v0.9, 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "predicted-latency-based-scheduling-llm-d"
+  },
+  {
+    "claim": "Predicted-latency scheduling's ML prediction currently only supports the p90 percentile and only streaming-mode training.",
+    "stance": "neutral",
+    "stance_target": "current feature limitations of the predicted-latency plugin as of the fetched documentation version",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d docs v0.9",
+    "quoted_support": "Currently only p90 percentile is supported, and only streaming mode training is supported.",
+    "numbers": ["p90"],
+    "entities": ["predicted-latency", "TTFT", "TPOT"],
+    "time_period": "v0.9, 2026",
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "predicted-latency-based-scheduling-llm-d"
+  }
+]

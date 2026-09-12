@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "The llm-d-latency-predictor's training and prediction servers are plain FastAPI Python applications, directly runnable via uvicorn on fixed ports (8000 training, 8001 prediction) with no Kubernetes API dependency visible in the project's own documentation.",
+    "stance": "refutes",
+    "stance_target": "predicted-latency scheduling's sidecar components are inherently Kubernetes-coupled and cannot run on a non-k8s backend",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d/llm-d-latency-predictor repo, v0.9.0 release (Aug 11 2026)",
+    "quoted_support": "After make install, the servers can be run with: uvicorn prediction.prediction_server:app --port 8001 / uvicorn training.training_server:app --port 8000",
+    "numbers": ["port 8000", "port 8001"],
+    "entities": ["FastAPI", "prediction_server.py", "training_server.py", "uvicorn"],
+    "time_period": "Aug 2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-llm-dllm-d-latency-predictor-latency-prediction-service-for-ml-model-base"
+  },
+  {
+    "claim": "The llm-d-latency-predictor repo's reference/tested deployment path is Kubernetes-based (deploy/ directory ships Kubernetes manifests plus a build-deploy.sh helper targeting GKE), even though the underlying servers themselves have no hard k8s dependency.",
+    "stance": "neutral",
+    "stance_target": "distinguishes the reference deployment packaging from the software's actual runtime dependencies",
+    "evidence_type": "empirical",
+    "scope_conditions": "llm-d/llm-d-latency-predictor repo layout",
+    "quoted_support": "deploy/ # Kubernetes manifests and kustomization; build-deploy.sh # Helper script for building images and deploying to GKE",
+    "numbers": [],
+    "entities": ["build-deploy.sh", "GKE", "kustomize"],
+    "time_period": "2026",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "github-llm-dllm-d-latency-predictor-latency-prediction-service-for-ml-model-base"
+  }
+]
