@@ -7,13 +7,15 @@ tags:
 - release-notes
 - rl-integration
 - llmd-router-nonk8s-backends-54b774
+- llmd-kv-cache-routing-c665d5
+- locus-default-scoring-configuration
 created: '2026-09-11T19:42:48.725469Z'
-updated: '2026-09-12T03:37:37.508870Z'
+updated: '2026-09-15T04:55:23.659785Z'
 source: https://llm-d.ai/blog/llm-d-v0.9-hardened-for-scale
 source_domain: llm-d.ai
 fetched_at: '2026-09-11T19:42:48.705324Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

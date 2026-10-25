@@ -8,12 +8,12 @@ tags:
 - bylabel
 - go-source
 created: '2026-09-11T20:48:32.042678Z'
-updated: '2026-09-12T03:37:37.675879Z'
+updated: '2026-09-15T04:55:23.833680Z'
 source: https://github.com/llm-d/llm-d-router/blob/main/pkg/epp/framework/plugins/scheduling/filter/bylabel/roles.go
 source_domain: github.com
 fetched_at: '2026-09-11T20:48:32.018399Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

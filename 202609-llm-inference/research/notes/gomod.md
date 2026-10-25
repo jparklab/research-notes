@@ -6,12 +6,12 @@ tags:
 - out-of-tree-plugin-support
 - go-mod-structural-check
 created: '2026-09-11T21:45:47.433483Z'
-updated: '2026-09-12T03:37:37.792278Z'
+updated: '2026-09-15T04:55:23.953109Z'
 source: https://raw.githubusercontent.com/llm-d/llm-d-router/main/go.mod
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-11T21:45:47.403570Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

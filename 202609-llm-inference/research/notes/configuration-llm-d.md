@@ -8,13 +8,15 @@ tags:
 - plugin-interfaces
 - epp-architecture
 - data-layer
+- llmd-kv-cache-routing-c665d5
+- locus-default-scoring-configuration
 created: '2026-09-11T20:50:20.587430Z'
-updated: '2026-09-12T03:37:37.713505Z'
+updated: '2026-09-15T04:55:23.873638Z'
 source: https://llm-d.ai/docs/dev/architecture/core/router/epp/configuration
 source_domain: llm-d.ai
 fetched_at: '2026-09-11T20:50:20.565390Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: docs

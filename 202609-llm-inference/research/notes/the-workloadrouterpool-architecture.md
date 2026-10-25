@@ -7,12 +7,12 @@ tags:
 - tangential
 - llmd-router-nonk8s-backends-54b774
 created: '2026-09-11T19:45:16.607868Z'
-updated: '2026-09-12T03:37:37.595374Z'
+updated: '2026-09-15T04:55:23.750913Z'
 source: https://arxiv.org/pdf/2603.21354
 source_domain: arxiv.org
 fetched_at: '2026-09-11T19:45:16.607563Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: institutional
 content_type: paper

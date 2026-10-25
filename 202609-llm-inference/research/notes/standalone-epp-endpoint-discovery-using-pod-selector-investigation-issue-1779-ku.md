@@ -9,12 +9,12 @@ tags:
 - gie-design
 - rl-batch-use-case
 created: '2026-09-11T21:06:28.860930Z'
-updated: '2026-09-12T03:37:37.753325Z'
+updated: '2026-09-15T04:55:23.915065Z'
 source: https://github.com/kubernetes-sigs/gateway-api-inference-extension/issues/1779
 source_domain: github.com
 fetched_at: '2026-09-11T21:06:28.840604Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

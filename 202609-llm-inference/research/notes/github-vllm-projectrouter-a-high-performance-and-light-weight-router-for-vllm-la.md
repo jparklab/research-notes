@@ -7,12 +7,12 @@ tags:
 - vllm-router
 - service-discovery
 created: '2026-09-11T20:47:52.737694Z'
-updated: '2026-09-12T03:37:37.666415Z'
+updated: '2026-09-15T04:55:23.824130Z'
 source: https://github.com/vllm-project/router
 source_domain: github.com
 fetched_at: '2026-09-11T20:47:52.715415Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

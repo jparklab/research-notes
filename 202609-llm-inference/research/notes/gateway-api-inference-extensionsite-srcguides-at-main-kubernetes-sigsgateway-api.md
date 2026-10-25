@@ -8,12 +8,12 @@ tags:
 - source-hub
 - docs-cleanup
 created: '2026-09-11T19:44:32.370251Z'
-updated: '2026-09-12T03:37:37.575660Z'
+updated: '2026-09-15T04:55:23.727813Z'
 source: https://github.com/kubernetes-sigs/gateway-api-inference-extension/tree/main/site-src/guides
 source_domain: github.com
 fetched_at: '2026-09-11T19:44:32.349636Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

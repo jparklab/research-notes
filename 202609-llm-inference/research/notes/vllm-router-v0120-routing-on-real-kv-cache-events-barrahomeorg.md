@@ -6,13 +6,14 @@ tags:
 - kv-aware-routing
 - vllm-router
 - llmd-router-nonk8s-backends-54b774
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T19:45:01.235468Z'
-updated: '2026-09-12T03:37:37.590721Z'
+updated: '2026-09-15T04:55:23.745870Z'
 source: https://barrahome.org/2026/04/24/vllm-router-v0120-kv-events-routing.md
 source_domain: barrahome.org
 fetched_at: '2026-09-11T19:45:01.213307Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

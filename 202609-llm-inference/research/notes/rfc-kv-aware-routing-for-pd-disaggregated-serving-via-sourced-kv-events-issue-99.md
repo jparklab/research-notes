@@ -8,13 +8,14 @@ tags:
 - non-k8s-backend
 - ground-truth-rfc
 - llmd-router-nonk8s-backends-54b774
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T19:46:17.548346Z'
-updated: '2026-09-12T03:37:37.633817Z'
+updated: '2026-09-15T04:55:23.789993Z'
 source: https://github.com/vllm-project/vllm-ascend/issues/9905
 source_domain: github.com
 fetched_at: '2026-09-11T19:46:17.527654Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

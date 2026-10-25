@@ -8,12 +8,12 @@ tags:
 - epp-internals
 - llmd-router-nonk8s-backends-54b774
 created: '2026-09-11T19:43:14.433377Z'
-updated: '2026-09-12T03:37:37.523415Z'
+updated: '2026-09-15T04:55:23.675083Z'
 source: https://pkg.go.dev/sigs.k8s.io/gateway-api-inference-extension/pkg/epp/datalayer
 source_domain: pkg.go.dev
 fetched_at: '2026-09-11T19:43:14.414664Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

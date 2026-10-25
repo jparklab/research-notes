@@ -9,12 +9,12 @@ tags:
 - helm
 - gie-design
 created: '2026-09-11T21:03:58.255333Z'
-updated: '2026-09-12T03:37:37.749968Z'
+updated: '2026-09-15T04:55:23.911468Z'
 source: https://github.com/kubernetes-sigs/gateway-api-inference-extension/pull/2882
 source_domain: github.com
 fetched_at: '2026-09-11T21:03:58.234131Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

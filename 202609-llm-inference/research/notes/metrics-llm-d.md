@@ -9,12 +9,12 @@ tags:
 - prometheus-security
 - security
 created: '2026-09-11T20:53:24.729820Z'
-updated: '2026-09-12T03:37:37.724245Z'
+updated: '2026-09-15T04:55:23.885023Z'
 source: https://llm-d.ai/docs/operations/observability/metrics
 source_domain: llm-d.ai
 fetched_at: '2026-09-11T20:53:24.709755Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: docs

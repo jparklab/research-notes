@@ -5,8 +5,8 @@ tags:
 - llmd-router-nonk8s-backends-54b774
 - locus-topology-and-k8s-shims
 created: '2026-09-11T21:29:31.567268Z'
-updated: '2026-09-12T03:37:37.499160Z'
-status: review
+updated: '2026-09-15T04:55:23.648469Z'
+status: evergreen
 type: interim
 deprecated: false
 summary: 'Topology decision rule: EndpointSlice-shimming is a category error (InferencePool/EPP

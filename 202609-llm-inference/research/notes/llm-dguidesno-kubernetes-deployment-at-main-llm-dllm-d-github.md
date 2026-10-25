@@ -8,12 +8,12 @@ tags:
 - deployment-guide
 - file-discovery
 created: '2026-09-11T20:48:07.438169Z'
-updated: '2026-09-12T03:37:37.668252Z'
+updated: '2026-09-15T04:55:23.826038Z'
 source: https://github.com/llm-d/llm-d/tree/main/guides/no-kubernetes-deployment
 source_domain: github.com
 fetched_at: '2026-09-11T20:48:07.416927Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

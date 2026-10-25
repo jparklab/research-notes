@@ -10,12 +10,12 @@ tags:
 - fallback-endpoints
 - standalone-epp
 created: '2026-09-11T20:49:40.007623Z'
-updated: '2026-09-12T03:37:37.701412Z'
+updated: '2026-09-15T04:55:23.860747Z'
 source: https://github.com/kubernetes-sigs/gateway-api-inference-extension/pull/761
 source_domain: github.com
 fetched_at: '2026-09-11T20:49:39.982412Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

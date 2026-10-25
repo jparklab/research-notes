@@ -8,12 +8,12 @@ tags:
 - leads-only
 - llmd-router-nonk8s-backends-54b774
 created: '2026-09-11T19:44:23.637038Z'
-updated: '2026-09-12T03:37:37.567886Z'
+updated: '2026-09-15T04:55:23.719676Z'
 source: https://deepwiki.com/kubernetes-sigs/gateway-api-inference-extension
 source_domain: deepwiki.com
 fetched_at: '2026-09-11T19:44:23.616797Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

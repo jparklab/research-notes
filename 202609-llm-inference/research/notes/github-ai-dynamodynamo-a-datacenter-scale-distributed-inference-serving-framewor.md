@@ -8,12 +8,12 @@ tags:
 - service-discovery
 - llmd-router-nonk8s-backends-54b774
 created: '2026-09-11T19:44:46.237470Z'
-updated: '2026-09-12T03:37:37.582392Z'
+updated: '2026-09-15T04:55:23.734990Z'
 source: https://github.com/ai-dynamo/dynamo
 source_domain: github.com
 fetched_at: '2026-09-11T19:44:46.215797Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

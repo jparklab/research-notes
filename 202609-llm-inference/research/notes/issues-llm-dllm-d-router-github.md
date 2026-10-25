@@ -7,12 +7,12 @@ tags:
 - github-issue-search
 - audited-absence
 created: '2026-09-11T21:24:58.203603Z'
-updated: '2026-09-12T03:37:37.773608Z'
+updated: '2026-09-15T04:55:23.934582Z'
 source: https://github.com/llm-d/llm-d-router/issues?q=is%3Aissue%20%22out-of-tree%22%20OR%20%22out%20of%20tree%22
 source_domain: github.com
 fetched_at: '2026-09-11T21:24:58.173668Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

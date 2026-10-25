@@ -7,8 +7,9 @@ tags:
 - zmq-kv-events
 - pod-discovery
 - non-k8s-backend
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T20:49:57.104893Z'
-updated: '2026-09-11T20:50:35.696937Z'
+updated: '2026-09-14T11:52:09.355735Z'
 source: https://github.com/llm-d/llm-d-kv-cache/blob/main/docs/configuration.md
 source_domain: github.com
 fetched_at: '2026-09-11T20:49:57.081020Z'

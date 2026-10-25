@@ -6,13 +6,14 @@ tags:
 - epp-architecture
 - gke
 - llmd-router-nonk8s-backends-54b774
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T19:46:04.084203Z'
-updated: '2026-09-12T03:37:37.623564Z'
+updated: '2026-09-15T04:55:23.779184Z'
 source: https://www.spheron.network/blog/gke-inference-gateway-kv-cache-aware-llm-routing/
 source_domain: www.spheron.network
 fetched_at: '2026-09-11T19:46:04.063079Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

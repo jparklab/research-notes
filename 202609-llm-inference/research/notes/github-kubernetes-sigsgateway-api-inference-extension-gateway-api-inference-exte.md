@@ -8,12 +8,12 @@ tags:
 - epp-migration
 - llm-d-router
 created: '2026-09-11T19:43:30.266856Z'
-updated: '2026-09-12T03:37:37.533840Z'
+updated: '2026-09-15T04:55:23.685944Z'
 source: https://github.com/kubernetes-sigs/gateway-api-inference-extension
 source_domain: github.com
 fetched_at: '2026-09-11T19:43:30.245740Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code
@@ -44,6 +44,8 @@ summary: 'Main GIE repo README (fetched 2026-09-11, HEAD as of commit 2711ff86, 
   ReadCycleStateKey, and Runner With* config options specifically for llm-d compatibility.'
 utility_score: 13.0
 ---
+
+*Suggested by [[llm-serving-on-kubernetes-llm-d-aibrix-dynamo-compared]] — GA v1 InferencePool/EPP standard cited as convergence layer above llm-d/AIBrix/Dynamo*
 
 [Skip to content](https://github.com/kubernetes-sigs/gateway-api-inference-extension#start-of-content)
 You signed in with another tab or window. [Reload](https://github.com/kubernetes-sigs/gateway-api-inference-extension) to refresh your session. You signed out in another tab or window. [Reload](https://github.com/kubernetes-sigs/gateway-api-inference-extension) to refresh your session. You switched accounts on another tab or window. [Reload](https://github.com/kubernetes-sigs/gateway-api-inference-extension) to refresh your session. Dismiss alert

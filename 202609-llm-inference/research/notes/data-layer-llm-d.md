@@ -9,12 +9,12 @@ tags:
 - plugin-interfaces
 - non-k8s-precedent
 created: '2026-09-11T20:50:16.084063Z'
-updated: '2026-09-12T03:37:37.709834Z'
+updated: '2026-09-15T04:55:23.869664Z'
 source: https://llm-d.ai/docs/dev/architecture/core/router/epp/datalayer
 source_domain: llm-d.ai
 fetched_at: '2026-09-11T20:50:16.061724Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: docs

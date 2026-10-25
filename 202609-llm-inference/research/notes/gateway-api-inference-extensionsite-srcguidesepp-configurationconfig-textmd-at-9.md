@@ -11,12 +11,12 @@ tags:
 - pod-assumptions
 - llmd-router-nonk8s-backends-54b774
 created: '2026-09-11T19:45:49.939726Z'
-updated: '2026-09-12T03:37:37.616976Z'
+updated: '2026-09-15T04:55:23.772515Z'
 source: https://github.com/kubernetes-sigs/gateway-api-inference-extension/blob/91ad0da44f64d41642d55e220d239648eef06196/site-src/guides/epp-configuration/config-text.md
 source_domain: github.com
 fetched_at: '2026-09-11T19:45:49.918771Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

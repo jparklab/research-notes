@@ -7,13 +7,14 @@ tags:
 - vllm-internals
 - non-k8s-backend
 - llmd-router-nonk8s-backends-54b774
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T19:44:32.547145Z'
-updated: '2026-09-12T03:37:37.577245Z'
+updated: '2026-09-15T04:55:23.729410Z'
 source: https://github.com/vllm-project/vllm/blob/main/vllm/distributed/kv_events.py
 source_domain: github.com
 fetched_at: '2026-09-11T19:44:32.522784Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

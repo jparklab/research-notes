@@ -10,12 +10,12 @@ tags:
 - filediscovery
 - configmap
 created: '2026-09-11T20:52:10.934040Z'
-updated: '2026-09-12T03:37:37.719091Z'
+updated: '2026-09-15T04:55:23.879585Z'
 source: https://github.com/llm-d/llm-d-router/pull/1135
 source_domain: github.com
 fetched_at: '2026-09-11T20:52:10.910971Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

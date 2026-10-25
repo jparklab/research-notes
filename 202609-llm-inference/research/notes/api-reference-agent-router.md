@@ -8,12 +8,12 @@ tags:
 - api-reference
 - inferencepool
 created: '2026-09-11T19:44:05.096081Z'
-updated: '2026-09-12T03:37:37.555922Z'
+updated: '2026-09-15T04:55:23.708461Z'
 source: https://aigateway.envoyproxy.io/docs/api/
 source_domain: aigateway.envoyproxy.io
 fetched_at: '2026-09-11T19:44:05.074123Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: docs

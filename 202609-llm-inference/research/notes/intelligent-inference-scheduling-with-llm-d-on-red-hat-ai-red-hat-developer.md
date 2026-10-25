@@ -6,13 +6,14 @@ tags:
 - llminferenceservice
 - epp-architecture
 - llmd-router-nonk8s-backends-54b774
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T19:45:20.401242Z'
-updated: '2026-09-12T03:37:37.600566Z'
+updated: '2026-09-15T04:55:23.756850Z'
 source: https://developers.redhat.com/articles/2026/06/11/intelligent-inference-scheduling-llm-d-red-hat-ai
 source_domain: developers.redhat.com
 fetched_at: '2026-09-11T19:45:20.378196Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

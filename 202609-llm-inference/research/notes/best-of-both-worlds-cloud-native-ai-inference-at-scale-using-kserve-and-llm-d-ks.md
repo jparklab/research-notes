@@ -7,13 +7,14 @@ tags:
 - llmd-router
 - llminferenceservice
 - llm-d-architecture
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T20:49:38.145066Z'
-updated: '2026-09-12T03:37:37.699701Z'
+updated: '2026-09-15T04:55:23.859001Z'
 source: https://kserve.github.io/website/blog/cloud-native-ai-inference-kserve-llm-d
 source_domain: kserve.github.io
 fetched_at: '2026-09-11T20:49:38.122865Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

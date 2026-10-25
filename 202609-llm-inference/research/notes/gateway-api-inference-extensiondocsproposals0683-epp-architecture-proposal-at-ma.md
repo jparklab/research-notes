@@ -7,13 +7,14 @@ tags:
 - epp-architecture
 - data-layer
 - llmd-router-nonk8s-backends-54b774
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T19:43:09.674039Z'
-updated: '2026-09-12T03:37:37.520092Z'
+updated: '2026-09-15T04:55:23.671348Z'
 source: https://github.com/kubernetes-sigs/gateway-api-inference-extension/tree/main/docs/proposals/0683-epp-architecture-proposal
 source_domain: github.com
 fetched_at: '2026-09-11T19:43:09.652130Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

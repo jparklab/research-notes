@@ -7,12 +7,12 @@ tags:
 - config-schema
 - epp-plugin-registration
 created: '2026-09-11T21:00:57.409737Z'
-updated: '2026-09-12T03:37:37.748225Z'
+updated: '2026-09-15T04:55:23.909765Z'
 source: https://github.com/llm-d/llm-d-router/commit/950c963644b88d697fafda6f9e79390855996e19
 source_domain: github.com
 fetched_at: '2026-09-11T21:00:57.388619Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

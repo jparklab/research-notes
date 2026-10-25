@@ -8,12 +8,12 @@ tags:
 - vllm-router
 - llmd-router-nonk8s-backends-54b774
 created: '2026-09-11T19:44:24.785139Z'
-updated: '2026-09-12T03:37:37.570875Z'
+updated: '2026-09-15T04:55:23.722650Z'
 source: https://vllm.ai/blog/2025-12-13-vllm-router-release
 source_domain: vllm.ai
 fetched_at: '2026-09-11T19:44:24.751355Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

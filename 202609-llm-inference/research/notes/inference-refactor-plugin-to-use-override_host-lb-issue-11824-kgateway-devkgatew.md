@@ -8,12 +8,12 @@ tags:
 - kgateway
 - fail-open
 created: '2026-09-11T21:04:03.372666Z'
-updated: '2026-09-12T03:37:37.751572Z'
+updated: '2026-09-15T04:55:23.913260Z'
 source: https://github.com/kgateway-dev/kgateway/issues/11824
 source_domain: github.com
 fetched_at: '2026-09-11T21:04:03.350094Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

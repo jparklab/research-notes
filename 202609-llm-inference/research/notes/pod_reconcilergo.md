@@ -7,8 +7,9 @@ tags:
 - k8s-pod-discovery
 - inferencepool
 - pod-readiness
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T21:26:35.034517Z'
-updated: '2026-09-11T21:26:55.640775Z'
+updated: '2026-09-14T13:10:42.810697Z'
 source: https://raw.githubusercontent.com/llm-d/llm-d-router/main/pkg/epp/controller/pod_reconciler.go
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-11T21:26:35.014210Z'

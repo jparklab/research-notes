@@ -7,13 +7,14 @@ tags:
 - zmq-kv-events
 - epp-router
 - llmd-router-nonk8s-backends-54b774
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T19:43:18.305458Z'
-updated: '2026-09-12T03:37:37.526809Z'
+updated: '2026-09-15T04:55:23.678635Z'
 source: https://llm-d.ai/docs/architecture/advanced/kv-management/prefix-cache-aware-routing
 source_domain: llm-d.ai
 fetched_at: '2026-09-11T19:43:18.282148Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: docs

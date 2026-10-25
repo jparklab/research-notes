@@ -7,12 +7,12 @@ tags:
 - data-layer
 - navigational
 created: '2026-09-11T21:47:12.242139Z'
-updated: '2026-09-12T03:37:37.796232Z'
+updated: '2026-09-15T04:55:23.957308Z'
 source: https://github.com/llm-d/llm-d-router/tree/main/pkg/epp/framework/interface/datalayer
 source_domain: github.com
 fetched_at: '2026-09-11T21:47:12.218642Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

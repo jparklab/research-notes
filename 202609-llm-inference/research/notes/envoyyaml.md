@@ -7,12 +7,12 @@ tags:
 - original-dst
 - no-kubernetes
 created: '2026-09-11T20:52:59.265242Z'
-updated: '2026-09-12T03:37:37.722730Z'
+updated: '2026-09-15T04:55:23.883428Z'
 source: https://raw.githubusercontent.com/llm-d/llm-d/main/guides/no-kubernetes-deployment/router/envoy/envoy.yaml
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-11T20:52:59.244469Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

@@ -8,12 +8,12 @@ tags:
 - epp-architecture
 - standalone-mode
 created: '2026-09-11T20:49:41.679113Z'
-updated: '2026-09-12T03:37:37.703178Z'
+updated: '2026-09-15T04:55:23.862753Z'
 source: https://deepwiki.com/llm-d/llm-d-router
 source_domain: deepwiki.com
 fetched_at: '2026-09-11T20:49:41.656840Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

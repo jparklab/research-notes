@@ -9,12 +9,12 @@ tags:
 - k8s-only
 - llmd-router-nonk8s-backends-54b774
 created: '2026-09-11T19:44:36.763397Z'
-updated: '2026-09-12T03:37:37.578912Z'
+updated: '2026-09-15T04:55:23.731136Z'
 source: https://istio.io/latest/docs/tasks/traffic-management/ingress/gateway-api-inference-extension/
 source_domain: istio.io
 fetched_at: '2026-09-11T19:44:36.736995Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: docs

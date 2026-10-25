@@ -7,13 +7,14 @@ tags:
 - file-discovery
 - kv-cache-events
 - disaggregated-serving
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T20:48:46.547020Z'
-updated: '2026-09-12T03:37:37.679891Z'
+updated: '2026-09-15T04:55:23.838119Z'
 source: https://cefboud.com/posts/llm-d/
 source_domain: cefboud.com
 fetched_at: '2026-09-11T20:48:46.523715Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

@@ -8,12 +8,12 @@ tags:
 - deployment-modes
 - service-discovery
 created: '2026-09-11T20:49:09.383040Z'
-updated: '2026-09-12T03:37:37.688340Z'
+updated: '2026-09-15T04:55:23.846934Z'
 source: https://github.com/kubernetes-sigs/gateway-api-inference-extension/issues/1838
 source_domain: github.com
 fetched_at: '2026-09-11T20:49:09.359751Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

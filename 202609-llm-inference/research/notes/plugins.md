@@ -5,12 +5,12 @@ tags:
 - llmd-router-nonk8s-backends-54b774
 - directory-listing
 created: '2026-09-11T21:53:15.135917Z'
-updated: '2026-09-12T03:37:37.817817Z'
+updated: '2026-09-15T04:55:23.985662Z'
 source: https://api.github.com/repos/llm-d/llm-d-router/contents/pkg/epp/framework/plugins
 source_domain: api.github.com
 fetched_at: '2026-09-11T21:53:15.112519Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

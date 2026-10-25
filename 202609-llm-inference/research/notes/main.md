@@ -6,12 +6,12 @@ tags:
 - out-of-tree-plugin-support
 - no-internal-path-blocker
 created: '2026-09-11T21:47:01.419177Z'
-updated: '2026-09-12T03:37:37.794870Z'
+updated: '2026-09-15T04:55:23.955913Z'
 source: https://api.github.com/repos/llm-d/llm-d-router/git/trees/main?recursive=1
 source_domain: api.github.com
 fetched_at: '2026-09-11T21:47:01.396605Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

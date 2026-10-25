@@ -8,13 +8,14 @@ tags:
 - mooncake-conductor
 - rejected-proposal
 - non-k8s-backend
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T20:49:32.070859Z'
-updated: '2026-09-12T03:37:37.695490Z'
+updated: '2026-09-15T04:55:23.854486Z'
 source: https://github.com/kvcache-ai/Mooncake/issues/977
 source_domain: github.com
 fetched_at: '2026-09-11T20:49:32.043714Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

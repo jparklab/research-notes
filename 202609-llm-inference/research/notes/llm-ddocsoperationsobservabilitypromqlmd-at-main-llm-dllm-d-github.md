@@ -1,0 +1,166 @@
+---
+title: llm-d/docs/operations/observability/promql.md at main · llm-d/llm-d · GitHub
+id: llm-ddocsoperationsobservabilitypromqlmd-at-main-llm-dllm-d-github
+tags:
+- llm-d
+- kv-cache-routing
+- observability
+- llmd-kv-cache-routing-c665d5
+created: '2026-09-14T11:56:52.945222Z'
+updated: '2026-09-15T04:55:24.087487Z'
+source: https://github.com/llm-d/llm-d/blob/main/docs/operations/observability/promql.md
+source_domain: github.com
+fetched_at: '2026-09-14T11:56:52.925399Z'
+fetch_provider: crawl4ai
+status: evergreen
+type: note
+tier: ground_truth
+content_type: code
+deprecated: false
+summary: 'llm-d GitHub PromQL Query Reference (docs/operations/observability/promql.md,
+  updated Aug 31 2026 via PR #2368 adding NIXL transfer metrics). Ready-to-use Prometheus
+  queries organized in tiers. KV-cache/prefix-cache-specific queries: KV Cache Utilization
+  = avg by(pod, model_name) (vllm:kv_cache_usage_perc) (SGLang equivalent: sglang_token_usage);
+  Prefix cache hit rate = sum(rate(vllm:prefix_cache_hits_total[5m])) / sum(rate(vllm:prefix_cache_queries_total[5m]));
+  EPP prefix indexer size = llm_d_epp_prefix_indexer_size; EPP prefix hit ratio P90
+  = histogram_quantile(0.90, sum by(le) (rate(llm_d_epp_prefix_indexer_hit_ratio_bucket[5m]))).
+  P/D disaggregation queries: Disaggregation decision ratio = sum(rate(llm_d_epp_disagg_decision_total{decision_type="prefill-decode"}[5m]))
+  / sum(rate(llm_d_epp_disagg_decision_total[5m])); Decode KV cache utilization scoped
+  to decode pods only via pod=~".*decode.*" label match. NIXL transfer metrics (new
+  in this revision): average/P95 NIXL transfer time from vllm:nixl_xfer_time_seconds_sum/count
+  and _bucket; average transfer size and data volume from vllm:nixl_bytes_transferred_sum/count;
+  failed transfer and failed notification counters (vllm:nixl_num_failed_transfers,
+  vllm:nixl_num_failed_notifications); expired prefill KV requests (vllm:nixl_num_kv_expired_reqs).
+  Explicit caveat: NIXL histogram observations are pooled across tensor-parallel ranks,
+  so their counts/average sizes describe rank-level transfer observations, not inference
+  requests or whole-request KV cache sizes.'
+---
+
+*Suggested by [[llm-dguidespd-disaggregationreadmemd-at-main-llm-dllm-d-github]] — PromQL reference for KV-cache-related observability signals referenced by the P/D guide*
+
+[Skip to content](https://github.com/llm-d/llm-d/blob/main/docs/operations/observability/promql.md#start-of-content)
+You signed in with another tab or window. [Reload](https://github.com/llm-d/llm-d/blob/main/docs/operations/observability/promql.md) to refresh your session. You signed out in another tab or window. [Reload](https://github.com/llm-d/llm-d/blob/main/docs/operations/observability/promql.md) to refresh your session. You switched accounts on another tab or window. [Reload](https://github.com/llm-d/llm-d/blob/main/docs/operations/observability/promql.md) to refresh your session. Dismiss alert
+###  Uh oh! 
+There was an error while loading. [Please reload this page](https://github.com/llm-d/llm-d/blob/main/docs/operations/observability/promql.md).
+/ Public
+  * [ Notifications ](https://github.com/login?return_to=%2Fllm-d%2Fllm-d) You must be signed in to change notification settings
+  * [ Fork 765 ](https://github.com/login?return_to=%2Fllm-d%2Fllm-d)
+  * [ Star  4.5k ](https://github.com/login?return_to=%2Fllm-d%2Fllm-d)
+
+
+## Collapse file tree
+## Files
+Search this repository(forward slash)` forward slash/`
+/
+# promql.md
+Copy path
+More file actions
+More file actions
+## Latest commit
+[docs(observability): document NIXL transfer metrics (](https://github.com/llm-d/llm-d/commit/0e4279b78f027590eee62d5945fb83597d004a7c)[#2368](https://github.com/llm-d/llm-d/pull/2368)[)](https://github.com/llm-d/llm-d/commit/0e4279b78f027590eee62d5945fb83597d004a7c)
+Open commit detailssuccess
+Aug 31, 2026
+[0e4279b](https://github.com/llm-d/llm-d/commit/0e4279b78f027590eee62d5945fb83597d004a7c) · Aug 31, 2026
+## History
+[History](https://github.com/llm-d/llm-d/commits/main/docs/operations/observability/promql.md)
+Open commit details
+History
+103 lines (80 loc) · 7.09 KB
+/
+# promql.md
+Copy path
+## File metadata and controls
+  * Preview
+  * 
+
+103 lines (80 loc) · 7.09 KB
+Copy raw file
+Download raw file
+You must be signed in to make or propose changes
+More edit options
+Outline
+Edit and raw actions
+# PromQL Query Reference
+Ready-to-use PromQL queries for monitoring llm-d deployments. Use these in the Prometheus UI or as the basis for Grafana panels. For a default set of ready-to-apply alerts built on these metrics, see [Alerting](https://github.com/llm-d/llm-d/blob/main/docs/operations/observability/alerting.md).
+To generate traffic and populate error metrics for testing, use the [traffic generation script](https://github.com/llm-d/llm-d/blob/main/guides/recipes/observability/generate-traffic-basic.sh).
+## Tier 1: Immediate Failure & Saturation Indicators
+Start here when something looks wrong.  
+| Metric Need  | PromQL Query  |  
+| --- | --- |  
+| **Overall Error Rate**  | `sum(rate(llm_d_epp_request_error_total[5m])) / sum(rate(llm_d_epp_request_total[5m]))`  |  
+| **Per-Model Error Rate**  | `sum by(model_name) (rate(llm_d_epp_request_error_total[5m])) / sum by(model_name) (rate(llm_d_epp_request_total[5m]))`  |  
+| **Request Preemptions**  | `sum by(pod, instance) (rate(vllm:num_preemptions[5m]))`  |  
+| **Overall Latency P90**  | `histogram_quantile(0.90, sum by(le) (rate(llm_d_epp_request_duration_seconds_bucket[5m])))`  |  
+| **Overall Latency P99**  | `histogram_quantile(0.99, sum by(le) (rate(llm_d_epp_request_duration_seconds_bucket[5m])))`  |  
+| **TTFT P99 per model**  | `histogram_quantile(0.99, sum by(le, model_name) (rate(vllm:time_to_first_token_seconds_bucket[5m])))`  |  
+| **TTFT P99 per model (SGLang)**  | `histogram_quantile(0.99, sum by(le, model_name) (rate(sglang_time_to_first_token_seconds_bucket[5m])))`  |  
+| **Inter-Token Latency P99**  | `histogram_quantile(0.99, sum by(le, model_name) (rate(vllm:inter_token_latency_seconds_bucket[5m])))`  |  
+| **Inter-Token Latency P99 (SGLang)**  | `histogram_quantile(0.99, sum by(le, model_name) (rate(sglang_inter_token_latency_seconds_bucket[5m])))`  |  
+| **Request Rate**  | `sum by(model_name) (rate(llm_d_epp_request_total[5m]))`  |  
+| **GPU Utilization**  | `avg by(gpu, node) (DCGM_FI_DEV_GPU_UTIL or nvidia_gpu_duty_cycle)`  |  
+| **EPP E2E Latency P99**  | `histogram_quantile(0.99, sum by(le) (rate(llm_d_epp_scheduler_e2e_duration_seconds_bucket[5m])))`  |  
+| **EPP Plugin Latency P99**  | `histogram_quantile(0.99, sum by(le, plugin_type) (rate(llm_d_epp_plugin_duration_seconds_bucket[5m])))`  |  
+## Tier 2: Diagnostic Drill-Down
+### Basic Model Serving  
+| Metric Need  | PromQL Query  |  
+| --- | --- |  
+| **KV Cache Utilization**  | `avg by(pod, model_name) (vllm:kv_cache_usage_perc)`  |  
+| **KV Cache Utilization (SGLang)**  | `avg by(pod, model_name) (sglang_token_usage)`  |  
+| **Request Queue Depth**  | `sum by(pod, model_name) (vllm:num_requests_waiting)`  |  
+| **Request Queue Depth (SGLang)**  | `sum by(pod, model_name) (sglang_num_queue_reqs)`  |  
+| **Active Requests**  | `avg by(pod) (vllm:num_requests_running)`  |  
+| **Active Requests (SGLang)**  | `avg by(pod) (sglang_num_running_reqs)`  |  
+|  **Total Throughput** (tokens/sec)  | `sum by(model_name, pod) (rate(vllm:prompt_tokens_total[5m]) + rate(vllm:generation_tokens_total[5m]))`  |  
+|  **Total Throughput (SGLang)** (tokens/sec)  | `sum by(model_name, pod) (rate(sglang_prompt_tokens_total[5m]) + rate(sglang_generation_tokens_total[5m]))`  |  
+| **Generation Token Rate**  | `sum by(model_name, pod) (rate(vllm:generation_tokens_total[5m]))`  |  
+| **Generation Token Rate (SGLang)**  | `sum by(model_name, pod) (rate(sglang_generation_tokens_total[5m]))`  |  
+### Routing & Load Balancing  
+| Metric Need  | PromQL Query  |  
+| --- | --- |  
+| **QPS per endpoint**  | `sum by(endpoint_name) (rate(llm_d_epp_scheduler_attempts_total{status="success"}[5m]))`  |  
+| **Token distribution per pod**  | `sum by(pod) (rate(vllm:prompt_tokens_total[5m]) + rate(vllm:generation_tokens_total[5m]))`  |  
+| **Token distribution per pod (SGLang)**  | `sum by(pod) (rate(sglang_prompt_tokens_total[5m]) + rate(sglang_generation_tokens_total[5m]))`  |  
+| **Routing decision latency P99**  | `histogram_quantile(0.99, sum by(le) (rate(llm_d_epp_plugin_duration_seconds_bucket[5m])))`  |  
+### Prefix Caching  
+| Metric Need  | PromQL Query  |  
+| --- | --- |  
+| **Cache hit rate**  | `sum(rate(vllm:prefix_cache_hits_total[5m])) / sum(rate(vllm:prefix_cache_queries_total[5m]))`  |  
+| **Cache hit rate (SGLang)**  | `avg(sglang_cache_hit_rate)`  |  
+| **Per-pod hit rate**  | `sum by(pod) (rate(vllm:prefix_cache_hits_total[5m])) / sum by(pod) (rate(vllm:prefix_cache_queries_total[5m]))`  |  
+| **Per-pod hit rate (SGLang)**  | `sglang_cache_hit_rate`  |  
+| **EPP prefix indexer size**  | `llm_d_epp_prefix_indexer_size`  |  
+| **EPP prefix hit ratio P90**  | `histogram_quantile(0.90, sum by(le) (rate(llm_d_epp_prefix_indexer_hit_ratio_bucket[5m])))`  |  
+### Prefill/Decode Disaggregation  
+| Metric Need  | PromQL Query  |  
+| --- | --- |  
+| **Prefill worker utilization**  | `avg by(pod) (vllm:num_requests_running{pod=~".*prefill.*"})`  |  
+| **Prefill worker utilization (SGLang)**  | `avg by(pod) (sglang_num_running_reqs{pod=~".*prefill.*"})`  |  
+| **Decode KV cache utilization**  | `avg by(pod) (vllm:kv_cache_usage_perc{pod=~".*decode.*"})`  |  
+| **Disaggregation decision ratio**  | `sum(rate(llm_d_epp_disagg_decision_total{decision_type="prefill-decode"}[5m])) / sum(rate(llm_d_epp_disagg_decision_total[5m]))`  |  
+| **Average NIXL transfer time (ms)**  | `sum(rate(vllm:nixl_xfer_time_seconds_sum[5m])) / sum(rate(vllm:nixl_xfer_time_seconds_count[5m])) * 1000`  |  
+| **NIXL transfer time P95 (ms)**  | `histogram_quantile(0.95, sum by(le) (rate(vllm:nixl_xfer_time_seconds_bucket[5m]))) * 1000`  |  
+| **Average NIXL transfer size (MiB)**  | `sum(rate(vllm:nixl_bytes_transferred_sum[5m])) / sum(rate(vllm:nixl_bytes_transferred_count[5m])) / 1048576`  |  
+| **NIXL transfer data volume (MiB/sec)**  | `sum(rate(vllm:nixl_bytes_transferred_sum[5m])) / 1048576`  |  
+| **Failed NIXL transfers in 5m**  | `sum(increase(vllm:nixl_num_failed_transfers[5m]))`  |  
+| **Failed NIXL notifications in 5m**  | `sum(increase(vllm:nixl_num_failed_notifications[5m]))`  |  
+| **Expired prefill KV requests in 5m**  | `sum(increase(vllm:nixl_num_kv_expired_reqs[5m]))`  |  
+NIXL histogram observations are pooled across tensor-parallel ranks. Their counts and average sizes describe rank-level transfer observations, not inference requests or whole-request KV cache sizes.
+### Flow Control
+Requires the `flowControl` feature gate enabled on the EPP.  
+| Metric Need  | PromQL Query  |  
+| --- | --- |  
+| **Queue size**  | `sum(llm_d_epp_flow_control_queue_size)`  |  
+| **Queue size by priority**  | `sum by(priority) (llm_d_epp_flow_control_queue_size)`  |  
+| **Queue wait time P99**  | `histogram_quantile(0.99, sum by(le) (rate(llm_d_epp_flow_control_request_queue_duration_seconds_bucket[5m])))`  |  
+| **Pool saturation**  | `llm_d_epp_flow_control_pool_saturation`  |  
+## Notes
+**Metric name prefixes:** Current deployments use `llm_d_epp_*`. Older deployments may use `llm_d_inference_scheduler_*`, `inference_objective_*`, `inference_pool_*`, or `inference_extension_*` — update accordingly if panels show "No data".
+**Histograms:** Always include `by(le)` when using `histogram_quantile()`:
+
+```
+histogram_quantile(0.99, sum by(le) (rate(metric_name_bucket[5m])))
+
+```
+
+**Error metrics** only appear after the first error occurs. Use the [traffic generation script](https://github.com/llm-d/llm-d/blob/main/guides/recipes/observability/generate-traffic-basic.sh) to populate them for testing.
+You can’t perform that action at this time. 

@@ -5,8 +5,8 @@ tags:
 - llmd-router-nonk8s-backends-54b774
 - locus-custom-discovery-plugin-design
 created: '2026-09-11T21:31:30.145306Z'
-updated: '2026-09-12T03:37:37.500591Z'
-status: review
+updated: '2026-09-15T04:55:23.650270Z'
+status: evergreen
 type: interim
 deprecated: false
 summary: 'Custom EndpointDiscovery plugin design: llm-d-router''s only shipped plugin

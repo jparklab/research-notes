@@ -7,13 +7,14 @@ tags:
 - epp-protocol
 - ext-proc
 - llmd-router-nonk8s-backends-54b774
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T19:42:56.819426Z'
-updated: '2026-09-12T03:37:37.512428Z'
+updated: '2026-09-15T04:55:23.663459Z'
 source: https://github.com/kubernetes-sigs/gateway-api-inference-extension/tree/main/docs/proposals/004-endpoint-picker-protocol
 source_domain: github.com
 fetched_at: '2026-09-11T19:42:56.799313Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

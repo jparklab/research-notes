@@ -8,12 +8,12 @@ tags:
 - datastore
 - bug-fix
 created: '2026-09-11T20:48:23.833563Z'
-updated: '2026-09-12T03:37:37.672215Z'
+updated: '2026-09-15T04:55:23.829928Z'
 source: https://github.com/llm-d/llm-d-router/issues/1403
 source_domain: github.com
 fetched_at: '2026-09-11T20:48:23.809595Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

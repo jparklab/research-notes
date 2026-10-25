@@ -9,12 +9,12 @@ tags:
 - architecture
 - file-discovery
 created: '2026-09-11T20:48:12.462606Z'
-updated: '2026-09-12T03:37:37.670388Z'
+updated: '2026-09-15T04:55:23.828145Z'
 source: https://github.com/llm-d/llm-d/blob/main/docs/infrastructure/no-kubernetes-deployment.md
 source_domain: github.com
 fetched_at: '2026-09-11T20:48:12.441264Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

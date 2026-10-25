@@ -7,12 +7,12 @@ tags:
 - custom-epp
 - llmd-router-nonk8s-backends-54b774
 created: '2026-09-11T19:43:19.078660Z'
-updated: '2026-09-12T03:37:37.528207Z'
+updated: '2026-09-15T04:55:23.680117Z'
 source: https://gateway-api-inference-extension.sigs.k8s.io/guides/implementers/
 source_domain: gateway-api-inference-extension.sigs.k8s.io
 fetched_at: '2026-09-11T19:43:19.058823Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

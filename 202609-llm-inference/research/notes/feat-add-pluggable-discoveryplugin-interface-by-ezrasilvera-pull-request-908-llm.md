@@ -11,12 +11,12 @@ tags:
 - ray
 - llmd-router-nonk8s-backends-54b774
 created: '2026-09-11T20:49:54.891369Z'
-updated: '2026-09-12T03:37:37.707330Z'
+updated: '2026-09-15T04:55:23.867005Z'
 source: https://github.com/llm-d/llm-d-router/pull/908
 source_domain: github.com
 fetched_at: '2026-09-11T20:49:54.863032Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

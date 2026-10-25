@@ -9,12 +9,12 @@ tags:
 - fail-closed
 - local-config
 created: '2026-09-11T20:48:58.521482Z'
-updated: '2026-09-12T03:37:37.684893Z'
+updated: '2026-09-15T04:55:23.843291Z'
 source: https://github.com/agentgateway/agentgateway/pull/1429
 source_domain: github.com
 fetched_at: '2026-09-11T20:48:58.497315Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

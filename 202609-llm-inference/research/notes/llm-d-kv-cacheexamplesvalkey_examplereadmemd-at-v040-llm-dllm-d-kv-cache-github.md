@@ -6,13 +6,14 @@ tags:
 - llmd-router-nonk8s-backends-54b774
 - kv-cache-indexer
 - non-k8s-backend
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T20:47:30.618045Z'
-updated: '2026-09-12T03:37:37.662957Z'
+updated: '2026-09-15T04:55:23.820506Z'
 source: https://github.com/llm-d/llm-d-kv-cache-manager/blob/v0.4.0/examples/valkey_example/README.md
 source_domain: github.com
 fetched_at: '2026-09-11T20:47:30.596045Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

@@ -9,13 +9,14 @@ tags:
 - pod-discovery
 - epp-router
 - llmd-router-nonk8s-backends-54b774
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T19:43:25.127660Z'
-updated: '2026-09-12T03:37:37.531899Z'
+updated: '2026-09-15T04:55:23.683884Z'
 source: https://github.com/llm-d/llm-d/blob/main/guides/precise-prefix-cache-routing/README.md
 source_domain: github.com
 fetched_at: '2026-09-11T19:43:25.104835Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

@@ -12,12 +12,12 @@ tags:
 - flow-control
 - llmd-router-nonk8s-backends-54b774
 created: '2026-09-11T19:48:13.322800Z'
-updated: '2026-09-12T03:37:37.647195Z'
+updated: '2026-09-15T04:55:23.803654Z'
 source: https://llm-d.ai/blog/llm-d-v0.7-from-feature-introduction-to-production-hardening
 source_domain: llm-d.ai
 fetched_at: '2026-09-11T19:48:13.301097Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

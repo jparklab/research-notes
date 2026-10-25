@@ -9,12 +9,12 @@ tags:
 - body-based-routing
 - llmd-router-nonk8s-backends-54b774
 created: '2026-09-11T19:43:58.459132Z'
-updated: '2026-09-12T03:37:37.551759Z'
+updated: '2026-09-15T04:55:23.704633Z'
 source: https://learn.microsoft.com/en-us/azure/application-gateway/for-containers/inference-gateway
 source_domain: learn.microsoft.com
 fetched_at: '2026-09-11T19:43:58.439728Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: commentary
 content_type: article

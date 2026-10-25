@@ -8,12 +8,12 @@ tags:
 - gateway-latency
 - not-llm-d-specific
 created: '2026-09-11T20:49:07.104061Z'
-updated: '2026-09-12T03:37:37.686476Z'
+updated: '2026-09-15T04:55:23.844961Z'
 source: https://dev.to/devstackhub/my-ai-gateway-added-400ms-to-every-request-heres-where-it-went-2fkp
 source_domain: dev.to
 fetched_at: '2026-09-11T20:49:07.082770Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: commentary
 content_type: blog

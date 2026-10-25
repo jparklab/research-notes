@@ -6,12 +6,12 @@ tags:
 - llmd-router-nonk8s-backends
 - llmd-router-nonk8s-backends-54b774
 created: '2026-09-11T19:45:41.996484Z'
-updated: '2026-09-12T03:37:37.611657Z'
+updated: '2026-09-15T04:55:23.767112Z'
 source: https://github.com/kubernetes/kubernetes/issues/123954
 source_domain: github.com
 fetched_at: '2026-09-11T19:45:41.973744Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

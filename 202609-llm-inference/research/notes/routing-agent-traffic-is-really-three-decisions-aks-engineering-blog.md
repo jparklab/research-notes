@@ -10,12 +10,12 @@ tags:
 - aks
 - kaito
 created: '2026-09-11T19:45:18.974793Z'
-updated: '2026-09-12T03:37:37.598751Z'
+updated: '2026-09-15T04:55:23.754785Z'
 source: https://blog.aks.azure.com/2026/06/29/llm-routing-on-aks
 source_domain: blog.aks.azure.com
 fetched_at: '2026-09-11T19:45:18.953447Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

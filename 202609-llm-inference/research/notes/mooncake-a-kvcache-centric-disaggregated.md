@@ -6,13 +6,14 @@ tags:
 - academic-anchor
 - kv-cache-disaggregation
 - llmd-router-nonk8s-backends-54b774
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T19:46:06.431033Z'
-updated: '2026-09-12T03:37:37.628964Z'
+updated: '2026-09-15T04:55:23.784618Z'
 source: http://arxiv.org/abs/2407.00079
 source_domain: arxiv.org
 fetched_at: '2026-09-11T19:46:06.430753Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: institutional
 content_type: paper
@@ -38,6 +39,9 @@ summary: 'Canonical academic paper (arXiv:2407.00079, Qin et al., Moonshot AI + 
 raw_file: raw/mooncake-a-kvcache-centric-disaggregated.pdf
 doi: arXiv:2407.00079
 utility_score: 10.0
+citation_count: 257
+venue: ACM Transactions on Storage
+is_retracted: false
 ---
 
 Mooncake: A KVCache-centric Disaggregated

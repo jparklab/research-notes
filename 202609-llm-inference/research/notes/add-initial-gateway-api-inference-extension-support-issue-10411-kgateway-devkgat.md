@@ -10,12 +10,12 @@ tags:
 - envoy
 - llmd-router-nonk8s-backends-54b774
 created: '2026-09-11T19:44:57.248441Z'
-updated: '2026-09-12T03:37:37.589018Z'
+updated: '2026-09-15T04:55:23.743910Z'
 source: https://github.com/kgateway-dev/kgateway/issues/10411
 source_domain: github.com
 fetched_at: '2026-09-11T19:44:57.223110Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

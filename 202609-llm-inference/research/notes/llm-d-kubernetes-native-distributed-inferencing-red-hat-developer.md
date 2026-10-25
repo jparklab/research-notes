@@ -7,13 +7,14 @@ tags:
 - epp-architecture
 - kv-connector
 - llmd-router-nonk8s-backends-54b774
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T19:45:35.137431Z'
-updated: '2026-09-12T03:37:37.610061Z'
+updated: '2026-09-15T04:55:23.765507Z'
 source: https://developers.redhat.com/articles/2025/05/20/llm-d-kubernetes-native-distributed-inferencing
 source_domain: developers.redhat.com
 fetched_at: '2026-09-11T19:45:35.116135Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

@@ -6,13 +6,14 @@ tags:
 - llmd-router-nonk8s-backends-54b774
 - epp-releases
 - standalone-mode
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T19:43:40.701540Z'
-updated: '2026-09-12T03:37:37.542142Z'
+updated: '2026-09-15T04:55:23.694538Z'
 source: https://github.com/kubernetes-sigs/gateway-api-inference-extension/releases/tag/v1.3.0
 source_domain: github.com
 fetched_at: '2026-09-11T19:43:40.681474Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

@@ -8,12 +8,12 @@ tags:
 - inference-objective
 - flow-control
 created: '2026-09-11T21:23:26.454652Z'
-updated: '2026-09-12T03:37:37.759434Z'
+updated: '2026-09-15T04:55:23.921433Z'
 source: https://llm-d.ai/docs/api-reference/epp-http-headers
 source_domain: llm-d.ai
 fetched_at: '2026-09-11T21:23:26.433192Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: docs

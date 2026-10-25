@@ -6,13 +6,14 @@ tags:
 - epp-filter-chain
 - pre-ga-api
 - llmd-router-nonk8s-backends-54b774
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T19:43:45.686258Z'
-updated: '2026-09-12T03:37:37.543617Z'
+updated: '2026-09-15T04:55:23.696087Z'
 source: https://www.cncf.io/blog/2025/04/21/deep-dive-into-the-gateway-api-inference-extension/
 source_domain: www.cncf.io
 fetched_at: '2026-09-11T19:43:45.667339Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

@@ -6,13 +6,15 @@ tags:
 - kv-cache-events
 - lmcache
 - llmd-router-nonk8s-backends-54b774
+- llmd-kv-cache-routing-c665d5
+- locus-offload-connector-routing-visibility
 created: '2026-09-11T19:45:07.856569Z'
-updated: '2026-09-12T03:37:37.593802Z'
+updated: '2026-09-15T04:55:23.749157Z'
 source: https://docs.lmcache.ai/production/kv_cache_events.html
 source_domain: docs.lmcache.ai
 fetched_at: '2026-09-11T19:45:07.837385Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: docs

@@ -8,12 +8,12 @@ tags:
 - epp
 - stale-path
 created: '2026-09-11T19:43:19.948577Z'
-updated: '2026-09-12T03:37:37.530025Z'
+updated: '2026-09-15T04:55:23.681830Z'
 source: https://github.com/llm-d-incubation/llm-d-rl
 source_domain: github.com
 fetched_at: '2026-09-11T19:43:19.922518Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

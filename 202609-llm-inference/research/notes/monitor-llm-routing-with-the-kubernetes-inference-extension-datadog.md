@@ -8,12 +8,12 @@ tags:
 - llm-d
 - observability
 created: '2026-09-11T19:45:54.364977Z'
-updated: '2026-09-12T03:37:37.621934Z'
+updated: '2026-09-15T04:55:23.777483Z'
 source: https://www.datadoghq.com/blog/llm-routing-kubernetes-inference-extension/
 source_domain: www.datadoghq.com
 fetched_at: '2026-09-11T19:45:54.344006Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

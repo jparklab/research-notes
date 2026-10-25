@@ -8,12 +8,12 @@ tags:
 - endpoint-discovery
 - plugin-catalog
 created: '2026-09-11T19:43:04.552145Z'
-updated: '2026-09-12T03:37:37.516951Z'
+updated: '2026-09-15T04:55:23.668170Z'
 source: https://pkg.go.dev/github.com/llm-d/llm-d-router
 source_domain: pkg.go.dev
 fetched_at: '2026-09-11T19:43:04.533553Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

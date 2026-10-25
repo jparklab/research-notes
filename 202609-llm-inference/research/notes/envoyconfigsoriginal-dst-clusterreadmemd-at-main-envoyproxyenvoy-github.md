@@ -7,12 +7,12 @@ tags:
 - original-dst
 - llmd-router-nonk8s-backends-54b774
 created: '2026-09-11T19:44:16.985891Z'
-updated: '2026-09-12T03:37:37.563968Z'
+updated: '2026-09-15T04:55:23.716814Z'
 source: https://github.com/envoyproxy/envoy/blob/main/configs/original-dst-cluster/README.md
 source_domain: github.com
 fetched_at: '2026-09-11T19:44:16.966364Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

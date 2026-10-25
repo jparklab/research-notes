@@ -8,12 +8,12 @@ tags:
 - plugin-registration
 - no-internal-api-disclaimer
 created: '2026-09-11T21:24:32.427532Z'
-updated: '2026-09-12T03:37:37.770696Z'
+updated: '2026-09-15T04:55:23.933242Z'
 source: https://github.com/llm-d/llm-d-router/blob/main/pkg/epp/framework/interface/plugin/registry.go
 source_domain: github.com
 fetched_at: '2026-09-11T21:24:32.398595Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

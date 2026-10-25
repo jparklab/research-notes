@@ -7,12 +7,12 @@ tags:
 - production-stack
 - reference-design
 created: '2026-09-11T21:26:14.822482Z'
-updated: '2026-09-12T03:37:37.785666Z'
+updated: '2026-09-15T04:55:23.946480Z'
 source: https://raw.githubusercontent.com/vllm-project/production-stack/main/src/vllm_router/service_discovery.py
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-11T21:26:14.801486Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

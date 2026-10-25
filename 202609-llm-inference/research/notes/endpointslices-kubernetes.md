@@ -5,12 +5,12 @@ tags:
 - llmd-router-nonk8s-backends
 - llmd-router-nonk8s-backends-54b774
 created: '2026-09-11T19:45:26.655041Z'
-updated: '2026-09-12T03:37:37.608627Z'
+updated: '2026-09-15T04:55:23.763999Z'
 source: https://kubernetes.io/docs/concepts/services-networking/endpoint-slices/
 source_domain: kubernetes.io
 fetched_at: '2026-09-11T19:45:26.635896Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: docs

@@ -5,13 +5,14 @@ tags:
 - llmd-router-nonk8s-backends-54b774
 - pd-sidecar
 - source-hub
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T21:45:44.011687Z'
-updated: '2026-09-12T03:37:37.791132Z'
+updated: '2026-09-15T04:55:23.951837Z'
 source: https://github.com/llm-d/llm-d-router/tree/main/pkg/sidecar
 source_domain: github.com
 fetched_at: '2026-09-11T21:45:43.983156Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

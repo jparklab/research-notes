@@ -5,8 +5,8 @@ tags:
 - llmd-router-nonk8s-backends-54b774
 - locus-availability-and-lifecycle-off-k8s
 created: '2026-09-11T21:28:02.662508Z'
-updated: '2026-09-12T03:37:37.498225Z'
-status: review
+updated: '2026-09-15T04:55:23.647357Z'
+status: evergreen
 type: interim
 deprecated: false
 summary: 'RESOLVED: llm-d-router''s default EPP HA (--ha-enable-leader-election) literally

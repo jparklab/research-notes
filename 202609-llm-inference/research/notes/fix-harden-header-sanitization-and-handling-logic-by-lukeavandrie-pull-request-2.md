@@ -8,12 +8,12 @@ tags:
 - epp-header-sanitization
 - x-gateway-destination-endpoint
 created: '2026-09-11T21:23:10.992070Z'
-updated: '2026-09-12T03:37:37.756389Z'
+updated: '2026-09-15T04:55:23.918380Z'
 source: https://github.com/kubernetes-sigs/gateway-api-inference-extension/pull/2025
 source_domain: github.com
 fetched_at: '2026-09-11T21:23:10.969239Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

@@ -7,13 +7,14 @@ tags:
 - plugin-registration
 - ai-generated-secondary
 - llmd-router-nonk8s-backends-54b774
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T19:46:22.651883Z'
-updated: '2026-09-12T03:37:37.635645Z'
+updated: '2026-09-15T04:55:23.791878Z'
 source: https://deepwiki.com/llm-d/llm-d-inference-scheduler
 source_domain: deepwiki.com
 fetched_at: '2026-09-11T19:46:22.631822Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

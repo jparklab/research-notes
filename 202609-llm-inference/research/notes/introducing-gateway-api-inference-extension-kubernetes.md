@@ -6,13 +6,14 @@ tags:
 - gie-overview
 - benchmarks
 - llmd-router-nonk8s-backends-54b774
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T19:43:33.847663Z'
-updated: '2026-09-12T03:37:37.537298Z'
+updated: '2026-09-15T04:55:23.689545Z'
 source: https://kubernetes.io/blog/2025/06/05/introducing-gateway-api-inference-extension/
 source_domain: kubernetes.io
 fetched_at: '2026-09-11T19:43:33.827447Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

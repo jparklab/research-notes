@@ -7,13 +7,14 @@ tags:
 - epp-architecture
 - kv-cache-scoring
 - llmd-router-nonk8s-backends-54b774
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T19:45:03.172708Z'
-updated: '2026-09-12T03:37:37.592358Z'
+updated: '2026-09-15T04:55:23.747703Z'
 source: https://medium.com/@yakovbeder/llm-d-the-inference-scheduler-that-fixes-what-more-gpus-cant-03644ac55504
 source_domain: medium.com
 fetched_at: '2026-09-11T19:45:03.150728Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: commentary
 content_type: blog

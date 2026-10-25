@@ -10,13 +10,14 @@ tags:
 - ucx
 - uccl
 - llmd-router-nonk8s-backends-54b774
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T19:46:58.678338Z'
-updated: '2026-09-12T03:37:37.642607Z'
+updated: '2026-09-15T04:55:23.798928Z'
 source: https://llm-d.ai/blog/networking-for-distributed-inference-llm-d
 source_domain: llm-d.ai
 fetched_at: '2026-09-11T19:46:58.657909Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

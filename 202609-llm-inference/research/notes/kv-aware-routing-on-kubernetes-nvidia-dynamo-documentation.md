@@ -7,13 +7,14 @@ tags:
 - epp-protocol
 - standalone-epp
 - kv-cache-routing
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T20:50:19.178303Z'
-updated: '2026-09-12T03:37:37.711580Z'
+updated: '2026-09-15T04:55:23.871550Z'
 source: https://docs.nvidia.com/dynamo/user-guides/kv-cache-aware-routing
 source_domain: docs.nvidia.com
 fetched_at: '2026-09-11T20:50:19.157299Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: docs

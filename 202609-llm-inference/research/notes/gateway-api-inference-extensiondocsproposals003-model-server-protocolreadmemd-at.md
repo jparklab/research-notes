@@ -8,13 +8,14 @@ tags:
 - lora-metrics
 - prometheus-metrics
 - llmd-router-nonk8s-backends-54b774
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T19:43:14.036696Z'
-updated: '2026-09-12T03:37:37.521657Z'
+updated: '2026-09-15T04:55:23.673123Z'
 source: https://github.com/kubernetes-sigs/gateway-api-inference-extension/blob/main/docs/proposals/003-model-server-protocol/README.md
 source_domain: github.com
 fetched_at: '2026-09-11T19:43:14.017107Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code
@@ -41,6 +42,8 @@ summary: 'GIE proposal 003, the Model Server Protocol (status: Partially impleme
   the load-bearing fact for building a non-pod backend.'
 utility_score: 14.0
 ---
+
+*Suggested by [[introduction-kubernetes-gateway-api-inference-extension]] — model server protocol proposal referenced by GIE homepage and InferencePool docs as the backend contract*
 
 [Skip to content](https://github.com/kubernetes-sigs/gateway-api-inference-extension/blob/main/docs/proposals/003-model-server-protocol/README.md#start-of-content)
 You signed in with another tab or window. [Reload](https://github.com/kubernetes-sigs/gateway-api-inference-extension/blob/main/docs/proposals/003-model-server-protocol/README.md) to refresh your session. You signed out in another tab or window. [Reload](https://github.com/kubernetes-sigs/gateway-api-inference-extension/blob/main/docs/proposals/003-model-server-protocol/README.md) to refresh your session. You switched accounts on another tab or window. [Reload](https://github.com/kubernetes-sigs/gateway-api-inference-extension/blob/main/docs/proposals/003-model-server-protocol/README.md) to refresh your session. Dismiss alert

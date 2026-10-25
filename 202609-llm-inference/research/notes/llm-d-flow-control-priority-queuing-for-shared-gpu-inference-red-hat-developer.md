@@ -7,12 +7,12 @@ tags:
 - go-source-path
 - llmd-router-nonk8s-backends-54b774
 created: '2026-09-11T19:46:27.421140Z'
-updated: '2026-09-12T03:37:37.639148Z'
+updated: '2026-09-15T04:55:23.795171Z'
 source: https://developers.redhat.com/articles/2026/08/27/llm-d-flow-control-priority-queuing-for-shared-gpu-inference
 source_domain: developers.redhat.com
 fetched_at: '2026-09-11T19:46:27.379933Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

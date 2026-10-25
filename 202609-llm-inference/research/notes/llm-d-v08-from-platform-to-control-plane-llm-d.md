@@ -7,13 +7,14 @@ tags:
 - release-notes
 - no-kubernetes
 - llmd-router-nonk8s-backends-54b774
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T19:42:44.424341Z'
-updated: '2026-09-12T03:37:37.507057Z'
+updated: '2026-09-15T04:55:23.658049Z'
 source: https://llm-d.ai/blog/llm-d-v0.8-from-platform-to-control-plane
 source_domain: llm-d.ai
 fetched_at: '2026-09-11T19:42:44.402568Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

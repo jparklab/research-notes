@@ -6,12 +6,12 @@ tags:
 - discovery-config
 - release-cadence
 created: '2026-09-11T21:48:41.679806Z'
-updated: '2026-09-11T21:53:51.007838Z'
+updated: '2026-09-15T04:55:23.964944Z'
 source: https://github.com/llm-d/llm-d-router/milestones
 source_domain: github.com
 fetched_at: '2026-09-11T21:48:41.656218Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

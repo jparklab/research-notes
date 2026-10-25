@@ -7,8 +7,10 @@ tags:
 - zmq-kv-events
 - pod-discovery
 - non-k8s-backend
+- llmd-kv-cache-routing-c665d5
+- locus-approximate-vs-precise-index
 created: '2026-09-11T20:47:23.887826Z'
-updated: '2026-09-11T20:48:22.551226Z'
+updated: '2026-09-14T12:42:13.083917Z'
 source: https://github.com/llm-d/llm-d-kv-cache/blob/main/docs/architecture.md
 source_domain: github.com
 fetched_at: '2026-09-11T20:47:23.863500Z'

@@ -5,8 +5,8 @@ tags:
 - llmd-router-nonk8s-backends-54b774
 - locus-lost-k8s-policy-inputs
 created: '2026-09-11T21:26:32.022258Z'
-updated: '2026-09-12T03:37:37.497286Z'
-status: review
+updated: '2026-09-15T04:55:23.646265Z'
+status: evergreen
 type: interim
 deprecated: false
 summary: Only per-request priority assignment (InferenceObjective) is a genuine off-cluster

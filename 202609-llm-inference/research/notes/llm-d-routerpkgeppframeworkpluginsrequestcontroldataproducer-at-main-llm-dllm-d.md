@@ -8,12 +8,12 @@ tags:
 - precise-prefix-cache-producer
 - go-source
 created: '2026-09-11T21:22:58.683444Z'
-updated: '2026-09-12T03:37:37.754988Z'
+updated: '2026-09-15T04:55:23.916886Z'
 source: https://github.com/llm-d/llm-d-router/tree/main/pkg/epp/framework/plugins/requestcontrol/dataproducer
 source_domain: github.com
 fetched_at: '2026-09-11T21:22:58.663173Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

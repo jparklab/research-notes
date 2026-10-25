@@ -8,13 +8,14 @@ tags:
 - benchmark
 - nixl
 - llmd-router-nonk8s-backends-54b774
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T19:46:05.222764Z'
-updated: '2026-09-12T03:37:37.626926Z'
+updated: '2026-09-15T04:55:23.782618Z'
 source: https://static.sched.com/hosted_files/pytorchconference/84/Serving%20PyTorch%20LLMs%20at%20Scale_%20Disaggregated%20inference%20with%20Kubernetes%20and%20llm-d.pdf
 source_domain: static.sched.com
 fetched_at: '2026-09-11T19:46:05.222449Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: institutional
 content_type: paper

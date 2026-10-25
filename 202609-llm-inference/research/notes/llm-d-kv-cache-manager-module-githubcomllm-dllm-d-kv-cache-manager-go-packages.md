@@ -8,13 +8,14 @@ tags:
 - zmq-kv-events
 - non-k8s-backend
 - llmd-router-nonk8s-backends-54b774
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T19:44:15.880176Z'
-updated: '2026-09-12T03:37:37.562418Z'
+updated: '2026-09-15T04:55:23.715187Z'
 source: https://pkg.go.dev/github.com/llm-d/llm-d-kv-cache-manager
 source_domain: pkg.go.dev
 fetched_at: '2026-09-11T19:44:15.860492Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

@@ -9,12 +9,12 @@ tags:
 - kserve
 - llmd-router-nonk8s-backends-54b774
 created: '2026-09-11T19:45:46.014597Z'
-updated: '2026-09-12T03:37:37.613433Z'
+updated: '2026-09-15T04:55:23.768836Z'
 source: https://kserve.github.io/website/blog/kserve-0.17-release
 source_domain: kserve.github.io
 fetched_at: '2026-09-11T19:45:45.993145Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

@@ -7,12 +7,12 @@ tags:
 - router-extensibility
 - config-schema
 created: '2026-09-11T20:55:06.179514Z'
-updated: '2026-09-12T03:37:37.735230Z'
+updated: '2026-09-15T04:55:23.896263Z'
 source: https://raw.githubusercontent.com/llm-d/llm-d-router/main/cmd/epp/runner/runner.go
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-11T20:55:06.157862Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

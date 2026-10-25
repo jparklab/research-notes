@@ -8,12 +8,12 @@ tags:
 - async-broker
 - redis-coordination
 created: '2026-09-11T21:24:03.540480Z'
-updated: '2026-09-12T03:37:37.765056Z'
+updated: '2026-09-15T04:55:23.927400Z'
 source: https://github.com/llm-d/llm-d-router/blob/main/docs/coordinator_async_broker.md
 source_domain: github.com
 fetched_at: '2026-09-11T21:24:03.515014Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

@@ -5,12 +5,12 @@ tags:
 - llmd-router-nonk8s-backends-54b774
 - pd-sidecar
 created: '2026-09-11T21:53:39.137893Z'
-updated: '2026-09-12T03:37:37.819654Z'
+updated: '2026-09-15T04:55:23.987715Z'
 source: https://raw.githubusercontent.com/llm-d/llm-d-router/main/pkg/common/routing/common.go
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-11T21:53:39.116586Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

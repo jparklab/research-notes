@@ -8,12 +8,12 @@ tags:
 - standalone-mode
 - epp-flags
 created: '2026-09-11T19:48:18.921741Z'
-updated: '2026-09-12T03:37:37.649861Z'
+updated: '2026-09-15T04:55:23.806427Z'
 source: https://github.com/kubernetes-sigs/gateway-api-inference-extension/blob/91ad0da44f64d41642d55e220d239648eef06196/site-src/guides/standalone.md
 source_domain: github.com
 fetched_at: '2026-09-11T19:48:18.897863Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

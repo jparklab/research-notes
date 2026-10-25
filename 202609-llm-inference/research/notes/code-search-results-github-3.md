@@ -7,12 +7,12 @@ tags:
 - audited-absence
 - github-search-auth-wall
 created: '2026-09-11T21:50:41.950669Z'
-updated: '2026-09-12T03:37:37.809402Z'
+updated: '2026-09-15T04:55:23.978919Z'
 source: https://github.com/search?type=code&q=%22llm-d-router%2Fcmd%2Fepp%2Frunner%22
 source_domain: github.com
 fetched_at: '2026-09-11T21:50:41.926135Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

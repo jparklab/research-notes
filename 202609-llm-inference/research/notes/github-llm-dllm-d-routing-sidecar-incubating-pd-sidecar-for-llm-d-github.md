@@ -9,13 +9,14 @@ tags:
 - pd-disaggregation
 - nixl
 - llmd-router-nonk8s-backends-54b774
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T19:43:31.451819Z'
-updated: '2026-09-12T03:37:37.535738Z'
+updated: '2026-09-15T04:55:23.687894Z'
 source: https://github.com/llm-d/llm-d-routing-sidecar
 source_domain: github.com
 fetched_at: '2026-09-11T19:43:31.425438Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

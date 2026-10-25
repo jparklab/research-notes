@@ -5,8 +5,8 @@ tags:
 - llmd-router-nonk8s-backends-54b774
 - source-analysis
 created: '2026-09-11T20:57:27.912642Z'
-updated: '2026-09-12T03:37:37.830022Z'
-status: review
+updated: '2026-09-15T04:55:24.149503Z'
+status: evergreen
 type: source-analysis
 deprecated: false
 summary: 'Digest of the llm-d-router GitHub repo (README + commit history through

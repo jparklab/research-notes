@@ -9,12 +9,12 @@ tags:
 - custom-plugin
 - go-source
 created: '2026-09-11T20:55:01.580995Z'
-updated: '2026-09-12T03:37:37.731156Z'
+updated: '2026-09-15T04:55:23.892205Z'
 source: https://github.com/llm-d/llm-d-router/blob/main/docs/discovery.md
 source_domain: github.com
 fetched_at: '2026-09-11T20:55:01.558956Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

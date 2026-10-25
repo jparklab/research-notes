@@ -7,12 +7,12 @@ tags:
 - epp-architecture
 - kaito
 created: '2026-09-11T19:46:23.287481Z'
-updated: '2026-09-12T03:37:37.637523Z'
+updated: '2026-09-15T04:55:23.793520Z'
 source: https://kaito-project.github.io/kaito/docs/gateway-api-inference-extension/
 source_domain: kaito-project.github.io
 fetched_at: '2026-09-11T19:46:23.268291Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: docs

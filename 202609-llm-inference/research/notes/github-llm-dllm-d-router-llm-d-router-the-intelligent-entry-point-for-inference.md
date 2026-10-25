@@ -10,12 +10,12 @@ tags:
 - llmd-router-nonk8s-backends-54b774
 - derivative-of
 created: '2026-09-11T19:42:34.648543Z'
-updated: '2026-09-12T03:37:37.503166Z'
+updated: '2026-09-15T04:55:23.653836Z'
 source: https://github.com/llm-d/llm-d-router
 source_domain: github.com
 fetched_at: '2026-09-11T19:42:34.627058Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

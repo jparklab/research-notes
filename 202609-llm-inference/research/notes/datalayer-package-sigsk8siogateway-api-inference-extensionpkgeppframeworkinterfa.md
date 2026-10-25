@@ -9,12 +9,12 @@ tags:
 - epp-internals
 - pods-assumption
 created: '2026-09-11T19:48:30.438708Z'
-updated: '2026-09-12T03:37:37.651879Z'
+updated: '2026-09-15T04:55:23.808502Z'
 source: https://pkg.go.dev/sigs.k8s.io/gateway-api-inference-extension/pkg/epp/framework/interface/datalayer
 source_domain: pkg.go.dev
 fetched_at: '2026-09-11T19:48:30.417894Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

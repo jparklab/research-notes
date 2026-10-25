@@ -6,12 +6,12 @@ tags:
 - directory-listing
 - file-discovery
 created: '2026-09-11T21:54:06.235004Z'
-updated: '2026-09-12T03:37:37.820564Z'
+updated: '2026-09-15T04:55:23.988636Z'
 source: https://api.github.com/repos/llm-d/llm-d-router/contents/pkg/epp/framework/plugins/datalayer/discovery/file
 source_domain: api.github.com
 fetched_at: '2026-09-11T21:54:06.212545Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

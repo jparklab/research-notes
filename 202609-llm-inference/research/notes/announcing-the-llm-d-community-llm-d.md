@@ -6,13 +6,14 @@ tags:
 - llm-d-architecture
 - epp-protocol
 - founding-design
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T20:45:39.097502Z'
-updated: '2026-09-12T03:37:37.656482Z'
+updated: '2026-09-15T04:55:23.813650Z'
 source: https://llm-d.ai/blog/llm-d-announce
 source_domain: llm-d.ai
 fetched_at: '2026-09-11T20:45:39.076060Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

@@ -7,13 +7,14 @@ tags:
 - llm-d-architecture
 - competing-approaches
 - llmd-router-nonk8s-backends-54b774
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T19:45:53.908718Z'
-updated: '2026-09-12T03:37:37.620296Z'
+updated: '2026-09-15T04:55:23.775822Z'
 source: https://www.spheron.network/blog/llm-d-kubernetes-disaggregated-inference-guide/
 source_domain: www.spheron.network
 fetched_at: '2026-09-11T19:45:53.889462Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

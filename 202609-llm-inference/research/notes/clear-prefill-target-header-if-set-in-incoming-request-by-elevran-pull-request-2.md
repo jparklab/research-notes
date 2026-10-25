@@ -7,12 +7,12 @@ tags:
 - ssrf-protection
 - pd-sidecar
 created: '2026-09-11T21:57:22.927575Z'
-updated: '2026-09-12T03:37:37.828956Z'
+updated: '2026-09-15T04:55:23.997821Z'
 source: https://github.com/llm-d/llm-d-router/pull/244
 source_domain: github.com
 fetched_at: '2026-09-11T21:57:22.902261Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

@@ -5,8 +5,8 @@ tags:
 - llmd-router-nonk8s-backends-54b774
 - locus-extension-mechanism
 created: '2026-09-11T21:25:42.648650Z'
-updated: '2026-09-12T03:37:37.496452Z'
-status: review
+updated: '2026-09-15T04:55:23.645310Z'
+status: evergreen
 type: interim
 deprecated: false
 summary: 'Out-of-tree EndpointDiscovery plugin (thin downstream main() importing cmd/epp/runner)

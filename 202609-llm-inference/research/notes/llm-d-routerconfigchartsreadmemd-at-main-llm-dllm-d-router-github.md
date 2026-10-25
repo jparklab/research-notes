@@ -9,12 +9,12 @@ tags:
 - audited-absence
 - locus-availability-and-lifecycle-off-k8s
 created: '2026-09-11T19:43:14.916895Z'
-updated: '2026-09-12T03:37:37.525113Z'
+updated: '2026-09-15T04:55:23.676875Z'
 source: https://github.com/llm-d/llm-d-router/blob/main/config/charts/README.md
 source_domain: github.com
 fetched_at: '2026-09-11T19:43:14.895731Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

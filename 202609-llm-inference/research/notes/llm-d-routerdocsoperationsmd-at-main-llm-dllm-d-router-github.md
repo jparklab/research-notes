@@ -9,12 +9,12 @@ tags:
 - leader-election
 - priority-routing
 created: '2026-09-11T21:25:49.823633Z'
-updated: '2026-09-12T03:37:37.783340Z'
+updated: '2026-09-15T04:55:23.944229Z'
 source: https://github.com/llm-d/llm-d-router/blob/main/docs/operations.md
 source_domain: github.com
 fetched_at: '2026-09-11T21:25:49.802831Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

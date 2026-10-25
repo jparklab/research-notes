@@ -9,12 +9,12 @@ tags:
 - github-repo
 - llmd-router-nonk8s-backends-54b774
 created: '2026-09-11T19:46:12.572698Z'
-updated: '2026-09-12T03:37:37.632067Z'
+updated: '2026-09-15T04:55:23.787883Z'
 source: https://github.com/llm-d/llm-d-inference-scheduler/
 source_domain: github.com
 fetched_at: '2026-09-11T19:46:12.551261Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

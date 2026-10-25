@@ -9,12 +9,12 @@ tags:
 - destination-mode
 - epp-passthrough
 created: '2026-09-11T20:48:52.046344Z'
-updated: '2026-09-12T03:37:37.681431Z'
+updated: '2026-09-15T04:55:23.839771Z'
 source: https://github.com/agentgateway/agentgateway/pull/1658
 source_domain: github.com
 fetched_at: '2026-09-11T20:48:52.023705Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

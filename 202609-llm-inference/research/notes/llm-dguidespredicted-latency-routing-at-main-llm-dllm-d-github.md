@@ -8,12 +8,12 @@ tags:
 - pd-disaggregation
 - long-source
 created: '2026-09-11T20:55:29.026220Z'
-updated: '2026-09-12T03:37:37.741842Z'
+updated: '2026-09-15T04:55:23.903057Z'
 source: https://github.com/llm-d/llm-d/tree/main/guides/predicted-latency-routing
 source_domain: github.com
 fetched_at: '2026-09-11T20:55:29.001207Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

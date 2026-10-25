@@ -7,12 +7,12 @@ tags:
 - gateway-api-inference-extension
 - kgateway
 created: '2026-09-11T20:49:18.449546Z'
-updated: '2026-09-12T03:37:37.691950Z'
+updated: '2026-09-15T04:55:23.850694Z'
 source: https://kgateway.dev/blog/llm-d-kgateway/
 source_domain: kgateway.dev
 fetched_at: '2026-09-11T20:49:18.427543Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

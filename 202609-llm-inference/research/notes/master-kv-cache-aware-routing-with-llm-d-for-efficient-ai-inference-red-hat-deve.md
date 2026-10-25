@@ -8,13 +8,14 @@ tags:
 - pod-discovery
 - zmq-kv-events
 - llmd-router-nonk8s-backends-54b774
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T19:44:05.650523Z'
-updated: '2026-09-12T03:37:37.557704Z'
+updated: '2026-09-15T04:55:23.710274Z'
 source: https://developers.redhat.com/articles/2025/10/07/master-kv-cache-aware-routing-llm-d-efficient-ai-inference
 source_domain: developers.redhat.com
 fetched_at: '2026-09-11T19:44:05.629674Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

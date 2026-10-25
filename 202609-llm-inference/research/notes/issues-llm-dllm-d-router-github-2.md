@@ -6,12 +6,12 @@ tags:
 - discovery-config
 - absence-finding
 created: '2026-09-11T21:49:01.102766Z'
-updated: '2026-09-11T21:53:51.348209Z'
+updated: '2026-09-15T04:55:23.967008Z'
 source: https://github.com/llm-d/llm-d-router/issues?q=is%3Aopen+milestone%3A%22v0.11%22
 source_domain: github.com
 fetched_at: '2026-09-11T21:49:01.075987Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

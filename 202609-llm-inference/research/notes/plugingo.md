@@ -10,12 +10,12 @@ tags:
 - gap-5
 - audited-absence
 created: '2026-09-11T20:53:30.489744Z'
-updated: '2026-09-12T03:37:37.725729Z'
+updated: '2026-09-15T04:55:23.886592Z'
 source: https://raw.githubusercontent.com/llm-d/llm-d-router/main/pkg/epp/framework/plugins/datalayer/discovery/file/plugin.go
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-11T20:53:30.467240Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

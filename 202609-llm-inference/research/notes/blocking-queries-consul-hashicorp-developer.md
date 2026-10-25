@@ -7,12 +7,12 @@ tags:
 - consul
 - reference-design
 created: '2026-09-11T21:25:40.957314Z'
-updated: '2026-09-12T03:37:37.781189Z'
+updated: '2026-09-15T04:55:23.942146Z'
 source: https://developer.hashicorp.com/consul/api-docs/features/blocking
 source_domain: developer.hashicorp.com
 fetched_at: '2026-09-11T21:25:40.933402Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

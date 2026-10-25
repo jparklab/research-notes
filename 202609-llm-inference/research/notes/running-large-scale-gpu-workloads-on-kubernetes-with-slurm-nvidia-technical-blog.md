@@ -6,12 +6,12 @@ tags:
 - llmd-router-nonk8s-backends
 - llmd-router-nonk8s-backends-54b774
 created: '2026-09-11T19:47:10.353420Z'
-updated: '2026-09-12T03:37:37.644820Z'
+updated: '2026-09-15T04:55:23.801190Z'
 source: https://developer.nvidia.com/blog/running-large-scale-gpu-workloads-on-kubernetes-with-slurm/
 source_domain: developer.nvidia.com
 fetched_at: '2026-09-11T19:47:10.334370Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

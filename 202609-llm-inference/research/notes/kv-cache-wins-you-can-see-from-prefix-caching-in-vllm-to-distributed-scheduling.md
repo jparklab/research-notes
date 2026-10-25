@@ -8,13 +8,14 @@ tags:
 - zmq-kv-events
 - benchmark
 - llmd-router-nonk8s-backends-54b774
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T19:43:40.220107Z'
-updated: '2026-09-12T03:37:37.540188Z'
+updated: '2026-09-15T04:55:23.692725Z'
 source: https://llm-d.ai/blog/kvcache-wins-you-can-see
 source_domain: llm-d.ai
 fetched_at: '2026-09-11T19:43:40.199443Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

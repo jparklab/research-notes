@@ -9,12 +9,12 @@ tags:
 - gateway-provider
 - gie
 created: '2026-09-11T20:49:53.845925Z'
-updated: '2026-09-12T03:37:37.704999Z'
+updated: '2026-09-15T04:55:23.864533Z'
 source: https://github.com/llm-d/llm-d/pull/421
 source_domain: github.com
 fetched_at: '2026-09-11T20:49:53.818296Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

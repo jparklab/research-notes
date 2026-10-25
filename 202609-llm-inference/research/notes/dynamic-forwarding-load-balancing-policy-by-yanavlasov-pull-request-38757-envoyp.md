@@ -9,12 +9,12 @@ tags:
 - epp-protocol
 - standalone-epp
 created: '2026-09-11T20:49:32.207056Z'
-updated: '2026-09-12T03:37:37.697751Z'
+updated: '2026-09-15T04:55:23.856911Z'
 source: https://github.com/envoyproxy/envoy/pull/38757
 source_domain: github.com
 fetched_at: '2026-09-11T20:49:32.183057Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

@@ -6,12 +6,12 @@ tags:
 - endpointpickerconfig
 - file-discovery
 created: '2026-09-11T20:52:28.086735Z'
-updated: '2026-09-12T03:37:37.721611Z'
+updated: '2026-09-15T04:55:23.882087Z'
 source: https://raw.githubusercontent.com/llm-d/llm-d/main/guides/no-kubernetes-deployment/router/epp/config.yaml
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-11T20:52:28.064132Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

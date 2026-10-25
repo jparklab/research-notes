@@ -7,12 +7,12 @@ tags:
 - router-extensibility
 - no-k8s-mode
 created: '2026-09-11T20:55:25.143241Z'
-updated: '2026-09-12T03:37:37.740028Z'
+updated: '2026-09-15T04:55:23.901115Z'
 source: https://arxiv.org/abs/2511.21413
 source_domain: arxiv.org
 fetched_at: '2026-09-11T20:55:25.142949Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: institutional
 content_type: paper

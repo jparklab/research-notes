@@ -8,12 +8,12 @@ tags:
 - inverse-strategy
 - router-extensibility
 created: '2026-09-11T20:55:22.314774Z'
-updated: '2026-09-12T03:37:37.738174Z'
+updated: '2026-09-15T04:55:23.899388Z'
 source: https://github.com/SlinkyProject/slurm-operator
 source_domain: github.com
 fetched_at: '2026-09-11T20:55:22.293462Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

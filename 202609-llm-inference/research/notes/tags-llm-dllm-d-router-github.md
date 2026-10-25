@@ -6,12 +6,12 @@ tags:
 - llm-d-router-releases
 - version-gap
 created: '2026-09-11T21:48:21.854154Z'
-updated: '2026-09-11T21:53:51.179787Z'
+updated: '2026-09-15T04:55:23.962135Z'
 source: https://github.com/llm-d/llm-d-router/tags
 source_domain: github.com
 fetched_at: '2026-09-11T21:48:21.827393Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

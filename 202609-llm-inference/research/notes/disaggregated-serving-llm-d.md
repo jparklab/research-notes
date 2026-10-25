@@ -10,13 +10,14 @@ tags:
 - rdma
 - sglang
 - llmd-router-nonk8s-backends-54b774
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T19:44:29.962293Z'
-updated: '2026-09-12T03:37:37.572598Z'
+updated: '2026-09-15T04:55:23.724427Z'
 source: https://llm-d.ai/docs/architecture/advanced/disaggregation
 source_domain: llm-d.ai
 fetched_at: '2026-09-11T19:44:29.939563Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: docs

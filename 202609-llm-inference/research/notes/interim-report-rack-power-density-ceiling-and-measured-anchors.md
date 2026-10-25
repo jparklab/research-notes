@@ -1,0 +1,77 @@
+---
+title: Interim report — rack-power-density-ceiling-and-measured-anchors
+id: interim-report-rack-power-density-ceiling-and-measured-anchors
+tags:
+- onprem-llm-inference-stacks-859099
+- locus-rack-power-density-ceiling-and-measured-anchors
+created: '2026-10-23T17:58:13.842245Z'
+status: draft
+type: interim
+deprecated: false
+summary: Rack-density spread is mostly chassis fill; measured anchors give per-server
+  envelopes (8.4 vs 10.2 kW, inference ~80% of provisioned) but no on-prem rack kW
+  exists; TokenPowerBench reports no watts
+---
+
+# Interim report: rack-power-density-ceiling-and-measured-anchors
+
+**Locus question:** What can be bounded from measurement rather than estimation about the air-cooling ceiling and whether inference racks run at lower density than training racks?
+**Flavor:** dialectical (fills/SKU view vs. workload-intensity view)
+
+## What the corpus already said
+Six vendor/broker/advisory pages give air-cooling ceilings and rack densities that differ 4-6x, none from measurement: [[ai-inference-colocation-power-cooling-and-network-requirements-for-gpu-ready-dat]] (Inflect broker), [[high-density-colocation-for-ai-and-gpu-infrastructure]] (Netrality colo), [[how-much-power-does-an-ai-rack-use]] and [[when-do-you-need-liquid-cooling-for-ai-workloads-key-thresholds-and-warning-sign]] (Chatsworth, rack/cabinet vendor, 2026), [[ai-rack-densities-are-forcing-a-rethink-of-data-center-power-and-cooling-design]] (datacenterups, UPS reseller), [[securing-gpus-isnt-enough-an-enterprise-ai-infrastructure-procurement-strategy-f]] (Polyglotsoft, dev consultancy, 2026-08-27), [[rack-power-density-ai-infrastructure-advanced-course-the-neural-base]] (course page, "verified April 2026"), plus Goldman Sachs [[1000-homes-of-power-in-a-filing-cabinet-rising-power-density-disrupts-ai-infrast]] and Sunbird [[is-your-data-center-ready-for-the-nvidia-gb200-nvl72-sunbird-dcim]]. Two measured anchors existed: NVIDIA's DGX spec and TokenPowerBench.
+
+## What the new sources say
+
+**Anchor 1, DGX H100/H200 user guide** [[introduction-to-nvidia-dgx-h100h200-systems-nvidia-dgx-h100h200-user-guide]]: 6 x 3.3 kW PSUs, 10.2 kW max system power per 8-GPU chassis (vendor nameplate, a ceiling, not a measurement of any workload).
+
+**Anchor 2, TokenPowerBench** [[tokenpowerbench-benchmarking-the-power-consumption-of-llm-inference]]: identifier arXiv:2512.03024v1 (2 Dec 2025; AAAI-2026 copyright line; Texas Tech / TACC / Southeast Univ.). Verified from body: 8 nodes x 4 H100 (94 GB), 2x Xeon Gold 6426Y; Llama-3 1B->70B = 7.3x energy/token for 70x params ("super-linear"); TensorRT-LLM and vLLM cut energy/token "25-40% relative to Transformers"; batch 32->256 cuts 70B per-token energy "about 25%", flat beyond 256; 70B 2K->10K prompt "roughly a factor of three"; FP8 vs FP16 on 405B ~30% less J/token. **Two corrections to the brief:** (1) the 116-235 J/token range is across THREE 405B-class models on 16 H100 (Llama 3 405B, Falcon 180B, Qwen 480B) x three loads x TP/PP splits; the heatmap text extraction suggests Falcon 180B holds the 116-143 cells, so it is not safely attributable to Llama 405B alone (Llama 405B appears to span ~163-236). TP=16 lowest is stated ("pure tensor parallelism... best"); best/worst gap ~40 J/token standard load, >60 under high throughput. (2) **The paper reports NO watts, kW, or rack figure** - only J/token, J/response, peak power as outputs. It bounds energy, not rack density. It is not a rack-density anchor at all.
+
+**New anchor 3, NREL/NLR H100 measurements** [[measurement-of-generative-ai-workload-power-profiles-for]] (arXiv 2604.07345, Apr 2026; US national lab HPC, 0.1 s resolution, vLLM inference): H100 node = 4x700 W GPU + 2x360 W CPU = 3.52 kW TDP-sum; Llama-3 70B online inference node power "saturating near ~2.8 kW at 25 prompts/second" (~80% of 3.52 kW node sum). Cites Latif et al.: H100 HGX measured peak 8.4 kW, "18% below the manufacturer-rated 10.2 kW" (training/ResNet workloads). A measured DGX-class datum.
+
+**New anchor 4, Wilkins/Kazhamiaka/Rajagopal** [[from-servers-to-sites-compositional-power-trace-generation-of]] (arXiv 2603.18383, Mar 2026; Stanford+Microsoft Azure Research): measured Llama-3.1 70B TP=8 on A100 DGX; models 4 servers/rack, 1 kW non-GPU per server, PUE 1.3; per-rack inference traces ~9.2-9.8 kW in a peak window (simulated from measured traces); argues "flat nameplate assumptions" mis-size, and rack peaks decorrelate under independent arrivals. A100 DGX (6.5 kW class), not H100.
+
+**New anchor 5, POLCA** [[polca-power-oversubscription-in-llm-cloud-providers]] (arXiv 2308.12908, Microsoft, 2023): "LLM inference clusters utilize only up to 80% of the provisioned power... In contrast, LLM training clusters offer a smaller headroom (about 10%)"; ~30% more servers deployable in inference clusters. This is the empirical origin of the "inference draws 60-80% of max" folk figure; but it is cloud (Azure), A100-era.
+
+**Small-scale operator datum** [[private-ai-platform-for-200-employee-engineering-firm]] (Particula portfolio, vendor-authored case study, unaudited): 4x L40S server, "1.4kW continuous under load from the GPUs alone, roughly 2kW for the full server", ~EUR200/month electricity, EUR48K hardware. Only operator-stated power figure in corpus; consistent with 4x350 W TDP = 1.4 kW exactly (suspiciously equal to TDP-sum, so likely computed, not metered).
+
+## Evidence synthesis
+**Fill-level hypothesis test.** Holds partially, and explains more of the spread than any workload-intensity story. Per-server numbers in the sources: DGX H100/H200 10.2 kW (spec); Inflect says H100/H200 servers draw "5 to 8 kW each" yet racks of 40-60 kW (air) - 8 servers at 5-8 kW; datacenterups: 80 kW/rack for H100/H200 and "~45 kW minimum" for 8 servers; Netrality: 5-10 kW per server, "15-30 kW" racks, "four 5 kW GPU servers per rack"; neuralbase: 4-5 nodes at ~8.2 kW -> 25-30 kW. Divide each rack figure by its own per-server figure and the rack-fill implied is 1-2 servers (Netrality 10-15 kW inference), 3-4 (Chatsworth/neuralbase/Goldman 20-40 kW), 4 (Wilkins model, ~9.5 kW per rack of A100 DGX at 4 servers... note this is ~2.4 kW/server GPU-side avg), up to 8 (Inflect 40-60, datacenterups 80). So 10-15 kW vs 40-60 kW is mostly 1-2 chassis vs 6-8 chassis, not training vs inference workloads. BUT it does not fully dissolve the disagreement: Inflect's 5-8 kW per H100 server contradicts NVIDIA's 10.2 kW spec and the measured 8.4 kW peak (Latif via NLR); 8 x 10.2 = 82 kW, which is what datacenterups' "80 kW" implies, while Inflect's 40-60 kW air rack implies half-filled racks or understated servers. Those two disagree about the same SKU. Also the air ceiling itself (10-15 kW vs 20-25 vs 30 vs 30-50) is a genuine definitional split: room-level CRAC containment vs rear-door/in-row assisted. A single 10.2 kW DGX chassis already exceeds the 10-15 kW "air limit" of the procurement advisory's claim only if you fit more than one; so the 10-15 kW figure is really a legacy-room per-rack budget, not a physical limit of air.
+
+**Attributed spread (date, interest).** Polyglotsoft (2026-08-27; dev consultancy selling abstraction/GPUaaS; interest: encourage renting, so lower ceiling): air limit >10-15 kW, liquid prerequisite >40 kW. datacenterups (UPS/power equipment reseller; interest: high density -> more UPS): air 20-25 kW, RDHx 20-40 kW, "no plausible return to 10 kW/rack"; 10-rack pod 10->80 kW upgrade $500k+ (truncated). Chatsworth 2026 (cabinets/containment/PDU vendor): 30 kW "planning threshold", liquid evaluation at 30 kW, 40-50 kW+ increasingly attractive, AND the same firm's other page says "no universal threshold"-style hedging (depends on factors). Netrality (colo; interest: sell 10-30 kW "high-density" space): high-density = 10-30+ kW, liquid above 30 kW, inference 10-15 kW, training 20-30 kW. Inflect (colo marketplace; interest: high numbers and "only 5% of footprint qualifies" scarcity): air 40-60 kW, liquid 80-120 kW, air "insufficient between 30 and 50 kW", RDHx to ~70 kW, 47 facilities DGX-Ready 120 kW (late 2025, uncited estimate), GB200 120-132 kW, CDU 150-200 kW, GB300 ~163 kW, Rubin NVL144 300+, Rubin Ultra 600+ (Goldman Sachs; the GS article itself quotes Kyber 576 GPU/600 kW in 2027). Neural Base course page: 25-30 kW/H100 rack; retrofit $50k-200k per rack and 4-12 weeks - unsourced, and anecdotes like "$2M lost revenue" read as illustrative scenarios. Lead times (AI servers 28-32 wk, optics 16-26 wk, transformers 36-48 months) only in Polyglotsoft, no primary citations. Sunbird (DCIM vendor): GB200 "likely to require 120 kW". None of these measured anything; direction of interest is mostly upward for sellers of power/cooling/colo and downward for the rent-not-own consultancy.
+
+**Inference vs training density.** Measured evidence says inference racks draw LESS than provisioned and training much closer to it: POLCA ~80% of provisioned for inference vs ~10% headroom for training (A100 DGX, Azure); NLR cites ~21% vs ~3% headroom; Latif H100 HGX training peak 8.4 kW vs 10.2 kW rated. Netrality's "60-80% of max" matches POLCA but without citation; Chatsworth says training sustains higher utilization and drives 50-100+ kW. Inflect sizes by SKU irrespective of workload. Synthesis: density *provisioned* follows SKU and fill; density *drawn* is lower for inference. Because planners must cover peak (per-server inference peaks are high; Wilkins shows per-rack peaks decorrelate only at scale), small on-prem inference clusters (1-2 racks) get little of the oversubscription benefit that hyperscale POLCA reports - a cluster of 2-4 servers has no statistical multiplexing.
+
+**Audited absence (c).** No named on-prem operator discloses measured inference kW per rack. Searched: vault (all 12 starting notes plus site search); hyperresearch scholar queries ("measured power per rack GPU cluster inference production data center", "Uptime Institute global data center survey average rack density kW", "ASHRAE TC 9.9 AI server rack density kW liquid cooling thresholds"); direct fetch attempts of the Uptime Institute 2024 survey page (no usable content stored). Found only: per-node or per-GPU measurements from labs (NREL/NLR, Texas Tech/TACC, Stanford/Microsoft) and a hyperscaler (Azure via POLCA) - the closest measured data, and none is a rack-level reading by an on-prem operator running internal inference. ASHRAE TC 9.9 is referenced by NLR only as thermal guideline for inlet conditions, with no rack-kW threshold. I did not verify the Uptime survey's rack-density finding (historically low single-digit kW average, unverified here). This absence is itself a finding for the report.
+
+## Committed position
+On-premise LLM inference rack density cannot legitimately be stated as a single number from the corpus; what can be stated is a measured per-server envelope and a fill-level arithmetic. The load-bearing reason: every rack figure (10-15 kW to 80-120 kW) is a seller's or advisor's estimate, and dividing each by its own stated per-server draw reveals 1-2 chassis in the low camp versus 6-8 in the high camp, so the 4-6x disagreement is mostly rack fill plus a definitional split over what "air" means (CRAC room vs rear-door), not a disagreement about inference versus training workloads. The measured evidence that exists says (a) an 8-GPU H100 chassis is rated 10.2 kW but a measured H100 HGX peak was 8.4 kW (-18%) and a 4xH100 node serving Llama-3 70B online saturated ~2.8 kW of a 3.52 kW TDP-sum; (b) inference clusters run at ~80% of provisioned power versus ~10% headroom for training (Azure A100, 2023), so inference lowers *drawn* power ~20% but not *provisioned* density, and small on-prem fleets cannot exploit that headroom; (c) TokenPowerBench is an energy-per-token study that never reports rack watts and must not be cited as a density anchor; (d) at the low end (4xL40S, ~2 kW whole server, EUR200/month) no facility work is needed. The report should phrase rack density as "N chassis x 6.5-10.2 kW nameplate, ~80% typical inference draw, provision for nameplate", state the air/liquid ceiling as a 20-30 kW typical practical band for conventional containment (supported by 3 of 6 sources, all with commercial interest) extending to roughly 40-70 kW only with rear-door/in-row assistance (Inflect/datacenterups), and flag the GB200 and later figures and the "47 facilities" claim as undated-source estimates.
+
+- **Position:** Rack-density spread is mostly chassis-fill (1-2 vs 6-8 x ~5-10.2 kW) plus air-cooling definitional differences; measured data supports only per-server envelopes and ~80% inference draw, not any rack-level figure.
+- **Confidence:** medium-high (~70%) on the fill-level reading; high (>80%) on "no measured on-prem rack kW is published in the corpus"; low (~35%) on any particular air-ceiling number.
+- **Boundary conditions:** applies to H100/A100/L40S-class air-cooled 8-GPU or 4-GPU servers; does not apply to GB200 NVL72-class rack-scale systems (fixed ~120-132 kW rack, mandatory DLC, fill is not a variable). Inflect's 5-8 kW per H100 server conflicts with the 10.2 kW spec, so the hypothesis does not reconcile Inflect with datacenterups.
+- **What would change this position:** a named operator or HPC centre facility report with metered per-rack inference kW (e.g., if racks of 4 H100 chassis were metered at under 25 kW sustained, the 40-60 kW "air" claim would be disconfirmed as typical; if above 35 kW sustained it would be supported); a vendor-neutral Uptime/ASHRAE survey stating air limits; verification of Inflect's per-server numbers.
+- **Evidence weight:** 1 vendor spec + 4 measurement papers (NLR, Stanford/Azure, POLCA, TPB; only 3 report watts) + 1 vendor case study vs 8 interested estimates; training-vs-inference measured gap supported by POLCA and NLR citation, contradicted only by Inflect's SKU-based sizing, which is not measured.
+
+## Open questions
+- Uptime Institute / AFCOM / ASHRAE survey of actual average rack density (fetch failed).
+- Whether the Llama 405B vs Falcon 180B cell attribution in TokenPowerBench Fig. 5 is as inferred (needs the figure image).
+- Primary source for 47 DGX-Ready facilities; primary for transformer lead times.
+- Any HPC centre (TACC, LRZ, CSC) public per-rack figures for H100 inference partitions.
+
+## Sources
+1. [[introduction-to-nvidia-dgx-h100h200-systems-nvidia-dgx-h100h200-user-guide]]
+2. [[tokenpowerbench-benchmarking-the-power-consumption-of-llm-inference]]
+3. [[measurement-of-generative-ai-workload-power-profiles-for]]
+4. [[from-servers-to-sites-compositional-power-trace-generation-of]]
+5. [[polca-power-oversubscription-in-llm-cloud-providers]]
+6. [[ai-inference-colocation-power-cooling-and-network-requirements-for-gpu-ready-dat]]
+7. [[high-density-colocation-for-ai-and-gpu-infrastructure]]
+8. [[how-much-power-does-an-ai-rack-use]]
+9. [[when-do-you-need-liquid-cooling-for-ai-workloads-key-thresholds-and-warning-sign]]
+10. [[ai-rack-densities-are-forcing-a-rethink-of-data-center-power-and-cooling-design]]
+11. [[securing-gpus-isnt-enough-an-enterprise-ai-infrastructure-procurement-strategy-f]]
+12. [[rack-power-density-ai-infrastructure-advanced-course-the-neural-base]]
+13. [[is-your-data-center-ready-for-the-nvidia-gb200-nvl72-sunbird-dcim]]
+14. [[1000-homes-of-power-in-a-filing-cabinet-rising-power-density-disrupts-ai-infrast]]
+15. [[private-ai-platform-for-200-employee-engineering-firm]]

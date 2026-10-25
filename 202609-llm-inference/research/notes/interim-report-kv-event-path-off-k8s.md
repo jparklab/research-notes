@@ -5,8 +5,8 @@ tags:
 - llmd-router-nonk8s-backends-54b774
 - locus-kv-event-path-off-k8s
 created: '2026-09-11T21:30:18.726960Z'
-updated: '2026-09-12T03:37:37.499899Z'
-status: review
+updated: '2026-09-15T04:55:23.649370Z'
+status: evergreen
 type: interim
 deprecated: false
 summary: extractor.go confirms precise-prefix-cache-producer's per-endpoint ZMQ subscription

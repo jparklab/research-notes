@@ -8,13 +8,14 @@ tags:
 - vllm-internals
 - design-history
 - llmd-router-nonk8s-backends-54b774
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T19:44:40.260961Z'
-updated: '2026-09-12T03:37:37.580653Z'
+updated: '2026-09-15T04:55:23.733058Z'
 source: https://github.com/vllm-project/vllm/issues/16669
 source_domain: github.com
 fetched_at: '2026-09-11T19:44:40.238419Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

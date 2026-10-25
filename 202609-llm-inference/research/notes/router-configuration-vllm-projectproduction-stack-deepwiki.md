@@ -6,13 +6,14 @@ tags:
 - service-discovery
 - production-stack
 - llmd-router-nonk8s-backends-54b774
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T19:45:23.999445Z'
-updated: '2026-09-12T03:37:37.602162Z'
+updated: '2026-09-15T04:55:23.758625Z'
 source: https://deepwiki.com/vllm-project/production-stack/4.3-router-configuration
 source_domain: deepwiki.com
 fetched_at: '2026-09-11T19:45:23.977557Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

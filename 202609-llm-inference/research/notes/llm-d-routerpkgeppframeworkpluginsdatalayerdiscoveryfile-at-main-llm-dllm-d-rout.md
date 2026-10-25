@@ -9,12 +9,12 @@ tags:
 - go-source
 - multi-cluster
 created: '2026-09-11T20:48:43.978261Z'
-updated: '2026-09-12T03:37:37.677868Z'
+updated: '2026-09-15T04:55:23.835824Z'
 source: https://github.com/llm-d/llm-d-router/tree/main/pkg/epp/framework/plugins/datalayer/discovery/file
 source_domain: github.com
 fetched_at: '2026-09-11T20:48:43.955138Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

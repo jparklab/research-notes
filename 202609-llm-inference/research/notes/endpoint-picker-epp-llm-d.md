@@ -6,13 +6,14 @@ tags:
 - epp-architecture
 - data-layer
 - llmd-router-nonk8s-backends-54b774
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T19:42:35.108777Z'
-updated: '2026-09-12T03:37:37.504635Z'
+updated: '2026-09-15T04:55:23.655326Z'
 source: https://llm-d.ai/docs/dev/architecture/core/router/epp
 source_domain: llm-d.ai
 fetched_at: '2026-09-11T19:42:35.086990Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: docs

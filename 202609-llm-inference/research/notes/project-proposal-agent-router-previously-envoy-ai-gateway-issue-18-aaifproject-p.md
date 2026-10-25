@@ -9,12 +9,12 @@ tags:
 - governance
 - aaif
 created: '2026-09-11T19:45:48.381919Z'
-updated: '2026-09-12T03:37:37.615139Z'
+updated: '2026-09-15T04:55:23.770649Z'
 source: https://github.com/aaif/project-proposals/issues/18
 source_domain: github.com
 fetched_at: '2026-09-11T19:45:48.359881Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

@@ -6,12 +6,12 @@ tags:
 - epp-plugin-registration
 - router-extensibility
 created: '2026-09-11T20:57:17.296593Z'
-updated: '2026-09-12T03:37:37.743514Z'
+updated: '2026-09-15T04:55:23.904841Z'
 source: https://raw.githubusercontent.com/llm-d/llm-d-router/main/pkg/epp/framework/interface/plugin/registry.go
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-11T20:57:17.275154Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

@@ -7,12 +7,12 @@ tags:
 - epp-plugin-pattern
 - latency-predictor
 created: '2026-09-11T20:54:59.295980Z'
-updated: '2026-09-12T03:37:37.728923Z'
+updated: '2026-09-15T04:55:23.889983Z'
 source: https://llm-d.ai/docs/well-lit-paths/foundations/predicted-latency
 source_domain: llm-d.ai
 fetched_at: '2026-09-11T20:54:59.273300Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: docs

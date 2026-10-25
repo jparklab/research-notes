@@ -6,13 +6,14 @@ tags:
 - epp-architecture
 - inferencepool
 - llmd-router-nonk8s-backends-54b774
+- llmd-kv-cache-routing-c665d5
 created: '2026-09-11T19:42:59.201864Z'
-updated: '2026-09-12T03:37:37.513920Z'
+updated: '2026-09-15T04:55:23.664993Z'
 source: https://llm-d.ai/docs/architecture
 source_domain: llm-d.ai
 fetched_at: '2026-09-11T19:42:59.182727Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: docs

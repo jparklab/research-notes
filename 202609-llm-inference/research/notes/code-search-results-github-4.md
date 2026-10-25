@@ -7,12 +7,12 @@ tags:
 - audited-absence
 - github-search-auth-wall
 created: '2026-09-11T21:50:57.421656Z'
-updated: '2026-09-12T03:37:37.811451Z'
+updated: '2026-09-15T04:55:23.981059Z'
 source: https://github.com/search?type=code&q=%22fwkplugin.Register%22
 source_domain: github.com
 fetched_at: '2026-09-11T21:50:57.398042Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

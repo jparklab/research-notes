@@ -8,12 +8,12 @@ tags:
 - disaggregation
 - llmd-router-nonk8s-backends-54b774
 created: '2026-09-11T19:45:26.331921Z'
-updated: '2026-09-12T03:37:37.606958Z'
+updated: '2026-09-15T04:55:23.762252Z'
 source: https://arxiv.org/pdf/2412.12488
 source_domain: arxiv.org
 fetched_at: '2026-09-11T19:45:26.331634Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: institutional
 content_type: paper

@@ -8,12 +8,12 @@ tags:
 - openshift-ai
 - gateway-pattern
 created: '2026-09-11T19:44:47.303476Z'
-updated: '2026-09-12T03:37:37.584093Z'
+updated: '2026-09-15T04:55:23.736635Z'
 source: https://developers.redhat.com/articles/2026/05/25/route-external-and-local-llms-models-as-a-service
 source_domain: developers.redhat.com
 fetched_at: '2026-09-11T19:44:47.281808Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

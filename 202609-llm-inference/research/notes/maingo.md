@@ -6,12 +6,12 @@ tags:
 - epp-entrypoint
 - plugin-registration
 created: '2026-09-11T20:51:56.909021Z'
-updated: '2026-09-12T03:37:37.716891Z'
+updated: '2026-09-15T04:55:23.877302Z'
 source: https://raw.githubusercontent.com/llm-d/llm-d-router/main/cmd/epp/main.go
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-11T20:51:56.886718Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

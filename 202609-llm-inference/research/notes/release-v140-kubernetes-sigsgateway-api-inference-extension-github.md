@@ -7,12 +7,12 @@ tags:
 - epp-releases
 - fail-open
 created: '2026-09-11T19:43:35.505461Z'
-updated: '2026-09-12T03:37:37.538651Z'
+updated: '2026-09-15T04:55:23.690997Z'
 source: https://github.com/kubernetes-sigs/gateway-api-inference-extension/releases/tag/v1.4.0
 source_domain: github.com
 fetched_at: '2026-09-11T19:43:35.485389Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

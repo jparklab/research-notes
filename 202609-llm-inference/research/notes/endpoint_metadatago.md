@@ -8,12 +8,12 @@ tags:
 - non-k8s-discovery
 - file-discovery
 created: '2026-09-11T21:48:32.871477Z'
-updated: '2026-09-12T03:37:37.802244Z'
+updated: '2026-09-15T04:55:23.963589Z'
 source: https://raw.githubusercontent.com/llm-d/llm-d-router/main/pkg/epp/framework/interface/datalayer/endpoint_metadata.go
 source_domain: raw.githubusercontent.com
 fetched_at: '2026-09-11T21:48:32.848111Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

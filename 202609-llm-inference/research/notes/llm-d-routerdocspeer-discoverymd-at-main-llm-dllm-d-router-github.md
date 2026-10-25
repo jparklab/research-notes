@@ -7,12 +7,12 @@ tags:
 - peer-discovery
 - epp-ha
 created: '2026-09-11T21:23:50.214089Z'
-updated: '2026-09-12T03:37:37.762063Z'
+updated: '2026-09-15T04:55:23.924225Z'
 source: https://github.com/llm-d/llm-d-router/blob/main/docs/peer-discovery.md
 source_domain: github.com
 fetched_at: '2026-09-11T21:23:50.191984Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code

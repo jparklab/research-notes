@@ -11,12 +11,12 @@ tags:
 - correction
 - not-merged
 created: '2026-09-11T20:54:22.946877Z'
-updated: '2026-09-12T03:37:37.727277Z'
+updated: '2026-09-15T04:55:23.888235Z'
 source: https://github.com/llm-d/llm-d-router/pull/1007
 source_domain: github.com
 fetched_at: '2026-09-11T20:54:22.922913Z'
 fetch_provider: crawl4ai
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: code
