@@ -2,8 +2,8 @@
 title: "Tag: pkg-go-dev-reverse-deps"
 id: "_tag-pkg-go-dev-reverse-deps"
 type: index
-created: 2026-09-12T03:37:38.381830+00:00
-updated: 2026-09-12T03:37:38.381830+00:00
+created: 2026-10-10T14:52:18.644205+00:00
+updated: 2026-10-10T14:52:18.644205+00:00
 ---
 
 # Tag: pkg-go-dev-reverse-deps

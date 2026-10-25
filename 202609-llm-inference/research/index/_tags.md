@@ -2,169 +2,423 @@
 title: "Tags Index"
 id: "_tags"
 type: index
-created: 2026-09-12T03:37:38.375689+00:00
-updated: 2026-09-12T03:37:38.375689+00:00
+created: 2026-10-10T14:52:18.625742+00:00
+updated: 2026-10-10T14:52:18.625742+00:00
 ---
 
 # Tags Index
 
-**269** unique tags.
+**665** unique tags.
 
 - **llmd-router-nonk8s-backends-54b774** (225 notes) → [[_tag-llmd-router-nonk8s-backends-54b774]]
+- **llmd-kv-cache-routing-c665d5** (177 notes) → [[_tag-llmd-kv-cache-routing-c665d5]]
+- **internal-llm-inference-stacks-7f0c90** (144 notes) → [[_tag-internal-llm-inference-stacks-7f0c90]]
+- **llm-d** (62 notes) → [[_tag-llm-d]]
+- **kv-cache** (37 notes) → [[_tag-kv-cache]]
 - **llmd-router-nonk8s** (33 notes) → [[_tag-llmd-router-nonk8s]]
+- **kv-cache-routing** (32 notes) → [[_tag-kv-cache-routing]]
 - **llmd-router-nonk8s-backends** (32 notes) → [[_tag-llmd-router-nonk8s-backends]]
+- **vllm** (27 notes) → [[_tag-vllm]]
+- **epp** (23 notes) → [[_tag-epp]]
 - **llmd-router** (23 notes) → [[_tag-llmd-router]]
-- **epp-architecture** (20 notes) → [[_tag-epp-architecture]]
+- **epp-architecture** (21 notes) → [[_tag-epp-architecture]]
+- **llm-inference** (20 notes) → [[_tag-llm-inference]]
+- **pd-disaggregation** (18 notes) → [[_tag-pd-disaggregation]]
 - **file-discovery** (17 notes) → [[_tag-file-discovery]]
-- **epp** (15 notes) → [[_tag-epp]]
+- **zmq-kv-events** (16 notes) → [[_tag-zmq-kv-events]]
+- **audited-absence** (15 notes) → [[_tag-audited-absence]]
+- **litellm** (15 notes) → [[_tag-litellm]]
+- **nixl** (15 notes) → [[_tag-nixl]]
 - **pd-sidecar** (15 notes) → [[_tag-pd-sidecar]]
-- **llm-d** (13 notes) → [[_tag-llm-d]]
+- **prefix-caching** (15 notes) → [[_tag-prefix-caching]]
+- **kv-cache-indexer** (13 notes) → [[_tag-kv-cache-indexer]]
+- **build-vs-buy** (12 notes) → [[_tag-build-vs-buy]]
+- **model-layer** (12 notes) → [[_tag-model-layer]]
+- **internal-llm-inference-stacks** (11 notes) → [[_tag-internal-llm-inference-stacks]]
+- **load-balancing** (11 notes) → [[_tag-load-balancing]]
 - **agentgateway** (10 notes) → [[_tag-agentgateway]]
+- **gateway-routing** (10 notes) → [[_tag-gateway-routing]]
 - **go-source** (10 notes) → [[_tag-go-source]]
 - **inferencepool** (10 notes) → [[_tag-inferencepool]]
 - **locus-availability-and-lifecycle-off-k8s** (10 notes) → [[_tag-locus-availability-and-lifecycle-off-k8s]]
 - **non-k8s-backend** (10 notes) → [[_tag-non-k8s-backend]]
+- **observability** (10 notes) → [[_tag-observability]]
 - **standalone-epp** (10 notes) → [[_tag-standalone-epp]]
 - **data-layer** (9 notes) → [[_tag-data-layer]]
 - **endpoint-discovery** (9 notes) → [[_tag-endpoint-discovery]]
-- **zmq-kv-events** (9 notes) → [[_tag-zmq-kv-events]]
-- **audited-absence** (8 notes) → [[_tag-audited-absence]]
+- **ground-truth** (9 notes) → [[_tag-ground-truth]]
+- **kv-events** (9 notes) → [[_tag-kv-events]]
+- **locus-default-scoring-configuration** (9 notes) → [[_tag-locus-default-scoring-configuration]]
+- **ai-gateway** (8 notes) → [[_tag-ai-gateway]]
+- **derivative-of** (8 notes) → [[_tag-derivative-of]]
 - **discovery-config** (8 notes) → [[_tag-discovery-config]]
-- **kv-cache-indexer** (8 notes) → [[_tag-kv-cache-indexer]]
+- **first-person-account** (8 notes) → [[_tag-first-person-account]]
+- **gpu-utilization** (8 notes) → [[_tag-gpu-utilization]]
+- **llm-d-router** (8 notes) → [[_tag-llm-d-router]]
 - **out-of-tree-plugin-support** (8 notes) → [[_tag-out-of-tree-plugin-support]]
+- **primary-source** (8 notes) → [[_tag-primary-source]]
 - **ssrf-protection** (8 notes) → [[_tag-ssrf-protection]]
+- **benchmark** (7 notes) → [[_tag-benchmark]]
+- **break-even-threshold** (7 notes) → [[_tag-break-even-threshold]]
+- **guardrails** (7 notes) → [[_tag-guardrails]]
+- **inference-stack** (7 notes) → [[_tag-inference-stack]]
+- **kv-offloading** (7 notes) → [[_tag-kv-offloading]]
+- **llm-observability** (7 notes) → [[_tag-llm-observability]]
+- **locus-approximate-vs-precise-index** (7 notes) → [[_tag-locus-approximate-vs-precise-index]]
 - **standalone-mode** (7 notes) → [[_tag-standalone-mode]]
+- **vendor-marketing** (7 notes) → [[_tag-vendor-marketing]]
+- **aibrix** (6 notes) → [[_tag-aibrix]]
+- **disaggregated-serving** (6 notes) → [[_tag-disaggregated-serving]]
+- **envoy-ai-gateway** (6 notes) → [[_tag-envoy-ai-gateway]]
+- **epp-config-reference** (6 notes) → [[_tag-epp-config-reference]]
 - **epp-plugin-registration** (6 notes) → [[_tag-epp-plugin-registration]]
 - **gie** (6 notes) → [[_tag-gie]]
+- **hotspot-mitigation** (6 notes) → [[_tag-hotspot-mitigation]]
+- **kv-block-index** (6 notes) → [[_tag-kv-block-index]]
 - **llm-d-architecture** (6 notes) → [[_tag-llm-d-architecture]]
 - **locus-extension-mechanism** (6 notes) → [[_tag-locus-extension-mechanism]]
 - **locus-kv-event-path-off-k8s** (6 notes) → [[_tag-locus-kv-event-path-off-k8s]]
+- **locus-oss-boundary-sharpening** (6 notes) → [[_tag-locus-oss-boundary-sharpening]]
+- **mooncake** (6 notes) → [[_tag-mooncake]]
+- **multi-tenancy** (6 notes) → [[_tag-multi-tenancy]]
+- **nvidia-dynamo** (6 notes) → [[_tag-nvidia-dynamo]]
+- **oss-repo** (6 notes) → [[_tag-oss-repo]]
+- **prefill-decode-disaggregation** (6 notes) → [[_tag-prefill-decode-disaggregation]]
 - **router-extensibility** (6 notes) → [[_tag-router-extensibility]]
+- **sglang** (6 notes) → [[_tag-sglang]]
+- **source-analysis** (6 notes) → [[_tag-source-analysis]]
+- **source-hub** (6 notes) → [[_tag-source-hub]]
+- **architecture** (5 notes) → [[_tag-architecture]]
 - **directory-listing** (5 notes) → [[_tag-directory-listing]]
+- **dynamo** (5 notes) → [[_tag-dynamo]]
 - **endpointpickerconfig** (5 notes) → [[_tag-endpointpickerconfig]]
+- **epp-ha** (5 notes) → [[_tag-epp-ha]]
 - **epp-protocol** (5 notes) → [[_tag-epp-protocol]]
 - **fail-open** (5 notes) → [[_tag-fail-open]]
+- **flow-control** (5 notes) → [[_tag-flow-control]]
+- **helm-values** (5 notes) → [[_tag-helm-values]]
+- **kv-cache-security** (5 notes) → [[_tag-kv-cache-security]]
+- **layer-boundaries** (5 notes) → [[_tag-layer-boundaries]]
 - **llm-d-releases** (5 notes) → [[_tag-llm-d-releases]]
+- **lmcache** (5 notes) → [[_tag-lmcache]]
 - **locus-custom-discovery-plugin-design** (5 notes) → [[_tag-locus-custom-discovery-plugin-design]]
-- **nixl** (5 notes) → [[_tag-nixl]]
+- **locus-offload-connector-routing-visibility** (5 notes) → [[_tag-locus-offload-connector-routing-visibility]]
+- **named-org-deployment** (5 notes) → [[_tag-named-org-deployment]]
 - **no-kubernetes** (5 notes) → [[_tag-no-kubernetes]]
-- **pd-disaggregation** (5 notes) → [[_tag-pd-disaggregation]]
+- **ollama** (5 notes) → [[_tag-ollama]]
+- **opentelemetry** (5 notes) → [[_tag-opentelemetry]]
 - **precise-prefix-cache-producer** (5 notes) → [[_tag-precise-prefix-cache-producer]]
-- **source-hub** (5 notes) → [[_tag-source-hub]]
+- **production-measurement** (5 notes) → [[_tag-production-measurement]]
+- **production-workload-trace** (5 notes) → [[_tag-production-workload-trace]]
+- **prompt-stealing** (5 notes) → [[_tag-prompt-stealing]]
+- **quantization** (5 notes) → [[_tag-quantization]]
+- **timing-side-channel** (5 notes) → [[_tag-timing-side-channel]]
 - **absence-finding** (4 notes) → [[_tag-absence-finding]]
+- **academic-comparison** (4 notes) → [[_tag-academic-comparison]]
+- **autoscaling** (4 notes) → [[_tag-autoscaling]]
+- **baseten-case-study** (4 notes) → [[_tag-baseten-case-study]]
+- **baseten-managed-middle** (4 notes) → [[_tag-baseten-managed-middle]]
+- **cncf** (4 notes) → [[_tag-cncf]]
+- **cold-starts** (4 notes) → [[_tag-cold-starts]]
+- **cost-attribution** (4 notes) → [[_tag-cost-attribution]]
 - **envoy** (4 notes) → [[_tag-envoy]]
-- **envoy-ai-gateway** (4 notes) → [[_tag-envoy-ai-gateway]]
-- **epp-ha** (4 notes) → [[_tag-epp-ha]]
-- **flow-control** (4 notes) → [[_tag-flow-control]]
+- **failure-recovery** (4 notes) → [[_tag-failure-recovery]]
 - **gie-design** (4 notes) → [[_tag-gie-design]]
+- **github-issue** (4 notes) → [[_tag-github-issue]]
+- **github-pr** (4 notes) → [[_tag-github-pr]]
+- **independent-adversarial-evidence** (4 notes) → [[_tag-independent-adversarial-evidence]]
+- **kserve** (4 notes) → [[_tag-kserve]]
+- **kubernetes** (4 notes) → [[_tag-kubernetes]]
+- **kv-events-gap** (4 notes) → [[_tag-kv-events-gap]]
+- **licensing** (4 notes) → [[_tag-licensing]]
+- **llamacpp** (4 notes) → [[_tag-llamacpp]]
+- **llmops-case-study** (4 notes) → [[_tag-llmops-case-study]]
+- **lmcache-mp-mode** (4 notes) → [[_tag-lmcache-mp-mode]]
+- **locus-affinity-helps-or-hurts** (4 notes) → [[_tag-locus-affinity-helps-or-hurts]]
+- **locus-managed-middle-hosted-open-weight** (4 notes) → [[_tag-locus-managed-middle-hosted-open-weight]]
+- **locus-observability-layer-oss-maturity** (4 notes) → [[_tag-locus-observability-layer-oss-maturity]]
+- **maintainer-issue** (4 notes) → [[_tag-maintainer-issue]]
 - **non-k8s** (4 notes) → [[_tag-non-k8s]]
 - **peer-discovery** (4 notes) → [[_tag-peer-discovery]]
 - **plugin-registration** (4 notes) → [[_tag-plugin-registration]]
 - **pod-discovery** (4 notes) → [[_tag-pod-discovery]]
+- **red-teaming** (4 notes) → [[_tag-red-teaming]]
+- **regulatory-disclosure** (4 notes) → [[_tag-regulatory-disclosure]]
+- **regulatory-survey** (4 notes) → [[_tag-regulatory-survey]]
+- **routing** (4 notes) → [[_tag-routing]]
+- **rust** (4 notes) → [[_tag-rust]]
+- **self-hosted** (4 notes) → [[_tag-self-hosted]]
+- **self-hosted-llm** (4 notes) → [[_tag-self-hosted-llm]]
 - **service-discovery** (4 notes) → [[_tag-service-discovery]]
-- **architecture** (3 notes) → [[_tag-architecture]]
-- **benchmark** (3 notes) → [[_tag-benchmark]]
+- **tensorrt-llm** (4 notes) → [[_tag-tensorrt-llm]]
+- **triton-inference-server** (4 notes) → [[_tag-triton-inference-server]]
+- **vendor-content** (4 notes) → [[_tag-vendor-content]]
+- **virtual-keys** (4 notes) → [[_tag-virtual-keys]]
+- **weight-loading** (4 notes) → [[_tag-weight-loading]]
+- **workload-characterization** (4 notes) → [[_tag-workload-characterization]]
+- **bytedance** (3 notes) → [[_tag-bytedance]]
+- **chunked-prefill** (3 notes) → [[_tag-chunked-prefill]]
+- **cloudflare** (3 notes) → [[_tag-cloudflare]]
+- **concurrency-collapse** (3 notes) → [[_tag-concurrency-collapse]]
+- **cost-economics** (3 notes) → [[_tag-cost-economics]]
+- **embeddings** (3 notes) → [[_tag-embeddings]]
 - **endpoint-extractor** (3 notes) → [[_tag-endpoint-extractor]]
+- **epp-scheduler** (3 notes) → [[_tag-epp-scheduler]]
+- **evaluation** (3 notes) → [[_tag-evaluation]]
 - **ext-proc** (3 notes) → [[_tag-ext-proc]]
+- **gateway-api-inference-extension** (3 notes) → [[_tag-gateway-api-inference-extension]]
+- **genai-semconv** (3 notes) → [[_tag-genai-semconv]]
+- **github-primary-source** (3 notes) → [[_tag-github-primary-source]]
+- **governance** (3 notes) → [[_tag-governance]]
 - **helm** (3 notes) → [[_tag-helm]]
 - **k8s-only** (3 notes) → [[_tag-k8s-only]]
+- **kaito** (3 notes) → [[_tag-kaito]]
 - **kgateway** (3 notes) → [[_tag-kgateway]]
-- **llm-d-router** (3 notes) → [[_tag-llm-d-router]]
+- **kv-transfer-bug** (3 notes) → [[_tag-kv-transfer-bug]]
 - **llm-d-router-releases** (3 notes) → [[_tag-llm-d-router-releases]]
 - **llminferenceservice** (3 notes) → [[_tag-llminferenceservice]]
+- **llmops-aggregate** (3 notes) → [[_tag-llmops-aggregate]]
+- **locus-index-freshness-and-recovery** (3 notes) → [[_tag-locus-index-freshness-and-recovery]]
+- **locus-under-documented-layers-audited-absence** (3 notes) → [[_tag-locus-under-documented-layers-audited-absence]]
 - **low-authority** (3 notes) → [[_tag-low-authority]]
+- **model-risk-management** (3 notes) → [[_tag-model-risk-management]]
+- **model-update-treadmill** (3 notes) → [[_tag-model-update-treadmill]]
+- **negative-finding** (3 notes) → [[_tag-negative-finding]]
 - **non-k8s-discovery** (3 notes) → [[_tag-non-k8s-discovery]]
+- **on-call-burden** (3 notes) → [[_tag-on-call-burden]]
+- **oss-boundary** (3 notes) → [[_tag-oss-boundary]]
+- **oss-governance** (3 notes) → [[_tag-oss-governance]]
 - **pkg-go-dev-reverse-deps** (3 notes) → [[_tag-pkg-go-dev-reverse-deps]]
+- **post-training** (3 notes) → [[_tag-post-training]]
+- **prefix-cache-routing** (3 notes) → [[_tag-prefix-cache-routing]]
+- **primary-technical-report** (3 notes) → [[_tag-primary-technical-report]]
+- **production-adopter** (3 notes) → [[_tag-production-adopter]]
+- **production-adoption** (3 notes) → [[_tag-production-adoption]]
+- **production-stack** (3 notes) → [[_tag-production-stack]]
+- **radixattention** (3 notes) → [[_tag-radixattention]]
 - **rank-index** (3 notes) → [[_tag-rank-index]]
+- **rdma** (3 notes) → [[_tag-rdma]]
 - **reference-design** (3 notes) → [[_tag-reference-design]]
 - **release-notes** (3 notes) → [[_tag-release-notes]]
+- **replay-buffer** (3 notes) → [[_tag-replay-buffer]]
+- **rfc** (3 notes) → [[_tag-rfc]]
 - **rl-integration** (3 notes) → [[_tag-rl-integration]]
+- **scheduler-defaults** (3 notes) → [[_tag-scheduler-defaults]]
+- **stale-source** (3 notes) → [[_tag-stale-source]]
+- **tgi-maintenance-mode** (3 notes) → [[_tag-tgi-maintenance-mode]]
+- **uber** (3 notes) → [[_tag-uber]]
+- **vllm-issue** (3 notes) → [[_tag-vllm-issue]]
 - **vllm-router** (3 notes) → [[_tag-vllm-router]]
 - **zero-importers-evidence** (3 notes) → [[_tag-zero-importers-evidence]]
+- **academic-paper** (2 notes)
 - **active-active** (2 notes)
+- **atlassian** (2 notes)
+- **awq** (2 notes)
+- **baseten** (2 notes)
+- **benchmark-numbers** (2 notes)
+- **benchmarks** (2 notes)
+- **budget-hierarchy** (2 notes)
+- **calibration** (2 notes)
+- **canary-deployment** (2 notes)
+- **closed-not-merged** (2 notes)
+- **cloud-vs-onpremise** (2 notes)
+- **coding-agents** (2 notes)
+- **comparison-system** (2 notes)
 - **config-schema** (2 notes)
 - **consul** (2 notes)
+- **continual-learning** (2 notes)
+- **continuous-batching** (2 notes)
+- **custom-engine** (2 notes)
+- **data-residency** (2 notes)
 - **discovery-plugin** (2 notes)
-- **dynamo** (2 notes)
+- **docs** (2 notes)
+- **endpoint-picker** (2 notes)
+- **engine-comparison** (2 notes)
 - **epp-config** (2 notes)
 - **epp-header-sanitization** (2 notes)
 - **epp-internals** (2 notes)
 - **epp-metrics-auth** (2 notes)
+- **epp-plugin-framework** (2 notes)
 - **epp-plugin-pattern** (2 notes)
 - **epp-releases** (2 notes)
 - **epp-router** (2 notes)
+- **founding-design** (2 notes)
+- **frontier-vs-open-weight** (2 notes)
 - **gap-5** (2 notes)
+- **gap-check-cc1** (2 notes)
+- **gap-check-cc6** (2 notes)
+- **gie-overview** (2 notes)
+- **github-pr-search** (2 notes)
 - **github-search-auth-wall** (2 notes)
+- **go-package** (2 notes)
+- **government** (2 notes)
+- **hands-on-testing** (2 notes)
+- **harvey-tenet** (2 notes)
 - **hpc-slurm** (2 notes)
-- **kaito** (2 notes)
-- **kserve** (2 notes)
+- **huawei** (2 notes)
+- **istio** (2 notes)
+- **karpenter** (2 notes)
+- **keda** (2 notes)
 - **kv-cache-events** (2 notes)
+- **kv-cache-offload** (2 notes)
+- **kv-cache-offloading** (2 notes)
+- **kv-event-sync** (2 notes)
+- **langchain** (2 notes)
 - **latency-predictor** (2 notes)
+- **llm-d-release** (2 notes)
+- **llm-evaluation** (2 notes)
+- **locus-cache-salt-lora-multitenant-routing** (2 notes)
 - **locus-lost-k8s-policy-inputs** (2 notes)
 - **locus-topology-and-k8s-shims** (2 notes)
+- **managed-middle-confirmed** (2 notes)
+- **microsoft** (2 notes)
+- **model-rollout** (2 notes)
+- **model-serving** (2 notes)
+- **nemo-guardrails** (2 notes)
 - **no-k8s-mode** (2 notes)
 - **non-k8s-gap-evidence** (2 notes)
 - **non-k8s-precedent** (2 notes)
-- **observability** (2 notes)
+- **open-core** (2 notes)
+- **open-source** (2 notes)
+- **openai-api-compatibility** (2 notes)
 - **openshift-ai** (2 notes)
+- **optimized-baseline** (2 notes)
 - **original-dst** (2 notes)
+- **otel-genai** (2 notes)
 - **override-host** (2 notes)
+- **p2p-kv-cache** (2 notes)
+- **pagedattention** (2 notes)
+- **peakprefillthroughput** (2 notes)
+- **performance** (2 notes)
 - **plugin-interfaces** (2 notes)
+- **practitioner-essay** (2 notes)
 - **predicted-latency** (2 notes)
-- **production-stack** (2 notes)
+- **prefix-aware-routing** (2 notes)
+- **prefix-cache-affinity-filter** (2 notes)
+- **prefix-cache-scorer** (2 notes)
 - **prometheus** (2 notes)
-- **rdma** (2 notes)
+- **proposal** (2 notes)
+- **radix-tree** (2 notes)
+- **ray** (2 notes)
+- **rejected-proposal** (2 notes)
+- **reranker** (2 notes)
 - **roadmap** (2 notes)
 - **router** (2 notes)
+- **scheduling** (2 notes)
+- **security** (2 notes)
+- **semantic-cache** (2 notes)
 - **semantic-routing** (2 notes)
 - **slurm** (2 notes)
+- **speculative-decoding** (2 notes)
+- **staleness-check** (2 notes)
+- **tangential** (2 notes)
 - **tls** (2 notes)
+- **triton** (2 notes)
+- **trtllm-gap** (2 notes)
 - **version-gap** (2 notes)
 - **vllm-internals** (2 notes)
+- **vllm-metrics** (2 notes)
 - **x-gateway-destination-endpoint** (2 notes)
+- **zmq** (2 notes)
 - **zmq-subscriber-manager** (2 notes)
 - **aaif** (1 notes)
+- **academic** (1 notes)
 - **academic-anchor** (1 notes)
+- **academic-source** (1 notes)
 - **adversarial** (1 notes)
 - **adversarial-benchmark** (1 notes)
+- **adversarial-evidence** (1 notes)
+- **agent-patterns** (1 notes)
+- **agent-router-rebrand** (1 notes)
+- **agent-tooling** (1 notes)
+- **agentic-serving** (1 notes)
+- **agentic-workloads** (1 notes)
 - **ai-gateway-layering** (1 notes)
 - **ai-generated-secondary** (1 notes)
+- **ai-generated-source** (1 notes)
+- **air-gapped** (1 notes)
 - **aks** (1 notes)
+- **analyst-forecast** (1 notes)
+- **analyst-note** (1 notes)
+- **anecdotal** (1 notes)
+- **apache-2.0** (1 notes)
+- **apc** (1 notes)
 - **api-reference** (1 notes)
+- **approximate-prefix-routing** (1 notes)
+- **architecture-correction** (1 notes)
 - **async-broker** (1 notes)
-- **benchmarks** (1 notes)
+- **attentionstore** (1 notes)
+- **audited-weak-evidence** (1 notes)
+- **aws-infrastructure** (1 notes)
+- **azure** (1 notes)
+- **benchmark-methodology** (1 notes)
+- **block-hashing** (1 notes)
+- **block-key-hashing** (1 notes)
 - **body-based-routing** (1 notes)
+- **break-even-analysis** (1 notes)
+- **budget-enforcement** (1 notes)
 - **bug-fix** (1 notes)
+- **burstiness** (1 notes)
 - **bylabel** (1 notes)
-- **cncf** (1 notes)
+- **cache-aware-routing** (1 notes)
+- **cache-eviction** (1 notes)
+- **cache-salt-gap** (1 notes)
+- **cache-salting** (1 notes)
+- **caching** (1 notes)
+- **candle** (1 notes)
+- **capacity-planning** (1 notes)
+- **chargeback** (1 notes)
+- **ci-gating** (1 notes)
+- **cloud-native** (1 notes)
+- **cloud-provider-trace** (1 notes)
+- **coding-assistants** (1 notes)
 - **competing-approaches** (1 notes)
 - **component-rename** (1 notes)
 - **component-versioning** (1 notes)
+- **concurrency-bug** (1 notes)
+- **concurrency-limits** (1 notes)
 - **conference-talk** (1 notes)
 - **configmap** (1 notes)
 - **configuration** (1 notes)
+- **constrained-decoding** (1 notes)
 - **contributing-guide** (1 notes)
 - **coordinator-architecture** (1 notes)
+- **corporate-maintainer** (1 notes)
 - **correction** (1 notes)
+- **cost-optimization** (1 notes)
+- **cpu-offload** (1 notes)
+- **cpu-only** (1 notes)
 - **cross-replica-syncer** (1 notes)
+- **cuda-checkpoint** (1 notes)
+- **custom-build** (1 notes)
+- **custom-embeddings** (1 notes)
 - **custom-epp** (1 notes)
 - **custom-plugin** (1 notes)
 - **datastore** (1 notes)
+- **deepseek** (1 notes)
+- **defect-analysis** (1 notes)
+- **defense-in-depth** (1 notes)
 - **deleted-doc** (1 notes)
 - **deployment-guide** (1 notes)
 - **deployment-modes** (1 notes)
-- **derivative-of** (1 notes)
+- **deprecated-repo** (1 notes)
 - **design-history** (1 notes)
 - **design-proposal** (1 notes)
 - **destination-header** (1 notes)
 - **destination-mode** (1 notes)
-- **disaggregated-serving** (1 notes)
 - **disaggregation** (1 notes)
-- **docs** (1 notes)
+- **distributed-scheduling** (1 notes)
+- **distributed-serving** (1 notes)
 - **docs-cleanup** (1 notes)
+- **dynamo-specific** (1 notes)
 - **eks** (1 notes)
+- **eks-benchmark** (1 notes)
 - **endpoint-metadata** (1 notes)
+- **endpointpicker** (1 notes)
 - **engine-backend** (1 notes)
+- **engineadapter** (1 notes)
+- **enterprise-survey** (1 notes)
+- **enterprise-tier** (1 notes)
 - **envoy-gateway-eds** (1 notes)
 - **envoy-lb-policy** (1 notes)
 - **epp-entrypoint** (1 notes)
@@ -175,72 +429,153 @@ updated: 2026-09-12T03:37:38.375689+00:00
 - **epp-migration** (1 notes)
 - **epp-passthrough** (1 notes)
 - **epp-scale-benchmark** (1 notes)
+- **eval-suite** (1 notes)
+- **expert-parallelism** (1 notes)
+- **fabrication-check** (1 notes)
 - **fail-closed** (1 notes)
+- **fair-scheduling** (1 notes)
 - **fallback-endpoints** (1 notes)
+- **falsification** (1 notes)
 - **fastapi** (1 notes)
+- **feature-flags** (1 notes)
 - **filediscovery** (1 notes)
-- **founding-design** (1 notes)
+- **fine-tuning** (1 notes)
+- **fireworks-ai** (1 notes)
+- **first-party-limitations** (1 notes)
+- **foundational** (1 notes)
 - **gap-1** (1 notes)
-- **gateway-api-inference-extension** (1 notes)
+- **gateway** (1 notes)
 - **gateway-latency** (1 notes)
+- **gateway-limitations** (1 notes)
 - **gateway-pattern** (1 notes)
 - **gateway-provider** (1 notes)
-- **gie-overview** (1 notes)
+- **gateway-telemetry** (1 notes)
+- **genai-gateway** (1 notes)
+- **gie-compatible-router** (1 notes)
 - **github-issue-search** (1 notes)
 - **github-repo** (1 notes)
 - **gke** (1 notes)
+- **glm-5-2** (1 notes)
 - **go-mod-structural-check** (1 notes)
 - **go-packages** (1 notes)
 - **go-source-path** (1 notes)
-- **governance** (1 notes)
+- **gptq** (1 notes)
+- **gpu-finops** (1 notes)
+- **gray-literature** (1 notes)
 - **ground-truth-rfc** (1 notes)
+- **hallucination-detection** (1 notes)
 - **health-filtering** (1 notes)
 - **helm-chart** (1 notes)
 - **helm-deployment** (1 notes)
+- **hetzner** (1 notes)
+- **hierarchical-kv-offloading** (1 notes)
+- **hmac-namespace-isolation** (1 notes)
 - **hpc-offload** (1 notes)
+- **huggingface** (1 notes)
+- **iclr-2023** (1 notes)
 - **implementers-guide** (1 notes)
+- **inference-cost-economics** (1 notes)
 - **inference-objective** (1 notes)
+- **inference-runtime** (1 notes)
+- **inference-serving-taxonomy** (1 notes)
 - **inferenceobjective** (1 notes)
 - **inferencepool-spec** (1 notes)
 - **inferencepoolimport** (1 notes)
+- **intility** (1 notes)
 - **inverse-strategy** (1 notes)
-- **istio** (1 notes)
 - **k8s-discovery** (1 notes)
 - **k8s-native** (1 notes)
 - **k8s-pod-discovery** (1 notes)
+- **kimi** (1 notes)
+- **kimi-k3** (1 notes)
+- **knative** (1 notes)
 - **kubernetes-lease** (1 notes)
 - **kv-aware-routing** (1 notes)
 - **kv-cache-disaggregation** (1 notes)
-- **kv-cache-routing** (1 notes)
+- **kv-cache-pool** (1 notes)
+- **kv-cache-routing-design** (1 notes)
+- **kv-cache-scorer** (1 notes)
 - **kv-cache-scoring** (1 notes)
+- **kv-cache-transfer** (1 notes)
 - **kv-connector** (1 notes)
+- **kv-event-replay-buffer** (1 notes)
 - **kv-event-sourcing** (1 notes)
+- **kv-offloading-connector** (1 notes)
+- **kv-router** (1 notes)
+- **kv-transfer** (1 notes)
+- **latency-prediction** (1 notes)
 - **leader-election** (1 notes)
 - **leads-only** (1 notes)
-- **litellm** (1 notes)
-- **lmcache** (1 notes)
+- **llama** (1 notes)
+- **llm-compressor** (1 notes)
+- **llm-guardrails-taxonomy** (1 notes)
 - **local-config** (1 notes)
+- **locality-ownership-gap** (1 notes)
+- **locus-control-plane-convergence-or-proliferation** (1 notes)
+- **locus-end-to-end-reference-architecture** (1 notes)
 - **long-source** (1 notes)
+- **longest-prefix-scoring** (1 notes)
+- **longhorn** (1 notes)
+- **lora-id** (1 notes)
 - **lora-metrics** (1 notes)
 - **maintainer-statement** (1 notes)
+- **managed-middle-negative** (1 notes)
+- **managed-middle-unconfirmed** (1 notes)
+- **mcp** (1 notes)
+- **mcp-gateway** (1 notes)
+- **memory-fragmentation** (1 notes)
+- **memory-layout** (1 notes)
+- **merged** (1 notes)
 - **metrics** (1 notes)
+- **michelangelo** (1 notes)
 - **microserving** (1 notes)
 - **migration-shim** (1 notes)
+- **mlsys-2024** (1 notes)
+- **model-consolidation** (1 notes)
+- **model-pinning** (1 notes)
 - **model-server-protocol** (1 notes)
+- **moe** (1 notes)
+- **monetization-boundary** (1 notes)
 - **mooncake-conductor** (1 notes)
+- **moonshot-ai** (1 notes)
 - **multi-cluster** (1 notes)
+- **multi-lora** (1 notes)
+- **multi-turn-benchmark** (1 notes)
 - **multicluster** (1 notes)
+- **named-practitioner** (1 notes)
 - **navigational** (1 notes)
-- **negative-finding** (1 notes)
+- **negative-results** (1 notes)
+- **netflix** (1 notes)
 - **networking** (1 notes)
 - **nginx** (1 notes)
 - **no-external-plugin-doc** (1 notes)
+- **no-hit-lru-scorer** (1 notes)
 - **no-internal-api-disclaimer** (1 notes)
 - **no-internal-path-blocker** (1 notes)
 - **not-llm-d-specific** (1 notes)
 - **not-merged** (1 notes)
-- **nvidia-dynamo** (1 notes)
+- **on-premises** (1 notes)
+- **open-source-serving** (1 notes)
+- **open-webui** (1 notes)
+- **open-weight-model-roundup** (1 notes)
+- **open-weight-share-decline** (1 notes)
+- **open-weight-share-rise** (1 notes)
+- **operational-failure-mode** (1 notes)
+- **operator-evidence** (1 notes)
+- **orca** (1 notes)
+- **orchestration** (1 notes)
+- **orchestration-protocol** (1 notes)
+- **osdi** (1 notes)
+- **oss-project-docs** (1 notes)
+- **oss-project-page** (1 notes)
 - **out-of-scope** (1 notes)
+- **owasp-llm-top-10** (1 notes)
+- **p2p** (1 notes)
+- **p2p-sharing** (1 notes)
+- **paged-kv-cache** (1 notes)
+- **pagedattention-critique** (1 notes)
+- **paywalled** (1 notes)
+- **personal-scale-anecdote** (1 notes)
 - **plugin-catalog** (1 notes)
 - **plugin-interface** (1 notes)
 - **plugin-lifecycle** (1 notes)
@@ -249,36 +584,97 @@ updated: 2026-09-12T03:37:38.375689+00:00
 - **pod-selector** (1 notes)
 - **pods-assumption** (1 notes)
 - **portability** (1 notes)
+- **positive-result** (1 notes)
+- **practitioner-opinion** (1 notes)
 - **pre-ga-api** (1 notes)
+- **prefix-cache** (1 notes)
+- **prefix-cache-affinity** (1 notes)
+- **prefix-cache-indexer** (1 notes)
+- **prefix-cache-offloading** (1 notes)
+- **prefix-cache-scoring** (1 notes)
+- **prefix-chain** (1 notes)
+- **prefix-matching** (1 notes)
+- **primary-oss-docs** (1 notes)
 - **priority-routing** (1 notes)
+- **product-comparison** (1 notes)
+- **production-case-study** (1 notes)
+- **production-traffic-traces** (1 notes)
 - **prometheus-metrics** (1 notes)
 - **prometheus-security** (1 notes)
-- **proposal** (1 notes)
+- **prompt-caching** (1 notes)
+- **prompt-injection** (1 notes)
+- **provenance-correction** (1 notes)
 - **pull-request** (1 notes)
-- **ray** (1 notes)
+- **qwen** (1 notes)
+- **rag** (1 notes)
+- **rbac** (1 notes)
 - **redis-coordination** (1 notes)
-- **rejected-proposal** (1 notes)
+- **regulated-deployment** (1 notes)
+- **reinforcement-learning** (1 notes)
 - **release-cadence** (1 notes)
+- **repository-signal** (1 notes)
+- **reproducibility** (1 notes)
 - **request-parsers** (1 notes)
+- **reranking** (1 notes)
 - **rl-batch-use-case** (1 notes)
+- **rollback-triggers** (1 notes)
 - **router-abstraction** (1 notes)
 - **routing-sidecar** (1 notes)
-- **security** (1 notes)
-- **sglang** (1 notes)
+- **routing-signals** (1 notes)
+- **s-lora** (1 notes)
+- **scheduler** (1 notes)
+- **scheduler-calibration** (1 notes)
+- **scheduling-overhead** (1 notes)
+- **secondary-source** (1 notes)
+- **selective-isolation** (1 notes)
+- **self-hosted-llm-mention** (1 notes)
+- **self-serve** (1 notes)
+- **semantic-router** (1 notes)
+- **service-mesh** (1 notes)
+- **serving-framework-choice** (1 notes)
+- **sglang-adapter** (1 notes)
+- **sglang-router** (1 notes)
 - **sidecar-injection** (1 notes)
-- **source-analysis** (1 notes)
+- **sme** (1 notes)
+- **snowflake** (1 notes)
+- **speculative-indexing** (1 notes)
 - **ssrf** (1 notes)
 - **stale-path** (1 notes)
+- **startup-scale** (1 notes)
+- **state-management** (1 notes)
 - **stateless-coordinator** (1 notes)
+- **storage-backend** (1 notes)
 - **superseded** (1 notes)
-- **tangential** (1 notes)
+- **survey** (1 notes)
+- **tco** (1 notes)
+- **tesla** (1 notes)
+- **text-generation-inference** (1 notes)
+- **tgi-archived** (1 notes)
+- **tiered-offloading** (1 notes)
+- **tiering-manager** (1 notes)
+- **token-aware-routing** (1 notes)
+- **token-budgeting** (1 notes)
+- **tool-calling** (1 notes)
+- **truefoundry** (1 notes)
+- **trust-boundary** (1 notes)
+- **ttl** (1 notes)
 - **two-tier-gateway** (1 notes)
 - **uccl** (1 notes)
 - **ucx** (1 notes)
+- **unmerged** (1 notes)
 - **unreleased-change** (1 notes)
 - **v0.10.0-included** (1 notes)
+- **v1-architecture** (1 notes)
+- **vattention** (1 notes)
+- **vendor-routing** (1 notes)
+- **version-check** (1 notes)
 - **virtual-kubelet** (1 notes)
+- **vllm-pr** (1 notes)
+- **vllm-production-stack** (1 notes)
 - **well-lit-path** (1 notes)
+- **wide-ep** (1 notes)
+- **xgboost** (1 notes)
+- **zmq-pubsub** (1 notes)
 
 ---
 *Auto-generated by hyperresearch. Do not edit manually.*
